@@ -1,6 +1,7 @@
 #pragma once
 
-#include <string>
+#include <map>
+#include <memory>
 
 #include "SFML/Graphics/Font.hpp"
 #include "SFML/Graphics/Texture.hpp"
@@ -10,9 +11,13 @@
 class GameResourceManager final : private sf::NonCopyable
 {
 public:
-	void AddFontResource(const FontResourceIdentifiers fontResourceIdentifier, std::string_view fontResourceFilename);
-	sf::Font GetFontResource(const FontResourceIdentifiers fontResourceIdentifier) const;
+	void addFont(const FontIdentifiers identifier, const std::string& filename);
+	void addTexture(const TextureIdentifiers identifier, const std::string& filename);
 
-	void AddTextureResource(const TextureResourceIdentifiers textureResourceIdentifier, std::string_view textureResourceFilename);
-	sf::Texture GetTextureResource(const TextureResourceIdentifiers textureResourceIdentifier) const;
+	const sf::Font& getFont(const FontIdentifiers identifier) const;
+	const sf::Texture& getTexture(const TextureIdentifiers identifier) const;
+
+private:
+	std::map<FontIdentifiers, std::unique_ptr<sf::Font>> mFonts;
+	std::map<TextureIdentifiers, std::unique_ptr<sf::Texture>> mTextures;
 };

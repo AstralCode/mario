@@ -5,9 +5,15 @@
 class InitialGameState final : public GameState
 {
 public:
-	InitialGameState(GameContextData& gameContextData, GameStateManager& gameStateManager);
+	using GameState::GameState;
 
-	void ProcessEvents(const sf::Event& event) override;
-	void ProcessLogic() override;
-	void ProcessRender(sf::RenderTarget& renderer) const override;
+	void onEnter() override;
+	void onLeave() override;
+
+	void processLogic(const sf::Time& frameTime) override;
+
+private:
+	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) override;
+
+	void onClosed() override;
 };

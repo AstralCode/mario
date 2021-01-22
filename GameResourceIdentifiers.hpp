@@ -1,16 +1,16 @@
 #pragma once
 
-enum class FontResourceIdentifiers
+enum class FontIdentifiers
+{
+	Roboto
+};
+
+enum class TextureIdentifiers
 {
 
 };
 
-enum class TextureResourceIdentifiers
-{
-
-};
-
-enum class MusicResourceIdentifiers
+enum class MusicIdentifiers
 {
 
 };

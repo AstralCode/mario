@@ -1,23 +1,38 @@
 #pragma once
 
 #include "SFML/System/NonCopyable.hpp"
-#include "SFML/Window/Event.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
 
-class GameContextData;
-class GameStateManager;
+#include "EventReceiver.hpp"
+#include "GraphicsItem.hpp"
 
-class GameState : private sf::NonCopyable
+class GameContextData;
+class GameStateChanger;
+
+class GameState : public EventReceiver, private sf::NonCopyable
 {
 public:
-	GameState(GameContextData& gameContextData, GameStateManager& gameStateManager);
+	GameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger);
 	virtual ~GameState() = default;
 
-	virtual void ProcessEvents(const sf::Event& event) = 0;
-	virtual void ProcessLogic() = 0;
-	virtual void ProcessRender(sf::RenderTarget& renderer) const = 0;
+	virtual void onEnter() = 0;
+	virtual void onLeave() = 0;
+
+	virtual void processLogic(const sf::Time& frameTime) = 0;
+
+	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) override;
+	void onKeyReleased(const sf::Event::KeyEvent& keyEvent) override;
+
+	void onMouseButtonPressed(const sf::Event::MouseButtonEvent& mouseButtonEvent) override;
+	void onMouseButtonReleased(const sf::Event::MouseButtonEvent& mouseButtonEvent) override;
+	void onMouseMoved(const sf::Event::MouseMoveEvent& mouseMoveEvent) override;
+
+	void onClosed() override;
+
+	GraphicsItem& getGraphicsScene();
 
 protected:
 	GameContextData& mGameContextData;
-	GameStateManager& mGameStateManager;
+	GameStateChanger& mGameStateChanger;
+	GraphicsItem mGraphicsScene;
 };

@@ -1,21 +1,30 @@
 #include "GameResourceManager.hpp"
 
-void GameResourceManager::AddFontResource(const FontResourceIdentifiers fontResourceIdentifier, std::string_view fontResourceFilename)
+void GameResourceManager::addFont(const FontIdentifiers identifier, const std::string& filename)
 {
+	auto font = std::make_unique<sf::Font>();
+	if (font->loadFromFile(filename))
+	{
+		mFonts.emplace(identifier, std::move(font));
+	}
 
 }
 
-sf::Font GameResourceManager::GetFontResource(const FontResourceIdentifiers fontResourceIdentifier) const
+void GameResourceManager::addTexture(const TextureIdentifiers identifier, const std::string& filename)
 {
-	return {};
+	auto texture = std::make_unique<sf::Texture>();
+	if (texture->loadFromFile(filename))
+	{
+		mTextures.emplace(identifier, std::move(texture));
+	}
 }
 
-void GameResourceManager::AddTextureResource(const TextureResourceIdentifiers textureResourceIdentifier, std::string_view textureResourceFilename)
+const sf::Font& GameResourceManager::getFont(const FontIdentifiers identifier) const
 {
-
+	return *mFonts.at(identifier);
 }
 
-sf::Texture GameResourceManager::GetTextureResource(const TextureResourceIdentifiers textureResourceIdentifier) const
+const sf::Texture& GameResourceManager::getTexture(const TextureIdentifiers identifier) const
 {
-	return {};
+	return *mTextures.at(identifier);
 }

@@ -1,25 +1,28 @@
 #include "InitialGameState.hpp"
 
-#include "GameContextData.hpp"
-#include "GameResourceManager.hpp"
+#include "GameStateChanger.hpp"
 
-InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateManager& gameStateManager) :
-	GameState{gameContextData, gameStateManager}
+void InitialGameState::onEnter()
 {
 
 }
 
-void InitialGameState::ProcessEvents(const sf::Event& event)
+void InitialGameState::onLeave()
 {
 
 }
 
-void InitialGameState::ProcessLogic()
+void InitialGameState::processLogic(const sf::Time& frameTime)
 {
 
 }
 
-void InitialGameState::ProcessRender(sf::RenderTarget& renderer) const
+void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent)
 {
+	mGameStateChanger.clearStatesRequest();
+}
 
+void InitialGameState::onClosed()
+{
+	mGameStateChanger.clearStatesRequest();
 }

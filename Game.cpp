@@ -1,60 +1,98 @@
 #include "Game.hpp"
 
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Sleep.hpp>
+
+#include "InitialGameState.hpp"
+
 Game::Game() :
 	mRenderWindow{{640u, 480u}, "Mario"},
+	mFrameTime{sf::seconds(1.0f / 60u)},
 	mGameContextData{mGameResourceManager},
 	mGameStateManager{mGameContextData}
 {
 
 }
 
-void Game::Run()
+void Game::run()
 {
-	mGameStateManager.AddPushStateRequest(GameStateIdentifiers::Initial);
-	mGameStateManager.ProcessRequests();
+	sf::Clock clock{};
+	sf::Time frameUpdateTime{};
 
-	while (IsGameRunning())
+	mGameStateManager.registerState<InitialGameState>(GameStateIdentifiers::Initial);
+	mGameStateManager.pushState(GameStateIdentifiers::Initial);
+
+	while (isRunning())
 	{
-		ProcessEvents();
-		ProcessLogic();
-		ProcessRender();
+		bool renderFrame{false};
+
+		frameUpdateTime += clock.restart();
+
+		while (frameUpdateTime > mFrameTime)
+		{
+			processEvents();
+
+			if (!mGameStateManager.hasActiveStates())
+			{
+				break;
+			}
+
+			processLogic();
+
+			if (!mGameStateManager.hasActiveStates())
+			{
+				break;
+			}
+
+			renderFrame = true;
+
+			frameUpdateTime -= mFrameTime;
+		}
+
+		if (renderFrame)
+		{
+			processRender();
+		}
+		else
+		{
+			sf::sleep(sf::milliseconds(10));
+		}
 	}
 
 	mRenderWindow.close();
 }
 
-void Game::ProcessEvents()
+void Game::processEvents()
 {
 	sf::Event event;
 
 	while (mRenderWindow.pollEvent(event))
 	{
-		mGameStateManager.ProcessEvents(event);
+		mGameStateManager.processEvents(event);
 	}
 
-	mGameStateManager.ProcessEvents();
-	mGameStateManager.ProcessRequests();
+	mGameStateManager.executeRequests();
 }
 
-void Game::ProcessLogic()
+void Game::processLogic()
 {
-	mGameStateManager.ProcessLogic();
-	mGameStateManager.ProcessRequests();
+	mGameStateManager.processLogic(mFrameTime);
+	mGameStateManager.executeRequests();
 }
 
-void Game::ProcessRender()
+void Game::processRender()
 {
 	mRenderWindow.clear();
-	mGameStateManager.ProcessRender(mRenderWindow);
+	mGameStateManager.processRender(mRenderWindow);
 	mRenderWindow.display();
 }
 
-GameContextData& Game::GetGameContextData()
+GameContextData& Game::getContextData()
 {
 	return mGameContextData;
 }
 
-bool Game::IsGameRunning() const
+bool Game::isRunning() const
 {
-	return mGameStateManager.GetActiveStateCount() > 0u;
+	return mGameStateManager.hasActiveStates();
 }

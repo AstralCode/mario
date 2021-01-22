@@ -9,7 +9,7 @@ class GameContextData final : private sf::NonCopyable
 public:
 	GameContextData(GameResourceManager& gameResourceManager);
 
-	GameResourceManager& GetGameResourceManager() const;
+	GameResourceManager& getResourceManager();
 
 private:
 	GameResourceManager& mGameResourceManager;

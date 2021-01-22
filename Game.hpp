@@ -6,23 +6,24 @@
 #include "GameContextData.hpp"
 #include "GameStateManager.hpp"
 
-class Game : private sf::NonCopyable
+class Game final : private sf::NonCopyable
 {
 public:
 	Game();
 
-	void Run();
+	void run();
 
-	void ProcessEvents();
-	void ProcessLogic();
-	void ProcessRender();
+	void processEvents();
+	void processLogic();
+	void processRender();
 
-	GameContextData& GetGameContextData();
+	GameContextData& getContextData();
 
-	bool IsGameRunning() const;
+	bool isRunning() const;
 
 private:
 	sf::RenderWindow mRenderWindow;
+	sf::Time mFrameTime;
 
 	GameResourceManager mGameResourceManager;
 	GameContextData mGameContextData;

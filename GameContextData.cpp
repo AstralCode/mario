@@ -6,7 +6,7 @@ GameContextData::GameContextData(GameResourceManager& gameResourceManager) :
 
 }
 
-GameResourceManager& GameContextData::GetGameResourceManager() const
+GameResourceManager& GameContextData::getResourceManager()
 {
 	return mGameResourceManager;
 }
