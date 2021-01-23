@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "Statistics.hpp"
 #include "GameResourceManager.hpp"
 #include "GameContextData.hpp"
 #include "GameStateManager.hpp"
@@ -22,11 +23,28 @@ public:
 	bool isRunning() const;
 
 private:
+	void executeMainLoop();
+
+	void initializeStatistics();
+	void renderStatistics();
+
+	void loadResources();
+	void loadFonts();
+	void loadTextures();
+
+	std::string makeFontPath(const std::string& filename) const;
+	std::string makeTexturePath(const std::string& filename) const;
+
+	std::string getResourcesPath() const;
+	std::string getFontPath() const;
+	std::string getTexturePath() const;
+
 	sf::RenderWindow mRenderWindow;
 	sf::Time mFrameTime;
 
+	FPSCounter mFPSCounter;
+	Statistics mStatistics;
 	GameResourceManager mGameResourceManager;
 	GameContextData mGameContextData;
 	GameStateManager mGameStateManager;
 };
-

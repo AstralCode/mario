@@ -51,6 +51,5 @@ inline void GameStateManager::registerState(const GameStateIdentifiers identifie
 {
 	static_assert(std::is_base_of_v<GameState, TGameState>, "TGameState must derived from GameState");
 
-	auto state = std::make_unique<TGameState>(mGameContextData, *this);
-	mGameStates.emplace(identifier, std::move(state));
+	mGameStates.emplace(identifier, std::make_unique<TGameState>(mGameContextData, *this));
 }

@@ -15,4 +15,6 @@ public:
 	virtual void onMouseMoved(const sf::Event::MouseMoveEvent& mouseMoveEvent) = 0;
 
 	virtual void onClosed() = 0;
+
+	virtual void onEscapePressed() = 0;
 };

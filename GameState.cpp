@@ -37,6 +37,11 @@ void GameState::onClosed()
 
 }
 
+void GameState::onEscapePressed()
+{
+
+}
+
 GraphicsItem& GameState::getGraphicsScene()
 {
 	return mGraphicsScene;

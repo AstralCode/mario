@@ -26,7 +26,6 @@ void GameStateManager::popState()
 	if (hasActiveStates())
 	{
 		getActiveState()->onLeave();
-
 		mGameStateStack.pop_front();
 	}
 }
@@ -60,7 +59,6 @@ void GameStateManager::executeRequests()
 	{
 		mGameStateStackRequests.front()->execute(*this);
 		mGameStateStackRequests.pop();
-
 	}
 }
 
@@ -72,6 +70,11 @@ void GameStateManager::processEvents(const sf::Event& event)
 	{
 	case sf::Event::KeyPressed:
 		state->onKeyPressed(event.key);
+
+		if (event.key.code == sf::Keyboard::Escape)
+		{
+			state->onEscapePressed();
+		}
 		break;
 
 	case sf::Event::KeyReleased:

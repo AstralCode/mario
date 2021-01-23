@@ -7,7 +7,9 @@ enum class FontIdentifiers
 
 enum class TextureIdentifiers
 {
-
+	Enemies,
+	Mario,
+	Scenery
 };
 
 enum class MusicIdentifiers

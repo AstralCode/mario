@@ -8,6 +8,7 @@
 Game::Game() :
 	mRenderWindow{{640u, 480u}, "Mario"},
 	mFrameTime{sf::seconds(1.0f / 60u)},
+	mStatistics{mFPSCounter},
 	mGameContextData{mGameResourceManager},
 	mGameStateManager{mGameContextData}
 {
@@ -16,19 +17,91 @@ Game::Game() :
 
 void Game::run()
 {
-	sf::Clock clock{};
-	sf::Time frameUpdateTime{};
+	loadResources();
+	initializeStatistics();
+	executeMainLoop();
 
-	mGameStateManager.registerState<InitialGameState>(GameStateIdentifiers::Initial);
-	mGameStateManager.pushState(GameStateIdentifiers::Initial);
+	mRenderWindow.close();
+}
+
+void Game::processEvents()
+{
+	sf::Event event{};
+
+	while (mRenderWindow.pollEvent(event))
+	{
+		mGameStateManager.processEvents(event);
+
+		switch (event.type)
+		{
+		case sf::Event::KeyPressed:
+			if (event.key.code == sf::Keyboard::F2)
+			{
+				mStatistics.setVisible(!mStatistics.isVisible());
+			}
+			break;
+
+		case sf::Event::Closed:
+			mGameStateManager.clearStatesRequest();
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	mGameStateManager.executeRequests();
+}
+
+void Game::processLogic()
+{
+	mGameStateManager.processLogic(mFrameTime);
+	mGameStateManager.executeRequests();
+}
+
+void Game::processRender()
+{
+	mFPSCounter.tick();
+
+	mRenderWindow.clear();
+
+	mGameStateManager.processRender(mRenderWindow);
+	renderStatistics();
+
+	mRenderWindow.display();
+}
+
+GameContextData& Game::getContextData()
+{
+	return mGameContextData;
+}
+
+bool Game::isRunning() const
+{
+	return mGameStateManager.hasActiveStates();
+}
+
+void Game::executeMainLoop()
+{
+	constexpr const auto initialGameStateIdentifier = GameStateIdentifiers::Initial;
+	const auto threadSleepTime = sf::milliseconds(10);
+
+	sf::Clock clock{};
+	sf::Time elapsedFrameUpdateTime{};
+	sf::Time elapsedFPSCounterUpdateTime{};
+
+	mGameStateManager.registerState<InitialGameState>(initialGameStateIdentifier);
+	mGameStateManager.pushState(initialGameStateIdentifier);
 
 	while (isRunning())
 	{
+		const auto deltaTime = clock.restart();
+		elapsedFrameUpdateTime += deltaTime;
+		elapsedFPSCounterUpdateTime += deltaTime;
+
 		bool renderFrame{false};
 
-		frameUpdateTime += clock.restart();
-
-		while (frameUpdateTime > mFrameTime)
+		while (elapsedFrameUpdateTime > mFrameTime)
 		{
 			processEvents();
 
@@ -46,53 +119,77 @@ void Game::run()
 
 			renderFrame = true;
 
-			frameUpdateTime -= mFrameTime;
+			elapsedFrameUpdateTime -= mFrameTime;
 		}
 
 		if (renderFrame)
 		{
 			processRender();
 		}
-		else
+
+		mStatistics.update(deltaTime);
+
+		if (!renderFrame)
 		{
-			sf::sleep(sf::milliseconds(10));
+			sf::sleep(threadSleepTime);
 		}
 	}
-
-	mRenderWindow.close();
 }
 
-void Game::processEvents()
+void Game::initializeStatistics()
 {
-	sf::Event event;
+	mStatistics.setPosition(5.0f, 5.0f);
+	mStatistics.setText(mGameResourceManager.getFont(FontIdentifiers::Roboto));
+	mStatistics.setVisible(false);
+}
 
-	while (mRenderWindow.pollEvent(event))
+void Game::renderStatistics()
+{
+	if (mStatistics.isVisible())
 	{
-		mGameStateManager.processEvents(event);
+		mRenderWindow.draw(mStatistics.getGraphics());
 	}
-
-	mGameStateManager.executeRequests();
 }
 
-void Game::processLogic()
+void Game::loadResources()
 {
-	mGameStateManager.processLogic(mFrameTime);
-	mGameStateManager.executeRequests();
+	loadFonts();
+	loadTextures();
 }
 
-void Game::processRender()
+void Game::loadFonts()
 {
-	mRenderWindow.clear();
-	mGameStateManager.processRender(mRenderWindow);
-	mRenderWindow.display();
+	mGameResourceManager.addFont(FontIdentifiers::Roboto, makeFontPath("Roboto.ttf"));
 }
 
-GameContextData& Game::getContextData()
+void Game::loadTextures()
 {
-	return mGameContextData;
+	mGameResourceManager.addTexture(TextureIdentifiers::Enemies, makeTexturePath("Enemies.png"));
+	mGameResourceManager.addTexture(TextureIdentifiers::Mario, makeTexturePath("Mario.png"));
+	mGameResourceManager.addTexture(TextureIdentifiers::Scenery, makeTexturePath("Scenery.png"));
 }
 
-bool Game::isRunning() const
+std::string Game::makeFontPath(const std::string& filename) const
 {
-	return mGameStateManager.hasActiveStates();
+	return getFontPath() + filename;
+}
+
+std::string Game::makeTexturePath(const std::string& filename) const
+{
+	return getTexturePath() + filename;
+}
+
+std::string Game::getResourcesPath() const
+{
+	return "Resources/";
+}
+
+std::string Game::getFontPath() const
+{
+	return getResourcesPath() + "Fonts/";
+}
+
+std::string Game::getTexturePath() const
+{
+	return getResourcesPath() + "Textures/";
 }

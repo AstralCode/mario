@@ -13,6 +13,8 @@ public:
 	GraphicsItem();
 	virtual ~GraphicsItem() = default;
 
+	template<typename TGraphicsItem>
+	TGraphicsItem* addItem();
 	void addItem(std::unique_ptr<GraphicsItem> item);
 
 	sf::FloatRect getBounds() const;
@@ -34,3 +36,16 @@ private:
 	GraphicsItem* mParentItem;
 	std::vector<std::unique_ptr<GraphicsItem>> mItems;
 };
+
+template<typename TGraphicsItem>
+inline TGraphicsItem* GraphicsItem::addItem()
+{
+	static_assert(std::is_base_of_v<GraphicsItem, TGraphicsItem>, "TGraphicsItem must derived from GraphicsItem");
+
+	auto item = std::make_unique<TGraphicsItem>();
+	auto itemPointer = item.get();
+
+	addItem(std::move(item));
+
+	return itemPointer;
+}
