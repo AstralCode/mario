@@ -22,11 +22,9 @@ public:
 
 	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) override;
 	void onKeyReleased(const sf::Event::KeyEvent& keyEvent) override;
-
 	void onMouseButtonPressed(const sf::Event::MouseButtonEvent& mouseButtonEvent) override;
 	void onMouseButtonReleased(const sf::Event::MouseButtonEvent& mouseButtonEvent) override;
 	void onMouseMoved(const sf::Event::MouseMoveEvent& mouseMoveEvent) override;
-
 	void onClosed() override;
 
 	GraphicsItem& getGraphicsScene();

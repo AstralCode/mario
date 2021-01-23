@@ -5,7 +5,7 @@
 class InitialGameState final : public GameState
 {
 public:
-	using GameState::GameState;
+	InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger);
 
 	void onEnter() override;
 	void onLeave() override;
@@ -13,7 +13,10 @@ public:
 	void processLogic(const sf::Time& frameTime) override;
 
 private:
-	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) override;
+	bool loadResources();
 
+	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) override;
 	void onClosed() override;
+
+	bool isResourceLoaded;
 };

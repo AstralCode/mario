@@ -101,10 +101,7 @@ void GameStateManager::processEvents(const sf::Event& event)
 
 void GameStateManager::processLogic(const sf::Time& frameTime)
 {
-	for (auto state : mGameStateStack)
-	{
-		state->processLogic(frameTime);
-	}
+	getActiveState()->processLogic(frameTime);
 }
 
 void GameStateManager::processRender(sf::RenderTarget& renderTarget)
