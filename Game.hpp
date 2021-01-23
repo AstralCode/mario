@@ -35,6 +35,8 @@ private:
 	std::string makeFontPath(const std::string& filename) const;
 	std::string makeTexturePath(const std::string& filename) const;
 
+	void initializeGameState();
+
 	std::string getResourcesPath() const;
 	std::string getFontPath() const;
 	std::string getTexturePath() const;

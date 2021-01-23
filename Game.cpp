@@ -83,15 +83,13 @@ bool Game::isRunning() const
 
 void Game::executeMainLoop()
 {
-	constexpr const auto initialGameStateIdentifier = GameStateIdentifiers::Initial;
 	const auto threadSleepTime = sf::milliseconds(10);
 
 	sf::Clock clock{};
 	sf::Time elapsedFrameUpdateTime{};
 	sf::Time elapsedFPSCounterUpdateTime{};
 
-	mGameStateManager.registerState<InitialGameState>(initialGameStateIdentifier);
-	mGameStateManager.pushState(initialGameStateIdentifier);
+	initializeGameState();
 
 	while (isRunning())
 	{
@@ -177,6 +175,14 @@ std::string Game::makeFontPath(const std::string& filename) const
 std::string Game::makeTexturePath(const std::string& filename) const
 {
 	return getTexturePath() + filename;
+}
+
+void Game::initializeGameState()
+{
+	constexpr const auto initialStateIdentifier = GameStateIdentifiers::Initial;
+
+	mGameStateManager.registerState<InitialGameState>(initialStateIdentifier);
+	mGameStateManager.pushState(initialStateIdentifier);
 }
 
 std::string Game::getResourcesPath() const
