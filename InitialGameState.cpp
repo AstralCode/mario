@@ -1,6 +1,7 @@
 #include "InitialGameState.hpp"
 
 #include "GameStateChanger.hpp"
+#include "GameResourceContainer.hpp"
 
 InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) :
 	GameState{gameContextData, gameStateChanger}
@@ -10,7 +11,9 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 
 void InitialGameState::onEnter()
 {
-	mUser = getGameObjectCreator().addObject(TextureIdentifiers::Mario, {0, 0, 32, 32});
+	mUser = getGameObjectCreator().create();
+	mUser->setTexture(getTexture(TextureIdentifiers::Mario));
+	mUser->setTextureArea({0, 0, 32, 32});
 }
 
 void InitialGameState::onLeave()

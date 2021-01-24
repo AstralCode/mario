@@ -38,6 +38,9 @@ public:
 	GameObjectCreator& getGameObjectCreator();
 
 protected:
+	const sf::Font& getFont(const FontIdentifiers identifier);
+	const sf::Texture& getTexture(const TextureIdentifiers identifier);
+
 	GameContextData& mGameContextData;
 	GameStateChanger& mGameStateChanger;
 };

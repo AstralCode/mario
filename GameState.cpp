@@ -58,3 +58,13 @@ GameObjectCreator& GameState::getGameObjectCreator()
 {
 	return mGameContextData.getGameObjectCreator();
 }
+
+const sf::Font& GameState::getFont(const FontIdentifiers identifier)
+{
+	return getResourceContainer().getFont(identifier);
+}
+
+const sf::Texture& GameState::getTexture(const TextureIdentifiers identifier)
+{
+	return getResourceContainer().getTexture(identifier);
+}

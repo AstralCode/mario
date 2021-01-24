@@ -3,20 +3,15 @@
 #include <algorithm>
 #include <functional>
 
-#include "GameResourceManager.hpp"
-
-GameObjectManager::GameObjectManager(GraphicsItem& graphicsScene, GameResourceManager& gameResourceManager) :
-	mGraphicsScene{graphicsScene},
-	mGameResourceContainer{gameResourceManager}
+GameObjectManager::GameObjectManager(GraphicsItem& graphicsScene) :
+	mGraphicsScene{graphicsScene}
 {
 
 }
 
-GameObject* GameObjectManager::addObject(const TextureIdentifiers textureIdentifier, const sf::IntRect& textureArea)
+GameObject* GameObjectManager::create()
 {
 	auto gameObjectSprite = mGraphicsScene.addItem<GraphicsSpriteItem>();
-	gameObjectSprite->setTexture(mGameResourceContainer.getTexture(textureIdentifier));
-	gameObjectSprite->setTextureArea(textureArea);
 
 	auto gameObject = std::make_unique<GameObject>(gameObjectSprite);
 	auto gameObjectPointer = gameObject.get();

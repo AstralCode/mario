@@ -7,6 +7,16 @@ GameObject::GameObject(GraphicsSpriteItem* sprite) :
 
 }
 
+void GameObject::setTexture(const sf::Texture& texture)
+{
+    mSprite->setTexture(texture);
+}
+
+void GameObject::setTextureArea(const sf::IntRect& area)
+{
+    mSprite->setTextureArea(area);
+}
+
 void GameObject::setDestroyed(const bool destroyed)
 {
     mIsDestroyed = destroyed;
