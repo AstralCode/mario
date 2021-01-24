@@ -107,14 +107,6 @@ void GameStateManager::processLogic(const sf::Time& frameTime)
 	getActiveState()->processLogic(frameTime);
 }
 
-void GameStateManager::processRender(sf::RenderTarget& renderTarget)
-{
-	for (auto state = mGameStateStack.crbegin(); state != mGameStateStack.crend(); state++)
-	{
-		renderTarget.draw((*state)->getGraphicsScene());
-	}
-}
-
 std::size_t GameStateManager::getActiveStateCount() const
 {
 	return mGameStateStack.size();

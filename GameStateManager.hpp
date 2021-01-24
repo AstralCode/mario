@@ -30,7 +30,6 @@ public:
 
 	void processEvents(const sf::Event& event);
 	void processLogic(const sf::Time& frameTime);
-	void processRender(sf::RenderTarget& renderTarget);
 
 	std::size_t getActiveStateCount() const;
 

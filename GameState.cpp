@@ -1,5 +1,7 @@
 #include "GameState.hpp"
 
+#include "GameContextData.hpp"
+
 GameState::GameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) :
 	mGameContextData{gameContextData},
 	mGameStateChanger{gameStateChanger}
@@ -44,5 +46,15 @@ void GameState::onEscapePressed()
 
 GraphicsItem& GameState::getGraphicsScene()
 {
-	return mGraphicsScene;
+	return mGameContextData.getGraphicsScene();
+}
+
+GameResourceContainer& GameState::getResourceContainer()
+{
+	return mGameContextData.getResourceContainer();
+}
+
+GameObjectCreator& GameState::getGameObjectCreator()
+{
+	return mGameContextData.getGameObjectCreator();
 }

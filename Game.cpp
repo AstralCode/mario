@@ -9,7 +9,8 @@ Game::Game() :
 	mRenderWindow{{640u, 480u}, "Mario"},
 	mFrameTime{sf::seconds(1.0f / 60u)},
 	mStatistics{mFPSCounter},
-	mGameContextData{mGameResourceManager},
+	mGameObjectManager{mGraphicsScene, mGameResourceContainer},
+	mGameContextData{mGraphicsScene, mGameResourceContainer, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {
 
@@ -55,6 +56,11 @@ void Game::processEvents()
 
 void Game::processLogic()
 {
+	mGameObjectManager.clean();
+	mGameObjectManager.update(mFrameTime);
+
+	mGraphicsScene.cleanItems();
+
 	mGameStateManager.processLogic(mFrameTime);
 	mGameStateManager.executeRequests();
 }
@@ -64,8 +70,8 @@ void Game::processRender()
 	mFPSCounter.tick();
 
 	mRenderWindow.clear();
+	mRenderWindow.draw(mGraphicsScene);
 
-	mGameStateManager.processRender(mRenderWindow);
 	renderStatistics();
 
 	mRenderWindow.display();
@@ -134,11 +140,24 @@ void Game::executeMainLoop()
 	}
 }
 
+void Game::cleanGraphicsScene()
+{
+	mGraphicsScene.cleanItems();
+}
+
 void Game::initializeStatistics()
 {
 	mStatistics.setPosition(5.0f, 5.0f);
-	mStatistics.setText(mGameResourceManager.getFont(FontIdentifiers::Roboto));
+	mStatistics.setText(mGameResourceContainer.getFont(FontIdentifiers::Roboto));
 	mStatistics.setVisible(false);
+}
+
+void Game::initializeGameState()
+{
+	constexpr const auto initialStateIdentifier = GameStateIdentifiers::Initial;
+
+	mGameStateManager.registerState<InitialGameState>(initialStateIdentifier);
+	mGameStateManager.pushState(initialStateIdentifier);
 }
 
 void Game::renderStatistics()
@@ -157,14 +176,14 @@ void Game::loadResources()
 
 void Game::loadFonts()
 {
-	mGameResourceManager.addFont(FontIdentifiers::Roboto, makeFontPath("Roboto.ttf"));
+	mGameResourceContainer.addFont(FontIdentifiers::Roboto, makeFontPath("Roboto.ttf"));
 }
 
 void Game::loadTextures()
 {
-	mGameResourceManager.addTexture(TextureIdentifiers::Enemies, makeTexturePath("Enemies.png"));
-	mGameResourceManager.addTexture(TextureIdentifiers::Mario, makeTexturePath("Mario.png"));
-	mGameResourceManager.addTexture(TextureIdentifiers::Scenery, makeTexturePath("Scenery.png"));
+	mGameResourceContainer.addTexture(TextureIdentifiers::Enemies, makeTexturePath("Enemies.png"));
+	mGameResourceContainer.addTexture(TextureIdentifiers::Mario, makeTexturePath("Mario.png"));
+	mGameResourceContainer.addTexture(TextureIdentifiers::Scenery, makeTexturePath("Scenery.png"));
 }
 
 std::string Game::makeFontPath(const std::string& filename) const
@@ -175,14 +194,6 @@ std::string Game::makeFontPath(const std::string& filename) const
 std::string Game::makeTexturePath(const std::string& filename) const
 {
 	return getTexturePath() + filename;
-}
-
-void Game::initializeGameState()
-{
-	constexpr const auto initialStateIdentifier = GameStateIdentifiers::Initial;
-
-	mGameStateManager.registerState<InitialGameState>(initialStateIdentifier);
-	mGameStateManager.pushState(initialStateIdentifier);
 }
 
 std::string Game::getResourcesPath() const

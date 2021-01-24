@@ -30,5 +30,5 @@ private:
 	GraphicsItem mGraphicsItem;
 	GraphicsTextItem* mFPSCounterGraphicsText;
 
-	bool mVisible;
+	bool mIsVisible;
 };

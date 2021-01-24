@@ -10,7 +10,7 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 
 void InitialGameState::onEnter()
 {
-
+	mUser = getGameObjectCreator().addObject(TextureIdentifiers::Mario, {0, 0, 32, 32});
 }
 
 void InitialGameState::onLeave()
@@ -21,6 +21,14 @@ void InitialGameState::onLeave()
 void InitialGameState::processLogic(const sf::Time& frameTime)
 {
 
+}
+
+void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent)
+{
+	if (keyEvent.code == sf::Keyboard::Q)
+	{
+		mUser->setDestroyed(true);
+	}
 }
 
 void InitialGameState::onEscapePressed()

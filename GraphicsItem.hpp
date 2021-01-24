@@ -13,16 +13,23 @@ public:
 	GraphicsItem();
 	virtual ~GraphicsItem() = default;
 
+	void setToRemove(const bool markToRemove);
+
 	template<typename TGraphicsItem>
 	TGraphicsItem* addItem();
 	void addItem(std::unique_ptr<GraphicsItem> item);
 
-	sf::FloatRect getBounds() const;
+	void cleanItems();
 
+	virtual sf::FloatRect getBounds() const;
 	virtual sf::Transform getGlobalTransform() const;
+
+	sf::Vector2f getGlobalPosition() const;
 
 	bool isContainsPoint(const sf::Vector2f& point) const;
 	bool isIntersectsItem(const GraphicsItem& item) const;
+
+	bool isMarkedToRemove() const;
 
 private:
 	void setParent(GraphicsItem* item);
@@ -35,6 +42,8 @@ private:
 
 	GraphicsItem* mParentItem;
 	std::vector<std::unique_ptr<GraphicsItem>> mItems;
+
+	bool mIsMarkedToRemove;
 };
 
 template<typename TGraphicsItem>

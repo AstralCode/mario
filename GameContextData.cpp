@@ -1,12 +1,24 @@
 #include "GameContextData.hpp"
 
-GameContextData::GameContextData(GameResourceManager& gameResourceManager) :
-	mGameResourceManager{gameResourceManager}
+GameContextData::GameContextData(GraphicsItem& graphicsScene, GameResourceContainer& gameResourceContainer, GameObjectCreator& gameObjectCreator) :
+	mGraphicsScene{graphicsScene},
+	mGameResourceContainer{gameResourceContainer},
+	mGameObjectCreator{gameObjectCreator}
 {
 
 }
 
-GameResourceManager& GameContextData::getResourceManager()
+GraphicsItem& GameContextData::getGraphicsScene()
 {
-	return mGameResourceManager;
+	return mGraphicsScene;
+}
+
+GameResourceContainer& GameContextData::getResourceContainer()
+{
+	return mGameResourceContainer;
+}
+
+GameObjectCreator& GameContextData::getGameObjectCreator()
+{
+	return mGameObjectCreator;
 }

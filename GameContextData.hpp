@@ -2,15 +2,21 @@
 
 #include "SFML/System/NonCopyable.hpp"
 
-class GameResourceManager;
+class GraphicsItem;
+class GameResourceContainer;
+class GameObjectCreator;
 
 class GameContextData final : private sf::NonCopyable
 {
 public:
-	GameContextData(GameResourceManager& gameResourceManager);
+	GameContextData(GraphicsItem& graphicsScene, GameResourceContainer& gameResourceContainer, GameObjectCreator& gameObjectCreator);
 
-	GameResourceManager& getResourceManager();
+	GraphicsItem& getGraphicsScene();
+	GameResourceContainer& getResourceContainer();
+	GameObjectCreator& getGameObjectCreator();
 
 private:
-	GameResourceManager& mGameResourceManager;
+	GraphicsItem& mGraphicsScene;
+	GameResourceContainer& mGameResourceContainer;
+	GameObjectCreator& mGameObjectCreator;
 };

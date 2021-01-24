@@ -4,7 +4,9 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 #include "EventReceiver.hpp"
-#include "GraphicsItem.hpp"
+#include "GameResourceContainer.hpp"
+#include "GameObjectCreator.hpp"
+#include "GameObject.hpp"
 
 class GameContextData;
 class GameStateChanger;
@@ -32,9 +34,10 @@ public:
 	void onEscapePressed() override;
 
 	GraphicsItem& getGraphicsScene();
+	GameResourceContainer& getResourceContainer();
+	GameObjectCreator& getGameObjectCreator();
 
 protected:
 	GameContextData& mGameContextData;
 	GameStateChanger& mGameStateChanger;
-	GraphicsItem mGraphicsScene;
 };

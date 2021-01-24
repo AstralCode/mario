@@ -1,17 +1,37 @@
 #include "GraphicsItem.hpp"
 
+#include <algorithm>
+#include <functional>
+
 #include "SFML/Graphics/RenderTarget.hpp"
 
 GraphicsItem::GraphicsItem() :
-	mParentItem{nullptr}
+	mParentItem{nullptr},
+	mIsMarkedToRemove{false}
 {
 
+}
+
+void GraphicsItem::setToRemove(const bool markToRemove)
+{
+	mIsMarkedToRemove = markToRemove;
 }
 
 void GraphicsItem::addItem(std::unique_ptr<GraphicsItem> item)
 {
 	item->setParent(this);
 	mItems.emplace_back(std::move(item));
+}
+
+void GraphicsItem::cleanItems()
+{
+	auto itemsIterator = std::remove_if(mItems.begin(), mItems.end(), std::mem_fn(&GraphicsItem::isMarkedToRemove));
+	mItems.erase(itemsIterator, mItems.end());
+
+	for (auto& item : mItems)
+	{
+		item->cleanItems();
+	}
 }
 
 sf::FloatRect GraphicsItem::getBounds() const
@@ -31,6 +51,11 @@ sf::Transform GraphicsItem::getGlobalTransform() const
 	return transform;
 }
 
+sf::Vector2f GraphicsItem::getGlobalPosition() const
+{
+	return getGlobalTransform() * sf::Vector2f{};
+}
+
 bool GraphicsItem::isContainsPoint(const sf::Vector2f& point) const
 {
 	return getBounds().contains(point);
@@ -39,6 +64,11 @@ bool GraphicsItem::isContainsPoint(const sf::Vector2f& point) const
 bool GraphicsItem::isIntersectsItem(const GraphicsItem& item) const
 {
 	return getBounds().intersects(item.getBounds());
+}
+
+bool GraphicsItem::isMarkedToRemove() const
+{
+	return mIsMarkedToRemove;
 }
 
 void GraphicsItem::setParent(GraphicsItem* item)

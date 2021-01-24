@@ -3,7 +3,9 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Statistics.hpp"
+#include "GraphicsItem.hpp"
 #include "GameResourceManager.hpp"
+#include "GameObjectManager.hpp"
 #include "GameContextData.hpp"
 #include "GameStateManager.hpp"
 
@@ -24,8 +26,11 @@ public:
 
 private:
 	void executeMainLoop();
+	void cleanGraphicsScene();
 
 	void initializeStatistics();
+	void initializeGameState();
+
 	void renderStatistics();
 
 	void loadResources();
@@ -34,8 +39,6 @@ private:
 
 	std::string makeFontPath(const std::string& filename) const;
 	std::string makeTexturePath(const std::string& filename) const;
-
-	void initializeGameState();
 
 	std::string getResourcesPath() const;
 	std::string getFontPath() const;
@@ -46,7 +49,9 @@ private:
 
 	FPSCounter mFPSCounter;
 	Statistics mStatistics;
-	GameResourceManager mGameResourceManager;
+	GraphicsItem mGraphicsScene;
+	GameResourceManager mGameResourceContainer;
+	GameObjectManager mGameObjectManager;
 	GameContextData mGameContextData;
 	GameStateManager mGameStateManager;
 };

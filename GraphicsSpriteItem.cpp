@@ -22,6 +22,11 @@ const sf::IntRect GraphicsSpriteItem::getTextureArea() const
 	return mSprite.getTextureRect();
 }
 
+sf::FloatRect GraphicsSpriteItem::getBounds() const
+{
+	return getGlobalTransform().transformRect(mSprite.getLocalBounds());
+}
+
 void GraphicsSpriteItem::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mSprite, states);

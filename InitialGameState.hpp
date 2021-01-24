@@ -13,5 +13,8 @@ public:
 	void processLogic(const sf::Time& frameTime) override;
 
 private:
-	void onEscapePressed();
+	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) override;
+	void onEscapePressed() override;
+
+	GameObject* mUser;
 };
