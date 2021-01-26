@@ -18,7 +18,7 @@ public:
 	
 	void update(const sf::Time& frameTime);
 
-	const sf::Vector2f& getWorldPosition() const;
+	const sf::Vector2f& getPosition() const;
 
 	bool hasCollision(const GameObject& object) const;
 

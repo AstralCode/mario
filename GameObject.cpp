@@ -34,7 +34,7 @@ void GameObject::update(const sf::Time& frameTime)
     
 }
 
-const sf::Vector2f& GameObject::getWorldPosition() const
+const sf::Vector2f& GameObject::getPosition() const
 {
     return mSprite->getGlobalPosition();
 }
