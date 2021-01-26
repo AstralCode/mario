@@ -7,30 +7,36 @@
 
 GraphicsItem::GraphicsItem() :
 	mParentItem{nullptr},
-	mIsMarkedToRemove{false}
+	mIsVisible{true},
+	mIsRemoved{false}
 {
 
 }
 
-void GraphicsItem::setToRemove(const bool markToRemove)
+void GraphicsItem::setVisible(const bool visible)
 {
-	mIsMarkedToRemove = markToRemove;
+	mIsVisible = visible;
+}
+
+void GraphicsItem::remove()
+{
+	mIsRemoved = true;
 }
 
 void GraphicsItem::addItem(std::unique_ptr<GraphicsItem> item)
 {
 	item->setParent(this);
+
 	mItems.emplace_back(std::move(item));
 }
 
-void GraphicsItem::cleanItems()
+void GraphicsItem::clean()
 {
-	auto itemsIterator = std::remove_if(mItems.begin(), mItems.end(), std::mem_fn(&GraphicsItem::isMarkedToRemove));
-	mItems.erase(itemsIterator, mItems.end());
+	cleanItems();
 
 	for (auto& item : mItems)
 	{
-		item->cleanItems();
+		item->clean();
 	}
 }
 
@@ -66,9 +72,14 @@ bool GraphicsItem::isIntersectsItem(const GraphicsItem& item) const
 	return getBounds().intersects(item.getBounds());
 }
 
-bool GraphicsItem::isMarkedToRemove() const
+bool GraphicsItem::isVisible() const
 {
-	return mIsMarkedToRemove;
+	return mIsVisible;
+}
+
+bool GraphicsItem::isRemoved() const
+{
+	return mIsRemoved;
 }
 
 void GraphicsItem::setParent(GraphicsItem* item)
@@ -81,12 +92,21 @@ GraphicsItem* GraphicsItem::getParent() const
 	return mParentItem;
 }
 
+void GraphicsItem::cleanItems()
+{
+	auto itemsIterator = std::remove_if(mItems.begin(), mItems.end(), std::mem_fn(&GraphicsItem::isRemoved));
+	mItems.erase(itemsIterator, mItems.end());
+}
+
 void GraphicsItem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	states.transform.combine(getTransform());
+	if (mIsVisible)
+	{
+		states.transform.combine(getTransform());
 
-	drawSelf(target, states);
-	drawItems(target, states);
+		drawSelf(target, states);
+		drawItems(target, states);
+	}
 }
 
 void GraphicsItem::drawItems(sf::RenderTarget& target, sf::RenderStates& states) const

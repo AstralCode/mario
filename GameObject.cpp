@@ -7,6 +7,11 @@ GameObject::GameObject(GraphicsSpriteItem* sprite) :
 
 }
 
+void GameObject::setPosition( const sf::Vector2f& position )
+{
+    mSprite->setPosition(position);
+}
+
 void GameObject::setTexture(const sf::Texture& texture)
 {
     mSprite->setTexture(texture);
@@ -20,12 +25,8 @@ void GameObject::setTextureArea(const sf::IntRect& area)
 void GameObject::setDestroyed(const bool destroyed)
 {
     mIsDestroyed = destroyed;
-    mSprite->setToRemove(destroyed);
-}
 
-void GameObject::setWorldPosition(const sf::Vector2f& position)
-{
-    mSprite->setPosition(position);
+    mSprite->remove();
 }
 
 void GameObject::update(const sf::Time& frameTime)
@@ -40,7 +41,7 @@ const sf::Vector2f& GameObject::getWorldPosition() const
 
 bool GameObject::hasCollision(const GameObject& object) const
 {
-    return mSprite->isIntersectsItem(*mSprite);
+    return mSprite->isIntersectsItem(*object.mSprite);
 }
 
 bool GameObject::isContainsPoint(const sf::Vector2f& point) const

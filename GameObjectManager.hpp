@@ -9,7 +9,7 @@
 class GameObjectManager final : public GameObjectCreator
 {
 public:
-	GameObject* create(GraphicsItem& graphicsScene) override;
+	GameObject* create(GraphicsSpriteItem* sprite) override;
 
 	void clean();
 	void update(const sf::Time& frameTime);

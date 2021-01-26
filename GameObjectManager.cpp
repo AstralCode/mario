@@ -3,16 +3,14 @@
 #include <algorithm>
 #include <functional>
 
-GameObject* GameObjectManager::create(GraphicsItem& graphicsScene)
+GameObject* GameObjectManager::create(GraphicsSpriteItem* sprite)
 {
-	auto gameObjectSprite = graphicsScene.addItem<GraphicsSpriteItem>();
+	auto object = std::make_unique<GameObject>(sprite);
+	auto objectPointer = object.get();
 
-	auto gameObject = std::make_unique<GameObject>(gameObjectSprite);
-	auto gameObjectPointer = gameObject.get();
+	mGameObjects.push_back(std::move(object));
 
-	mGameObjects.push_back(std::move(gameObject));
-
-    return gameObjectPointer;
+    return objectPointer;
 }
 
 void GameObjectManager::clean()

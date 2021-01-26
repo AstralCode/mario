@@ -4,16 +4,17 @@
 #include "GameResourceContainer.hpp"
 
 InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) :
-	GameState{gameContextData, gameStateChanger}
+	GameState{gameContextData, gameStateChanger},
+	mUser{nullptr}
 {
-
+	mSceneLayer = getGraphicsScene().addItem();
 }
 
 void InitialGameState::onEnter()
 {
-	mSceneLayer = getGraphicsScene().addItem();
+	auto userSprite = mSceneLayer->addItem<GraphicsSpriteItem>();
 
-	mUser = getGameObjectCreator().create(*mSceneLayer);
+	mUser = getGameObjectCreator().create(userSprite);
 	mUser->setTexture(getTexture(TextureIdentifiers::Mario));
 	mUser->setTextureArea({0, 0, 32, 32});
 }

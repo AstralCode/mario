@@ -58,7 +58,7 @@ void Game::processLogic()
 	mGameObjectManager.clean();
 	mGameObjectManager.update(mFrameTime);
 
-	mGraphicsScene.cleanItems();
+	mGraphicsScene.clean();
 
 	mGameStateManager.processLogic(mFrameTime);
 	mGameStateManager.executeRequests();
@@ -141,7 +141,7 @@ void Game::executeMainLoop()
 
 void Game::cleanGraphicsScene()
 {
-	mGraphicsScene.cleanItems();
+	mGraphicsScene.clean();
 }
 
 void Game::initializeStatistics()

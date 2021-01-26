@@ -9,11 +9,12 @@ class GameObject
 public:
 	GameObject(GraphicsSpriteItem* sprite);
 
+	void setPosition(const sf::Vector2f& position);
+
 	void setTexture(const sf::Texture& texture);
 	void setTextureArea(const sf::IntRect& area);
 
 	void setDestroyed(const bool destroyed);
-	void setWorldPosition(const sf::Vector2f& position);
 	
 	void update(const sf::Time& frameTime);
 
