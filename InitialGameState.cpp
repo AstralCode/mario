@@ -11,7 +11,9 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 
 void InitialGameState::onEnter()
 {
-	mUser = getGameObjectCreator().create();
+	mSceneLayer = getGraphicsScene().addItem();
+
+	mUser = getGameObjectCreator().create(*mSceneLayer);
 	mUser->setTexture(getTexture(TextureIdentifiers::Mario));
 	mUser->setTextureArea({0, 0, 32, 32});
 }

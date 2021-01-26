@@ -9,7 +9,6 @@ Game::Game() :
 	mRenderWindow{{640u, 480u}, "Mario"},
 	mFrameTime{sf::seconds(1.0f / 60u)},
 	mStatistics{mFPSCounter},
-	mGameObjectManager{mGraphicsScene},
 	mGameContextData{mGraphicsScene, mGameResourceContainer, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {
@@ -164,6 +163,7 @@ void Game::renderStatistics()
 {
 	if (mStatistics.isVisible())
 	{
+		mRenderWindow.setView(mRenderWindow.getDefaultView());
 		mRenderWindow.draw(mStatistics.getGraphics());
 	}
 }

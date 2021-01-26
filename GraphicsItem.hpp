@@ -15,7 +15,7 @@ public:
 
 	void setToRemove(const bool markToRemove);
 
-	template<typename TGraphicsItem>
+	template<typename TGraphicsItem = GraphicsItem>
 	TGraphicsItem* addItem();
 	void addItem(std::unique_ptr<GraphicsItem> item);
 

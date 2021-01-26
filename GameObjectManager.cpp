@@ -3,15 +3,9 @@
 #include <algorithm>
 #include <functional>
 
-GameObjectManager::GameObjectManager(GraphicsItem& graphicsScene) :
-	mGraphicsScene{graphicsScene}
+GameObject* GameObjectManager::create(GraphicsItem& graphicsScene)
 {
-
-}
-
-GameObject* GameObjectManager::create()
-{
-	auto gameObjectSprite = mGraphicsScene.addItem<GraphicsSpriteItem>();
+	auto gameObjectSprite = graphicsScene.addItem<GraphicsSpriteItem>();
 
 	auto gameObject = std::make_unique<GameObject>(gameObjectSprite);
 	auto gameObjectPointer = gameObject.get();
