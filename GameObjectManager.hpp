@@ -11,6 +11,8 @@ class GameObjectManager final : public GameObjectCreator
 public:
 	GameObject* create(GraphicsSpriteItem* sprite) override;
 
+	void receiveEvents(const sf::Event& event);
+
 	void clean();
 	void update(const sf::Time& frameTime);
 

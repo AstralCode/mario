@@ -1,7 +1,6 @@
 #pragma once
 
-#include "SFML/System/Time.hpp"
-
+#include "GameObjectState.hpp"
 #include "GraphicsSpriteItem.hpp"
 
 class GameObject
@@ -9,16 +8,20 @@ class GameObject
 public:
 	GameObject(GraphicsSpriteItem* sprite);
 
-	void setPosition(const sf::Vector2f& position);
+	void setState(GameObjectState* state);
 
+	void setPosition(const sf::Vector2f& position);
 	void setTexture(const sf::Texture& texture);
 	void setTextureArea(const sf::IntRect& area);
 
-	void setDestroyed(const bool destroyed);
+	void removeSprite();
+	void destroy();
+
+	void receiveEvents(const sf::Event& event);
 	
 	void update(const sf::Time& frameTime);
 
-	const sf::Vector2f& getPosition() const;
+	sf::Vector2f getPosition() const;
 
 	bool hasCollision(const GameObject& object) const;
 
@@ -27,5 +30,7 @@ public:
 
 private:
 	GraphicsSpriteItem* mSprite;
-	bool mIsDestroyed;
+	GameObjectState* mState;
+
+	bool mIsMouseOver;
 };

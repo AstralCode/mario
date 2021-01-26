@@ -12,7 +12,7 @@ Game::Game() :
 	mGameContextData{mGraphicsScene, mGameResourceContainer, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {
-
+	mRenderWindow.setKeyRepeatEnabled(false);
 }
 
 void Game::run()
@@ -30,6 +30,7 @@ void Game::processEvents()
 
 	while (mRenderWindow.pollEvent(event))
 	{
+		mGameObjectManager.receiveEvents(event);
 		mGameStateManager.processEvents(event);
 
 		switch (event.type)
