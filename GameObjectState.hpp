@@ -10,6 +10,9 @@ class GameObjectState
 public:
 	virtual ~GameObjectState() = default;
 
+	virtual void onSet(GameObject& object) = 0;
+	virtual void onUnset(GameObject& object) = 0;
+
 	virtual void destroy() = 0;
 
 	virtual void update(GameObject& object, const sf::Time& frameTime) = 0;
@@ -24,4 +27,7 @@ public:
 	virtual void onMouseOver(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent);
 
 	virtual bool isDestroyed() const = 0;
+
+protected:
+	bool isKeyPressed(const sf::Event::KeyEvent& keyEvent, const sf::Keyboard::Key keyCode) const;
 };

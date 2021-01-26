@@ -5,9 +5,12 @@
 class EmptyGameObjectState final : public GameObjectState
 {
 public:
+	static EmptyGameObjectState* getInstance();
+
 	EmptyGameObjectState();
 
-	static EmptyGameObjectState* getInstance();
+	void onSet(GameObject& object) override;
+	void onUnset(GameObject& object) override;
 
 	virtual void destroy() override;
 

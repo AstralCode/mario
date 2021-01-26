@@ -2,15 +2,25 @@
 
 EmptyGameObjectState EmptyGameObjectState::mState;
 
+EmptyGameObjectState* EmptyGameObjectState::getInstance()
+{
+	return &mState;
+}
+
 EmptyGameObjectState::EmptyGameObjectState() :
 	mIsDestroyed{false}
 {
 
 }
 
-EmptyGameObjectState* EmptyGameObjectState::getInstance()
+void EmptyGameObjectState::onSet(GameObject&)
 {
-	return &mState;
+
+}
+
+void EmptyGameObjectState::onUnset(GameObject&)
+{
+
 }
 
 void EmptyGameObjectState::update(GameObject&, const sf::Time&)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameState.hpp"
+#include "GameObjectFactory.hpp"
 
 class InitialGameState final : public GameState
 {
@@ -17,5 +18,6 @@ private:
 	void onEscapePressed() override;
 
 	GraphicsItem* mSceneLayer;
-	GameObject* mUser;
+	GraphicsItem* mEnemiesLayer;
+	GameObjectFactory mGameObjectFactory;
 };

@@ -29,3 +29,8 @@ void GameObjectState::onMouseOver(GameObject&, const sf::Event::MouseMoveEvent&)
 {
 
 }
+
+bool GameObjectState::isKeyPressed(const sf::Event::KeyEvent& keyEvent, const sf::Keyboard::Key keyCode) const
+{
+    return keyEvent.code == keyCode;
+}

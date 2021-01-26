@@ -12,7 +12,13 @@ GameObject::GameObject(GraphicsSpriteItem* sprite) :
 
 void GameObject::setState(GameObjectState* state)
 {
+	if (mState)
+	{
+		mState->onUnset(*this);
+	}
+
 	mState = state;
+	mState->onSet(*this);
 }
 
 void GameObject::setPosition(const sf::Vector2f& position)
