@@ -10,7 +10,7 @@
 #include "GameStateChanger.hpp"
 #include "GameStateStackRequest.hpp"
 
-class GameStateManager final : public GameStateChanger, private sf::NonCopyable
+class GameStateManager final : public GameStateChanger
 {
 public:
 	GameStateManager(GameContextData& gameContextData);

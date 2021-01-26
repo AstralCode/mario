@@ -3,11 +3,10 @@
 #include <vector>
 #include <memory>
 
-#include "SFML/System/NonCopyable.hpp"
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/Graphics/Transformable.hpp"
 
-class GraphicsItem : public sf::Transformable, public sf::Drawable, private sf::NonCopyable
+class GraphicsItem : public sf::Transformable, public sf::Drawable
 {
 public:
 	GraphicsItem();

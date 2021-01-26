@@ -8,7 +8,7 @@
 
 #include "GameResourceContainer.hpp"
 
-class GameResourceManager final : public GameResourceContainer, private sf::NonCopyable
+class GameResourceManager final : public GameResourceContainer
 {
 public:
 	void addFont(const FontIdentifiers identifier, const std::string& filename);

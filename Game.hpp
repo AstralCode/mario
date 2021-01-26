@@ -9,7 +9,7 @@
 #include "GameContextData.hpp"
 #include "GameStateManager.hpp"
 
-class Game final : private sf::NonCopyable
+class Game final
 {
 public:
 	Game();

@@ -1,12 +1,10 @@
 #pragma once
 
-#include "SFML/System/NonCopyable.hpp"
-
 #include "GameStateIdentifiers.hpp"
 
 class GameStateManager;
 
-class GameStateStackRequest : private sf::NonCopyable
+class GameStateStackRequest
 {
 public:
 	virtual ~GameStateStackRequest() = default;

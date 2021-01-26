@@ -1,6 +1,5 @@
 #pragma once
 
-#include "SFML/System/NonCopyable.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
 
 #include "EventReceiver.hpp"
@@ -11,7 +10,7 @@
 class GameContextData;
 class GameStateChanger;
 
-class GameState : public EventReceiver, private sf::NonCopyable
+class GameState : public EventReceiver
 {
 public:
 	GameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger);

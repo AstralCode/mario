@@ -1,12 +1,10 @@
 #pragma once
 
-#include "SFML/System/NonCopyable.hpp"
-
 class GraphicsItem;
 class GameResourceContainer;
 class GameObjectCreator;
 
-class GameContextData final : private sf::NonCopyable
+class GameContextData final
 {
 public:
 	GameContextData(GraphicsItem& graphicsScene, GameResourceContainer& gameResourceContainer, GameObjectCreator& gameObjectCreator);
