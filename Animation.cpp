@@ -1,0 +1,107 @@
+#include "Animation.hpp"
+
+#include "GraphicsSpriteItem.hpp"
+
+Animation::Animation() :
+	mIsPlaying{false}
+{
+
+}
+
+void Animation::setDuration(const sf::Time& durationTime)
+{
+	mDurationTime = durationTime;
+}
+
+void Animation::setFrameCount(const sf::Vector2i& frameCount)
+{
+	mFrameCount = frameCount;
+}
+
+void Animation::setFrameOffset(const sf::Vector2i& frameOffset)
+{
+	mFrameOffset = frameOffset;
+}
+
+void Animation::setFrameSize(const sf::IntRect& frameSize)
+{
+	mFrameSize = frameSize;
+}
+
+void Animation::play()
+{
+	mIsPlaying = true;
+}
+
+void Animation::pause()
+{
+	mIsPlaying = false;
+}
+
+void Animation::stop()
+{
+	mElapsedUpdateTime = sf::Time::Zero;
+	mCurrentFrameIndex = sf::Vector2i{};
+	mCurrentFrame = sf::IntRect{};
+	mIsPlaying = false;
+
+	updateCurrentFrame(mCurrentFrameIndex);
+}
+
+void Animation::update(const sf::Time& frameTime)
+{
+	if (isPlaying())
+	{
+		const auto animationFrameTime = sf::seconds(1.0f / getFrameCount());
+
+		mDurationTime += frameTime;
+
+		while (mDurationTime > animationFrameTime)
+		{
+			++mCurrentFrameIndex.x;
+
+			if (mCurrentFrameIndex.x >= mFrameCount.x)
+			{
+				mCurrentFrameIndex.x = 0;
+				++mCurrentFrameIndex.y;
+			}
+
+			if (mCurrentFrameIndex.y >= mFrameCount.y)
+			{
+				mCurrentFrameIndex.y = 0;
+			}
+
+			updateCurrentFrame(mCurrentFrameIndex);
+
+			mDurationTime -= animationFrameTime;
+		}
+	}
+}
+
+sf::IntRect Animation::getCurrentFrame() const
+{
+	return mCurrentFrame;
+}
+
+int Animation::getFrameCount() const
+{
+	return mFrameCount.x + mFrameCount.y;
+}
+
+const sf::Time& Animation::getDurationTime() const
+{
+	return mDurationTime;
+}
+
+bool Animation::isPlaying() const
+{
+	return mIsPlaying;
+}
+
+void Animation::updateCurrentFrame(const sf::Vector2i& currentFrameIndex)
+{
+	mCurrentFrame.left = currentFrameIndex.x * mFrameSize.width + (mFrameOffset.x * mFrameSize.width);
+	mCurrentFrame.top = currentFrameIndex.y * mFrameSize.height + (mFrameOffset.y * mFrameSize.height);
+	mCurrentFrame.width = mFrameSize.width;
+	mCurrentFrame.height = mFrameSize.height;
+}
