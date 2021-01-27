@@ -2,10 +2,10 @@
 
 #include "GameObjectState.hpp"
 
-class MarioStandState final : public GameObjectState
+class MarioMoveState final : public GameObjectState
 {
 public:
-	static MarioStandState* getInstance();
+	static MarioMoveState* getInstance();
 
 	void onSet(GameObject& object) override;
 	void update(GameObject& object, const sf::Time& frameTime);
@@ -13,5 +13,8 @@ public:
 	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) override;
 
 private:
-	static MarioStandState mState;
+	static MarioMoveState mState;
+	static constexpr const auto mSpeed = 32.0f;
+
+	sf::Vector2f mVelocity;
 };

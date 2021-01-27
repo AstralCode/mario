@@ -23,14 +23,15 @@ void GameObjectManager::receiveEvents(const sf::Event& event)
 
 void GameObjectManager::clean()
 {
-	auto gameObjectsIterator = std::remove_if(mGameObjects.begin(), mGameObjects.end(), std::mem_fn(&GameObject::isDestroyed));
-	while (gameObjectsIterator != mGameObjects.end())
+	for (auto& object : mGameObjects)
 	{
-		(*gameObjectsIterator)->removeSprite();
-		++gameObjectsIterator;
+		if (object->isDestroyed())
+		{
+			object->dispose();
+		}
 	}
 
-	gameObjectsIterator = std::remove_if(mGameObjects.begin(), mGameObjects.end(), std::mem_fn(&GameObject::isDestroyed));
+	auto gameObjectsIterator = std::remove_if(mGameObjects.begin(), mGameObjects.end(), std::mem_fn(&GameObject::isDestroyed));
 	mGameObjects.erase(gameObjectsIterator, mGameObjects.end());
 }
 

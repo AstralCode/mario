@@ -36,7 +36,17 @@ void GameObject::setTextureArea(const sf::IntRect& area)
     mSprite->setTextureArea(area);
 }
 
-void GameObject::removeSprite()
+void GameObject::setVelocity(const sf::Vector2f& velocity)
+{
+	mVelocity = velocity;
+}
+
+void GameObject::move(const sf::Vector2f& offset)
+{
+	mSprite->move(offset);
+}
+
+void GameObject::dispose()
 {
 	mSprite->remove();
 }
@@ -106,6 +116,11 @@ void GameObject::update(const sf::Time& frameTime)
 sf::Vector2f GameObject::getPosition() const
 {
     return mSprite->getGlobalPosition();
+}
+
+sf::Vector2f GameObject::getVelocity() const
+{
+	return mVelocity;
 }
 
 bool GameObject::hasCollision(const GameObject& object) const

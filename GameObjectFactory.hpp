@@ -18,7 +18,7 @@ public:
 	GameObject* createGoomba(GraphicsItem* sceneLayer) const;
 
 private:
-	GameObject* create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier, GameObjectState* state = EmptyGameObjectState::getInstance()) const;
+	GameObject* create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier, GameObjectState* state) const;
 
 	GameResourceContainer& mGameResourceContainer;
 	GameObjectCreator& mGameObjectCreator;

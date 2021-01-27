@@ -5,6 +5,7 @@
 #include "GameResourceContainer.hpp"
 #include "GraphicsTextItem.hpp"
 #include "MarioStandState.hpp"
+#include "EnemyMoveState.hpp"
 
 GameObjectFactory::GameObjectFactory(GameResourceContainer& gameResourceContainer, GameObjectCreator& gameObjectCreator) :
 	mGameResourceContainer{gameResourceContainer},
@@ -16,14 +17,12 @@ GameObjectFactory::GameObjectFactory(GameResourceContainer& gameResourceContaine
 GameObject* GameObjectFactory::createMario(GraphicsItem* sceneLayer) const
 {
 	auto object = create(sceneLayer, TextureIdentifiers::Mario, MarioStandState::getInstance());
-
 	return object;
 }
 
 GameObject* GameObjectFactory::createGoomba(GraphicsItem* sceneLayer) const
 {
-	auto object = create(sceneLayer, TextureIdentifiers::Enemies, MarioStandState::getInstance());
-
+	auto object = create(sceneLayer, TextureIdentifiers::Enemies, EnemyMoveState::getInstance());
 	return object;
 }
 

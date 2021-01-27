@@ -27,7 +27,7 @@ void InitialGameState::onLeave()
 
 void InitialGameState::processLogic(const sf::Time& frameTime)
 {
-
+	
 }
 
 void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent)

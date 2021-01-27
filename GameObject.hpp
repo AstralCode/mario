@@ -14,7 +14,10 @@ public:
 	void setTexture(const sf::Texture& texture);
 	void setTextureArea(const sf::IntRect& area);
 
-	void removeSprite();
+	void setVelocity(const sf::Vector2f& velocity);
+	void move(const sf::Vector2f& offset);
+
+	void dispose();
 	void destroy();
 
 	void receiveEvents(const sf::Event& event);
@@ -22,6 +25,7 @@ public:
 	void update(const sf::Time& frameTime);
 
 	sf::Vector2f getPosition() const;
+	sf::Vector2f getVelocity() const;
 
 	bool hasCollision(const GameObject& object) const;
 
@@ -31,6 +35,8 @@ public:
 private:
 	GraphicsSpriteItem* mSprite;
 	GameObjectState* mState;
+
+	sf::Vector2f mVelocity;
 
 	bool mIsMouseOver;
 };
