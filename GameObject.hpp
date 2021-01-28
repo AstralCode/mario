@@ -27,6 +27,7 @@ public:
 	void accelerateVelocity(const sf::Vector2f& acceleration);
 	void move(const sf::Vector2f& offset);
 
+	void setDirectionFactor(const sf::Vector2f& factor);
 	void setDirection(const Directions direction);
 	void turnAround();
 
@@ -52,8 +53,6 @@ public:
 	bool isDestroyed() const;
 
 private:
-	void updateMovement(const sf::Time& frameTime);
-
 	GraphicsSpriteItem* mSprite;
 	GameObjectState* mState;
 

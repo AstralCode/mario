@@ -50,8 +50,8 @@ void GameObject::setMaxVelocity(const sf::Vector2f& maxVelocity)
 
 void GameObject::setVelocity(const sf::Vector2f& velocity)
 {
-	mVelocity.x = (velocity.x < mMaxVelocity.x) ? velocity.x : mMaxVelocity.x;
-	mVelocity.y = (velocity.y < mMaxVelocity.y) ? velocity.y : mMaxVelocity.y;
+	mVelocity.x = velocity.x;
+	mVelocity.y = velocity.y;
 }
 
 void GameObject::accelerateVelocity(const sf::Vector2f& acceleration)
@@ -62,6 +62,11 @@ void GameObject::accelerateVelocity(const sf::Vector2f& acceleration)
 void GameObject::move(const sf::Vector2f& offset)
 {
 	mSprite->move(offset);
+}
+
+void GameObject::setDirectionFactor(const sf::Vector2f& factor)
+{
+	mDirectionFactor = factor;
 }
 
 void GameObject::setDirection(const Directions direction)
@@ -152,8 +157,6 @@ void GameObject::receiveEvents(const sf::Event& event)
 void GameObject::update(const sf::Time& frameTime)
 {
 	mState->update(*this, frameTime);
-
-	updateMovement(frameTime);
 }
 
 sf::Vector2f GameObject::getPosition() const
@@ -199,13 +202,4 @@ bool GameObject::isContainsPoint(const sf::Vector2f& point) const
 bool GameObject::isDestroyed() const
 {
     return mState->isDestroyed();
-}
-
-void GameObject::updateMovement(const sf::Time& frameTime)
-{
-	const auto accelerationX = getAcceleration().x * frameTime.asSeconds() * getDirectionFactor().x;
-    accelerateVelocity({accelerationX, 0.0f});
-
-    const auto moveX = getVelocity().x * frameTime.asSeconds();
-    move({moveX, 0.0f});
 }

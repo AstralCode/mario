@@ -40,5 +40,12 @@ void GameObjectManager::update(const sf::Time& frameTime)
 	for (auto& object : mGameObjects)
 	{
 		object->update(frameTime);
+
+		const auto friction = std::pow(0.5f, frameTime.asSeconds());
+
+		const auto velocityX = object->getVelocity().x * friction;
+		const auto velocityY = object->getVelocity().y * friction;
+
+		object->setVelocity({velocityX, velocityY});
 	}
 }

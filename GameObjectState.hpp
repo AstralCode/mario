@@ -32,7 +32,7 @@ public:
 	bool isDestroyed() const;
 
 protected:
-	bool isKeyPressed(const sf::Event::KeyEvent& keyEvent, const sf::Keyboard::Key keyCode) const;
+	bool isKey(const sf::Event::KeyEvent& keyEvent, const sf::Keyboard::Key keyCode) const;
 
 private:
 	bool mIsDestroyed;

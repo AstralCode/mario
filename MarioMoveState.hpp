@@ -12,9 +12,12 @@ public:
 	void update(GameObject& object, const sf::Time& frameTime);
 
 	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) override;
+	void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) override;
 
 private:
 	static MarioMoveState mState;
 
 	Animation mAnimation;
+
+	bool mMoving;
 };

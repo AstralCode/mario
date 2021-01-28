@@ -56,7 +56,7 @@ bool GameObjectState::isDestroyed() const
     return mIsDestroyed && isWreck();
 }
 
-bool GameObjectState::isKeyPressed(const sf::Event::KeyEvent& keyEvent, const sf::Keyboard::Key keyCode) const
+bool GameObjectState::isKey(const sf::Event::KeyEvent& keyEvent, const sf::Keyboard::Key keyCode) const
 {
     return keyEvent.code == keyCode;
 }
