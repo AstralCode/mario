@@ -16,14 +16,12 @@ GameObjectFactory::GameObjectFactory(GameResourceContainer& gameResourceContaine
 
 GameObject* GameObjectFactory::createMario(GraphicsItem* sceneLayer) const
 {
-	auto object = create(sceneLayer, TextureIdentifiers::Mario, MarioStandState::getInstance());
-	return object;
+	return create(sceneLayer, TextureIdentifiers::Mario, MarioStandState::getInstance());
 }
 
 GameObject* GameObjectFactory::createGoomba(GraphicsItem* sceneLayer) const
 {
-	auto object = create(sceneLayer, TextureIdentifiers::Enemies, EnemyMoveState::getInstance());
-	return object;
+	return create(sceneLayer, TextureIdentifiers::Enemies, EnemyMoveState::getInstance());
 }
 
 GameObject* GameObjectFactory::create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier, GameObjectState* state) const
