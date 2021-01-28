@@ -16,10 +16,13 @@ void MarioMoveState::onSet(GameObject& object)
     mAnimation.setFrameCount({3, 0});
     mAnimation.setFrameOffset({1, 0});
     mAnimation.setFrameSize({0, 0, 32, 32});
+
     mAnimation.stop();
     mAnimation.play();
 
-    object.setVelocity({0.0f, 0.0f});
+    object.setAcceleration({128.0f, 128.0f});
+    object.setMaxVelocity({168.0f, 168.0f});
+    object.setVelocity({74.0f, 74.0f});
 }
 
 void MarioMoveState::update(GameObject& object, const sf::Time& frameTime)
@@ -27,8 +30,11 @@ void MarioMoveState::update(GameObject& object, const sf::Time& frameTime)
     mAnimation.update(frameTime);
     object.setTextureArea(mAnimation.getCurrentFrame());
 
-    const auto movement = mSpeed * frameTime.asSeconds();
-    object.move({movement, 0.0f});
+    const auto acceleration = object.getAcceleration().x * frameTime.asSeconds();
+    object.accelerateVelocity({acceleration, 0.0f});
+
+    const auto move = object.getVelocity().x * frameTime.asSeconds();
+    object.move({move, 0.0f});
 }
 
 void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent)

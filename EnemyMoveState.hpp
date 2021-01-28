@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObjectState.hpp"
+#include "Animation.hpp"
 
 class EnemyMoveState final : public GameObjectState
 {
@@ -12,5 +13,6 @@ public:
 
 private:
 	static EnemyMoveState mState;
-	static constexpr const auto mSpeed = 32.0f;
+
+	Animation mAnimation;
 };

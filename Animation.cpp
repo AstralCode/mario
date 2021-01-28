@@ -52,11 +52,10 @@ void Animation::update(const sf::Time& frameTime)
 {
 	if (isPlaying())
 	{
-		const auto animationFrameTime = sf::seconds(1.0f / getFrameCount());
+		const auto animationFrameTime = mDurationTime / static_cast<float>(getFrameCount());
 
-		mDurationTime += frameTime;
-
-		while (mDurationTime > animationFrameTime)
+		mElapsedUpdateTime += frameTime;
+		while (mElapsedUpdateTime > animationFrameTime)
 		{
 			++mCurrentFrameIndex.x;
 
@@ -73,7 +72,7 @@ void Animation::update(const sf::Time& frameTime)
 
 			updateCurrentFrame(mCurrentFrameIndex);
 
-			mDurationTime -= animationFrameTime;
+			mElapsedUpdateTime -= animationFrameTime;
 		}
 	}
 }

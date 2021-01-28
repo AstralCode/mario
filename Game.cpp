@@ -6,7 +6,7 @@
 #include "InitialGameState.hpp"
 
 Game::Game() :
-	mRenderWindow{{640u, 480u}, "Mario"},
+	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mFrameTime{sf::seconds(1.0f / 60u)},
 	mStatistics{mFPSCounter},
 	mGameContextData{mGraphicsScene, mGameResourceContainer, mGameObjectManager},

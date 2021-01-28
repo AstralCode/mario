@@ -36,9 +36,25 @@ void GameObject::setTextureArea(const sf::IntRect& area)
     mSprite->setTextureArea(area);
 }
 
+void GameObject::setAcceleration(const sf::Vector2f& acceleration)
+{
+	mAcceleration = acceleration;
+}
+
+void GameObject::setMaxVelocity(const sf::Vector2f& maxVelocity)
+{
+	mMaxVelocity = maxVelocity;
+}
+
 void GameObject::setVelocity(const sf::Vector2f& velocity)
 {
-	mVelocity = velocity;
+	mVelocity.x = (velocity.x < mMaxVelocity.x) ? velocity.x : mMaxVelocity.x;
+	mVelocity.y = (velocity.y < mMaxVelocity.y) ? velocity.y : mMaxVelocity.y;
+}
+
+void GameObject::accelerateVelocity(const sf::Vector2f& acceleration)
+{
+	setVelocity({mVelocity.x + acceleration.x, mVelocity.y + acceleration.y});
 }
 
 void GameObject::move(const sf::Vector2f& offset)
@@ -118,9 +134,19 @@ sf::Vector2f GameObject::getPosition() const
     return mSprite->getGlobalPosition();
 }
 
-sf::Vector2f GameObject::getVelocity() const
+const sf::Vector2f& GameObject::getVelocity() const
 {
 	return mVelocity;
+}
+
+const sf::Vector2f& GameObject::getMaxVelocity() const
+{
+	return mMaxVelocity;
+}
+
+const sf::Vector2f& GameObject::getAcceleration() const
+{
+	return mAcceleration;
 }
 
 bool GameObject::hasCollision(const GameObject& object) const

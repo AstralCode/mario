@@ -15,9 +15,6 @@ public:
 
 private:
 	static MarioMoveState mState;
-	static constexpr const auto mSpeed = 32.0f;
-
-	sf::Vector2f mVelocity;
 
 	Animation mAnimation;
 };
