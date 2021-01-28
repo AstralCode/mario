@@ -20,30 +20,29 @@ void MarioMoveState::onSet(GameObject& object)
     mAnimation.stop();
     mAnimation.play();
 
-    object.setAcceleration({128.0f, 128.0f});
-    object.setMaxVelocity({168.0f, 168.0f});
-    object.setVelocity({74.0f, 74.0f});
+    object.setAcceleration({250.0f, 0.0f});
+    object.setMaxVelocity({200.0f, 0.0f});
+    object.setVelocity({25.0f, 0.0f});
 }
 
 void MarioMoveState::update(GameObject& object, const sf::Time& frameTime)
 {
     mAnimation.update(frameTime);
+
     object.setTextureArea(mAnimation.getCurrentFrame());
-
-    const auto acceleration = object.getAcceleration().x * frameTime.asSeconds();
-    object.accelerateVelocity({acceleration, 0.0f});
-
-    const auto move = object.getVelocity().x * frameTime.asSeconds();
-    object.move({move, 0.0f});
 }
 
 void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent)
 {
-    if (keyEvent.code == sf::Keyboard::Q)
+    if (isKeyPressed(keyEvent, sf::Keyboard::Q))
     {
-        object.destroy();
+        object.setDirection(GameObject::Directions::Left);
     }
     else if (isKeyPressed(keyEvent, sf::Keyboard::E))
+    {
+        object.setDirection(GameObject::Directions::Right);
+    }
+    else if (isKeyPressed(keyEvent, sf::Keyboard::W))
     {
         object.setState(MarioStandState::getInstance());
     }

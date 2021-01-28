@@ -12,10 +12,14 @@ MarioStandState* MarioStandState::getInstance()
 
 void MarioStandState::onSet(GameObject& object)
 {
-    object.setTextureArea({0, 0, 32, 32});
+    object.setTextureArea({0, 0, 24, 32});
+
+    object.setAcceleration({});
+    object.setMaxVelocity({});
+    object.setVelocity({});
 }
 
-void MarioStandState::update(GameObject& object, const sf::Time& frameTime)
+void MarioStandState::update(GameObject&, const sf::Time&)
 {
 
 }
@@ -24,10 +28,12 @@ void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent
 {
     if (isKeyPressed(keyEvent, sf::Keyboard::Q))
     {
-        object.destroy();
+        object.setDirection(GameObject::Directions::Left);
+        object.setState(MarioMoveState::getInstance());
     }
     else if (isKeyPressed(keyEvent, sf::Keyboard::E))
     {
+        object.setDirection(GameObject::Directions::Right);
         object.setState(MarioMoveState::getInstance());
     }
 }

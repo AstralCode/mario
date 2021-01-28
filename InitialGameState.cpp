@@ -25,7 +25,7 @@ void InitialGameState::onLeave()
 
 }
 
-void InitialGameState::processLogic(const sf::Time& frameTime)
+void InitialGameState::processLogic(const sf::Time&)
 {
 	
 }

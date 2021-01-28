@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "SFML/System/Time.hpp"
 #include "SFML/Graphics/Rect.hpp"
 
@@ -19,7 +21,7 @@ public:
 
 	void update(const sf::Time& frameTime);
 
-	sf::IntRect getCurrentFrame() const;
+	const sf::IntRect& getCurrentFrame() const;
 
 	int getFrameCount() const;
 

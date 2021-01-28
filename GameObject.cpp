@@ -5,6 +5,8 @@
 GameObject::GameObject(GraphicsSpriteItem* sprite) :
     mSprite{sprite},
 	mState{EmptyGameObjectState::getInstance()},
+	mDirectionFactor{+1.0f, 0.0f},
+	mDirection{Directions::Right},
 	mIsMouseOver{false}
 {
 
@@ -60,6 +62,29 @@ void GameObject::accelerateVelocity(const sf::Vector2f& acceleration)
 void GameObject::move(const sf::Vector2f& offset)
 {
 	mSprite->move(offset);
+}
+
+void GameObject::setDirection(const Directions direction)
+{
+	if (direction != mDirection)
+	{
+		mDirectionFactor.x = (mDirection == Directions::Right) ? -1.0f : +1.0f;
+		mDirection = direction;
+
+		mSprite->flip(GraphicsSpriteItem::Orientations::Horizontal);
+	}
+}
+
+void GameObject::turnAround()
+{
+	if (mDirection == Directions::Right)
+	{
+		setDirection(Directions::Left);
+	}
+	else
+	{
+		setDirection(Directions::Right);
+	}
 }
 
 void GameObject::dispose()
@@ -127,6 +152,8 @@ void GameObject::receiveEvents(const sf::Event& event)
 void GameObject::update(const sf::Time& frameTime)
 {
 	mState->update(*this, frameTime);
+
+	updateMovement(frameTime);
 }
 
 sf::Vector2f GameObject::getPosition() const
@@ -142,6 +169,16 @@ const sf::Vector2f& GameObject::getVelocity() const
 const sf::Vector2f& GameObject::getMaxVelocity() const
 {
 	return mMaxVelocity;
+}
+
+const sf::Vector2f& GameObject::getDirectionFactor() const
+{
+	return mDirectionFactor;
+}
+
+GameObject::Directions GameObject::getDirection() const
+{
+	return mDirection;
 }
 
 const sf::Vector2f& GameObject::getAcceleration() const
@@ -162,4 +199,13 @@ bool GameObject::isContainsPoint(const sf::Vector2f& point) const
 bool GameObject::isDestroyed() const
 {
     return mState->isDestroyed();
+}
+
+void GameObject::updateMovement(const sf::Time& frameTime)
+{
+	const auto accelerationX = getAcceleration().x * frameTime.asSeconds() * getDirectionFactor().x;
+    accelerateVelocity({accelerationX, 0.0f});
+
+    const auto moveX = getVelocity().x * frameTime.asSeconds();
+    move({moveX, 0.0f});
 }

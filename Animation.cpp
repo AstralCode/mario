@@ -1,7 +1,5 @@
 #include "Animation.hpp"
 
-#include "GraphicsSpriteItem.hpp"
-
 Animation::Animation() :
 	mIsPlaying{false}
 {
@@ -77,7 +75,7 @@ void Animation::update(const sf::Time& frameTime)
 	}
 }
 
-sf::IntRect Animation::getCurrentFrame() const
+const sf::IntRect& Animation::getCurrentFrame() const
 {
 	return mCurrentFrame;
 }
