@@ -21,8 +21,6 @@ void Game::run()
 	loadResources();
 	initializeStatistics();
 	executeMainLoop();
-
-	mRenderWindow.close();
 }
 
 void Game::processEvents()
@@ -146,6 +144,8 @@ void Game::executeMainLoop()
 			sf::sleep(threadSleepTime);
 		}
 	}
+
+	mRenderWindow.close();
 }
 
 void Game::initializeStatistics()
