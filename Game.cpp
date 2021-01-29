@@ -9,6 +9,7 @@ Game::Game() :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mFrameTime{sf::seconds(1.0f / 60u)},
 	mStatistics{mFPSCounter},
+	mGameObjectManager{mGamePhysics},
 	mGameContextData{mGraphicsScene, mGameResourceContainer, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {

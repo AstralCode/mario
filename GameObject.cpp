@@ -5,8 +5,8 @@
 GameObject::GameObject(GraphicsSpriteItem* sprite) :
     mSprite{sprite},
 	mState{EmptyGameObjectState::getInstance()},
-	mDirectionFactor{+1.0f, 0.0f},
 	mDirection{Directions::Right},
+	mDirectionFactor{+1.0f, 0.0f},
 	mIsMouseOver{false}
 {
 
@@ -38,20 +38,25 @@ void GameObject::setTextureArea(const sf::IntRect& area)
     mSprite->setTextureArea(area);
 }
 
+void GameObject::setMaxAcceleration(const sf::Vector2f& acceleration)
+{
+	mMaxAcceleration = acceleration;
+}
+
 void GameObject::setAcceleration(const sf::Vector2f& acceleration)
 {
 	mAcceleration = acceleration;
 }
 
-void GameObject::setMaxVelocity(const sf::Vector2f& maxVelocity)
+void GameObject::setMaxVelocity(const sf::Vector2f& velocity)
 {
-	mMaxVelocity = maxVelocity;
+	mMaxVelocity = velocity;
 }
 
 void GameObject::setVelocity(const sf::Vector2f& velocity)
 {
-	mVelocity.x = velocity.x;
-	mVelocity.y = velocity.y;
+	mVelocity.x = std::min(velocity.x, mMaxVelocity.x);
+	mVelocity.y = std::min(velocity.y, mMaxVelocity.y);
 }
 
 void GameObject::accelerateVelocity(const sf::Vector2f& acceleration)
@@ -164,14 +169,14 @@ sf::Vector2f GameObject::getPosition() const
     return mSprite->getGlobalPosition();
 }
 
-const sf::Vector2f& GameObject::getVelocity() const
-{
-	return mVelocity;
-}
-
 const sf::Vector2f& GameObject::getMaxVelocity() const
 {
 	return mMaxVelocity;
+}
+
+const sf::Vector2f& GameObject::getVelocity() const
+{
+	return mVelocity;
 }
 
 const sf::Vector2f& GameObject::getDirectionFactor() const
@@ -182,6 +187,11 @@ const sf::Vector2f& GameObject::getDirectionFactor() const
 GameObject::Directions GameObject::getDirection() const
 {
 	return mDirection;
+}
+
+const sf::Vector2f& GameObject::getMaxAcceleration() const
+{
+	return mMaxAcceleration;
 }
 
 const sf::Vector2f& GameObject::getAcceleration() const

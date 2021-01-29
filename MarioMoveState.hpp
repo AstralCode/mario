@@ -18,6 +18,4 @@ private:
 	static MarioMoveState mState;
 
 	Animation mAnimation;
-
-	bool mMoving;
 };

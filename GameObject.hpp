@@ -19,7 +19,8 @@ public:
 	void setPosition(const sf::Vector2f& position);
 	void setTexture(const sf::Texture& texture);
 	void setTextureArea(const sf::IntRect& area);
-	
+
+	void setMaxAcceleration(const sf::Vector2f& acceleration);
 	void setAcceleration(const sf::Vector2f& acceleration);
 	void setMaxVelocity(const sf::Vector2f& maxVelocity);
 	void setVelocity(const sf::Vector2f& velocity);
@@ -40,9 +41,10 @@ public:
 
 	sf::Vector2f getPosition() const;
 
+	const sf::Vector2f& getMaxAcceleration() const;
 	const sf::Vector2f& getAcceleration() const;
-	const sf::Vector2f& getVelocity() const;
 	const sf::Vector2f& getMaxVelocity() const;
+	const sf::Vector2f& getVelocity() const;
 
 	const sf::Vector2f& getDirectionFactor() const;
 	Directions getDirection() const;
@@ -56,9 +58,10 @@ private:
 	GraphicsSpriteItem* mSprite;
 	GameObjectState* mState;
 
+	sf::Vector2f mMaxAcceleration;
+	sf::Vector2f mAcceleration;
 	sf::Vector2f mVelocity;
 	sf::Vector2f mMaxVelocity;
-	sf::Vector2f mAcceleration;
 
 	sf::Vector2f mDirectionFactor;
 	Directions mDirection;

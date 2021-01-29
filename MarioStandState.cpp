@@ -12,6 +12,7 @@ MarioStandState* MarioStandState::getInstance()
 
 void MarioStandState::onSet(GameObject& object)
 {
+    object.setAcceleration({});
     object.setTextureArea({0, 0, 24, 32});
 }
 

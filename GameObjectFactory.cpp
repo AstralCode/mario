@@ -16,19 +16,28 @@ GameObjectFactory::GameObjectFactory(GameResourceContainer& gameResourceContaine
 
 GameObject* GameObjectFactory::createMario(GraphicsItem* sceneLayer) const
 {
-	return create(sceneLayer, TextureIdentifiers::Mario, MarioStandState::getInstance());
+	auto object = create(sceneLayer, TextureIdentifiers::Mario);
+	object->setMaxAcceleration({32.0f * 28.0f, 0.0f});
+	object->setMaxVelocity({32.0f * 28.0f, 0.0f});
+	object->setState(MarioStandState::getInstance());
+
+	return object;
 }
 
 GameObject* GameObjectFactory::createGoomba(GraphicsItem* sceneLayer) const
 {
-	return create(sceneLayer, TextureIdentifiers::Enemies, EnemyMoveState::getInstance());
+	auto object = create(sceneLayer, TextureIdentifiers::Enemies);
+	object->setMaxAcceleration({32.0f * 14.0f, 0.0f});
+    object->setMaxVelocity({32.0f * 14.0f, 0.0f});
+	object->setState(EnemyMoveState::getInstance());
+
+	return object;
 }
 
-GameObject* GameObjectFactory::create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier, GameObjectState* state) const
+GameObject* GameObjectFactory::create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier) const
 {
 	auto object = mGameObjectCreator.create(sceneLayer->addItem<GraphicsSpriteItem>());
 	object->setTexture(mGameResourceContainer.getTexture(textureIdentifier));
-	object->setState(state);
 
 	return object;
 }

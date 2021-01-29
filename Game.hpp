@@ -5,6 +5,7 @@
 #include "Statistics.hpp"
 #include "GraphicsItem.hpp"
 #include "GameResourceManager.hpp"
+#include "GamePhysics.hpp"
 #include "GameObjectManager.hpp"
 #include "GameContextData.hpp"
 #include "GameStateManager.hpp"
@@ -51,6 +52,7 @@ private:
 	Statistics mStatistics;
 	GraphicsItem mGraphicsScene;
 	GameResourceManager mGameResourceContainer;
+	GamePhysics mGamePhysics;
 	GameObjectManager mGameObjectManager;
 	GameContextData mGameContextData;
 	GameStateManager mGameStateManager;
