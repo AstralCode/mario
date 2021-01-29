@@ -157,10 +157,8 @@ void Game::initializeStatistics()
 
 void Game::initializeGameState()
 {
-	constexpr const auto initialStateIdentifier{GameStateIdentifiers::Initial};
-
-	mGameStateManager.registerState<InitialGameState>(initialStateIdentifier);
-	mGameStateManager.pushState(initialStateIdentifier);
+	mGameStateManager.registerState<InitialGameState>(GameStateIdentifiers::Initial);
+	mGameStateManager.pushState(GameStateIdentifiers::Initial);
 }
 
 void Game::loadResources()

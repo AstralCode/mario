@@ -23,7 +23,6 @@ public:
 	void setMaxAcceleration(const sf::Vector2f& acceleration);
 	void setAcceleration(const sf::Vector2f& acceleration);
 	void setMaxVelocity(const sf::Vector2f& velocity);
-	void setVelocity(const sf::Vector2f& velocity);
 
 	void accelerateVelocity(const sf::Vector2f& acceleration);
 	void move(const sf::Vector2f& offset);
@@ -53,6 +52,9 @@ public:
 
 	bool isContainsPoint(const sf::Vector2f& point) const;
 	bool isDestroyed() const;
+
+protected:
+	void setVelocity(const sf::Vector2f& velocity);
 
 private:
 	GraphicsSpriteItem* mSprite;

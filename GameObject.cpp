@@ -53,12 +53,6 @@ void GameObject::setMaxVelocity(const sf::Vector2f& velocity)
 	mMaxVelocity = velocity;
 }
 
-void GameObject::setVelocity(const sf::Vector2f& velocity)
-{
-	mVelocity.x = std::min(velocity.x, mMaxVelocity.x);
-	mVelocity.y = std::min(velocity.y, mMaxVelocity.y);
-}
-
 void GameObject::accelerateVelocity(const sf::Vector2f& acceleration)
 {
 	setVelocity({mVelocity.x + acceleration.x, mVelocity.y + acceleration.y});
@@ -212,4 +206,10 @@ bool GameObject::isContainsPoint(const sf::Vector2f& point) const
 bool GameObject::isDestroyed() const
 {
     return mState->isDestroyed();
+}
+
+void GameObject::setVelocity(const sf::Vector2f& velocity)
+{
+	mVelocity.x = std::min(velocity.x, mMaxVelocity.x);
+	mVelocity.y = std::min(velocity.y, mMaxVelocity.y);
 }
