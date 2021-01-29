@@ -61,6 +61,6 @@ void GameObjectManager::disposeObjects()
 
 void GameObjectManager::cleanObjects()
 {
-	auto gameObjectsIterator = std::remove_if( mGameObjects.begin(), mGameObjects.end(), std::mem_fn( &GameObject::isDestroyed ) );
-	mGameObjects.erase( gameObjectsIterator, mGameObjects.end() );
+	auto gameObjectsIterator = std::remove_if(mGameObjects.begin(), mGameObjects.end(), std::mem_fn(&GameObject::isDestroyed));
+	mGameObjects.erase(gameObjectsIterator, mGameObjects.end());
 }

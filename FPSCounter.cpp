@@ -13,7 +13,8 @@ void FPSCounter::tick()
 
 unsigned int FPSCounter::restart()
 {
-	const auto counter = mCounter;
+	const auto counter{mCounter};
+
 	mCounter = 0u;
 
 	return counter;

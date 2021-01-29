@@ -3,16 +3,17 @@
 void GameResourceManager::addFont(const FontIdentifiers identifier, const std::string& filename)
 {
 	auto font = std::make_unique<sf::Font>();
+
 	if (font->loadFromFile(filename))
 	{
 		mFonts.emplace(identifier, std::move(font));
 	}
-
 }
 
 void GameResourceManager::addTexture(const TextureIdentifiers identifier, const std::string& filename)
 {
 	auto texture = std::make_unique<sf::Texture>();
+
 	if (texture->loadFromFile(filename))
 	{
 		mTextures.emplace(identifier, std::move(texture));

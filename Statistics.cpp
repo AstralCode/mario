@@ -31,21 +31,20 @@ void Statistics::setVisible(const bool visible)
 
 void Statistics::update(const sf::Time& deltaTime)
 {
-	mElapsedUpdateTime += deltaTime;
-
-	if (mElapsedUpdateTime > mUpdateTime)
+	if (isVisible())
 	{
-		const auto fpsCounter = mFPSCounter.restart();
+		mElapsedUpdateTime += deltaTime;
 
-		if (mIsVisible)
+		if (mElapsedUpdateTime > mUpdateTime)
 		{
 			if (mFPSCounterGraphicsText)
 			{
+				const auto fpsCounter = mFPSCounter.restart();
 				mFPSCounterGraphicsText->setString("FPS: " + std::to_string(fpsCounter));
 			}
-		}
 
-		mElapsedUpdateTime = sf::Time::Zero;
+			mElapsedUpdateTime = sf::Time::Zero;
+		}
 	}
 }
 

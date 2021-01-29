@@ -68,12 +68,19 @@ void Game::processLogic()
 
 void Game::processRender()
 {
-	mFPSCounter.tick();
+	if (mStatistics.isVisible())
+	{
+		mFPSCounter.tick();
+	}
 
 	mRenderWindow.clear();
 	mRenderWindow.draw(mGraphicsScene);
 
-	renderStatistics();
+	if (mStatistics.isVisible())
+	{
+		mRenderWindow.setView(mRenderWindow.getDefaultView());
+		mRenderWindow.draw(mStatistics.getGraphics());
+	}
 
 	mRenderWindow.display();
 }
@@ -101,10 +108,10 @@ void Game::executeMainLoop()
 	while (isRunning())
 	{
 		const auto deltaTime = clock.restart();
+		bool renderFrame{false};
+
 		elapsedFrameUpdateTime += deltaTime;
 		elapsedFPSCounterUpdateTime += deltaTime;
-
-		bool renderFrame{false};
 
 		while (elapsedFrameUpdateTime > mFrameTime)
 		{
@@ -141,11 +148,6 @@ void Game::executeMainLoop()
 	}
 }
 
-void Game::cleanGraphicsScene()
-{
-	mGraphicsScene.clean();
-}
-
 void Game::initializeStatistics()
 {
 	mStatistics.setPosition(5.0f, 5.0f);
@@ -155,19 +157,10 @@ void Game::initializeStatistics()
 
 void Game::initializeGameState()
 {
-	constexpr const auto initialStateIdentifier = GameStateIdentifiers::Initial;
+	constexpr const auto initialStateIdentifier{GameStateIdentifiers::Initial};
 
 	mGameStateManager.registerState<InitialGameState>(initialStateIdentifier);
 	mGameStateManager.pushState(initialStateIdentifier);
-}
-
-void Game::renderStatistics()
-{
-	if (mStatistics.isVisible())
-	{
-		mRenderWindow.setView(mRenderWindow.getDefaultView());
-		mRenderWindow.draw(mStatistics.getGraphics());
-	}
 }
 
 void Game::loadResources()

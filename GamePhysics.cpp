@@ -25,7 +25,7 @@ void GamePhysics::applyAcceleration(GameObject& object, const sf::Time& frameTim
     acceleration.x = object.getAcceleration().x * frameTime.asSeconds() * object.getDirectionFactor().x;
     acceleration.y = object.getAcceleration().y * frameTime.asSeconds() * object.getDirectionFactor().y;
 
-    object.accelerateVelocity( acceleration );
+    object.accelerateVelocity(acceleration);
 }
 
 void GamePhysics::updatePosition(GameObject& object, const sf::Time& frameTime) const

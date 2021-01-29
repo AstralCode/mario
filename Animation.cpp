@@ -53,6 +53,7 @@ void Animation::update(const sf::Time& frameTime)
 		const auto animationFrameTime = mDurationTime / static_cast<float>(getFrameCount());
 
 		mElapsedUpdateTime += frameTime;
+
 		while (mElapsedUpdateTime > animationFrameTime)
 		{
 			++mCurrentFrameIndex.x;

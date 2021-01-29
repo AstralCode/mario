@@ -27,12 +27,9 @@ public:
 
 private:
 	void executeMainLoop();
-	void cleanGraphicsScene();
 
 	void initializeStatistics();
 	void initializeGameState();
-
-	void renderStatistics();
 
 	void loadResources();
 	void loadFonts();
