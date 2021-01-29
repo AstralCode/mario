@@ -22,7 +22,7 @@ public:
 
 	void setMaxAcceleration(const sf::Vector2f& acceleration);
 	void setAcceleration(const sf::Vector2f& acceleration);
-	void setMaxVelocity(const sf::Vector2f& maxVelocity);
+	void setMaxVelocity(const sf::Vector2f& velocity);
 	void setVelocity(const sf::Vector2f& velocity);
 
 	void accelerateVelocity(const sf::Vector2f& acceleration);
