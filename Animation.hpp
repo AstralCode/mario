@@ -5,15 +5,14 @@
 #include "SFML/System/Time.hpp"
 #include "SFML/Graphics/Rect.hpp"
 
+class SpriteAtlasRegion;
+
 class Animation final
 {
 public:
-	Animation();
+	Animation(SpriteAtlasRegion& spriteAtlasRegion);
 
 	void setDuration(const sf::Time& durationTime);
-	void setFrameCount(const sf::Vector2i& frameCount);
-	void setFrameOffset(const sf::Vector2i& frameOffset);
-	void setFrameSize(const sf::IntRect& frameSize);
 
 	void play();
 	void pause();
@@ -32,14 +31,12 @@ public:
 private:
 	void updateCurrentFrame(const sf::Vector2i& currentFrameIndex);
 
+	SpriteAtlasRegion& mSpriteAtlasRegion;
+
 	sf::Time mDurationTime;
 	sf::Time mElapsedUpdateTime;
 
 	sf::Vector2i mCurrentFrameIndex;
-	sf::Vector2i mFrameCount;
-	sf::Vector2i mFrameOffset;
-	sf::IntRect mFrameSize;
-
 	sf::IntRect mCurrentFrame;
 
 	bool mIsPlaying;

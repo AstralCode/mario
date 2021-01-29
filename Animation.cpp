@@ -1,6 +1,9 @@
 #include "Animation.hpp"
 
-Animation::Animation() :
+#include "SpriteAtlasRegion.hpp"
+
+Animation::Animation(SpriteAtlasRegion& spriteAtlasRegion) :
+	mSpriteAtlasRegion{spriteAtlasRegion},
 	mIsPlaying{false}
 {
 
@@ -9,21 +12,6 @@ Animation::Animation() :
 void Animation::setDuration(const sf::Time& durationTime)
 {
 	mDurationTime = durationTime;
-}
-
-void Animation::setFrameCount(const sf::Vector2i& frameCount)
-{
-	mFrameCount = frameCount;
-}
-
-void Animation::setFrameOffset(const sf::Vector2i& frameOffset)
-{
-	mFrameOffset = frameOffset;
-}
-
-void Animation::setFrameSize(const sf::IntRect& frameSize)
-{
-	mFrameSize = frameSize;
 }
 
 void Animation::play()
