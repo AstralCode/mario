@@ -2,11 +2,18 @@
 
 #include "SpriteAtlasRegion.hpp"
 
-Animation::Animation(SpriteAtlasRegion& spriteAtlasRegion) :
-	mSpriteAtlasRegion{spriteAtlasRegion},
+Animation::Animation() :
+	mSpriteAtlasRegion{nullptr},
+	mSpriteCount{0},
 	mIsPlaying{false}
 {
 
+}
+
+void Animation::setSpriteAtlasRegion(const SpriteAtlasRegion* spriteAtlasRegion)
+{
+	mSpriteAtlasRegion = spriteAtlasRegion;
+	mSpriteCount = spriteAtlasRegion->getSpriteAreaCount();
 }
 
 void Animation::setDuration(const sf::Time& durationTime)
@@ -27,51 +34,52 @@ void Animation::pause()
 void Animation::stop()
 {
 	mElapsedUpdateTime = sf::Time::Zero;
-	mCurrentFrameIndex = sf::Vector2i{};
-	mCurrentFrame = sf::IntRect{};
+	mCurrentSpriteIndex = sf::Vector2i{};
 	mIsPlaying = false;
-
-	updateCurrentFrame(mCurrentFrameIndex);
 }
 
 void Animation::update(const sf::Time& frameTime)
 {
 	if (isPlaying())
 	{
-		const auto animationFrameTime = mDurationTime / static_cast<float>(getFrameCount());
+		const auto animationFrameTime = mDurationTime / static_cast<float>(getSpriteCount());
 
 		mElapsedUpdateTime += frameTime;
 
 		while (mElapsedUpdateTime > animationFrameTime)
 		{
-			++mCurrentFrameIndex.x;
+			const auto& spriteAreas = mSpriteAtlasRegion->getSpriteAreas();
 
-			if (mCurrentFrameIndex.x >= mFrameCount.x)
+			sf::Vector2i spriteCount{};
+			spriteCount.x = static_cast<int>(spriteAreas[mCurrentSpriteIndex.y].size());
+			spriteCount.y = static_cast<int>(spriteAreas.size());
+
+			++mCurrentSpriteIndex.x;
+
+			if (mCurrentSpriteIndex.x >= spriteCount.x)
 			{
-				mCurrentFrameIndex.x = 0;
-				++mCurrentFrameIndex.y;
+				mCurrentSpriteIndex.x = 0;
+				++mCurrentSpriteIndex.y;
 			}
 
-			if (mCurrentFrameIndex.y >= mFrameCount.y)
+			if (mCurrentSpriteIndex.y >= spriteCount.y)
 			{
-				mCurrentFrameIndex.y = 0;
+				mCurrentSpriteIndex.y = 0;
 			}
-
-			updateCurrentFrame(mCurrentFrameIndex);
 
 			mElapsedUpdateTime -= animationFrameTime;
 		}
 	}
 }
 
-const sf::IntRect& Animation::getCurrentFrame() const
+const sf::IntRect& Animation::getCurrentSprite() const
 {
-	return mCurrentFrame;
+	return mSpriteAtlasRegion->getSpriteAreas()[mCurrentSpriteIndex.y][mCurrentSpriteIndex.x];
 }
 
-int Animation::getFrameCount() const
+int Animation::getSpriteCount() const
 {
-	return mFrameCount.x + mFrameCount.y;
+	return mSpriteCount;
 }
 
 const sf::Time& Animation::getDurationTime() const
@@ -82,12 +90,4 @@ const sf::Time& Animation::getDurationTime() const
 bool Animation::isPlaying() const
 {
 	return mIsPlaying;
-}
-
-void Animation::updateCurrentFrame(const sf::Vector2i& currentFrameIndex)
-{
-	mCurrentFrame.left = currentFrameIndex.x * mFrameSize.width + (mFrameOffset.x * mFrameSize.width);
-	mCurrentFrame.top = currentFrameIndex.y * mFrameSize.height + (mFrameOffset.y * mFrameSize.height);
-	mCurrentFrame.width = mFrameSize.width;
-	mCurrentFrame.height = mFrameSize.height;
 }

@@ -11,10 +11,8 @@ EnemyMoveState* EnemyMoveState::getInstance()
 
 void EnemyMoveState::onSet(GameObject& object)
 {
+    mAnimation.setSpriteAtlasRegion(&object.getSpriteAtlas().getRegion("goomba_move"));
     mAnimation.setDuration(sf::seconds(0.25f));
-    mAnimation.setFrameCount({2, 0});
-    mAnimation.setFrameOffset({0, 0});
-    mAnimation.setFrameSize({0, 0, 32, 32});
     mAnimation.stop();
     mAnimation.play();
 
@@ -25,5 +23,5 @@ void EnemyMoveState::update(GameObject& object, const sf::Time& frameTime)
 {
     mAnimation.update(frameTime);
 
-    object.setTextureArea(mAnimation.getCurrentFrame());
+    object.setTextureArea(mAnimation.getCurrentSprite());
 }

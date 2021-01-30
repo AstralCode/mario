@@ -4,16 +4,18 @@
 #include <functional>
 
 #include "GamePhysics.hpp"
+#include "GameSpriteAtlasManager.hpp"
 
-GameObjectManager::GameObjectManager(GamePhysics& physics) :
-	mGamePhysics{physics}
+GameObjectManager::GameObjectManager(GamePhysics& physics, GameSpriteAtlasManager& spriteAtlasManager) :
+	mGamePhysics{physics},
+	mSpriteAtlasManager{spriteAtlasManager}
 {
 
 }
 
-GameObject* GameObjectManager::create(GraphicsSpriteItem* sprite)
+GameObject* GameObjectManager::create(const GameSpriteAtlas& spriteAtlas, GraphicsSpriteItem* sprite)
 {
-	auto object = std::make_unique<GameObject>(sprite);
+	auto object = std::make_unique<GameObject>(spriteAtlas, sprite);
 	auto objectPointer = object.get();
 
 	mGameObjects.push_back(std::move(object));

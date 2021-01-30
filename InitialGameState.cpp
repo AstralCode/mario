@@ -5,7 +5,7 @@
 
 InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) :
 	GameState{gameContextData, gameStateChanger},
-	mGameObjectFactory{gameContextData.getResourceContainer(), gameContextData.getGameObjectCreator()}
+	mGameObjectFactory{gameContextData.getGameResourceContainer(), gameContextData.getGameSpriteAtlasManager(), gameContextData.getGameObjectCreator()}
 {
 	mSceneLayer = getGraphicsScene().addItem();
 	mEnemiesLayer = mSceneLayer->addItem();

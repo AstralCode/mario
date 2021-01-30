@@ -4,8 +4,9 @@
 
 #include "Statistics.hpp"
 #include "GraphicsItem.hpp"
-#include "GameResourceManager.hpp"
 #include "GamePhysics.hpp"
+#include "GameResourceManager.hpp"
+#include "GameSpriteAtlasManager.hpp"
 #include "GameObjectManager.hpp"
 #include "GameContextData.hpp"
 #include "GameStateManager.hpp"
@@ -29,6 +30,7 @@ private:
 	void executeMainLoop();
 
 	void initializeStatistics();
+	void initializeGameSpriteAtlases();
 	void initializeGameState();
 
 	void loadResources();
@@ -48,8 +50,9 @@ private:
 	FPSCounter mFPSCounter;
 	Statistics mStatistics;
 	GraphicsItem mGraphicsScene;
-	GameResourceManager mGameResourceContainer;
 	GamePhysics mGamePhysics;
+	GameResourceManager mGameResourceContainer;
+	GameSpriteAtlasManager mGameSpriteAtlasManager;
 	GameObjectManager mGameObjectManager;
 	GameContextData mGameContextData;
 	GameStateManager mGameStateManager;

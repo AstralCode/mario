@@ -2,7 +2,8 @@
 
 #include "EmptyGameObjectState.hpp"
 
-GameObject::GameObject(GraphicsSpriteItem* sprite) :
+GameObject::GameObject(const GameSpriteAtlas& spriteAtlas, GraphicsSpriteItem* sprite) :
+	mSpriteAtlas{spriteAtlas},
     mSprite{sprite},
 	mState{EmptyGameObjectState::getInstance()},
 	mDirection{Directions::Right},
@@ -51,6 +52,12 @@ void GameObject::setAcceleration(const sf::Vector2f& acceleration)
 void GameObject::setMaxVelocity(const sf::Vector2f& velocity)
 {
 	mMaxVelocity = velocity;
+}
+
+void GameObject::setVelocity(const sf::Vector2f& velocity)
+{
+	mVelocity.x = std::min(velocity.x, mMaxVelocity.x);
+	mVelocity.y = std::min(velocity.y, mMaxVelocity.y);
 }
 
 void GameObject::accelerateVelocity(const sf::Vector2f& acceleration)
@@ -158,6 +165,11 @@ void GameObject::update(const sf::Time& frameTime)
 	mState->update(*this, frameTime);
 }
 
+const GameSpriteAtlas& GameObject::getSpriteAtlas() const
+{
+	return mSpriteAtlas;
+}
+
 sf::Vector2f GameObject::getPosition() const
 {
     return mSprite->getGlobalPosition();
@@ -206,10 +218,4 @@ bool GameObject::isContainsPoint(const sf::Vector2f& point) const
 bool GameObject::isDestroyed() const
 {
     return mState->isDestroyed();
-}
-
-void GameObject::setVelocity(const sf::Vector2f& velocity)
-{
-	mVelocity.x = std::min(velocity.x, mMaxVelocity.x);
-	mVelocity.y = std::min(velocity.y, mMaxVelocity.y);
 }

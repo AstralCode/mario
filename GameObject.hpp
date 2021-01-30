@@ -2,17 +2,17 @@
 
 #include "GameObjectState.hpp"
 #include "GraphicsSpriteItem.hpp"
+#include "GameSpriteAtlas.hpp"
 
 class GameObject
 {
 public:
 	enum class Directions
 	{
-		Left,
-		Right
+		Left, Right
 	};
 
-	GameObject(GraphicsSpriteItem* sprite);
+	GameObject(const GameSpriteAtlas& spriteAtlas, GraphicsSpriteItem* sprite);
 
 	void setState(GameObjectState* state);
 
@@ -23,6 +23,7 @@ public:
 	void setMaxAcceleration(const sf::Vector2f& acceleration);
 	void setAcceleration(const sf::Vector2f& acceleration);
 	void setMaxVelocity(const sf::Vector2f& velocity);
+	void setVelocity(const sf::Vector2f& velocity);
 
 	void accelerateVelocity(const sf::Vector2f& acceleration);
 	void move(const sf::Vector2f& offset);
@@ -37,6 +38,8 @@ public:
 	void receiveEvents(const sf::Event& event);
 	
 	void update(const sf::Time& frameTime);
+
+	const GameSpriteAtlas& getSpriteAtlas() const;
 
 	sf::Vector2f getPosition() const;
 
@@ -53,10 +56,8 @@ public:
 	bool isContainsPoint(const sf::Vector2f& point) const;
 	bool isDestroyed() const;
 
-protected:
-	void setVelocity(const sf::Vector2f& velocity);
-
 private:
+	const GameSpriteAtlas& mSpriteAtlas;
 	GraphicsSpriteItem* mSprite;
 	GameObjectState* mState;
 

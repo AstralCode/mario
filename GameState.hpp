@@ -4,6 +4,7 @@
 
 #include "EventReceiver.hpp"
 #include "GameResourceContainer.hpp"
+#include "GameSpriteAtlasManager.hpp"
 #include "GameObjectCreator.hpp"
 #include "GameObject.hpp"
 
@@ -33,7 +34,8 @@ public:
 	void onEscapePressed() override;
 
 	GraphicsItem& getGraphicsScene();
-	GameResourceContainer& getResourceContainer();
+	GameResourceContainer& getGameResourceContainer();
+	GameSpriteAtlasManager& getGameSpriteAtlasManager();
 	GameObjectCreator& getGameObjectCreator();
 
 protected:

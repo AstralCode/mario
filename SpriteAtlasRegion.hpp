@@ -7,16 +7,17 @@
 class SpriteAtlasRegion final
 {
 public:
+	SpriteAtlasRegion(const sf::Vector2i& offset = {}, const std::vector<std::vector<sf::IntRect>>&areas = {});
+
 	void setOffset(const sf::Vector2i& offset);
-	void setAreaSize(const sf::Vector2i& size);
-	void setSpriteAreas(const std::vector<sf::IntRect>& areas);
+	void setSpriteAreas(const std::vector<std::vector<sf::IntRect>>& areas);
 
 	const sf::Vector2i& getOffset() const;
-	const sf::Vector2i& getSpriteSize() const;
-	const std::vector<sf::IntRect>& getSpriteAreas() const;
+	const std::vector<std::vector<sf::IntRect>>& getSpriteAreas() const;
+
+	int getSpriteAreaCount() const;
 
 private:
 	sf::Vector2i mOffset;
-	sf::Vector2i mAreaSize;
-	std::vector<sf::IntRect> mSpriteAreas;
+	std::vector<std::vector<sf::IntRect>> mSpriteAreas;
 };

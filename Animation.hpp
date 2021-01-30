@@ -10,7 +10,9 @@ class SpriteAtlasRegion;
 class Animation final
 {
 public:
-	Animation(SpriteAtlasRegion& spriteAtlasRegion);
+	Animation();
+
+	void setSpriteAtlasRegion(const SpriteAtlasRegion* spriteAtlasRegion);
 
 	void setDuration(const sf::Time& durationTime);
 
@@ -20,24 +22,22 @@ public:
 
 	void update(const sf::Time& frameTime);
 
-	const sf::IntRect& getCurrentFrame() const;
+	const sf::IntRect& getCurrentSprite() const;
 
-	int getFrameCount() const;
+	int getSpriteCount() const;
 
 	const sf::Time& getDurationTime() const;
 
 	bool isPlaying() const;
 
 private:
-	void updateCurrentFrame(const sf::Vector2i& currentFrameIndex);
-
-	SpriteAtlasRegion& mSpriteAtlasRegion;
+	const SpriteAtlasRegion* mSpriteAtlasRegion;
 
 	sf::Time mDurationTime;
 	sf::Time mElapsedUpdateTime;
 
-	sf::Vector2i mCurrentFrameIndex;
-	sf::IntRect mCurrentFrame;
+	sf::Vector2i mCurrentSpriteIndex;
+	int mSpriteCount;
 
 	bool mIsPlaying;
 };

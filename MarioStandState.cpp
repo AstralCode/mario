@@ -12,8 +12,8 @@ MarioStandState* MarioStandState::getInstance()
 
 void MarioStandState::onSet(GameObject& object)
 {
+    object.setTextureArea(object.getSpriteAtlas().getRegion("mario_stand").getSpriteAreas()[0][0]);
     object.setAcceleration({});
-    object.setTextureArea({0, 0, 24, 32});
 }
 
 void MarioStandState::update(GameObject&, const sf::Time&)

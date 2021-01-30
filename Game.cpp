@@ -9,8 +9,8 @@ Game::Game() :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mFrameTime{sf::seconds(1.0f / 60u)},
 	mStatistics{mFPSCounter},
-	mGameObjectManager{mGamePhysics},
-	mGameContextData{mGraphicsScene, mGameResourceContainer, mGameObjectManager},
+	mGameObjectManager{mGamePhysics, mGameSpriteAtlasManager},
+	mGameContextData{mGraphicsScene, mGameResourceContainer, mGameSpriteAtlasManager, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {
 	mRenderWindow.setKeyRepeatEnabled(false);
@@ -20,6 +20,7 @@ void Game::run()
 {
 	loadResources();
 	initializeStatistics();
+	initializeGameSpriteAtlases();
 	executeMainLoop();
 }
 
@@ -153,6 +154,17 @@ void Game::initializeStatistics()
 	mStatistics.setPosition(5.0f, 5.0f);
 	mStatistics.setText(mGameResourceContainer.getFont(FontIdentifiers::Roboto));
 	mStatistics.setVisible(false);
+}
+
+void Game::initializeGameSpriteAtlases()
+{
+	auto& marioSprites = mGameSpriteAtlasManager.createAtlas("mario");
+	marioSprites.addRegion("mario_stand", {{0, 0}, {{{0, 0, 24, 32}}}});
+	marioSprites.addRegion("mario_move", {{1, 0}, {{{32, 0, 26, 32}, {64, 0, 26, 32}, {96, 0, 24, 32}}}});
+
+	auto& enemySprites = mGameSpriteAtlasManager.createAtlas("enemy");
+	enemySprites.addRegion("goomba_move", {{0, 0}, {{{0, 0, 32, 32}, {32, 0, 32, 32}}}});
+	enemySprites.addRegion("goomba_dead", {{2, 0}, {{{0, 16, 32, 16}}}});
 }
 
 void Game::initializeGameState()
