@@ -5,7 +5,7 @@
 Statistics::Statistics(FPSCounter& fpsCounter) :
 	mFPSCounter{fpsCounter},
 	mUpdateTime{sf::seconds(1.0f)},
-	mIsVisible{false}
+	mVisible{false}
 {
 	mFPSCounterGraphicsText = mGraphicsItem.addItem<GraphicsTextItem>();
 	mFPSCounterGraphicsText->setPosition(6.0f, 6.0f);
@@ -26,14 +26,14 @@ void Statistics::setText(const sf::Font& font, const unsigned int characterSize)
 
 void Statistics::setVisible(const bool visible)
 {
-	mIsVisible = visible;
+	mVisible = visible;
 }
 
-void Statistics::update(const sf::Time& deltaTime)
+void Statistics::update(const sf::Time& updateTime)
 {
 	if (isVisible())
 	{
-		mElapsedUpdateTime += deltaTime;
+		mElapsedUpdateTime += updateTime;
 
 		if (mElapsedUpdateTime > mUpdateTime)
 		{
@@ -60,5 +60,5 @@ const GraphicsItem& Statistics::getGraphics() const
 
 bool Statistics::isVisible()
 {
-	return mIsVisible;
+	return mVisible;
 }

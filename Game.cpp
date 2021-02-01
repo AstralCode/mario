@@ -7,7 +7,6 @@
 
 Game::Game() :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
-	mFrameTime{sf::seconds(1.0f / 60u)},
 	mStatistics{mFPSCounter},
 	mGameObjectManager{mGamePhysics, mGameSpriteAtlasManager},
 	mGameContextData{mGraphicsScene, mGameResourceContainer, mGameSpriteAtlasManager, mGameObjectManager},
@@ -54,14 +53,14 @@ void Game::processEvents()
 	mGameStateManager.executeRequests();
 }
 
-void Game::processLogic()
+void Game::processLogic(const sf::Time& frameTime)
 {
 	mGameObjectManager.clean();
-	mGameObjectManager.update(mFrameTime);
+	mGameObjectManager.update(frameTime);
 
 	mGraphicsScene.clean();
 
-	mGameStateManager.processLogic(mFrameTime);
+	mGameStateManager.processLogic(frameTime);
 	mGameStateManager.executeRequests();
 }
 
@@ -96,6 +95,7 @@ bool Game::isRunning() const
 
 void Game::executeMainLoop()
 {
+	const auto frameTime = sf::seconds(1.0f / 60);
 	const auto threadSleepTime = sf::milliseconds(10);
 
 	sf::Clock clock{};
@@ -106,13 +106,13 @@ void Game::executeMainLoop()
 
 	while (isRunning())
 	{
-		const auto deltaTime = clock.restart();
+		const auto loopTime = clock.restart();
 		bool renderFrame{false};
 
-		elapsedFrameUpdateTime += deltaTime;
-		elapsedFPSCounterUpdateTime += deltaTime;
+		elapsedFrameUpdateTime += loopTime;
+		elapsedFPSCounterUpdateTime += loopTime;
 
-		while (elapsedFrameUpdateTime > mFrameTime)
+		while (elapsedFrameUpdateTime > frameTime)
 		{
 			processEvents();
 
@@ -121,7 +121,7 @@ void Game::executeMainLoop()
 				break;
 			}
 
-			processLogic();
+			processLogic(frameTime);
 
 			if (!mGameStateManager.hasActiveStates())
 			{
@@ -130,7 +130,7 @@ void Game::executeMainLoop()
 
 			renderFrame = true;
 
-			elapsedFrameUpdateTime -= mFrameTime;
+			elapsedFrameUpdateTime -= frameTime;
 		}
 
 		if (renderFrame)
@@ -138,7 +138,7 @@ void Game::executeMainLoop()
 			processRender();
 		}
 
-		mStatistics.update(deltaTime);
+		mStatistics.update(loopTime);
 
 		if (!renderFrame)
 		{
@@ -159,12 +159,12 @@ void Game::initializeStatistics()
 void Game::initializeGameSpriteAtlases()
 {
 	auto& marioSprites = mGameSpriteAtlasManager.createAtlas("mario");
-	marioSprites.addRegion("mario_stand", {{0, 0}, {{{0, 0, 24, 32}}}});
-	marioSprites.addRegion("mario_move", {{1, 0}, {{{32, 0, 26, 32}, {64, 0, 26, 32}, {96, 0, 24, 32}}}});
+	marioSprites.addRegion("mario_stand", {{0, 0}, {32, 32}, {{{0, 0, 24, 32}}}});
+	marioSprites.addRegion("mario_move", {{1, 0}, {32, 32}, {{{0, 0, 26, 32}, {0, 0, 26, 32}, {0, 0, 24, 32}}}});
 
 	auto& enemySprites = mGameSpriteAtlasManager.createAtlas("enemy");
-	enemySprites.addRegion("goomba_move", {{0, 0}, {{{0, 0, 32, 32}, {32, 0, 32, 32}}}});
-	enemySprites.addRegion("goomba_dead", {{2, 0}, {{{0, 16, 32, 16}}}});
+	enemySprites.addRegion("goomba_move", {{0, 0}, {32, 32}, {{{0, 0, 32, 32}, {0, 0, 32, 32}}}});
+	enemySprites.addRegion("goomba_dead", {{2, 0}, {32, 32}, {{{0, 16, 32, 16}}}});
 }
 
 void Game::initializeGameState()

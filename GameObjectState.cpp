@@ -1,7 +1,7 @@
 #include "GameObjectState.hpp"
 
 GameObjectState::GameObjectState() :
-    mIsDestroyed{false}
+    mDestroyed{false}
 {
 
 }
@@ -13,7 +13,7 @@ void GameObjectState::onUnset(GameObject&)
 
 void GameObjectState::destroy()
 {
-    mIsDestroyed = true;
+    mDestroyed = true;
 }
 
 void GameObjectState::onKeyPressed(GameObject&, const sf::Event::KeyEvent&)
@@ -53,7 +53,7 @@ bool GameObjectState::isWreck() const
 
 bool GameObjectState::isDestroyed() const
 {
-    return mIsDestroyed && isWreck();
+    return mDestroyed && isWreck();
 }
 
 bool GameObjectState::isKey(const sf::Event::KeyEvent& keyEvent, const sf::Keyboard::Key keyCode) const

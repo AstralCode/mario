@@ -12,9 +12,10 @@ public:
 
 	void setPosition(const float x, const float y);
 	void setText(const sf::Font& font, const unsigned int characterSize = 12u);
+
 	void setVisible(const bool enabled);
 
-	void update(const sf::Time& deltaTime);
+	void update(const sf::Time& updateTime);
 
 	const FPSCounter& getFPSCounter() const;
 	const GraphicsItem& getGraphics() const;
@@ -30,5 +31,5 @@ private:
 	GraphicsItem mGraphicsItem;
 	GraphicsTextItem* mFPSCounterGraphicsText;
 
-	bool mIsVisible;
+	bool mVisible;
 };

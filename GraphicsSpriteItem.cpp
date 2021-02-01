@@ -3,8 +3,8 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 GraphicsSpriteItem::GraphicsSpriteItem() :
-	mIsHorizontalFlipped{false},
-	mIsVerticalFlipped{false}
+	mHorizontalFlipped{false},
+	mVerticalFlipped{false}
 {
 
 }
@@ -30,11 +30,11 @@ void GraphicsSpriteItem::flip(const Orientations orientation)
 	switch (orientation)
 	{
 	case Orientations::Horizontal:
-		mIsHorizontalFlipped = !mIsHorizontalFlipped;
+		mHorizontalFlipped = !mHorizontalFlipped;
 		break;
 
 	case Orientations::Vertical:
-		mIsVerticalFlipped = !mIsVerticalFlipped;
+		mVerticalFlipped = !mVerticalFlipped;
 		break;
 
 	default:
@@ -61,12 +61,12 @@ sf::FloatRect GraphicsSpriteItem::getBounds() const
 
 bool GraphicsSpriteItem::isFlippedHorizontally() const
 {
-	return mIsHorizontalFlipped;
+	return mHorizontalFlipped;
 }
 
 bool GraphicsSpriteItem::isFlippedVertically() const
 {
-	return mIsVerticalFlipped;
+	return mVerticalFlipped;
 }
 
 void GraphicsSpriteItem::updateArea()

@@ -69,5 +69,5 @@ private:
 	sf::Vector2f mDirectionFactor;
 	Directions mDirection;
 
-	bool mIsMouseOver;
+	bool mMouseOver;
 };

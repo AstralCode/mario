@@ -8,7 +8,7 @@ GameObject::GameObject(const GameSpriteAtlas& spriteAtlas, GraphicsSpriteItem* s
 	mState{EmptyGameObjectState::getInstance()},
 	mDirection{Directions::Right},
 	mDirectionFactor{+1.0f, 0.0f},
-	mIsMouseOver{false}
+	mMouseOver{false}
 {
 
 }
@@ -133,7 +133,7 @@ void GameObject::receiveEvents(const sf::Event& event)
 
 		if (mouseOver)
 		{
-			if (mIsMouseOver)
+			if (mMouseOver)
 			{
 				mState->onMouseOver(*this, event.mouseMove);
 			}
@@ -141,15 +141,15 @@ void GameObject::receiveEvents(const sf::Event& event)
 			{
 				mState->onMouseEnter(*this, event.mouseMove);
 				mState->onMouseOver(*this, event.mouseMove);
-				mIsMouseOver = true;
+				mMouseOver = true;
 			}
 		}
 		else
 		{
-			if (mIsMouseOver)
+			if (mMouseOver)
 			{
 				mState->onMouseLeave(*this, event.mouseMove);
-				mIsMouseOver = false;
+				mMouseOver = false;
 			}
 		}
 		break;

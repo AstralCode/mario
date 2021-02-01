@@ -35,5 +35,5 @@ protected:
 	bool isKey(const sf::Event::KeyEvent& keyEvent, const sf::Keyboard::Key keyCode) const;
 
 private:
-	bool mIsDestroyed;
+	bool mDestroyed;
 };

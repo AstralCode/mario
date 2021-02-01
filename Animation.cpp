@@ -4,8 +4,8 @@
 
 Animation::Animation() :
 	mSpriteAtlasRegion{nullptr},
-	mSpriteCount{0},
-	mIsPlaying{false}
+	mCurrentSpriteIndex{0},
+	mPlaying{false}
 {
 
 }
@@ -13,7 +13,6 @@ Animation::Animation() :
 void Animation::setSpriteAtlasRegion(const SpriteAtlasRegion* spriteAtlasRegion)
 {
 	mSpriteAtlasRegion = spriteAtlasRegion;
-	mSpriteCount = spriteAtlasRegion->getSpriteAreaCount();
 }
 
 void Animation::setDuration(const sf::Time& durationTime)
@@ -23,48 +22,35 @@ void Animation::setDuration(const sf::Time& durationTime)
 
 void Animation::play()
 {
-	mIsPlaying = true;
+	mPlaying = true;
 }
 
 void Animation::pause()
 {
-	mIsPlaying = false;
+	mPlaying = false;
 }
 
 void Animation::stop()
 {
 	mElapsedUpdateTime = sf::Time::Zero;
-	mCurrentSpriteIndex = sf::Vector2i{};
-	mIsPlaying = false;
+	mCurrentSpriteIndex = 0;
+	mPlaying = false;
 }
 
 void Animation::update(const sf::Time& frameTime)
 {
 	if (isPlaying())
 	{
-		const auto animationFrameTime = mDurationTime / static_cast<float>(getSpriteCount());
+		const auto spriteCount = getSpriteCount();
+		const auto animationFrameTime = mDurationTime / static_cast<float>(spriteCount);
 
 		mElapsedUpdateTime += frameTime;
 
 		while (mElapsedUpdateTime > animationFrameTime)
 		{
-			const auto& spriteAreas = mSpriteAtlasRegion->getSpriteAreas();
-
-			sf::Vector2i spriteCount{};
-			spriteCount.x = static_cast<int>(spriteAreas[mCurrentSpriteIndex.y].size());
-			spriteCount.y = static_cast<int>(spriteAreas.size());
-
-			++mCurrentSpriteIndex.x;
-
-			if (mCurrentSpriteIndex.x >= spriteCount.x)
+			if (++mCurrentSpriteIndex >= spriteCount)
 			{
-				mCurrentSpriteIndex.x = 0;
-				++mCurrentSpriteIndex.y;
-			}
-
-			if (mCurrentSpriteIndex.y >= spriteCount.y)
-			{
-				mCurrentSpriteIndex.y = 0;
+				mCurrentSpriteIndex = 0;
 			}
 
 			mElapsedUpdateTime -= animationFrameTime;
@@ -74,12 +60,12 @@ void Animation::update(const sf::Time& frameTime)
 
 const sf::IntRect& Animation::getCurrentSprite() const
 {
-	return mSpriteAtlasRegion->getSpriteAreas()[mCurrentSpriteIndex.y][mCurrentSpriteIndex.x];
+	return mSpriteAtlasRegion->getSprite(mCurrentSpriteIndex);
 }
 
 int Animation::getSpriteCount() const
 {
-	return mSpriteCount;
+	return mSpriteAtlasRegion->getSpriteCount();
 }
 
 const sf::Time& Animation::getDurationTime() const
@@ -89,5 +75,5 @@ const sf::Time& Animation::getDurationTime() const
 
 bool Animation::isPlaying() const
 {
-	return mIsPlaying;
+	return mPlaying;
 }

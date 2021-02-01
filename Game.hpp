@@ -19,7 +19,7 @@ public:
 	void run();
 
 	void processEvents();
-	void processLogic();
+	void processLogic(const sf::Time& frameTime);
 	void processRender();
 
 	GameContextData& getContextData();
@@ -45,7 +45,6 @@ private:
 	std::string getTexturePath() const;
 
 	sf::RenderWindow mRenderWindow;
-	sf::Time mFrameTime;
 
 	FPSCounter mFPSCounter;
 	Statistics mStatistics;

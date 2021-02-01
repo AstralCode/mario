@@ -1,40 +1,33 @@
 #include "SpriteAtlasRegion.hpp"
 
-SpriteAtlasRegion::SpriteAtlasRegion(const sf::Vector2i& offset, const std::vector<std::vector<sf::IntRect>>& areas) :
-    mOffset{offset},
-    mSpriteAreas{areas}
+SpriteAtlasRegion::SpriteAtlasRegion(const sf::Vector2i& offset, const sf::Vector2i& spriteSize, const std::vector<std::vector<sf::IntRect>>& areas)
 {
-
+    initializeSpriteAreas(offset, spriteSize, areas);
 }
 
-void SpriteAtlasRegion::setOffset(const sf::Vector2i& offset)
+const sf::IntRect& SpriteAtlasRegion::getSprite(const int index) const
 {
-    mOffset = offset;
+    return mSpriteAreas[index];
 }
 
-void SpriteAtlasRegion::setSpriteAreas(const std::vector<std::vector<sf::IntRect>>& areas)
+int SpriteAtlasRegion::getSpriteCount() const
 {
-    mSpriteAreas = areas;
+    return static_cast<int>(mSpriteAreas.size());
 }
 
-const sf::Vector2i& SpriteAtlasRegion::getOffset() const
+void SpriteAtlasRegion::initializeSpriteAreas(const sf::Vector2i& offset, const sf::Vector2i& spriteSize, const std::vector<std::vector<sf::IntRect>>& areas)
 {
-    return mOffset;
-}
-
-const std::vector<std::vector<sf::IntRect>>& SpriteAtlasRegion::getSpriteAreas() const
-{
-    return mSpriteAreas;
-}
-
-int SpriteAtlasRegion::getSpriteAreaCount() const
-{
-    int areaCount{0};
-
-    for (auto& areas : mSpriteAreas)
+    for (int j{0}; j < static_cast<int>(areas.size()); j++)
     {
-        areaCount += static_cast<int>(areas.size());
-    }
+        for (int i{0}; i < static_cast<int>(areas[j].size()); i++)
+        {
+            sf::IntRect spriteArea{};
+            spriteArea.left = (offset.x * spriteSize.x) + (i * spriteSize.x) + areas[j][i].left;
+            spriteArea.top = (offset.y * spriteSize.y) + (j * spriteSize.y) + areas[j][i].top;
+            spriteArea.width = areas[j][i].width;
+            spriteArea.height = areas[j][i].height;
 
-    return areaCount;
+            mSpriteAreas.push_back(spriteArea);
+        }
+    }
 }

@@ -46,8 +46,8 @@ private:
 
 	GraphicsItem* mParentItem;
 
-	bool mIsVisible;
-	bool mIsRemoved;
+	bool mVisible;
+	bool mRemoved;
 
 	std::vector<std::unique_ptr<GraphicsItem>> mItems;
 };

@@ -7,20 +7,20 @@
 
 GraphicsItem::GraphicsItem() :
 	mParentItem{nullptr},
-	mIsVisible{true},
-	mIsRemoved{false}
+	mVisible{true},
+	mRemoved{false}
 {
 
 }
 
 void GraphicsItem::setVisible(const bool visible)
 {
-	mIsVisible = visible;
+	mVisible = visible;
 }
 
 void GraphicsItem::remove()
 {
-	mIsRemoved = true;
+	mRemoved = true;
 }
 
 void GraphicsItem::addItem(std::unique_ptr<GraphicsItem> item)
@@ -74,12 +74,12 @@ bool GraphicsItem::isIntersectsItem(const GraphicsItem& item) const
 
 bool GraphicsItem::isVisible() const
 {
-	return mIsVisible;
+	return mVisible;
 }
 
 bool GraphicsItem::isRemoved() const
 {
-	return mIsRemoved;
+	return mRemoved;
 }
 
 void GraphicsItem::setParent(GraphicsItem* item)
@@ -100,7 +100,7 @@ void GraphicsItem::cleanItems()
 
 void GraphicsItem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	if (mIsVisible)
+	if (mVisible)
 	{
 		states.transform.combine(getTransform());
 

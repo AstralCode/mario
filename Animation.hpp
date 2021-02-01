@@ -36,8 +36,7 @@ private:
 	sf::Time mDurationTime;
 	sf::Time mElapsedUpdateTime;
 
-	sf::Vector2i mCurrentSpriteIndex;
-	int mSpriteCount;
+	int mCurrentSpriteIndex;
 
-	bool mIsPlaying;
+	bool mPlaying;
 };
