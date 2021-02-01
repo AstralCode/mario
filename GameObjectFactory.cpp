@@ -19,8 +19,8 @@ GameObjectFactory::GameObjectFactory(GameResourceContainer& gameResourceContaine
 GameObject* GameObjectFactory::createMario(GraphicsItem* sceneLayer) const
 {
 	auto object = create(mGameSpriteAtlasManager.getAtlas("mario"), sceneLayer, TextureIdentifiers::Mario);
-	object->setMaxAcceleration({32.0f * 28.0f, 0.0f});
-	object->setMaxVelocity({32.0f * 28.0f, 0.0f});
+	object->setMaxAcceleration({32.0f * 18.0f, 0.0f});
+	object->setMaxVelocity({32.0f * 18.0f, 0.0f});
 	object->setState(MarioStandState::getInstance());
 
 	return object;
@@ -29,8 +29,8 @@ GameObject* GameObjectFactory::createMario(GraphicsItem* sceneLayer) const
 GameObject* GameObjectFactory::createGoomba(GraphicsItem* sceneLayer) const
 {
 	auto object = create(mGameSpriteAtlasManager.getAtlas("enemy"), sceneLayer, TextureIdentifiers::Enemies);
-	object->setMaxAcceleration({32.0f * 14.0f, 0.0f});
-    object->setMaxVelocity({32.0f * 14.0f, 0.0f});
+	object->setMaxAcceleration({32.0f * 8.0f, 0.0f});
+    object->setMaxVelocity({32.0f * 8.0f, 0.0f});
 	object->setState(EnemyMoveState::getInstance());
 
 	return object;

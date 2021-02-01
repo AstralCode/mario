@@ -39,6 +39,11 @@ void GameObject::setTextureArea(const sf::IntRect& area)
     mSprite->setTextureArea(area);
 }
 
+void GameObject::setSprite(const std::string& identifier, const int index)
+{
+	setTextureArea(getSpriteAtlas().getRegion(identifier).getSprite(index));
+}
+
 void GameObject::setMaxAcceleration(const sf::Vector2f& acceleration)
 {
 	mMaxAcceleration = acceleration;

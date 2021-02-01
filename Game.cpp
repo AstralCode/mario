@@ -161,6 +161,7 @@ void Game::initializeGameSpriteAtlases()
 	auto& marioSprites = mGameSpriteAtlasManager.createAtlas("mario");
 	marioSprites.addRegion("mario_stand", {{0, 0}, {32, 32}, {{{0, 0, 24, 32}}}});
 	marioSprites.addRegion("mario_move", {{1, 0}, {32, 32}, {{{0, 0, 26, 32}, {0, 0, 26, 32}, {0, 0, 24, 32}}}});
+	marioSprites.addRegion("mario_slide", {{8, 0}, {32, 32}, {{{0, 0, 24, 32}}}});
 
 	auto& enemySprites = mGameSpriteAtlasManager.createAtlas("enemy");
 	enemySprites.addRegion("goomba_move", {{0, 0}, {32, 32}, {{{0, 0, 32, 32}, {0, 0, 32, 32}}}});

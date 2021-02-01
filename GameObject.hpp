@@ -19,6 +19,7 @@ public:
 	void setPosition(const sf::Vector2f& position);
 	void setTexture(const sf::Texture& texture);
 	void setTextureArea(const sf::IntRect& area);
+	void setSprite(const std::string& identifier, const int index);
 
 	void setMaxAcceleration(const sf::Vector2f& acceleration);
 	void setAcceleration(const sf::Vector2f& acceleration);

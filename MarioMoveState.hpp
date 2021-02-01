@@ -16,6 +16,9 @@ public:
 
 private:
 	static MarioMoveState mState;
+		
+	void moveLeft(GameObject& object) const;
+	void moveRight(GameObject& object) const;
 
 	Animation mAnimation;
 };
