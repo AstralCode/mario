@@ -100,7 +100,7 @@ void GraphicsItem::cleanItems()
 
 void GraphicsItem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	if (mVisible)
+	if (isVisible())
 	{
 		states.transform.combine(getTransform());
 
