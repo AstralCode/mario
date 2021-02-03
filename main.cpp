@@ -1,7 +1,7 @@
-#include "Game.hpp"
+#include "GameEngine.hpp"
 
 int main()
 {
-	Game classicMarioGame{};
-	classicMarioGame.run();
+	GameEngine marioGameEngine{};
+	marioGameEngine.run();
 }

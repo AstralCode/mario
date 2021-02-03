@@ -122,7 +122,7 @@ GameState* GameStateManager::findState(const GameStateIdentifiers identifier) co
 	auto gameStatesIterator = mGameStates.find(identifier);
 	if (gameStatesIterator == mGameStates.cend())
 	{
-		throw std::logic_error("Game state not found!");
+		throw std::logic_error("GameEngine state not found!");
 	}
 
 	return gameStatesIterator->second.get();

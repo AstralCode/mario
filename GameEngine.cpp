@@ -1,11 +1,11 @@
-#include "Game.hpp"
+#include "GameEngine.hpp"
 
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Sleep.hpp>
 
 #include "InitialGameState.hpp"
 
-Game::Game() :
+GameEngine::GameEngine() :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mStatistics{mFPSCounter},
 	mGameObjectManager{mGamePhysics, mGameSpriteAtlasManager},
@@ -15,7 +15,7 @@ Game::Game() :
 	mRenderWindow.setKeyRepeatEnabled(false);
 }
 
-void Game::run()
+void GameEngine::run()
 {
 	loadResources();
 	initializeStatistics();
@@ -23,7 +23,7 @@ void Game::run()
 	executeMainLoop();
 }
 
-void Game::processEvents()
+void GameEngine::processEvents()
 {
 	sf::Event event{};
 
@@ -53,7 +53,7 @@ void Game::processEvents()
 	mGameStateManager.executeRequests();
 }
 
-void Game::processLogic(const sf::Time& frameTime)
+void GameEngine::processLogic(const sf::Time& frameTime)
 {
 	mGameObjectManager.clean();
 	mGameObjectManager.update(frameTime);
@@ -64,7 +64,7 @@ void Game::processLogic(const sf::Time& frameTime)
 	mGameStateManager.executeRequests();
 }
 
-void Game::processRender()
+void GameEngine::processRender()
 {
 	if (mStatistics.isVisible())
 	{
@@ -83,17 +83,17 @@ void Game::processRender()
 	mRenderWindow.display();
 }
 
-GameContextData& Game::getContextData()
+GameContextData& GameEngine::getContextData()
 {
 	return mGameContextData;
 }
 
-bool Game::isRunning() const
+bool GameEngine::isRunning() const
 {
 	return mGameStateManager.hasActiveStates();
 }
 
-void Game::executeMainLoop()
+void GameEngine::executeMainLoop()
 {
 	const auto frameTime = sf::seconds(1.0f / 60);
 	const auto threadSleepTime = sf::milliseconds(10);
@@ -149,14 +149,14 @@ void Game::executeMainLoop()
 	mRenderWindow.close();
 }
 
-void Game::initializeStatistics()
+void GameEngine::initializeStatistics()
 {
 	mStatistics.setPosition(5.0f, 5.0f);
 	mStatistics.setText(mGameResourceContainer.getFont(FontIdentifiers::Roboto));
 	mStatistics.setVisible(false);
 }
 
-void Game::initializeGameSpriteAtlases()
+void GameEngine::initializeGameSpriteAtlases()
 {
 	auto& marioSprites = mGameSpriteAtlasManager.createAtlas("mario");
 	marioSprites.addRegion("mario_stand", {{0, 0}, {32, 32}, {{{0, 0, 24, 32}}}});
@@ -168,51 +168,51 @@ void Game::initializeGameSpriteAtlases()
 	enemySprites.addRegion("goomba_dead", {{2, 0}, {32, 32}, {{{0, 16, 32, 16}}}});
 }
 
-void Game::initializeGameState()
+void GameEngine::initializeGameState()
 {
 	mGameStateManager.registerState<InitialGameState>(GameStateIdentifiers::Initial);
 	mGameStateManager.pushState(GameStateIdentifiers::Initial);
 }
 
-void Game::loadResources()
+void GameEngine::loadResources()
 {
 	loadFonts();
 	loadTextures();
 }
 
-void Game::loadFonts()
+void GameEngine::loadFonts()
 {
 	mGameResourceContainer.addFont(FontIdentifiers::Roboto, makeFontPath("Roboto.ttf"));
 }
 
-void Game::loadTextures()
+void GameEngine::loadTextures()
 {
 	mGameResourceContainer.addTexture(TextureIdentifiers::Enemies, makeTexturePath("Enemies.png"));
 	mGameResourceContainer.addTexture(TextureIdentifiers::Mario, makeTexturePath("Mario.png"));
 	mGameResourceContainer.addTexture(TextureIdentifiers::Scenery, makeTexturePath("Scenery.png"));
 }
 
-std::string Game::makeFontPath(const std::string& filename) const
+std::string GameEngine::makeFontPath(const std::string& filename) const
 {
 	return getFontPath() + filename;
 }
 
-std::string Game::makeTexturePath(const std::string& filename) const
+std::string GameEngine::makeTexturePath(const std::string& filename) const
 {
 	return getTexturePath() + filename;
 }
 
-std::string Game::getResourcesPath() const
+std::string GameEngine::getResourcesPath() const
 {
 	return "Resources/";
 }
 
-std::string Game::getFontPath() const
+std::string GameEngine::getFontPath() const
 {
 	return getResourcesPath() + "Fonts/";
 }
 
-std::string Game::getTexturePath() const
+std::string GameEngine::getTexturePath() const
 {
 	return getResourcesPath() + "Textures/";
 }

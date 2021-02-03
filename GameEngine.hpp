@@ -11,10 +11,10 @@
 #include "GameContextData.hpp"
 #include "GameStateManager.hpp"
 
-class Game final
+class GameEngine final
 {
 public:
-	Game();
+	GameEngine();
 
 	void run();
 
