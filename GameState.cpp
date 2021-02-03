@@ -44,6 +44,11 @@ void GameState::onEscapePressed()
 
 }
 
+TiledMap& GameState::getTiledMap()
+{
+	return mGameContextData.getTiledMap();
+}
+
 GraphicsItem& GameState::getGraphicsScene()
 {
 	return mGameContextData.getGraphicsScene();

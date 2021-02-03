@@ -9,7 +9,7 @@ GameEngine::GameEngine() :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mStatistics{mFPSCounter},
 	mGameObjectManager{mGamePhysics, mGameSpriteAtlasManager},
-	mGameContextData{mGraphicsScene, mGameResourceContainer, mGameSpriteAtlasManager, mGameObjectManager},
+	mGameContextData{mTiledMap, mGraphicsScene, mGameResourceContainer, mGameSpriteAtlasManager, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {
 	mRenderWindow.setKeyRepeatEnabled(false);
@@ -23,12 +23,23 @@ void GameEngine::run()
 	executeMainLoop();
 }
 
+GameContextData& GameEngine::getContextData()
+{
+	return mGameContextData;
+}
+
+bool GameEngine::isRunning() const
+{
+	return mGameStateManager.hasActiveStates();
+}
+
 void GameEngine::processEvents()
 {
 	sf::Event event{};
 
 	while (mRenderWindow.pollEvent(event))
 	{
+		mTiledMap.receiveEvents(event);
 		mGameObjectManager.receiveEvents(event);
 		mGameStateManager.processEvents(event);
 
@@ -72,7 +83,10 @@ void GameEngine::processRender()
 	}
 
 	mRenderWindow.clear();
+
+	mRenderWindow.draw(mTiledMap);
 	mRenderWindow.draw(mGraphicsScene);
+	mRenderWindow.draw(mTiledMap.getGrid());
 
 	if (mStatistics.isVisible())
 	{
@@ -81,16 +95,6 @@ void GameEngine::processRender()
 	}
 
 	mRenderWindow.display();
-}
-
-GameContextData& GameEngine::getContextData()
-{
-	return mGameContextData;
-}
-
-bool GameEngine::isRunning() const
-{
-	return mGameStateManager.hasActiveStates();
 }
 
 void GameEngine::executeMainLoop()

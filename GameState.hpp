@@ -3,6 +3,7 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 #include "EventReceiver.hpp"
+#include "TiledMap.hpp"
 #include "GameResourceContainer.hpp"
 #include "GameSpriteAtlasManager.hpp"
 #include "GameObjectCreator.hpp"
@@ -33,6 +34,7 @@ public:
 
 	void onEscapePressed() override;
 
+	TiledMap& getTiledMap();
 	GraphicsItem& getGraphicsScene();
 	GameResourceContainer& getGameResourceContainer();
 	GameSpriteAtlasManager& getGameSpriteAtlasManager();

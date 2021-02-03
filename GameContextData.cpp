@@ -1,12 +1,18 @@
 #include "GameContextData.hpp"
 
-GameContextData::GameContextData(GraphicsItem& graphicsScene, GameResourceContainer& gameResourceContainer, GameSpriteAtlasManager& gameSpriteAtlasManager, GameObjectCreator& gameObjectCreator) :
+GameContextData::GameContextData(TiledMap& tiledMap, GraphicsItem& graphicsScene, GameResourceContainer& gameResourceContainer, GameSpriteAtlasManager& gameSpriteAtlasManager, GameObjectCreator& gameObjectCreator) :
+	mTiledMap{tiledMap},
 	mGraphicsScene{graphicsScene},
 	mGameResourceContainer{gameResourceContainer},
 	mGameSpriteAtlasManager{gameSpriteAtlasManager},
 	mGameObjectCreator{gameObjectCreator}
 {
 
+}
+
+TiledMap& GameContextData::getTiledMap()
+{
+	return mTiledMap;
 }
 
 GraphicsItem& GameContextData::getGraphicsScene()

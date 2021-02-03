@@ -3,8 +3,9 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Statistics.hpp"
-#include "GraphicsItem.hpp"
+#include "TiledMap.hpp"
 #include "GamePhysics.hpp"
+#include "GraphicsItem.hpp"
 #include "GameResourceManager.hpp"
 #include "GameSpriteAtlasManager.hpp"
 #include "GameObjectManager.hpp"
@@ -18,13 +19,14 @@ public:
 
 	void run();
 
-	void processEvents();
-	void processLogic(const sf::Time& frameTime);
-	void processRender();
-
 	GameContextData& getContextData();
 
 	bool isRunning() const;
+
+protected:
+	void processEvents();
+	void processLogic(const sf::Time& frameTime);
+	void processRender();
 
 private:
 	void executeMainLoop();
@@ -48,8 +50,9 @@ private:
 
 	FPSCounter mFPSCounter;
 	Statistics mStatistics;
-	GraphicsItem mGraphicsScene;
+	TiledMap mTiledMap;
 	GamePhysics mGamePhysics;
+	GraphicsItem mGraphicsScene;
 	GameResourceManager mGameResourceContainer;
 	GameSpriteAtlasManager mGameSpriteAtlasManager;
 	GameObjectManager mGameObjectManager;

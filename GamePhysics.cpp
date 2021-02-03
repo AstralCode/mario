@@ -37,7 +37,7 @@ void GamePhysics::updatePosition(GameObject& object, const sf::Time& frameTime) 
     object.move(move);
 }
 
-void GamePhysics::applyFriction(GameObject& object, const sf::Time& frameTime) const
+void GamePhysics::applyFriction(GameObject& object, const sf::Time&) const
 {
     const auto friction = getFriction();
 

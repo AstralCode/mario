@@ -18,6 +18,10 @@ private:
 	void onEscapePressed() override;
 
 	GraphicsItem* mSceneLayer;
+
+	GraphicsItem* mBackgroundLayer;
+	GraphicsItem* mPlayersLayer;
 	GraphicsItem* mEnemiesLayer;
+
 	GameObjectFactory mGameObjectFactory;
 };
