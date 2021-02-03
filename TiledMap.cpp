@@ -27,11 +27,13 @@ void TiledMap::receiveEvents(const sf::Event& event)
 	switch (event.type)
 	{
 	case sf::Event::MouseButtonPressed:
+	{
 		if (isContainsPoint({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)}))
 		{
 
 		}
 		break;
+	}
 
 	case sf::Event::MouseMoved:
 	{
@@ -72,7 +74,7 @@ bool TiledMap::isGridVisible() const
 	return mGrid.isVisible();
 }
 
-void TiledMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void TiledMap::draw(sf::RenderTarget&, sf::RenderStates) const
 {
 
 }
