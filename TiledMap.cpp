@@ -39,7 +39,34 @@ void TiledMap::receiveEvents(const sf::Event& event)
 	{
 		if (isContainsPoint({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)}))
 		{
+			if (isGridVisible())
+			{
+				const auto tileIndex = mGrid.getTileIndex({event.mouseButton.x, event.mouseButton.y});
+				auto tileIdentifier = mTileIdentifierMap[tileIndex.y][tileIndex.x];
 
+				if (event.mouseButton.button == sf::Mouse::Button::Left)
+				{
+					++tileIdentifier;
+
+					if (tileIdentifier < calculateTextureTileIdentifierCount(mGrid.getTileSize()))
+					{
+						setTileSprite(tileIdentifier, tileIndex);
+					}
+				}
+				else if (event.mouseButton.button == sf::Mouse::Button::Right)
+				{
+					--tileIdentifier;
+
+					if (tileIdentifier > 0u)
+					{
+						setTileSprite(tileIdentifier, tileIndex);
+					}
+					else
+					{
+						clearTileSprite(tileIndex);
+					}
+				}
+			}
 		}
 		break;
 	}
@@ -60,48 +87,33 @@ void TiledMap::receiveEvents(const sf::Event& event)
 
 void TiledMap::build(const sf::Vector2u& tileSize)
 {
-	constexpr const auto quadCornerCounts = 4u;
-	
-	sf::Vector2u tileCount{};
-	tileCount.x = mTileIdentifierMap[0u].size();
-	tileCount.y = mTileIdentifierMap.size();
+	const auto tileCount = calculateTileCount();
+
+	mGrid.setTileSize(tileSize);
+	mGrid.setTileCount(tileCount);
+	mGrid.build();
 
 	mBackgroundVerticlesArray.clear();
-	mBackgroundVerticlesArray.resize(quadCornerCounts);
+	mBackgroundVerticlesArray.resize(4u);
 	mBackgroundVerticlesArray[0u] = sf::Vertex{sf::Vector2f{0.0f, 0.0f}, mBackgroundColor};
 	mBackgroundVerticlesArray[1u] = sf::Vertex{sf::Vector2f{static_cast<float>(tileSize.x * tileCount.x), 0.0f}, mBackgroundColor};
 	mBackgroundVerticlesArray[2u] = sf::Vertex{sf::Vector2f{static_cast<float>(tileSize.x * tileCount.x), static_cast<float>(tileSize.y * tileCount.y)}, mBackgroundColor};
 	mBackgroundVerticlesArray[3u] = sf::Vertex{sf::Vector2f{0.0f, static_cast<float>(tileSize.y * tileCount.y)}, mBackgroundColor};
 
 	mTileVerticlesArray.clear();
-	mTileVerticlesArray.resize(static_cast<std::size_t>(tileCount.x) * static_cast<std::size_t>(tileCount.y) * quadCornerCounts);
+	mTileVerticlesArray.resize(static_cast<std::size_t>(tileCount.x) * static_cast<std::size_t>(tileCount.y) * 4u);
 
-	for (std::size_t y = 0u; y < tileCount.y; y++)
+	for (sf::Vector2u tileIndex{}; tileIndex.y < tileCount.y; tileIndex.y++)
 	{
-		for (std::size_t x = 0u; x < tileCount.x; x++)
+		for (tileIndex.x = 0u; tileIndex.x < tileCount.x; tileIndex.x++)
 		{
-			auto tileIdentifier = mTileIdentifierMap[y][x];
-
-			if (tileIdentifier-- > 0u)
+			auto tileIdentifier = mTileIdentifierMap[tileIndex.y][tileIndex.x];
+			if (tileIdentifier > 0u)
 			{
-				sf::Vertex* tileVerticles = &mTileVerticlesArray[(y * tileCount.x + x) * quadCornerCounts];
-				tileVerticles[0u].position = sf::Vector2f{static_cast<float>(x * tileSize.x), static_cast<float>(y * tileSize.y)};
-				tileVerticles[1u].position = sf::Vector2f{static_cast<float>((x + 1u) * tileSize.x), static_cast<float>(y * tileSize.y)};
-				tileVerticles[2u].position = sf::Vector2f{static_cast<float>((x + 1u) * tileSize.x), static_cast<float>((y + 1u) * tileSize.y)};
-				tileVerticles[3u].position = sf::Vector2f{static_cast<float>(x * tileSize.x), static_cast<float>((y + 1u) * tileSize.y)};
-
-				const auto textureTilePosition = calculateTextureTilePosition(tileIdentifier, tileSize);
-				tileVerticles[0u].texCoords = sf::Vector2f{static_cast<float>(textureTilePosition.x * tileSize.x), static_cast<float>(textureTilePosition.y * tileSize.y)};
-				tileVerticles[1u].texCoords = sf::Vector2f{static_cast<float>((textureTilePosition.x + 1u) * tileSize.x), static_cast<float>(textureTilePosition.y * tileSize.y)};
-				tileVerticles[2u].texCoords = sf::Vector2f{static_cast<float>((textureTilePosition.x + 1u) * tileSize.x), static_cast<float>((textureTilePosition.y + 1u) * tileSize.y)};
-				tileVerticles[3u].texCoords = sf::Vector2f{static_cast<float>(textureTilePosition.x * tileSize.x), static_cast<float>((textureTilePosition.y + 1u) * tileSize.y)};
+				setTileSprite(--tileIdentifier, tileIndex);
 			}
 		}
 	}
-
-	mGrid.setTileSize(tileSize);
-	mGrid.setTileCount(tileCount);
-	mGrid.build();
 }
 
 const TiledMapGrid& TiledMap::getGrid() const
@@ -131,6 +143,53 @@ sf::Vector2u TiledMap::calculateTextureTilePosition(const unsigned int tileIdent
 	position.y = tileIdentifier / (mTileset->getSize().x / tileSize.x);
 
 	return position;
+}
+
+unsigned int TiledMap::calculateTextureTileIdentifierCount(const sf::Vector2u& tileSize) const
+{
+	return (mTileset->getSize().x / tileSize.x) * (mTileset->getSize().y / tileSize.y);
+}
+
+sf::Vector2u TiledMap::calculateTileCount() const
+{
+	sf::Vector2u tileCount{};
+	tileCount.x = mTileIdentifierMap[0u].size();
+	tileCount.y = mTileIdentifierMap.size();
+
+	return tileCount;
+}
+
+void TiledMap::setTileSprite(const unsigned int tileIdentifier, const sf::Vector2u& tileIndex)
+{
+	const std::size_t verticlesArrayIndex = (static_cast<std::size_t>(tileIndex.y) * calculateTileCount().x + static_cast<std::size_t>(tileIndex.x)) * 4u;
+	sf::Vertex* tileVerticles = &mTileVerticlesArray[verticlesArrayIndex];
+
+	auto& tileSize = mGrid.getTileSize();
+
+	tileVerticles[0u].position = sf::Vector2f{static_cast<float>(tileIndex.x * tileSize.x), static_cast<float>(tileIndex.y * tileSize.y)};
+	tileVerticles[1u].position = sf::Vector2f{static_cast<float>((tileIndex.x + 1u) * tileSize.x), static_cast<float>(tileIndex.y * tileSize.y)};
+	tileVerticles[2u].position = sf::Vector2f{static_cast<float>((tileIndex.x + 1u) * tileSize.x), static_cast<float>((tileIndex.y + 1u) * tileSize.y)};
+	tileVerticles[3u].position = sf::Vector2f{static_cast<float>(tileIndex.x * tileSize.x), static_cast<float>((tileIndex.y + 1u) * tileSize.y)};
+
+	const auto textureTilePosition = calculateTextureTilePosition(tileIdentifier, tileSize);
+
+	tileVerticles[0u].texCoords = sf::Vector2f{static_cast<float>(textureTilePosition.x * tileSize.x), static_cast<float>(textureTilePosition.y * tileSize.y)};
+	tileVerticles[1u].texCoords = sf::Vector2f{static_cast<float>((textureTilePosition.x + 1u) * tileSize.x), static_cast<float>(textureTilePosition.y * tileSize.y)};
+	tileVerticles[2u].texCoords = sf::Vector2f{static_cast<float>((textureTilePosition.x + 1u) * tileSize.x), static_cast<float>((textureTilePosition.y + 1u) * tileSize.y)};
+	tileVerticles[3u].texCoords = sf::Vector2f{static_cast<float>(textureTilePosition.x * tileSize.x), static_cast<float>((textureTilePosition.y + 1u) * tileSize.y)};
+
+	mTileIdentifierMap[tileIndex.y][tileIndex.x] = tileIdentifier;
+}
+
+void TiledMap::clearTileSprite(const sf::Vector2u& tileIndex)
+{
+	const std::size_t verticlesArrayIndex = (static_cast<std::size_t>(tileIndex.y) * calculateTileCount().x + static_cast<std::size_t>(tileIndex.x)) * 4u;
+	sf::Vertex* tileVerticles = &mTileVerticlesArray[verticlesArrayIndex];
+
+	tileVerticles[0u] = {};
+	tileVerticles[1u] = {};
+	tileVerticles[2u] = {};
+	tileVerticles[3u] = {};
 }
 
 void TiledMap::draw(sf::RenderTarget& target, sf::RenderStates states) const

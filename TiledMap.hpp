@@ -28,6 +28,11 @@ public:
 
 private:
 	sf::Vector2u calculateTextureTilePosition(const unsigned int tileIdentifier, const sf::Vector2u& tileSize) const;
+	unsigned int calculateTextureTileIdentifierCount(const sf::Vector2u& tileSize) const;
+	sf::Vector2u calculateTileCount() const;
+
+	void setTileSprite(const unsigned int tileIdentifier, const sf::Vector2u& tileIndex);
+	void clearTileSprite(const sf::Vector2u& tileIndex);
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
