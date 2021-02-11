@@ -3,16 +3,16 @@
 #include "SpriteAtlasRegion.hpp"
 
 Animation::Animation() :
-	mSpriteAtlasRegion{nullptr},
+	mSprites{nullptr},
 	mCurrentSpriteIndex{0},
 	mPlaying{false}
 {
 
 }
 
-void Animation::setSpriteAtlasRegion(const SpriteAtlasRegion* spriteAtlasRegion)
+void Animation::setSprites(const SpriteAtlasRegion* spriteAtlasRegion)
 {
-	mSpriteAtlasRegion = spriteAtlasRegion;
+	mSprites = spriteAtlasRegion;
 }
 
 void Animation::setDuration(const sf::Time& durationTime)
@@ -60,12 +60,12 @@ void Animation::update(const sf::Time& frameTime)
 
 const sf::IntRect& Animation::getCurrentSprite() const
 {
-	return mSpriteAtlasRegion->getSprite(mCurrentSpriteIndex);
+	return mSprites->getSprite(mCurrentSpriteIndex);
 }
 
 int Animation::getSpriteCount() const
 {
-	return mSpriteAtlasRegion->getSpriteCount();
+	return mSprites->getSpriteCount();
 }
 
 const sf::Time& Animation::getDurationTime() const

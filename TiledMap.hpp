@@ -9,26 +9,38 @@ class TiledMap final : public sf::Drawable
 public:
 	TiledMap();
 
-	void setTileSize(const sf::Vector2f& size);
-	void setTileCount(const sf::Vector2i& count);
+	void setTileset(const sf::Texture* tileset);
+	void setTileIdentifierMap(const std::vector<std::vector<unsigned int>>& identifierMap);
 
+	void setBackgroundColor(const sf::Color& color);
 	void setGridVisible(const bool visible);
 
 	void receiveEvents(const sf::Event& event);
 
-	void build();
+	void build(const sf::Vector2u& tileSize);
 
 	const TiledMapGrid& getGrid() const;
 
-	const sf::Vector2f& getTileSize() const;
-	const sf::Vector2i& getTileCount() const;
+	const sf::Vector2u& getTileSize() const;
+	const sf::Vector2u& getTileCount() const;
 
 	bool isGridVisible() const;
 
 private:
+	sf::Vector2u calculateTextureTilePosition(const unsigned int tileIdentifier, const sf::Vector2u& tileSize) const;
+
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	bool isContainsPoint(const sf::Vector2f& point) const;
 
+	const sf::Texture* mTileset;
+
+	sf::Color mBackgroundColor;
+
+	sf::VertexArray mBackgroundVerticlesArray;
+	sf::VertexArray mTileVerticlesArray;
+
 	TiledMapGrid mGrid;
+
+	std::vector<std::vector<unsigned int>> mTileIdentifierMap;
 };

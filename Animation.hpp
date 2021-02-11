@@ -12,7 +12,7 @@ class Animation final
 public:
 	Animation();
 
-	void setSpriteAtlasRegion(const SpriteAtlasRegion* spriteAtlasRegion);
+	void setSprites(const SpriteAtlasRegion* spriteAtlasRegion);
 
 	void setDuration(const sf::Time& durationTime);
 
@@ -31,7 +31,7 @@ public:
 	bool isPlaying() const;
 
 private:
-	const SpriteAtlasRegion* mSpriteAtlasRegion;
+	const SpriteAtlasRegion* mSprites;
 
 	sf::Time mDurationTime;
 	sf::Time mElapsedUpdateTime;

@@ -8,19 +8,19 @@ class TiledMapGrid final : public sf::Drawable
 public:
 	TiledMapGrid();
 
-	void setTileSize(const sf::Vector2f& size);
-	void setTileCount(const sf::Vector2i& count);
+	void setTileSize(const sf::Vector2u& size);
+	void setTileCount(const sf::Vector2u& count);
 
 	void setVisible(const bool visible);
 	void setGridColor(const sf::Color& color);
 
 	void build();
 
-	const sf::Vector2f& getTileSize() const;
-	const sf::Vector2i& getTileCount() const;
+	const sf::Vector2u& getTileSize() const;
+	const sf::Vector2u& getTileCount() const;
 
-	sf::Vector2i getTileIndex(const sf::Vector2i& mousePosition) const;
-	sf::Vector2f getTilePosition(const sf::Vector2i& index) const;
+	sf::Vector2u getTileIndex(const sf::Vector2i& mousePosition) const;
+	sf::Vector2f getTilePosition(const sf::Vector2u& index) const;
 
 	sf::FloatRect getBounds() const;
 
@@ -29,8 +29,8 @@ public:
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-	sf::Vector2f mTileSize;
-	sf::Vector2i mTileCount;
+	sf::Vector2u mTileSize;
+	sf::Vector2u mTileCount;
 
 	sf::Color mGridColor;
 

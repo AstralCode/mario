@@ -11,7 +11,7 @@ EnemyMoveState* EnemyMoveState::getInstance()
 
 void EnemyMoveState::onSet(GameObject& object)
 {
-    mAnimation.setSpriteAtlasRegion(&object.getSpriteAtlas().getRegion("goomba_move"));
+    mAnimation.setSprites(&object.getSpriteAtlas().getRegion("goomba_move"));
     mAnimation.setDuration(sf::seconds(0.25f));
     mAnimation.stop();
     mAnimation.play();

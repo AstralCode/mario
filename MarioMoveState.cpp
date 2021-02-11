@@ -12,7 +12,7 @@ MarioMoveState* MarioMoveState::getInstance()
 
 void MarioMoveState::onSet(GameObject& object)
 {
-    mAnimation.setSpriteAtlasRegion(&object.getSpriteAtlas().getRegion("mario_move"));
+    mAnimation.setSprites(&object.getSpriteAtlas().getRegion("mario_move"));
     mAnimation.setDuration(sf::seconds(0.25f));
     mAnimation.stop();
     mAnimation.play();
@@ -26,7 +26,7 @@ void MarioMoveState::update(GameObject& object, const sf::Time& frameTime)
 
     object.setTextureArea(mAnimation.getCurrentSprite());
 
-    const auto minVelocity = 6.0f;
+    const auto minVelocity = 4.0f;
 
     if (std::abs(object.getVelocity().x) > minVelocity)
     {

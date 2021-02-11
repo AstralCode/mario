@@ -10,27 +10,43 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 {
 	mSceneLayer = getGraphicsScene().addItem();
 
-	mBackgroundLayer = mSceneLayer->addItem();
 	mPlayersLayer = mSceneLayer->addItem();
 	mEnemiesLayer = mSceneLayer->addItem();
 }
 
 void InitialGameState::onEnter()
 {
-	auto& tiledMap = getTiledMap();
-	tiledMap.setTileSize({32.0f, 32.0f});
-	tiledMap.setTileCount({640 / 32, 480 / 32});
-	tiledMap.build();
+	const sf::Color backgroundColor{97, 133, 246};
 
-	auto sky = mBackgroundLayer->addItem<GraphicsRectangleItem>();
-	sky->setSize({640u, 480u});
-	sky->setFillColor({97, 133, 246});
+	const std::vector< std::vector<unsigned int>> tileIdentifierMap = {
+		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 120, 121, 122, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 138, 139, 140, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000,  51, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000,  47,  48,  50, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{  47,  48,  49,  48,  50, 000, 000, 000, 000, 000, 000,  44,  45,  45,  45,  46, 000, 000, 000, 000 },
+		{ 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001 },
+		{ 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001 }
+	};
+
+	auto& tiledMap = getTiledMap();
+	tiledMap.setTileset(&getTexture(TextureIdentifiers::Scenery));
+	tiledMap.setTileIdentifierMap(tileIdentifierMap);
+	tiledMap.setBackgroundColor(backgroundColor);
+	tiledMap.build({32u, 32u});
 
 	auto mario = mGameObjectFactory.createMario(mPlayersLayer);
-	mario->setPosition({32, 32});
+	mario->setPosition(tiledMap.getGrid().getTilePosition({3, 12}));
 
 	auto goomba = mGameObjectFactory.createGoomba(mEnemiesLayer);
-	goomba->setPosition({96, 32});
+	goomba->setPosition(tiledMap.getGrid().getTilePosition({5, 12}));
 }
 
 void InitialGameState::onLeave()

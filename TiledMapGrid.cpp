@@ -9,12 +9,12 @@ TiledMapGrid::TiledMapGrid() :
 	mTiledMapVertexArray.setPrimitiveType(sf::PrimitiveType::Lines);
 }
 
-void TiledMapGrid::setTileSize(const sf::Vector2f& size)
+void TiledMapGrid::setTileSize(const sf::Vector2u& size)
 {
 	mTileSize = size;
 }
 
-void TiledMapGrid::setTileCount(const sf::Vector2i& count)
+void TiledMapGrid::setTileCount(const sf::Vector2u& count)
 {
 	mTileCount = count;
 }
@@ -33,7 +33,7 @@ void TiledMapGrid::build()
 {
 	mTiledMapVertexArray.clear();
 
-	for (int y{0}; y < mTileCount.y; ++y)
+	for (unsigned int y{0u}; y < mTileCount.y; ++y)
 	{
 		sf::Vector2f horizontalLeft{};
 		horizontalLeft.x = 0.0f;
@@ -47,7 +47,7 @@ void TiledMapGrid::build()
 		mTiledMapVertexArray.append(sf::Vertex{horizontalRight, mGridColor});
 	}
 
-	for (int x{0}; x < mTileCount.x; ++x)
+	for (unsigned int x{0u}; x < mTileCount.x; ++x)
 	{
 		sf::Vector2f verticalTop{};
 		verticalTop.x = x * mTileSize.x;
@@ -62,26 +62,26 @@ void TiledMapGrid::build()
 	}
 }
 
-const sf::Vector2f& TiledMapGrid::getTileSize() const
+const sf::Vector2u& TiledMapGrid::getTileSize() const
 {
 	return mTileSize;
 }
 
-const sf::Vector2i& TiledMapGrid::getTileCount() const
+const sf::Vector2u& TiledMapGrid::getTileCount() const
 {
 	return mTileCount;
 }
 
-sf::Vector2i TiledMapGrid::getTileIndex(const sf::Vector2i& mousePosition) const
+sf::Vector2u TiledMapGrid::getTileIndex(const sf::Vector2i& mousePosition) const
 {
-	sf::Vector2i index{};
+	sf::Vector2u index{};
 	index.x = mousePosition.x / mTileSize.x;
 	index.y = mousePosition.y / mTileSize.y;
 
 	return index;
 }
 
-sf::Vector2f TiledMapGrid::getTilePosition(const sf::Vector2i& index) const
+sf::Vector2f TiledMapGrid::getTilePosition(const sf::Vector2u& index) const
 {
 	sf::Vector2f position{};
 	position.x = mTileSize.x * index.x;
