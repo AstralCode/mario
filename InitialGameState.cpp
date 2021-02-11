@@ -18,7 +18,7 @@ void InitialGameState::onEnter()
 {
 	const sf::Color backgroundColor{97, 133, 246};
 
-	const std::vector< std::vector<unsigned int>> tileIdentifierMap = {
+	const std::vector<std::vector<unsigned int>> tileIdentifierMap = {
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
