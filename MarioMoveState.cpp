@@ -3,20 +3,8 @@
 #include "GameObject.hpp"
 #include "MarioStandState.hpp"
 
-MarioMoveState MarioMoveState::mState;
-
-MarioMoveState* MarioMoveState::getInstance()
-{
-    return &mState;
-}
-
 void MarioMoveState::onSet(GameObject& object)
 {
-    mAnimation.setSprites(&object.getSpriteAtlas().getRegion("mario_move"));
-    mAnimation.setDuration(sf::seconds(0.25f));
-    mAnimation.stop();
-    mAnimation.play();
-
     object.setAcceleration(object.getMaxAcceleration());
 }
 
@@ -36,23 +24,23 @@ void MarioMoveState::update(GameObject& object, const sf::Time& frameTime)
 
         if (sliding)
         {
-            object.setSprite("mario_slide", 0);
+            //object.setSprite("mario_slide", 0);
         }
 
     }
     else if (object.getAcceleration().x == 0.0f)
     {
-        object.setState(MarioStandState::getInstance());
+        //object.setState(MarioStandState::getInstance());
     }
 }
 
 void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent)
 {
-    if (isKey(keyEvent, sf::Keyboard::Q))
+    if (keyEvent.code == sf::Keyboard::Q)
     {
         moveLeft(object);
     }
-    else if (isKey(keyEvent, sf::Keyboard::E))
+    else if (keyEvent.code == sf::Keyboard::E)
     {
         moveRight(object);
     }
@@ -60,19 +48,19 @@ void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent&
 
 void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent)
 {
-    if (isKey(keyEvent, sf::Keyboard::Q) || isKey(keyEvent, sf::Keyboard::E))
+    if (keyEvent.code == sf::Keyboard::Q || keyEvent.code == sf::Keyboard::E)
     {
         object.setAcceleration({});
     }
 
-    if (isKey(keyEvent, sf::Keyboard::Q))
+    if (keyEvent.code == sf::Keyboard::Q)
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
         {
             moveRight(object);
         }
     }
-    else if (isKey(keyEvent, sf::Keyboard::E))
+    else if (keyEvent.code == sf::Keyboard::E)
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
         {

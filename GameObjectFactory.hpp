@@ -1,28 +1,31 @@
 #pragma once
 
 #include "GameResourceIdentifiers.hpp"
-#include "EmptyGameObjectState.hpp"
 
 class GameObject;
 class GameObjectState;
 class GraphicsItem;
-class GameSpriteAtlasManager;
+class GameSpriteAtlasContainer;
 class GameSpriteAtlas;
 class GameObjectCreator;
 class GameResourceContainer;
+class AnimationFactory;
 
 class GameObjectFactory final
 {
 public:
-	GameObjectFactory(GameResourceContainer& gameResourceContainer, GameSpriteAtlasManager& gameSpriteAtlasManager, GameObjectCreator& gameObjectCreator);
+	GameObjectFactory(GameResourceContainer& gameResourceContainer, GameSpriteAtlasContainer& gameSpriteAtlasContainer, GameObjectCreator& gameObjectCreator, AnimationFactory& animationFactory);
 
 	GameObject* createMario(GraphicsItem* sceneLayer) const;
 	GameObject* createGoomba(GraphicsItem* sceneLayer) const;
 
+	GameObject* createCoin(GraphicsItem* sceneLayer) const;
+
 private:
-	GameObject* create(const GameSpriteAtlas& gameSpriteAtlas, GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier) const;
+	GameObject* create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier) const;
 
 	GameResourceContainer& mGameResourceContainer;
-	GameSpriteAtlasManager& mGameSpriteAtlasManager;
+	GameSpriteAtlasContainer& mGameSpriteAtlasContainer;
 	GameObjectCreator& mGameObjectCreator;
+	AnimationFactory& mAnimationFactory;
 };

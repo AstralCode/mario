@@ -39,13 +39,6 @@ private:
 	void loadFonts();
 	void loadTextures();
 
-	std::string makeFontPath(const std::string& filename) const;
-	std::string makeTexturePath(const std::string& filename) const;
-
-	std::string getResourcesPath() const;
-	std::string getFontPath() const;
-	std::string getTexturePath() const;
-
 	sf::RenderWindow mRenderWindow;
 
 	FPSCounter mFPSCounter;
@@ -53,7 +46,7 @@ private:
 	TiledMap mTiledMap;
 	GamePhysics mGamePhysics;
 	GraphicsItem mGraphicsScene;
-	GameResourceManager mGameResourceContainer;
+	GameResourceManager mGameResourceManager;
 	GameSpriteAtlasManager mGameSpriteAtlasManager;
 	GameObjectManager mGameObjectManager;
 	GameContextData mGameContextData;

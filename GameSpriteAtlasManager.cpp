@@ -10,7 +10,7 @@ GameSpriteAtlas& GameSpriteAtlasManager::createAtlas(const std::string& identifi
 	return *atlasPointer;
 }
 
-GameSpriteAtlas& GameSpriteAtlasManager::getAtlas(const std::string& identifier) const
+const GameSpriteAtlas& GameSpriteAtlasManager::getAtlas(const std::string& identifier) const
 {
 	return *mSpriteAtlases.at(identifier);
 }

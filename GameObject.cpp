@@ -1,11 +1,7 @@
 #include "GameObject.hpp"
 
-#include "EmptyGameObjectState.hpp"
-
-GameObject::GameObject(const GameSpriteAtlas& spriteAtlas, GraphicsSpriteItem* sprite) :
-	mSpriteAtlas{spriteAtlas},
+GameObject::GameObject(GraphicsSpriteItem* sprite) :
     mSprite{sprite},
-	mState{EmptyGameObjectState::getInstance()},
 	mDirection{Directions::Right},
 	mDirectionFactor{+1.0f, 0.0f},
 	mMouseOver{false}
@@ -13,14 +9,14 @@ GameObject::GameObject(const GameSpriteAtlas& spriteAtlas, GraphicsSpriteItem* s
 
 }
 
-void GameObject::setState(GameObjectState* state)
+void GameObject::setState(std::unique_ptr<GameObjectState> state)
 {
 	if (mState)
 	{
 		mState->onUnset(*this);
 	}
 
-	mState = state;
+	mState = std::move(state);
 	mState->onSet(*this);
 }
 
@@ -37,11 +33,6 @@ void GameObject::setTexture(const sf::Texture& texture)
 void GameObject::setTextureArea(const sf::IntRect& area)
 {
     mSprite->setTextureArea(area);
-}
-
-void GameObject::setSprite(const std::string& identifier, const int index)
-{
-	setTextureArea(getSpriteAtlas().getRegion(identifier).getSprite(index));
 }
 
 void GameObject::setMaxAcceleration(const sf::Vector2f& acceleration)
@@ -168,11 +159,6 @@ void GameObject::receiveEvents(const sf::Event& event)
 void GameObject::update(const sf::Time& frameTime)
 {
 	mState->update(*this, frameTime);
-}
-
-const GameSpriteAtlas& GameObject::getSpriteAtlas() const
-{
-	return mSpriteAtlas;
 }
 
 sf::Vector2f GameObject::getPosition() const

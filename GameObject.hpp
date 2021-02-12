@@ -12,14 +12,13 @@ public:
 		Left, Right
 	};
 
-	GameObject(const GameSpriteAtlas& spriteAtlas, GraphicsSpriteItem* sprite);
+	GameObject(GraphicsSpriteItem* sprite);
 
-	void setState(GameObjectState* state);
+	void setState(std::unique_ptr<GameObjectState> state);
 
 	void setPosition(const sf::Vector2f& position);
 	void setTexture(const sf::Texture& texture);
 	void setTextureArea(const sf::IntRect& area);
-	void setSprite(const std::string& identifier, const int index);
 
 	void setMaxAcceleration(const sf::Vector2f& acceleration);
 	void setAcceleration(const sf::Vector2f& acceleration);
@@ -40,8 +39,6 @@ public:
 	
 	void update(const sf::Time& frameTime);
 
-	const GameSpriteAtlas& getSpriteAtlas() const;
-
 	sf::Vector2f getPosition() const;
 
 	const sf::Vector2f& getMaxAcceleration() const;
@@ -58,9 +55,8 @@ public:
 	bool isDestroyed() const;
 
 private:
-	const GameSpriteAtlas& mSpriteAtlas;
 	GraphicsSpriteItem* mSprite;
-	GameObjectState* mState;
+	std::unique_ptr<GameObjectState> mState;
 
 	sf::Vector2f mMaxAcceleration;
 	sf::Vector2f mAcceleration;

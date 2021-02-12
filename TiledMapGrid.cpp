@@ -37,11 +37,11 @@ void TiledMapGrid::build()
 	{
 		sf::Vector2f horizontalLeft{};
 		horizontalLeft.x = 0.0f;
-		horizontalLeft.y = y * mTileSize.y;
+		horizontalLeft.y = static_cast<float>(y * mTileSize.y);
 
 		sf::Vector2f horizontalRight{};
-		horizontalRight.x = mTileSize.x * mTileCount.x;
-		horizontalRight.y = y * mTileSize.y;
+		horizontalRight.x = static_cast<float>(mTileSize.x * mTileCount.x);
+		horizontalRight.y = static_cast<float>(y * mTileSize.y);
 
 		mTiledMapVertexArray.append(sf::Vertex{horizontalLeft, mGridColor});
 		mTiledMapVertexArray.append(sf::Vertex{horizontalRight, mGridColor});
@@ -50,12 +50,12 @@ void TiledMapGrid::build()
 	for (unsigned int x{0u}; x < mTileCount.x; ++x)
 	{
 		sf::Vector2f verticalTop{};
-		verticalTop.x = x * mTileSize.x;
+		verticalTop.x = static_cast<float>(x * mTileSize.x);
 		verticalTop.y = 0.0f;
 
 		sf::Vector2f verticalBottom{};
-		verticalBottom.x = x * mTileSize.x;
-		verticalBottom.y = mTileSize.y * mTileCount.y;
+		verticalBottom.x = static_cast<float>(x * mTileSize.x);
+		verticalBottom.y = static_cast<float>(mTileSize.y * mTileCount.y);
 
 		mTiledMapVertexArray.append(sf::Vertex{verticalTop, mGridColor});
 		mTiledMapVertexArray.append(sf::Vertex{verticalBottom, mGridColor});
@@ -84,8 +84,8 @@ sf::Vector2u TiledMapGrid::getTileIndex(const sf::Vector2i& mousePosition) const
 sf::Vector2f TiledMapGrid::getTilePosition(const sf::Vector2u& index) const
 {
 	sf::Vector2f position{};
-	position.x = mTileSize.x * index.x;
-	position.y = mTileSize.y * index.y;
+	position.x = static_cast<float>(mTileSize.x * index.x);
+	position.y = static_cast<float>(mTileSize.y * index.y);
 
 	return position;
 }
@@ -95,8 +95,8 @@ sf::FloatRect TiledMapGrid::getBounds() const
 	sf::FloatRect bounds{};
 	bounds.left = 0.0f;
 	bounds.top = 0.0f;
-	bounds.width = mTileSize.x * mTileCount.x;
-	bounds.height = mTileSize.y * mTileCount.y;
+	bounds.width = static_cast<float>(mTileSize.x * mTileCount.x);
+	bounds.height = static_cast<float>(mTileSize.y * mTileCount.y);
 
 	return bounds;
 }

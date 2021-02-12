@@ -3,6 +3,8 @@
 #include "SFML/System/Time.hpp"
 #include "SFML/Window/Event.hpp"
 
+#include "Animation.hpp"
+
 class GameObject;
 
 class GameObjectState
@@ -11,12 +13,14 @@ public:
 	GameObjectState();
 	virtual ~GameObjectState() = default;
 
-	virtual void onSet(GameObject& object) = 0;
+	virtual void onSet(GameObject& object);
 	virtual void onUnset(GameObject& object);
+
+	void setAnimation(std::unique_ptr<Animation> animation);
 
 	void destroy();
 
-	virtual void update(GameObject& object, const sf::Time& frameTime) = 0;
+	virtual void update(GameObject& object, const sf::Time& frameTime);
 
 	virtual void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent);
 	virtual void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent);
@@ -32,7 +36,7 @@ public:
 	bool isDestroyed() const;
 
 protected:
-	bool isKey(const sf::Event::KeyEvent& keyEvent, const sf::Keyboard::Key keyCode) const;
+	std::unique_ptr<Animation> mAnimation;
 
 private:
 	bool mDestroyed;

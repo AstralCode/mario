@@ -3,24 +3,24 @@
 class TiledMap;
 class GraphicsItem;
 class GameResourceContainer;
-class GameSpriteAtlasManager;
+class GameSpriteAtlasContainer;
 class GameObjectCreator;
 
 class GameContextData final
 {
 public:
-	GameContextData(TiledMap& tiledMap, GraphicsItem& graphicsScene, GameResourceContainer& gameResourceContainer, GameSpriteAtlasManager& gameSpriteAtlasManager, GameObjectCreator& gameObjectCreator);
+	GameContextData(TiledMap& tiledMap, GraphicsItem& graphicsScene, GameResourceContainer& gameResourceContainer, GameSpriteAtlasContainer& gameSpriteAtlasContainer, GameObjectCreator& gameObjectCreator);
 
 	TiledMap& getTiledMap();
 	GraphicsItem& getGraphicsScene();
 	GameResourceContainer& getGameResourceContainer();
-	GameSpriteAtlasManager& getGameSpriteAtlasManager();
+	GameSpriteAtlasContainer& getGameSpriteAtlasContainer();
 	GameObjectCreator& getGameObjectCreator();
 
 private:
 	TiledMap& mTiledMap;
 	GraphicsItem& mGraphicsScene;
 	GameResourceContainer& mGameResourceContainer;
-	GameSpriteAtlasManager& mGameSpriteAtlasManager;
+	GameSpriteAtlasContainer& mGameSpriteAtlasContainer;
 	GameObjectCreator& mGameObjectCreator;
 };

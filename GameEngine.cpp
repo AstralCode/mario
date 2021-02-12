@@ -8,8 +8,8 @@
 GameEngine::GameEngine() :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mStatistics{mFPSCounter},
-	mGameObjectManager{mGamePhysics, mGameSpriteAtlasManager},
-	mGameContextData{mTiledMap, mGraphicsScene, mGameResourceContainer, mGameSpriteAtlasManager, mGameObjectManager},
+	mGameObjectManager{mGamePhysics},
+	mGameContextData{mTiledMap, mGraphicsScene, mGameResourceManager, mGameSpriteAtlasManager, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {
 	mRenderWindow.setKeyRepeatEnabled(false);
@@ -156,20 +156,25 @@ void GameEngine::executeMainLoop()
 void GameEngine::initializeStatistics()
 {
 	mStatistics.setPosition(5.0f, 5.0f);
-	mStatistics.setText(mGameResourceContainer.getFont(FontIdentifiers::Roboto));
+	mStatistics.setText(mGameResourceManager.getFont(FontIdentifiers::Roboto));
 	mStatistics.setVisible(false);
 }
 
 void GameEngine::initializeGameSpriteAtlases()
 {
-	auto& marioSprites = mGameSpriteAtlasManager.createAtlas("mario");
-	marioSprites.addRegion("mario_stand", {{0, 0}, {32, 32}, {{{0, 0, 24, 32}}}});
-	marioSprites.addRegion("mario_move", {{1, 0}, {32, 32}, {{{0, 0, 26, 32}, {0, 0, 26, 32}, {0, 0, 24, 32}}}});
-	marioSprites.addRegion("mario_slide", {{8, 0}, {32, 32}, {{{0, 0, 24, 32}}}});
+	const sf::Vector2i spriteSize{32, 32};
 
-	auto& enemySprites = mGameSpriteAtlasManager.createAtlas("enemy");
-	enemySprites.addRegion("goomba_move", {{0, 0}, {32, 32}, {{{0, 0, 32, 32}, {0, 0, 32, 32}}}});
-	enemySprites.addRegion("goomba_dead", {{2, 0}, {32, 32}, {{{0, 16, 32, 16}}}});
+	auto& marioSprites = mGameSpriteAtlasManager.createAtlas(SpriteAtlasIdentifiers::Mario);
+	marioSprites.addRegion(SpriteAtlasRegionIdentifiers::Mario::Stand, {spriteSize, {0, 0}, {{{0, 0, 24, 32}}}});
+	marioSprites.addRegion(SpriteAtlasRegionIdentifiers::Mario::Move, {spriteSize, {1, 0}, {{{0, 0, 26, 32}, {0, 0, 26, 32}, {0, 0, 24, 32}}}});
+	marioSprites.addRegion(SpriteAtlasRegionIdentifiers::Mario::Slide, {spriteSize, {8, 0}, {{{0, 0, 24, 32}}}});
+
+	auto& enemySprites = mGameSpriteAtlasManager.createAtlas(SpriteAtlasIdentifiers::Enemy);
+	enemySprites.addRegion(SpriteAtlasRegionIdentifiers::Goomba::Move, {spriteSize, {0, 0}, {{{0, 0, 32, 32}, {0, 0, 32, 32}}}});
+	enemySprites.addRegion(SpriteAtlasRegionIdentifiers::Goomba::Dead, {spriteSize, {2, 0}, {{{0, 16, 32, 16}}}});
+
+	auto& itemSprites = mGameSpriteAtlasManager.createAtlas(SpriteAtlasIdentifiers::Items);
+	itemSprites.addRegion(SpriteAtlasRegionIdentifiers::Items::Coin, {spriteSize, {12, 12}, {{{6, 2, 20, 28}, {6, 2, 20, 28}, {6, 2, 20, 28}}}});
 }
 
 void GameEngine::initializeGameState()
@@ -186,37 +191,12 @@ void GameEngine::loadResources()
 
 void GameEngine::loadFonts()
 {
-	mGameResourceContainer.addFont(FontIdentifiers::Roboto, makeFontPath("Roboto.ttf"));
+	mGameResourceManager.addFont(FontIdentifiers::Roboto, ResourcePaths::Fonts::Roboto);
 }
 
 void GameEngine::loadTextures()
 {
-	mGameResourceContainer.addTexture(TextureIdentifiers::Enemies, makeTexturePath("Enemies.png"));
-	mGameResourceContainer.addTexture(TextureIdentifiers::Mario, makeTexturePath("Mario.png"));
-	mGameResourceContainer.addTexture(TextureIdentifiers::Scenery, makeTexturePath("Scenery.png"));
-}
-
-std::string GameEngine::makeFontPath(const std::string& filename) const
-{
-	return getFontPath() + filename;
-}
-
-std::string GameEngine::makeTexturePath(const std::string& filename) const
-{
-	return getTexturePath() + filename;
-}
-
-std::string GameEngine::getResourcesPath() const
-{
-	return "Resources/";
-}
-
-std::string GameEngine::getFontPath() const
-{
-	return getResourcesPath() + "Fonts/";
-}
-
-std::string GameEngine::getTexturePath() const
-{
-	return getResourcesPath() + "Textures/";
+	mGameResourceManager.addTexture(TextureIdentifiers::Enemies, ResourcePaths::Textures::Enemies);
+	mGameResourceManager.addTexture(TextureIdentifiers::Mario, ResourcePaths::Textures::Mario);
+	mGameResourceManager.addTexture(TextureIdentifiers::Scenery, ResourcePaths::Textures::Scenery);
 }

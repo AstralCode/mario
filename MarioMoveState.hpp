@@ -6,8 +6,6 @@
 class MarioMoveState final : public GameObjectState
 {
 public:
-	static MarioMoveState* getInstance();
-
 	void onSet(GameObject& object) override;
 	void update(GameObject& object, const sf::Time& frameTime);
 
@@ -15,8 +13,6 @@ public:
 	void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) override;
 
 private:
-	static MarioMoveState mState;
-		
 	void moveLeft(GameObject& object) const;
 	void moveRight(GameObject& object) const;
 

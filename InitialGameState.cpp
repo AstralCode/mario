@@ -6,12 +6,14 @@
 
 InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) :
 	GameState{gameContextData, gameStateChanger},
-	mGameObjectFactory{gameContextData.getGameResourceContainer(), gameContextData.getGameSpriteAtlasManager(), gameContextData.getGameObjectCreator()}
+	mAnimationFactory{gameContextData.getGameResourceContainer(), gameContextData.getGameSpriteAtlasContainer()},
+	mGameObjectFactory{gameContextData.getGameResourceContainer(), gameContextData.getGameSpriteAtlasContainer(), gameContextData.getGameObjectCreator(), mAnimationFactory}
 {
 	mSceneLayer = getGraphicsScene().addItem();
 
 	mPlayersLayer = mSceneLayer->addItem();
 	mEnemiesLayer = mSceneLayer->addItem();
+	mItemsLayer = mSceneLayer->addItem();
 }
 
 void InitialGameState::onEnter()
@@ -42,11 +44,17 @@ void InitialGameState::onEnter()
 	tiledMap.setBackgroundColor(backgroundColor);
 	tiledMap.build({32u, 32u});
 
-	auto mario = mGameObjectFactory.createMario(mPlayersLayer);
-	mario->setPosition(tiledMap.getGrid().getTilePosition({3, 12}));
-
 	auto goomba = mGameObjectFactory.createGoomba(mEnemiesLayer);
 	goomba->setPosition(tiledMap.getGrid().getTilePosition({5, 12}));
+
+	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({10, 7}));
+	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({11, 7}));
+	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({12, 7}));
+	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({13, 7}));
+	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({10, 8}));
+	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({11, 8}));
+	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({12, 8}));
+	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({13, 8}));
 }
 
 void InitialGameState::onLeave()

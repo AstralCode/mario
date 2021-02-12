@@ -59,9 +59,9 @@ GameResourceContainer& GameState::getGameResourceContainer()
 	return mGameContextData.getGameResourceContainer();
 }
 
-GameSpriteAtlasManager& GameState::getGameSpriteAtlasManager()
+GameSpriteAtlasContainer& GameState::getGameSpriteAtlasContainer()
 {
-	return mGameContextData.getGameSpriteAtlasManager();
+	return mGameContextData.getGameSpriteAtlasContainer();
 }
 
 GameObjectCreator& GameState::getGameObjectCreator()

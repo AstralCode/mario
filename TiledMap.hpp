@@ -34,6 +34,8 @@ private:
 	void setTileSprite(const unsigned int tileIdentifier, const sf::Vector2u& tileIndex);
 	void clearTileSprite(const sf::Vector2u& tileIndex);
 
+	sf::Vertex* getTileVerticles(const sf::Vector2u& tileIndex);
+
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	bool isContainsPoint(const sf::Vector2f& point) const;

@@ -3,42 +3,61 @@
 #include "GameObject.hpp"
 #include "GameObjectCreator.hpp"
 #include "GameResourceContainer.hpp"
-#include "GameSpriteAtlasManager.hpp"
+#include "GameSpriteAtlasContainer.hpp"
+#include "AnimationFactory.hpp"
 #include "GraphicsTextItem.hpp"
 #include "MarioStandState.hpp"
-#include "EnemyMoveState.hpp"
 
-GameObjectFactory::GameObjectFactory(GameResourceContainer& gameResourceContainer, GameSpriteAtlasManager& gameSpriteAtlasManager, GameObjectCreator& gameObjectCreator) :
+GameObjectFactory::GameObjectFactory(GameResourceContainer& gameResourceContainer, GameSpriteAtlasContainer& gameSpriteAtlasContainer, GameObjectCreator& gameObjectCreator, AnimationFactory& animationFactory) :
 	mGameResourceContainer{gameResourceContainer},
-	mGameSpriteAtlasManager{gameSpriteAtlasManager},
-	mGameObjectCreator{gameObjectCreator}
+	mGameSpriteAtlasContainer{gameSpriteAtlasContainer},
+	mGameObjectCreator{gameObjectCreator},
+	mAnimationFactory{animationFactory}
 {
 
 }
 
 GameObject* GameObjectFactory::createMario(GraphicsItem* sceneLayer) const
 {
-	auto object = create(mGameSpriteAtlasManager.getAtlas("mario"), sceneLayer, TextureIdentifiers::Mario);
+	auto object = create(sceneLayer, TextureIdentifiers::Mario);
 	object->setMaxAcceleration({32.0f * 18.0f, 0.0f});
 	object->setMaxVelocity({32.0f * 18.0f, 0.0f});
-	object->setState(MarioStandState::getInstance());
 
 	return object;
 }
 
 GameObject* GameObjectFactory::createGoomba(GraphicsItem* sceneLayer) const
 {
-	auto object = create(mGameSpriteAtlasManager.getAtlas("enemy"), sceneLayer, TextureIdentifiers::Enemies);
+	auto moveAnimation = mAnimationFactory.createGoombaMove();
+
+	auto state = std::make_unique<GameObjectState>();
+	state->setAnimation(std::move(moveAnimation));
+
+	auto object = create(sceneLayer, TextureIdentifiers::Enemies);
 	object->setMaxAcceleration({32.0f * 8.0f, 0.0f});
     object->setMaxVelocity({32.0f * 8.0f, 0.0f});
-	object->setState(EnemyMoveState::getInstance());
+	object->setAcceleration(object->getMaxAcceleration());
+	object->setState(std::move(state));
 
 	return object;
 }
 
-GameObject* GameObjectFactory::create(const GameSpriteAtlas& gameSpriteAtlas, GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier) const
+GameObject* GameObjectFactory::createCoin(GraphicsItem* sceneLayer) const
 {
-	auto object = mGameObjectCreator.create(gameSpriteAtlas, sceneLayer->addItem<GraphicsSpriteItem>());
+	auto animation = mAnimationFactory.createCoinShine();
+
+	auto state = std::make_unique<GameObjectState>();
+	state->setAnimation(std::move(animation));
+
+	auto object = create(sceneLayer, TextureIdentifiers::Scenery);
+	object->setState(std::move(state));
+
+	return object;
+}
+
+GameObject* GameObjectFactory::create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier) const
+{
+	auto object = mGameObjectCreator.create(sceneLayer->addItem<GraphicsSpriteItem>());
 	object->setTexture(mGameResourceContainer.getTexture(textureIdentifier));
 
 	return object;
