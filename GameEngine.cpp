@@ -162,23 +162,56 @@ void GameEngine::initializeStatistics()
 
 void GameEngine::initializeSpritesets()
 {
-	const sf::Vector2i spriteSize{32, 32};
-
 	auto& marioSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Mario);
-	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Stand, {spriteSize, {0, 0}, {{{0, 0, 24, 32}}}});
-	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Move, {spriteSize, {1, 0}, {{{0, 0, 26, 32}, {0, 0, 26, 32}, {0, 0, 24, 32}}}});
-	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Slide, {spriteSize, {8, 0}, {{{0, 0, 24, 32}}}});
+	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Stand, {{32, 32}, {0, 0}, {{
+		SpritesetArea{{32, 32}, {0, 0}, {0, 0, 24, 32}}
+	}}});
+
+	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Move, {{32, 32}, {1, 0}, {{
+		SpritesetArea{{32, 32}, {0, 0}, {0, 0, 26, 32}},
+		SpritesetArea{{32, 32}, {1, 0}, {0, 0, 26, 32}},
+		SpritesetArea{{32, 32}, {2, 0}, {0, 0, 24, 32}}
+	}}});
+
+	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Slide, {{32, 32}, {8, 0}, {{
+		SpritesetArea{{32, 32}, {0, 0}, {0, 0, 24, 32}}
+	}}});
 
 	auto& enemySpriteset = mSpritesetManager.create(SpritesetIdentifiers::Enemy);
-	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Move, {spriteSize, {0, 0}, {{{0, 0, 32, 32}, {0, 0, 32, 32}}}});
-	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Dead, {spriteSize, {2, 0}, {{{0, 16, 32, 16}}}});
+	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Move, {{32, 32}, {0, 0}, {{
+		SpritesetArea{{32, 32}, {0, 0}, {0, 0, 32, 32}},
+		SpritesetArea{{32, 32}, {1, 0}, {0, 0, 32, 32}}
+	}}});
+
+	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Dead, {{32, 32}, {2, 0}, {{
+		SpritesetArea{{32, 32}, {0, 0}, {0, 16, 32, 16}}
+	}}});
 
 	auto& blocksSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Blocks);
-	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::QuestionMarkBox, {spriteSize, {0, 3}, {{{0, 0, 32, 32}, {0, 0, 32, 32}, {0, 0, 32, 32}}}});
-	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::WaterQuestionMarkBox, {spriteSize, {0, 4}, {{{0, 0, 32, 32}, {0, 0, 32, 32}, {0, 0, 32, 32}}}});
+	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::QuestionMarkBox, {{32, 32}, {0, 3}, {{
+		SpritesetArea{{32, 32}, {0, 0}, {0, 0, 32, 32}},
+		SpritesetArea{{32, 32}, {1, 0}, {0, 0, 32, 32}},
+		SpritesetArea{{32, 32}, {2, 0}, {0, 0, 32, 32}}
+	}}});
+
+	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::WaterQuestionMarkBox, {{32, 32}, {0, 4}, {{
+		SpritesetArea{{32, 32}, {0, 0}, {0, 0, 32, 32}},
+		SpritesetArea{{32, 32}, {1, 0}, {0, 0, 32, 32}},
+		SpritesetArea{{32, 32}, {2, 0}, {0, 0, 32, 32}}
+	}}});
 
 	auto& itemSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Items);
-	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::Coin, {spriteSize, {12, 12}, {{{6, 2, 20, 28}, {6, 2, 20, 28}, {6, 2, 20, 28}}}});
+	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::Coin, {{32, 32}, {12, 12}, {{
+		SpritesetArea{{32, 32}, {0, 0}, {6, 2, 20, 28}},
+		SpritesetArea{{32, 32}, {1, 0}, {6, 2, 20, 28}},
+		SpritesetArea{{32, 32}, {2, 0}, {6, 2, 20, 28}}
+	}}});
+
+	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::ScoreCoin, {{32, 32}, {11, 15}, {{
+		SpritesetArea{{11, 16}, {0, 0}, {0, 0, 10, 16}},
+		SpritesetArea{{11, 16}, {1, 0}, {0, 0, 10, 16}},
+		SpritesetArea{{11, 16}, {2, 0}, {0, 0, 10, 16}}
+	}}});
 }
 
 void GameEngine::initializeGameState()

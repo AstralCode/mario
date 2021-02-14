@@ -29,6 +29,7 @@ constexpr const auto Dead = "dead";
 namespace Items
 {
 constexpr const auto Coin = "coin";
+constexpr const auto ScoreCoin = "score-coin";
 }
 namespace Blocks
 {

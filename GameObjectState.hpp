@@ -3,8 +3,6 @@
 #include "SFML/System/Time.hpp"
 #include "SFML/Window/Event.hpp"
 
-#include "Animation.hpp"
-
 class GameObject;
 
 class GameObjectState
@@ -15,8 +13,6 @@ public:
 
 	virtual void onSet(GameObject& object);
 	virtual void onUnset(GameObject& object);
-
-	void setAnimation(std::unique_ptr<Animation> animation);
 
 	void destroy();
 
@@ -34,9 +30,6 @@ public:
 	virtual bool isWreck() const;
 
 	bool isDestroyed() const;
-
-protected:
-	std::unique_ptr<Animation> mAnimation;
 
 private:
 	bool mDestroyed;

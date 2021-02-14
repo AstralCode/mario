@@ -19,6 +19,7 @@ private:
 
 	GraphicsItem* mSceneLayer;
 
+	GraphicsItem* mBackgroundLayer;
 	GraphicsItem* mPlayersLayer;
 	GraphicsItem* mEnemiesLayer;
 	GraphicsItem* mItemsLayer;

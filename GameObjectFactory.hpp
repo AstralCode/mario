@@ -21,6 +21,7 @@ public:
 	GameObject* createGoomba(GraphicsItem* sceneLayer);
 
 	GameObject* createCoin(GraphicsItem* sceneLayer);
+	GameObject* createScoreCoin(GraphicsItem* sceneLayer);
 	GameObject* createQuestionMarkBox(GraphicsItem* sceneLayer);
 
 private:

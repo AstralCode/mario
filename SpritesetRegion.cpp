@@ -1,8 +1,8 @@
 #include "SpritesetRegion.hpp"
 
-SpritesetRegion::SpritesetRegion(const sf::Vector2i& spriteSize, const sf::Vector2i& offset, const std::vector<std::vector<sf::IntRect>>& spriteAreas) noexcept
+SpritesetRegion::SpritesetRegion(const sf::Vector2i& gridSize, const sf::Vector2i& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
 {
-    calculateSpriteAreas(spriteSize, offset, spriteAreas);
+    calculateSpriteAreas(gridSize, gridTileIndex, spritesetAreas);
 }
 
 const sf::IntRect& SpritesetRegion::getSprite(const int index) const noexcept
@@ -15,25 +15,27 @@ int SpritesetRegion::getSpriteCount() const noexcept
     return static_cast<int>(mSpritesetRegion.size());
 }
 
-void SpritesetRegion::calculateSpriteAreas(const sf::Vector2i& spriteSize, const sf::Vector2i& offset, const std::vector<std::vector<sf::IntRect>>& spriteAreas) noexcept
+void SpritesetRegion::calculateSpriteAreas(const sf::Vector2i& gridSize, const sf::Vector2i& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
 {
-    for (int j{0}; j < static_cast<int>(spriteAreas.size()); j++)
+    sf::Vector2i regionOffset{};
+    regionOffset.x = gridSize.x * gridTileIndex.x;
+    regionOffset.y = gridSize.y * gridTileIndex.y;
+
+    for (int j{0}; j < static_cast<int>(spritesetAreas.size()); j++)
     {
-        for (int i{0}; i < static_cast<int>(spriteAreas[j].size()); i++)
+        for (int i{0}; i < static_cast<int>(spritesetAreas[j].size()); i++)
         {
-            sf::Vector2i regionOffset{};
-            regionOffset.x = offset.x * spriteSize.x;
-            regionOffset.y = offset.y * spriteSize.y;
+            auto& spriteArea = spritesetAreas[j][i];
 
             sf::Vector2i spriteAreaOffset{};
-            spriteAreaOffset.x = i * spriteSize.x;
-            spriteAreaOffset.y = j * spriteSize.y;
+            spriteAreaOffset.x = spriteArea.getGridSize().x * spriteArea.getGridTileIndex().x;
+            spriteAreaOffset.y = spriteArea.getGridSize().y * spriteArea.getGridTileIndex().y;
 
             sf::IntRect sprite{};
-            sprite.left = regionOffset.x + spriteAreaOffset.x + spriteAreas[j][i].left;
-            sprite.top = regionOffset.y + spriteAreaOffset.y + spriteAreas[j][i].top;
-            sprite.width = spriteAreas[j][i].width;
-            sprite.height = spriteAreas[j][i].height;
+            sprite.left = regionOffset.x + spriteAreaOffset.x + spriteArea.getArea().left;
+            sprite.top = regionOffset.y + spriteAreaOffset.y + spriteArea.getArea().top;
+            sprite.width = spriteArea.getArea().width;
+            sprite.height = spriteArea.getArea().height;
 
             mSpritesetRegion.push_back(sprite);
         }

@@ -33,14 +33,11 @@ GameObject* GameObjectFactory::createGoomba(GraphicsItem* sceneLayer)
 	animation->stop();
 	animation->play();
 
-	auto state = std::make_unique<GameObjectState>();
-	state->setAnimation(std::move(animation));
-
 	auto object = create(sceneLayer, TextureIdentifiers::Enemies);
+	object->setAnimation(std::move(animation));
 	object->setMaxAcceleration({32.0f * 8.0f, 0.0f});
     object->setMaxVelocity({32.0f * 8.0f, 0.0f});
 	object->setAcceleration(object->getMaxAcceleration());
-	object->setState(std::move(state));
 
 	return object;
 }
@@ -55,11 +52,24 @@ GameObject* GameObjectFactory::createCoin(GraphicsItem* sceneLayer)
 	animation->stop();
 	animation->play();
 
-	auto state = std::make_unique<GameObjectState>();
-	state->setAnimation(std::move(animation));
+	auto object = create(sceneLayer, TextureIdentifiers::Scenery);
+	object->setAnimation(std::move(animation));
+
+	return object;
+}
+
+GameObject* GameObjectFactory::createScoreCoin(GraphicsItem* sceneLayer)
+{
+	auto animation = std::make_unique<Animation>(getSpritesetRegion(SpritesetIdentifiers::Items, SpritesetRegionIdentifiers::Items::ScoreCoin));
+	animation->setDuration(sf::seconds(0.25f));
+	animation->setDelay(sf::seconds(0.25f));
+	animation->setDirection(Animation::Directions::Alternate);
+	animation->setRepeating(true);
+	animation->stop();
+	animation->play();
 
 	auto object = create(sceneLayer, TextureIdentifiers::Scenery);
-	object->setState(std::move(state));
+	object->setAnimation(std::move(animation));
 
 	return object;
 }
@@ -74,11 +84,8 @@ GameObject* GameObjectFactory::createQuestionMarkBox(GraphicsItem* sceneLayer)
 	animation->stop();
 	animation->play();
 
-	auto state = std::make_unique<GameObjectState>();
-	state->setAnimation(std::move(animation));
-
 	auto object = create(sceneLayer, TextureIdentifiers::Scenery);
-	object->setState(std::move(state));
+	object->setAnimation(std::move(animation));
 
 	return object;
 }

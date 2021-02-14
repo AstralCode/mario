@@ -2,19 +2,19 @@
 
 #include <vector>
 
-#include "SFML/Graphics/Rect.hpp"
+#include "SpritesetArea.hpp"
 
 class SpritesetRegion final
 {
 public:
-	SpritesetRegion(const sf::Vector2i& spriteSize, const sf::Vector2i& offset, const std::vector<std::vector<sf::IntRect>>& spriteAreas) noexcept;
+	SpritesetRegion(const sf::Vector2i& gridSize, const sf::Vector2i& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept;
 
 	const sf::IntRect& getSprite(const int index) const noexcept;
 
 	int getSpriteCount() const noexcept;
 
 private:
-	void calculateSpriteAreas(const sf::Vector2i& spriteSize, const sf::Vector2i& offset, const std::vector<std::vector<sf::IntRect>>& spriteAreas) noexcept;
+	void calculateSpriteAreas(const sf::Vector2i& gridSize, const sf::Vector2i& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept;
 
 	std::vector<sf::IntRect> mSpritesetRegion;
 };

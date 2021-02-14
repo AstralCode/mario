@@ -2,6 +2,7 @@
 
 #include "GameObjectState.hpp"
 #include "GraphicsSpriteItem.hpp"
+#include "Animation.hpp"
 
 class GameObject
 {
@@ -14,6 +15,7 @@ public:
 	GameObject(GraphicsSpriteItem* sprite);
 
 	void setState(std::unique_ptr<GameObjectState> state);
+	void setAnimation(std::unique_ptr<Animation> animation);
 
 	void setPosition(const sf::Vector2f& position);
 	void setTexture(const sf::Texture& texture);
@@ -56,6 +58,7 @@ public:
 private:
 	GraphicsSpriteItem* mSprite;
 	std::unique_ptr<GameObjectState> mState;
+	std::unique_ptr<Animation> mAnimation;
 
 	sf::Vector2f mMaxAcceleration;
 	sf::Vector2f mAcceleration;

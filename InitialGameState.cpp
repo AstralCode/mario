@@ -10,6 +10,7 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 {
 	mSceneLayer = getGraphicsScene().addItem();
 
+	mBackgroundLayer = mSceneLayer->addItem();
 	mPlayersLayer = mSceneLayer->addItem();
 	mEnemiesLayer = mSceneLayer->addItem();
 	mItemsLayer = mSceneLayer->addItem();
@@ -42,6 +43,8 @@ void InitialGameState::onEnter()
 	tiledMap.setTileIdentifierMap(tileIdentifierMap);
 	tiledMap.setBackgroundColor({97, 133, 246});
 	tiledMap.build({32u, 32u});
+
+	mGameObjectFactory.createScoreCoin(mBackgroundLayer)->setPosition(tiledMap.getGrid().getTilePosition({2, 0}));
 
 	mGameObjectFactory.createGoomba(mEnemiesLayer)->setPosition(tiledMap.getGrid().getTilePosition({5, 12}));
 	mGameObjectFactory.createGoomba(mEnemiesLayer)->setPosition(tiledMap.getGrid().getTilePosition({7, 12}));

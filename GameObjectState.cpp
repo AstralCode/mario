@@ -1,7 +1,5 @@
 #include "GameObjectState.hpp"
 
-#include "GameObject.hpp"
-
 GameObjectState::GameObjectState() :
     mDestroyed{false}
 {
@@ -18,24 +16,14 @@ void GameObjectState::onUnset(GameObject&)
 
 }
 
-void GameObjectState::setAnimation(std::unique_ptr<Animation> animation)
-{
-    mAnimation = std::move(animation);
-}
-
 void GameObjectState::destroy()
 {
     mDestroyed = true;
 }
 
-void GameObjectState::update(GameObject& object, const sf::Time& frameTime)
+void GameObjectState::update(GameObject&, const sf::Time&)
 {
-    if (mAnimation)
-    {
-        mAnimation->update(frameTime);
 
-        object.setTextureArea(mAnimation->getCurrentSprite());
-    }
 }
 
 void GameObjectState::onKeyPressed(GameObject&, const sf::Event::KeyEvent&)

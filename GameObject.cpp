@@ -2,6 +2,7 @@
 
 GameObject::GameObject(GraphicsSpriteItem* sprite) :
     mSprite{sprite},
+	mState{std::make_unique<GameObjectState>()},
 	mDirection{Directions::Right},
 	mDirectionFactor{+1.0f, 0.0f},
 	mMouseOver{false}
@@ -18,6 +19,11 @@ void GameObject::setState(std::unique_ptr<GameObjectState> state)
 
 	mState = std::move(state);
 	mState->onSet(*this);
+}
+
+void GameObject::setAnimation(std::unique_ptr<Animation> animation)
+{
+	mAnimation = std::move(animation);
 }
 
 void GameObject::setPosition(const sf::Vector2f& position)
@@ -158,6 +164,13 @@ void GameObject::receiveEvents(const sf::Event& event)
 
 void GameObject::update(const sf::Time& frameTime)
 {
+	if (mAnimation)
+	{
+		mAnimation->update(frameTime);
+
+		setTextureArea(mAnimation->getCurrentSprite());
+	}
+
 	mState->update(*this, frameTime);
 }
 
