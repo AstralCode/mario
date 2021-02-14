@@ -10,6 +10,13 @@ class SpriteAtlasRegion;
 class Animation final
 {
 public:
+	enum class Status
+	{
+		Playing,
+		Pause,
+		End
+	};
+
 	enum class Directions
 	{
 		Normal,
@@ -20,6 +27,7 @@ public:
 
 	Animation(const SpriteAtlasRegion& sprites) noexcept;
 
+	void setDelay(const sf::Time& delay);
 	void setDirection(const Directions direction) noexcept;
 	void setDuration(const sf::Time& durationTime) noexcept;
 	void setRepeating(const bool repeat) noexcept;
@@ -36,23 +44,33 @@ public:
 
 	const sf::Time& getDurationTime() const noexcept;
 
-	bool isPlaying() const noexcept;
-	bool isRepeating() const noexcept;
+	Status getStatus() const noexcept;
 
 private:
+	void updateSpriteNormalDirection() noexcept;
+	void updateSpriteReverseDirection() noexcept;
+	void updateSpriteAlternateDirection() noexcept;
+	void updateSpriteAlternateReverseDirection() noexcept;
+
+	sf::Time calculateAnimationFrameTime() const noexcept;
+
 	constexpr int getFirstSpriteIndex() const noexcept;
 	int getLastSpriteIndex() const noexcept;
 
 	const SpriteAtlasRegion& mSprites;
 
+	Status mStatus;
 	Directions mDirection;
 
 	sf::Time mDurationTime;
 	sf::Time mElapsedUpdateTime;
+	sf::Time mDelayTime;
+	sf::Time mElapsedDelayTime;
 
 	int mCurrentSpriteIndex;
 
 	bool mPlaying;
-	bool mRepeating;
 	bool mReachEnd;
+	bool mAlternate;
+	bool mRepeating;
 };

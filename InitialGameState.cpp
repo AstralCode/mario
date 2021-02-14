@@ -14,13 +14,13 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 	mPlayersLayer = mSceneLayer->addItem();
 	mEnemiesLayer = mSceneLayer->addItem();
 	mItemsLayer = mSceneLayer->addItem();
+	mBlocksLayer = mSceneLayer->addItem();
 }
 
 void InitialGameState::onEnter()
 {
-	const sf::Color backgroundColor{97, 133, 246};
-
-	const std::vector<std::vector<unsigned int>> tileIdentifierMap = {
+	const std::vector<std::vector<unsigned int>> tileIdentifierMap =
+	{
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
@@ -41,11 +41,11 @@ void InitialGameState::onEnter()
 	auto& tiledMap = getTiledMap();
 	tiledMap.setTileset(&getTexture(TextureIdentifiers::Scenery));
 	tiledMap.setTileIdentifierMap(tileIdentifierMap);
-	tiledMap.setBackgroundColor(backgroundColor);
+	tiledMap.setBackgroundColor({97, 133, 246});
 	tiledMap.build({32u, 32u});
 
-	auto goomba = mGameObjectFactory.createGoomba(mEnemiesLayer);
-	goomba->setPosition(tiledMap.getGrid().getTilePosition({5, 12}));
+	mGameObjectFactory.createGoomba(mEnemiesLayer)->setPosition(tiledMap.getGrid().getTilePosition({5, 12}));
+	mGameObjectFactory.createGoomba(mEnemiesLayer)->setPosition(tiledMap.getGrid().getTilePosition({7, 12}));
 
 	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({10, 7}));
 	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({11, 7}));
@@ -55,6 +55,9 @@ void InitialGameState::onEnter()
 	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({11, 8}));
 	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({12, 8}));
 	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({13, 8}));
+
+	mGameObjectFactory.createQuestionMarkBox(mBlocksLayer)->setPosition(tiledMap.getGrid().getTilePosition({7, 7}));
+	mGameObjectFactory.createQuestionMarkBox(mBlocksLayer)->setPosition(tiledMap.getGrid().getTilePosition({8, 7}));
 }
 
 void InitialGameState::onLeave()

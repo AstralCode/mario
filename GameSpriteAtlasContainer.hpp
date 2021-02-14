@@ -9,6 +9,7 @@ namespace SpriteAtlasIdentifiers
 constexpr const auto Mario = "mario";
 constexpr const auto Enemy = "enemy";
 constexpr const auto Items = "items";
+constexpr const auto Blocks = "blocks";
 }
 
 namespace SpriteAtlasRegionIdentifiers
@@ -28,6 +29,11 @@ constexpr const auto Dead = "dead";
 namespace Items
 {
 constexpr const auto Coin = "coin";
+}
+namespace Blocks
+{
+constexpr const auto QuestionMarkBox = "question-mark-box";
+constexpr const auto WaterQuestionMarkBox = "water-question-mark-box";
 }
 }
 

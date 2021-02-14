@@ -55,6 +55,19 @@ GameObject* GameObjectFactory::createCoin(GraphicsItem* sceneLayer) const
 	return object;
 }
 
+GameObject* GameObjectFactory::createQuestionMarkBox(GraphicsItem* sceneLayer) const
+{
+	auto animation = mAnimationFactory.createQuestionMarkBoxShine();
+
+	auto state = std::make_unique<GameObjectState>();
+	state->setAnimation(std::move(animation));
+
+	auto object = create(sceneLayer, TextureIdentifiers::Scenery);
+	object->setState(std::move(state));
+
+	return object;
+}
+
 GameObject* GameObjectFactory::create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier) const
 {
 	auto object = mGameObjectCreator.create(sceneLayer->addItem<GraphicsSpriteItem>());

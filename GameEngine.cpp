@@ -173,6 +173,10 @@ void GameEngine::initializeGameSpriteAtlases()
 	enemySprites.addRegion(SpriteAtlasRegionIdentifiers::Goomba::Move, {spriteSize, {0, 0}, {{{0, 0, 32, 32}, {0, 0, 32, 32}}}});
 	enemySprites.addRegion(SpriteAtlasRegionIdentifiers::Goomba::Dead, {spriteSize, {2, 0}, {{{0, 16, 32, 16}}}});
 
+	auto& blocksSprites = mGameSpriteAtlasManager.createAtlas(SpriteAtlasIdentifiers::Blocks);
+	blocksSprites.addRegion(SpriteAtlasRegionIdentifiers::Blocks::QuestionMarkBox, {spriteSize, {0, 3}, {{{0, 0, 32, 32}, {0, 0, 32, 32}, {0, 0, 32, 32}}}});
+	blocksSprites.addRegion(SpriteAtlasRegionIdentifiers::Blocks::WaterQuestionMarkBox, {spriteSize, {0, 4}, {{{0, 0, 32, 32}, {0, 0, 32, 32}, {0, 0, 32, 32}}}});
+
 	auto& itemSprites = mGameSpriteAtlasManager.createAtlas(SpriteAtlasIdentifiers::Items);
 	itemSprites.addRegion(SpriteAtlasRegionIdentifiers::Items::Coin, {spriteSize, {12, 12}, {{{6, 2, 20, 28}, {6, 2, 20, 28}, {6, 2, 20, 28}}}});
 }

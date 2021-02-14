@@ -12,7 +12,7 @@ AnimationFactory::AnimationFactory(GameResourceContainer& gameResourceContainer,
 
 }
 
-std::unique_ptr<Animation> AnimationFactory::createMarioMove() noexcept
+std::unique_ptr<Animation> AnimationFactory::createMarioMove() const noexcept
 {
 	auto animation = create(SpriteAtlasIdentifiers::Mario, SpriteAtlasRegionIdentifiers::Mario::Move);
 	animation->setDuration(sf::seconds(0.25f));
@@ -24,7 +24,7 @@ std::unique_ptr<Animation> AnimationFactory::createMarioMove() noexcept
 	return animation;
 }
 
-std::unique_ptr<Animation> AnimationFactory::createGoombaMove() noexcept
+std::unique_ptr<Animation> AnimationFactory::createGoombaMove() const noexcept
 {
 	auto animation = create(SpriteAtlasIdentifiers::Enemy, SpriteAtlasRegionIdentifiers::Goomba::Move);
 	animation->setDuration(sf::seconds(0.25f));
@@ -36,10 +36,11 @@ std::unique_ptr<Animation> AnimationFactory::createGoombaMove() noexcept
 	return animation;
 }
 
-std::unique_ptr<Animation> AnimationFactory::createCoinShine() noexcept
+std::unique_ptr<Animation> AnimationFactory::createCoinShine() const noexcept
 {
 	auto animation = create(SpriteAtlasIdentifiers::Items, SpriteAtlasRegionIdentifiers::Items::Coin);
 	animation->setDuration(sf::seconds(0.25f));
+	animation->setDelay(sf::seconds(0.25f));
 	animation->setDirection(Animation::Directions::Alternate);
 	animation->setRepeating(true);
 	animation->stop();
@@ -48,7 +49,20 @@ std::unique_ptr<Animation> AnimationFactory::createCoinShine() noexcept
 	return animation;
 }
 
-std::unique_ptr<Animation> AnimationFactory::create(const std::string& atlasIdentifier, const std::string& regionIdentifier) noexcept
+std::unique_ptr<Animation> AnimationFactory::createQuestionMarkBoxShine() const noexcept
+{
+	auto animation = create(SpriteAtlasIdentifiers::Blocks, SpriteAtlasRegionIdentifiers::Blocks::QuestionMarkBox);
+	animation->setDuration(sf::seconds(0.25f));
+	animation->setDelay(sf::seconds(0.25f));
+	animation->setDirection(Animation::Directions::Alternate);
+	animation->setRepeating(true);
+	animation->stop();
+	animation->play();
+
+	return animation;
+}
+
+std::unique_ptr<Animation> AnimationFactory::create(const std::string& atlasIdentifier, const std::string& regionIdentifier) const noexcept
 {
 	return std::make_unique<Animation>(mGameSpriteAtlasContainer.getAtlas(atlasIdentifier).getRegion(regionIdentifier));
 }

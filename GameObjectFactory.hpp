@@ -20,6 +20,7 @@ public:
 	GameObject* createGoomba(GraphicsItem* sceneLayer) const;
 
 	GameObject* createCoin(GraphicsItem* sceneLayer) const;
+	GameObject* createQuestionMarkBox(GraphicsItem* sceneLayer) const;
 
 private:
 	GameObject* create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier) const;

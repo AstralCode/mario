@@ -23,6 +23,7 @@ private:
 	GraphicsItem* mPlayersLayer;
 	GraphicsItem* mEnemiesLayer;
 	GraphicsItem* mItemsLayer;
+	GraphicsItem* mBlocksLayer;
 
 	AnimationFactory mAnimationFactory;
 	GameObjectFactory mGameObjectFactory;

@@ -7,10 +7,16 @@ Animation::Animation(const SpriteAtlasRegion& sprites) noexcept :
 	mDirection{Directions::Normal},
 	mCurrentSpriteIndex{getFirstSpriteIndex()},
 	mPlaying{false},
-	mRepeating{false},
-	mReachEnd{false}
+	mReachEnd{true},
+	mAlternate{false},
+	mRepeating{false}
 {
 
+}
+
+void Animation::setDelay(const sf::Time& delay)
+{
+	mDelayTime = delay;
 }
 
 void Animation::setDirection(const Directions direction) noexcept
@@ -43,105 +49,44 @@ void Animation::stop() noexcept
 	mElapsedUpdateTime = sf::Time::Zero;
 	mCurrentSpriteIndex = (mDirection == Directions::Normal || mDirection == Directions::Alternate) ? getFirstSpriteIndex() : getLastSpriteIndex();
 	mPlaying = false;
-	mReachEnd = false;
+	mReachEnd = true;
+	mAlternate = false;
 }
 
 void Animation::update(const sf::Time& frameTime) noexcept
 {
-	if (isPlaying())
+	if (mPlaying)
 	{
-		const auto animationFrameTime = mDurationTime / static_cast<float>(getSpriteCount());
-
-		mElapsedUpdateTime += frameTime;
-
-		while (mElapsedUpdateTime > animationFrameTime)
+		if (mElapsedDelayTime >= mDelayTime)
 		{
-			if (mDirection == Directions::Normal)
+			const auto animationFrameTime = calculateAnimationFrameTime();
+
+			mElapsedUpdateTime += frameTime;
+
+			while (mElapsedUpdateTime >= animationFrameTime)
 			{
-				++mCurrentSpriteIndex;
-
-				if (mCurrentSpriteIndex > getLastSpriteIndex())
+				switch (mDirection)
 				{
-					mCurrentSpriteIndex = getFirstSpriteIndex();
-
-					if (!isRepeating())
-					{
-						stop();
-					}
+				case Directions::Normal:
+					updateSpriteNormalDirection();
+					break;
+				case Directions::Reverse:
+					updateSpriteReverseDirection();
+					break;
+				case Directions::Alternate:
+					updateSpriteAlternateDirection();
+					break;
+				case Directions::AlternateReverse:
+					updateSpriteAlternateReverseDirection();
+					break;
 				}
+				
+				mElapsedUpdateTime -= animationFrameTime;
 			}
-			else if (mDirection == Directions::Reverse)
-			{
-				--mCurrentSpriteIndex;
-
-				if (mCurrentSpriteIndex < getFirstSpriteIndex())
-				{
-					mCurrentSpriteIndex = getLastSpriteIndex();
-					
-					if (!isRepeating())
-					{
-						stop();
-					}
-				}
-			}
-			else if (mDirection == Directions::Alternate)
-			{
-				if (!mReachEnd)
-				{
-					++mCurrentSpriteIndex;
-
-					if (mCurrentSpriteIndex > getLastSpriteIndex())
-					{
-						mCurrentSpriteIndex = getLastSpriteIndex();
-						mReachEnd = true;
-					}
-				}
-				else
-				{
-					--mCurrentSpriteIndex;
-
-					if (mCurrentSpriteIndex < getFirstSpriteIndex())
-					{
-						mCurrentSpriteIndex = getFirstSpriteIndex();
-						mReachEnd = false;
-
-						if (!isRepeating())
-						{
-							stop();
-						}
-					}
-				}
-			}
-			else if (mDirection == Directions::AlternateReverse)
-			{
-				if (!mReachEnd)
-				{
-					--mCurrentSpriteIndex;
-
-					if (mCurrentSpriteIndex < getFirstSpriteIndex())
-					{
-						mCurrentSpriteIndex = getFirstSpriteIndex();
-						mReachEnd = true;
-					}
-				}
-				else
-				{
-					++mCurrentSpriteIndex;
-
-					if (mCurrentSpriteIndex > getLastSpriteIndex())
-					{
-						mCurrentSpriteIndex = getLastSpriteIndex();
-						mReachEnd = false;
-
-						if (!isRepeating())
-						{
-							stop();
-						}
-					}
-				}
-			}
-
-			mElapsedUpdateTime -= animationFrameTime;
+		}
+		else
+		{
+			mElapsedDelayTime += frameTime;
 		}
 	}
 }
@@ -161,14 +106,119 @@ const sf::Time& Animation::getDurationTime() const noexcept
 	return mDurationTime;
 }
 
-bool Animation::isPlaying() const noexcept
+Animation::Status Animation::getStatus() const noexcept
 {
-	return mPlaying;
+	if (mPlaying)
+	{
+		return Animation::Status::Playing;
+	}
+	else if(!mReachEnd)
+	{
+		return Animation::Status::Pause;
+	}
+
+	return Animation::Status::End;
 }
 
-bool Animation::isRepeating() const noexcept
+void Animation::updateSpriteNormalDirection() noexcept
 {
-	return mRepeating;
+	++mCurrentSpriteIndex;
+
+	if (mCurrentSpriteIndex > getLastSpriteIndex())
+	{
+		mCurrentSpriteIndex = getFirstSpriteIndex();
+
+		if (!mRepeating)
+		{
+			stop();
+		}
+
+		mElapsedDelayTime = sf::Time::Zero;
+	}
+}
+
+void Animation::updateSpriteReverseDirection() noexcept
+{
+	--mCurrentSpriteIndex;
+
+	if (mCurrentSpriteIndex < getFirstSpriteIndex())
+	{
+		mCurrentSpriteIndex = getLastSpriteIndex();
+
+		if (!mRepeating)
+		{
+			stop();
+		}
+
+		mElapsedDelayTime = sf::Time::Zero;
+	}
+}
+
+void Animation::updateSpriteAlternateDirection() noexcept
+{
+	if (!mAlternate)
+	{
+		++mCurrentSpriteIndex;
+
+		if (mCurrentSpriteIndex > getLastSpriteIndex())
+		{
+			mCurrentSpriteIndex = getLastSpriteIndex();
+			mAlternate = true;
+		}
+	}
+	else
+	{
+		--mCurrentSpriteIndex;
+
+		if (mCurrentSpriteIndex < getFirstSpriteIndex())
+		{
+			mCurrentSpriteIndex = getFirstSpriteIndex();
+			mAlternate = false;
+
+			if (!mRepeating)
+			{
+				stop();
+			}
+
+			mElapsedDelayTime = sf::Time::Zero;
+		}
+	}
+}
+
+void Animation::updateSpriteAlternateReverseDirection() noexcept
+{
+	if (!mAlternate)
+	{
+		--mCurrentSpriteIndex;
+
+		if (mCurrentSpriteIndex < getFirstSpriteIndex())
+		{
+			mCurrentSpriteIndex = getFirstSpriteIndex();
+			mAlternate = true;
+		}
+	}
+	else
+	{
+		++mCurrentSpriteIndex;
+
+		if (mCurrentSpriteIndex > getLastSpriteIndex())
+		{
+			mCurrentSpriteIndex = getLastSpriteIndex();
+			mAlternate = false;
+
+			if (!mRepeating)
+			{
+				stop();
+			}
+
+			mElapsedDelayTime = sf::Time::Zero;
+		}
+	}
+}
+
+sf::Time Animation::calculateAnimationFrameTime() const noexcept
+{
+	return getDurationTime() / static_cast<float>(getSpriteCount());
 }
 
 constexpr int Animation::getFirstSpriteIndex() const noexcept
