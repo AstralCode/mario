@@ -6,8 +6,7 @@
 
 InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) :
 	GameState{gameContextData, gameStateChanger},
-	mAnimationFactory{gameContextData.getGameResourceContainer(), gameContextData.getGameSpriteAtlasContainer()},
-	mGameObjectFactory{gameContextData.getGameResourceContainer(), gameContextData.getGameSpriteAtlasContainer(), gameContextData.getGameObjectCreator(), mAnimationFactory}
+	mGameObjectFactory{gameContextData.getResourceContainer(), gameContextData.getSpritesetContainer(), gameContextData.getGameObjectCreator()}
 {
 	mSceneLayer = getGraphicsScene().addItem();
 

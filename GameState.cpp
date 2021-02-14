@@ -54,14 +54,14 @@ GraphicsItem& GameState::getGraphicsScene()
 	return mGameContextData.getGraphicsScene();
 }
 
-GameResourceContainer& GameState::getGameResourceContainer()
+ResourceContainer& GameState::getResourceContainer()
 {
-	return mGameContextData.getGameResourceContainer();
+	return mGameContextData.getResourceContainer();
 }
 
-GameSpriteAtlasContainer& GameState::getGameSpriteAtlasContainer()
+SpritesetContainer& GameState::getSpritesetContainer()
 {
-	return mGameContextData.getGameSpriteAtlasContainer();
+	return mGameContextData.getSpritesetContainer();
 }
 
 GameObjectCreator& GameState::getGameObjectCreator()
@@ -71,10 +71,10 @@ GameObjectCreator& GameState::getGameObjectCreator()
 
 const sf::Font& GameState::getFont(const FontIdentifiers identifier)
 {
-	return getGameResourceContainer().getFont(identifier);
+	return getResourceContainer().getFont(identifier);
 }
 
 const sf::Texture& GameState::getTexture(const TextureIdentifiers identifier)
 {
-	return getGameResourceContainer().getTexture(identifier);
+	return getResourceContainer().getTexture(identifier);
 }

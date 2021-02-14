@@ -1,9 +1,9 @@
 #include "Animation.hpp"
 
-#include "SpriteAtlasRegion.hpp"
+#include "SpritesetRegion.hpp"
 
-Animation::Animation(const SpriteAtlasRegion& sprites) noexcept :
-	mSprites{sprites},
+Animation::Animation(const SpritesetRegion& spritesetRegion) noexcept :
+	mSpritesetRegion{spritesetRegion},
 	mDirection{Directions::Normal},
 	mCurrentSpriteIndex{getFirstSpriteIndex()},
 	mPlaying{false},
@@ -93,12 +93,12 @@ void Animation::update(const sf::Time& frameTime) noexcept
 
 const sf::IntRect& Animation::getCurrentSprite() const noexcept
 {
-	return mSprites.getSprite(mCurrentSpriteIndex);
+	return mSpritesetRegion.getSprite(mCurrentSpriteIndex);
 }
 
 int Animation::getSpriteCount() const noexcept
 {
-	return mSprites.getSpriteCount();
+	return mSpritesetRegion.getSpriteCount();
 }
 
 const sf::Time& Animation::getDurationTime() const noexcept

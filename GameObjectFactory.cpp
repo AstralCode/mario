@@ -2,22 +2,20 @@
 
 #include "GameObject.hpp"
 #include "GameObjectCreator.hpp"
-#include "GameResourceContainer.hpp"
-#include "GameSpriteAtlasContainer.hpp"
-#include "AnimationFactory.hpp"
+#include "ResourceContainer.hpp"
+#include "SpritesetContainer.hpp"
+#include "Spriteset.hpp"
 #include "GraphicsTextItem.hpp"
-#include "MarioStandState.hpp"
 
-GameObjectFactory::GameObjectFactory(GameResourceContainer& gameResourceContainer, GameSpriteAtlasContainer& gameSpriteAtlasContainer, GameObjectCreator& gameObjectCreator, AnimationFactory& animationFactory) :
-	mGameResourceContainer{gameResourceContainer},
-	mGameSpriteAtlasContainer{gameSpriteAtlasContainer},
-	mGameObjectCreator{gameObjectCreator},
-	mAnimationFactory{animationFactory}
+GameObjectFactory::GameObjectFactory(ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) :
+	mResourceContainer{resourceContainer},
+	mSpritesetContainer{spritesetContainer},
+	mGameObjectCreator{gameObjectCreator}
 {
 
 }
 
-GameObject* GameObjectFactory::createMario(GraphicsItem* sceneLayer) const
+GameObject* GameObjectFactory::createMario(GraphicsItem* sceneLayer)
 {
 	auto object = create(sceneLayer, TextureIdentifiers::Mario);
 	object->setMaxAcceleration({32.0f * 18.0f, 0.0f});
@@ -26,12 +24,17 @@ GameObject* GameObjectFactory::createMario(GraphicsItem* sceneLayer) const
 	return object;
 }
 
-GameObject* GameObjectFactory::createGoomba(GraphicsItem* sceneLayer) const
+GameObject* GameObjectFactory::createGoomba(GraphicsItem* sceneLayer)
 {
-	auto moveAnimation = mAnimationFactory.createGoombaMove();
+	auto animation = std::make_unique<Animation>(getSpritesetRegion(SpritesetIdentifiers::Enemy, SpritesetRegionIdentifiers::Goomba::Move));
+	animation->setDuration(sf::seconds(0.25f));
+	animation->setDirection(Animation::Directions::Normal);
+	animation->setRepeating(true);
+	animation->stop();
+	animation->play();
 
 	auto state = std::make_unique<GameObjectState>();
-	state->setAnimation(std::move(moveAnimation));
+	state->setAnimation(std::move(animation));
 
 	auto object = create(sceneLayer, TextureIdentifiers::Enemies);
 	object->setMaxAcceleration({32.0f * 8.0f, 0.0f});
@@ -42,9 +45,15 @@ GameObject* GameObjectFactory::createGoomba(GraphicsItem* sceneLayer) const
 	return object;
 }
 
-GameObject* GameObjectFactory::createCoin(GraphicsItem* sceneLayer) const
+GameObject* GameObjectFactory::createCoin(GraphicsItem* sceneLayer)
 {
-	auto animation = mAnimationFactory.createCoinShine();
+	auto animation = std::make_unique<Animation>(getSpritesetRegion(SpritesetIdentifiers::Items, SpritesetRegionIdentifiers::Items::Coin));
+	animation->setDuration(sf::seconds(0.25f));
+	animation->setDelay(sf::seconds(0.25f));
+	animation->setDirection(Animation::Directions::Alternate);
+	animation->setRepeating(true);
+	animation->stop();
+	animation->play();
 
 	auto state = std::make_unique<GameObjectState>();
 	state->setAnimation(std::move(animation));
@@ -55,9 +64,15 @@ GameObject* GameObjectFactory::createCoin(GraphicsItem* sceneLayer) const
 	return object;
 }
 
-GameObject* GameObjectFactory::createQuestionMarkBox(GraphicsItem* sceneLayer) const
+GameObject* GameObjectFactory::createQuestionMarkBox(GraphicsItem* sceneLayer)
 {
-	auto animation = mAnimationFactory.createQuestionMarkBoxShine();
+	auto animation = std::make_unique<Animation>(getSpritesetRegion(SpritesetIdentifiers::Blocks, SpritesetRegionIdentifiers::Blocks::QuestionMarkBox));
+	animation->setDuration(sf::seconds(0.25f));
+	animation->setDelay(sf::seconds(0.25f));
+	animation->setDirection(Animation::Directions::Alternate);
+	animation->setRepeating(true);
+	animation->stop();
+	animation->play();
 
 	auto state = std::make_unique<GameObjectState>();
 	state->setAnimation(std::move(animation));
@@ -71,7 +86,12 @@ GameObject* GameObjectFactory::createQuestionMarkBox(GraphicsItem* sceneLayer) c
 GameObject* GameObjectFactory::create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier) const
 {
 	auto object = mGameObjectCreator.create(sceneLayer->addItem<GraphicsSpriteItem>());
-	object->setTexture(mGameResourceContainer.getTexture(textureIdentifier));
+	object->setTexture(mResourceContainer.getTexture(textureIdentifier));
 
 	return object;
+}
+
+const SpritesetRegion& GameObjectFactory::getSpritesetRegion(const std::string& spritesetIdetntifier, const std::string& spritesetRegionIdentifier) const noexcept
+{
+	return mSpritesetContainer.getSpriteset(spritesetIdetntifier).getRegion(spritesetRegionIdentifier);
 }

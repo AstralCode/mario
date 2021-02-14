@@ -2,7 +2,6 @@
 
 #include "GameObjectState.hpp"
 #include "GraphicsSpriteItem.hpp"
-#include "GameSpriteAtlas.hpp"
 
 class GameObject
 {

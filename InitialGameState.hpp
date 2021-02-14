@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GameState.hpp"
-#include "AnimationFactory.hpp"
 #include "GameObjectFactory.hpp"
 
 class InitialGameState final : public GameState
@@ -25,6 +24,5 @@ private:
 	GraphicsItem* mItemsLayer;
 	GraphicsItem* mBlocksLayer;
 
-	AnimationFactory mAnimationFactory;
 	GameObjectFactory mGameObjectFactory;
 };

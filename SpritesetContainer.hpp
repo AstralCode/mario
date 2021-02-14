@@ -2,9 +2,9 @@
 
 #include <string>
 
-class GameSpriteAtlas;
+class Spriteset;
 
-namespace SpriteAtlasIdentifiers
+namespace SpritesetIdentifiers
 {
 constexpr const auto Mario = "mario";
 constexpr const auto Enemy = "enemy";
@@ -12,7 +12,7 @@ constexpr const auto Items = "items";
 constexpr const auto Blocks = "blocks";
 }
 
-namespace SpriteAtlasRegionIdentifiers
+namespace SpritesetRegionIdentifiers
 {
 namespace Mario
 {
@@ -37,10 +37,10 @@ constexpr const auto WaterQuestionMarkBox = "water-question-mark-box";
 }
 }
 
-class GameSpriteAtlasContainer
+class SpritesetContainer
 {
 public:
-	virtual ~GameSpriteAtlasContainer() = default;
+	virtual ~SpritesetContainer() = default;
 
-	virtual const GameSpriteAtlas& getAtlas(const std::string& identifier) const = 0;
+	virtual const Spriteset& getSpriteset(const std::string& identifier) const noexcept = 0;
 };

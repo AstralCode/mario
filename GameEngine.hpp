@@ -6,8 +6,8 @@
 #include "TiledMap.hpp"
 #include "GamePhysics.hpp"
 #include "GraphicsItem.hpp"
-#include "GameResourceManager.hpp"
-#include "GameSpriteAtlasManager.hpp"
+#include "ResourceManager.hpp"
+#include "SpritesetManager.hpp"
 #include "GameObjectManager.hpp"
 #include "GameContextData.hpp"
 #include "GameStateManager.hpp"
@@ -32,7 +32,7 @@ private:
 	void executeMainLoop();
 
 	void initializeStatistics();
-	void initializeGameSpriteAtlases();
+	void initializeSpritesets();
 	void initializeGameState();
 
 	void loadResources();
@@ -46,8 +46,8 @@ private:
 	TiledMap mTiledMap;
 	GamePhysics mGamePhysics;
 	GraphicsItem mGraphicsScene;
-	GameResourceManager mGameResourceManager;
-	GameSpriteAtlasManager mGameSpriteAtlasManager;
+	ResourceManager mResourceManager;
+	SpritesetManager mSpritesetManager;
 	GameObjectManager mGameObjectManager;
 	GameContextData mGameContextData;
 	GameStateManager mGameStateManager;

@@ -5,7 +5,7 @@
 #include "SFML/System/Time.hpp"
 #include "SFML/Graphics/Rect.hpp"
 
-class SpriteAtlasRegion;
+class SpritesetRegion;
 
 class Animation final
 {
@@ -25,7 +25,7 @@ public:
 		AlternateReverse
 	};
 
-	Animation(const SpriteAtlasRegion& sprites) noexcept;
+	Animation(const SpritesetRegion& spritesetRegion) noexcept;
 
 	void setDelay(const sf::Time& delay);
 	void setDirection(const Directions direction) noexcept;
@@ -57,7 +57,7 @@ private:
 	constexpr int getFirstSpriteIndex() const noexcept;
 	int getLastSpriteIndex() const noexcept;
 
-	const SpriteAtlasRegion& mSprites;
+	const SpritesetRegion& mSpritesetRegion;
 
 	Status mStatus;
 	Directions mDirection;

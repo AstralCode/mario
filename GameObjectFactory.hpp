@@ -1,32 +1,34 @@
 #pragma once
 
-#include "GameResourceIdentifiers.hpp"
+#include <string>
+
+#include "ResourceIdentifiers.hpp"
 
 class GameObject;
 class GameObjectState;
 class GraphicsItem;
-class GameSpriteAtlasContainer;
-class GameSpriteAtlas;
+class SpritesetContainer;
+class SpritesetRegion;
 class GameObjectCreator;
-class GameResourceContainer;
-class AnimationFactory;
+class ResourceContainer;
 
 class GameObjectFactory final
 {
 public:
-	GameObjectFactory(GameResourceContainer& gameResourceContainer, GameSpriteAtlasContainer& gameSpriteAtlasContainer, GameObjectCreator& gameObjectCreator, AnimationFactory& animationFactory);
+	GameObjectFactory(ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator);
 
-	GameObject* createMario(GraphicsItem* sceneLayer) const;
-	GameObject* createGoomba(GraphicsItem* sceneLayer) const;
+	GameObject* createMario(GraphicsItem* sceneLayer);
+	GameObject* createGoomba(GraphicsItem* sceneLayer);
 
-	GameObject* createCoin(GraphicsItem* sceneLayer) const;
-	GameObject* createQuestionMarkBox(GraphicsItem* sceneLayer) const;
+	GameObject* createCoin(GraphicsItem* sceneLayer);
+	GameObject* createQuestionMarkBox(GraphicsItem* sceneLayer);
 
 private:
 	GameObject* create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier) const;
 
-	GameResourceContainer& mGameResourceContainer;
-	GameSpriteAtlasContainer& mGameSpriteAtlasContainer;
+	const SpritesetRegion& getSpritesetRegion(const std::string& spritesetIdetntifier, const std::string& spritesetRegionIdentifier) const noexcept;
+
+	ResourceContainer& mResourceContainer;
+	SpritesetContainer& mSpritesetContainer;
 	GameObjectCreator& mGameObjectCreator;
-	AnimationFactory& mAnimationFactory;
 };

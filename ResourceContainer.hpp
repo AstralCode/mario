@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameResourceIdentifiers.hpp"
+#include "ResourceIdentifiers.hpp"
 
 namespace sf
 {
@@ -8,10 +8,10 @@ class Font;
 class Texture;
 }
 
-class GameResourceContainer
+class ResourceContainer
 {
 public:
-	virtual ~GameResourceContainer() = default;
+	virtual ~ResourceContainer() = default;
 
 	virtual const sf::Font& getFont(const FontIdentifiers identifier) const = 0;
 	virtual const sf::Texture& getTexture(const TextureIdentifiers identifier) const = 0;

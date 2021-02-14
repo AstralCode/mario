@@ -1,21 +1,21 @@
-#include "SpriteAtlasRegion.hpp"
+#include "SpritesetRegion.hpp"
 
-SpriteAtlasRegion::SpriteAtlasRegion(const sf::Vector2i& spriteSize, const sf::Vector2i& offset, const std::vector<std::vector<sf::IntRect>>& spriteAreas)
+SpritesetRegion::SpritesetRegion(const sf::Vector2i& spriteSize, const sf::Vector2i& offset, const std::vector<std::vector<sf::IntRect>>& spriteAreas) noexcept
 {
     calculateSpriteAreas(spriteSize, offset, spriteAreas);
 }
 
-const sf::IntRect& SpriteAtlasRegion::getSprite(const int index) const
+const sf::IntRect& SpritesetRegion::getSprite(const int index) const noexcept
 {
-    return mSprites[index];
+    return mSpritesetRegion[index];
 }
 
-int SpriteAtlasRegion::getSpriteCount() const
+int SpritesetRegion::getSpriteCount() const noexcept
 {
-    return static_cast<int>(mSprites.size());
+    return static_cast<int>(mSpritesetRegion.size());
 }
 
-void SpriteAtlasRegion::calculateSpriteAreas(const sf::Vector2i& spriteSize, const sf::Vector2i& offset, const std::vector<std::vector<sf::IntRect>>& spriteAreas)
+void SpritesetRegion::calculateSpriteAreas(const sf::Vector2i& spriteSize, const sf::Vector2i& offset, const std::vector<std::vector<sf::IntRect>>& spriteAreas) noexcept
 {
     for (int j{0}; j < static_cast<int>(spriteAreas.size()); j++)
     {
@@ -35,7 +35,7 @@ void SpriteAtlasRegion::calculateSpriteAreas(const sf::Vector2i& spriteSize, con
             sprite.width = spriteAreas[j][i].width;
             sprite.height = spriteAreas[j][i].height;
 
-            mSprites.push_back(sprite);
+            mSpritesetRegion.push_back(sprite);
         }
     }
 }

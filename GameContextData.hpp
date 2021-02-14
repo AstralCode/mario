@@ -2,25 +2,25 @@
 
 class TiledMap;
 class GraphicsItem;
-class GameResourceContainer;
-class GameSpriteAtlasContainer;
+class ResourceContainer;
+class SpritesetContainer;
 class GameObjectCreator;
 
 class GameContextData final
 {
 public:
-	GameContextData(TiledMap& tiledMap, GraphicsItem& graphicsScene, GameResourceContainer& gameResourceContainer, GameSpriteAtlasContainer& gameSpriteAtlasContainer, GameObjectCreator& gameObjectCreator);
+	GameContextData(TiledMap& tiledMap, GraphicsItem& graphicsScene, ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator);
 
 	TiledMap& getTiledMap();
 	GraphicsItem& getGraphicsScene();
-	GameResourceContainer& getGameResourceContainer();
-	GameSpriteAtlasContainer& getGameSpriteAtlasContainer();
+	ResourceContainer& getResourceContainer();
+	SpritesetContainer& getSpritesetContainer();
 	GameObjectCreator& getGameObjectCreator();
 
 private:
 	TiledMap& mTiledMap;
 	GraphicsItem& mGraphicsScene;
-	GameResourceContainer& mGameResourceContainer;
-	GameSpriteAtlasContainer& mGameSpriteAtlasContainer;
+	ResourceContainer& mResourceContainer;
+	SpritesetContainer& mSpritesetContainer;
 	GameObjectCreator& mGameObjectCreator;
 };

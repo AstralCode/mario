@@ -6,9 +6,9 @@
 #include "SFML/Graphics/Font.hpp"
 #include "SFML/Graphics/Texture.hpp"
 
-#include "GameResourceContainer.hpp"
+#include "ResourceContainer.hpp"
 
-class GameResourceManager final : public GameResourceContainer
+class ResourceManager final : public ResourceContainer
 {
 public:
 	void addFont(const FontIdentifiers identifier, const std::string& filename);

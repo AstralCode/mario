@@ -4,8 +4,8 @@
 
 #include "EventReceiver.hpp"
 #include "TiledMap.hpp"
-#include "GameResourceContainer.hpp"
-#include "GameSpriteAtlasContainer.hpp"
+#include "ResourceContainer.hpp"
+#include "SpritesetContainer.hpp"
 #include "GameObjectCreator.hpp"
 #include "GameObject.hpp"
 
@@ -36,8 +36,8 @@ public:
 
 	TiledMap& getTiledMap();
 	GraphicsItem& getGraphicsScene();
-	GameResourceContainer& getGameResourceContainer();
-	GameSpriteAtlasContainer& getGameSpriteAtlasContainer();
+	ResourceContainer& getResourceContainer();
+	SpritesetContainer& getSpritesetContainer();
 	GameObjectCreator& getGameObjectCreator();
 
 protected:
