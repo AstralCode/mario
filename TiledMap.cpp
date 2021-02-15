@@ -150,8 +150,8 @@ unsigned int TiledMap::calculateTextureTileIdentifierCount(const sf::Vector2u& t
 sf::Vector2u TiledMap::calculateTileCount() const
 {
 	sf::Vector2u tileCount{};
-	tileCount.x = mTileIdentifierMap[0u].size();
-	tileCount.y = mTileIdentifierMap.size();
+	tileCount.x = static_cast<unsigned int>(mTileIdentifierMap[0u].size());
+	tileCount.y = static_cast<unsigned int>(mTileIdentifierMap.size());
 
 	return tileCount;
 }
