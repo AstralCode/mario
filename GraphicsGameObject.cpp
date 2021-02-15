@@ -1,7 +1,9 @@
-#include "GameObject.hpp"
+#include "GraphicsGameObject.hpp"
 
-GameObject::GameObject(GraphicsSpriteItem* sprite) :
-    mSprite{sprite},
+#include "GraphicsSpriteItem.hpp"
+
+GraphicsGameObject::GraphicsGameObject() :
+	mSprite{addItem<GraphicsSpriteItem>()},
 	mState{std::make_unique<GameObjectState>()},
 	mDirection{Directions::Right},
 	mDirectionFactor{+1.0f, 0.0f},
@@ -10,7 +12,7 @@ GameObject::GameObject(GraphicsSpriteItem* sprite) :
 
 }
 
-void GameObject::setState(std::unique_ptr<GameObjectState> state)
+void GraphicsGameObject::setState(std::unique_ptr<GameObjectState> state)
 {
 	if (mState)
 	{
@@ -21,63 +23,63 @@ void GameObject::setState(std::unique_ptr<GameObjectState> state)
 	mState->onSet(*this);
 }
 
-void GameObject::setAnimation(std::unique_ptr<Animation> animation)
+void GraphicsGameObject::setAnimation(std::unique_ptr<Animation> animation)
 {
 	mAnimation = std::move(animation);
 }
 
-void GameObject::setPosition(const sf::Vector2f& position)
+void GraphicsGameObject::setPosition(const sf::Vector2f& position)
 {
-    mSprite->setPosition(position);
+	mSprite->setPosition(position);
 }
 
-void GameObject::setTexture(const sf::Texture& texture)
+void GraphicsGameObject::setTexture(const sf::Texture& texture)
 {
-    mSprite->setTexture(texture);
+	mSprite->setTexture(texture);
 }
 
-void GameObject::setTextureArea(const sf::IntRect& area)
+void GraphicsGameObject::setTextureArea(const sf::IntRect& area)
 {
-    mSprite->setTextureArea(area);
+	mSprite->setTextureArea(area);
 }
 
-void GameObject::setMaxAcceleration(const sf::Vector2f& acceleration)
+void GraphicsGameObject::setMaxAcceleration(const sf::Vector2f& acceleration)
 {
 	mMaxAcceleration = acceleration;
 }
 
-void GameObject::setAcceleration(const sf::Vector2f& acceleration)
+void GraphicsGameObject::setAcceleration(const sf::Vector2f& acceleration)
 {
 	mAcceleration = acceleration;
 }
 
-void GameObject::setMaxVelocity(const sf::Vector2f& velocity)
+void GraphicsGameObject::setMaxVelocity(const sf::Vector2f& velocity)
 {
 	mMaxVelocity = velocity;
 }
 
-void GameObject::setVelocity(const sf::Vector2f& velocity)
+void GraphicsGameObject::setVelocity(const sf::Vector2f& velocity)
 {
 	mVelocity.x = std::min(velocity.x, mMaxVelocity.x);
 	mVelocity.y = std::min(velocity.y, mMaxVelocity.y);
 }
 
-void GameObject::accelerateVelocity(const sf::Vector2f& acceleration)
+void GraphicsGameObject::accelerateVelocity(const sf::Vector2f& acceleration)
 {
 	setVelocity({mVelocity.x + acceleration.x, mVelocity.y + acceleration.y});
 }
 
-void GameObject::move(const sf::Vector2f& offset)
+void GraphicsGameObject::move(const sf::Vector2f& offset)
 {
 	mSprite->move(offset);
 }
 
-void GameObject::setDirectionFactor(const sf::Vector2f& factor)
+void GraphicsGameObject::setDirectionFactor(const sf::Vector2f& factor)
 {
 	mDirectionFactor = factor;
 }
 
-void GameObject::setDirection(const Directions direction)
+void GraphicsGameObject::setDirection(const Directions direction)
 {
 	if (direction != mDirection)
 	{
@@ -88,7 +90,7 @@ void GameObject::setDirection(const Directions direction)
 	}
 }
 
-void GameObject::turnAround()
+void GraphicsGameObject::turnAround()
 {
 	if (mDirection == Directions::Right)
 	{
@@ -100,17 +102,13 @@ void GameObject::turnAround()
 	}
 }
 
-void GameObject::dispose()
+void GraphicsGameObject::destroy()
 {
-	mSprite->remove();
-}
-
-void GameObject::destroy()
-{
+	remove();
 	mState->destroy();
 }
 
-void GameObject::receiveEvents(const sf::Event& event)
+void GraphicsGameObject::receiveEvents(const sf::Event& event)
 {
 	switch (event.type)
 	{
@@ -162,7 +160,7 @@ void GameObject::receiveEvents(const sf::Event& event)
 	}
 }
 
-void GameObject::update(const sf::Time& frameTime)
+void GraphicsGameObject::update(const sf::Time& frameTime)
 {
 	if (mAnimation)
 	{
@@ -174,52 +172,62 @@ void GameObject::update(const sf::Time& frameTime)
 	mState->update(*this, frameTime);
 }
 
-sf::Vector2f GameObject::getPosition() const
+sf::Vector2f GraphicsGameObject::getPosition() const
 {
-    return mSprite->getGlobalPosition();
+	return mSprite->getGlobalPosition();
 }
 
-const sf::Vector2f& GameObject::getMaxVelocity() const
+const sf::Vector2f& GraphicsGameObject::getMaxVelocity() const
 {
 	return mMaxVelocity;
 }
 
-const sf::Vector2f& GameObject::getVelocity() const
+const sf::Vector2f& GraphicsGameObject::getVelocity() const
 {
 	return mVelocity;
 }
 
-const sf::Vector2f& GameObject::getDirectionFactor() const
+const sf::Vector2f& GraphicsGameObject::getDirectionFactor() const
 {
 	return mDirectionFactor;
 }
 
-GameObject::Directions GameObject::getDirection() const
+GraphicsGameObject::Directions GraphicsGameObject::getDirection() const
 {
 	return mDirection;
 }
 
-const sf::Vector2f& GameObject::getMaxAcceleration() const
+const sf::Vector2f& GraphicsGameObject::getMaxAcceleration() const
 {
 	return mMaxAcceleration;
 }
 
-const sf::Vector2f& GameObject::getAcceleration() const
+const sf::Vector2f& GraphicsGameObject::getAcceleration() const
 {
 	return mAcceleration;
 }
 
-bool GameObject::hasCollision(const GameObject& object) const
+bool GraphicsGameObject::hasCollision(const GraphicsItem& item) const
 {
-    return mSprite->isIntersectsItem(*object.mSprite);
+	return mSprite->isIntersectsItem(item);
 }
 
-bool GameObject::isContainsPoint(const sf::Vector2f& point) const
+bool GraphicsGameObject::isContainsPoint(const sf::Vector2f& point) const
 {
-    return mSprite->isContainsPoint(point);
+	return mSprite->isContainsPoint(point);
 }
 
-bool GameObject::isDestroyed() const
+bool GraphicsGameObject::isDestroyed() const
 {
-    return mState->isDestroyed();
+	return isWreck();
+}
+
+bool GraphicsGameObject::isWreck() const
+{
+	return mState->isDestroyed();
+}
+
+sf::FloatRect GraphicsGameObject::getBounds() const
+{
+	return mSprite->getBounds();
 }

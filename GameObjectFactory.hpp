@@ -4,28 +4,26 @@
 
 #include "ResourceIdentifiers.hpp"
 
-class GameObject;
-class GameObjectState;
-class GraphicsItem;
+class ResourceContainer;
 class SpritesetContainer;
 class SpritesetRegion;
 class GameObjectCreator;
-class ResourceContainer;
+class GameObject;
 
 class GameObjectFactory final
 {
 public:
 	GameObjectFactory(ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator);
 
-	GameObject* createMario(GraphicsItem* sceneLayer);
-	GameObject* createGoomba(GraphicsItem* sceneLayer);
+	GameObject* createMario();
+	GameObject* createGoomba();
 
-	GameObject* createCoin(GraphicsItem* sceneLayer);
-	GameObject* createScoreCoin(GraphicsItem* sceneLayer);
-	GameObject* createQuestionMarkBox(GraphicsItem* sceneLayer);
+	GameObject* createCoin();
+	GameObject* createScoreCoin();
+	GameObject* createQuestionMarkBox();
 
 private:
-	GameObject* create(GraphicsItem* sceneLayer, const TextureIdentifiers textureIdentifier) const;
+	GameObject* create(const TextureIdentifiers textureIdentifier) const;
 
 	const SpritesetRegion& getSpritesetRegion(const std::string& spritesetIdetntifier, const std::string& spritesetRegionIdentifier) const noexcept;
 

@@ -35,7 +35,6 @@ public:
 	void onEscapePressed() override;
 
 	TiledMap& getTiledMap();
-	GraphicsItem& getGraphicsScene();
 	ResourceContainer& getResourceContainer();
 	SpritesetContainer& getSpritesetContainer();
 	GameObjectCreator& getGameObjectCreator();

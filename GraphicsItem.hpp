@@ -33,6 +33,9 @@ public:
 	bool isVisible() const;
 	bool isRemoved() const;
 
+protected:
+	virtual bool isWreck() const;
+
 private:
 	void setParent(GraphicsItem* item);
 	GraphicsItem* getParent() const;

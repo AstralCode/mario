@@ -1,8 +1,16 @@
 #pragma once
 
+#include <memory>
+
 #include "GameObjectState.hpp"
-#include "GraphicsSpriteItem.hpp"
 #include "Animation.hpp"
+
+namespace sf
+{
+class Texture;
+}
+
+class GraphicsItem;
 
 class GameObject
 {
@@ -12,61 +20,43 @@ public:
 		Left, Right
 	};
 
-	GameObject(GraphicsSpriteItem* sprite);
+	virtual void setState(std::unique_ptr<GameObjectState> state) = 0;
+	virtual void setAnimation(std::unique_ptr<Animation> animation) = 0;
 
-	void setState(std::unique_ptr<GameObjectState> state);
-	void setAnimation(std::unique_ptr<Animation> animation);
+	virtual void setPosition(const sf::Vector2f& position) = 0;
+	virtual void setTexture(const sf::Texture& texture) = 0;
+	virtual void setTextureArea(const sf::IntRect& area) = 0;
 
-	void setPosition(const sf::Vector2f& position);
-	void setTexture(const sf::Texture& texture);
-	void setTextureArea(const sf::IntRect& area);
+	virtual void setMaxAcceleration(const sf::Vector2f& acceleration) = 0;
+	virtual void setAcceleration(const sf::Vector2f& acceleration) = 0;
+	virtual void setMaxVelocity(const sf::Vector2f& velocity) = 0;
+	virtual void setVelocity(const sf::Vector2f& velocity) = 0;
 
-	void setMaxAcceleration(const sf::Vector2f& acceleration);
-	void setAcceleration(const sf::Vector2f& acceleration);
-	void setMaxVelocity(const sf::Vector2f& velocity);
-	void setVelocity(const sf::Vector2f& velocity);
+	virtual void accelerateVelocity(const sf::Vector2f& acceleration) = 0;
+	virtual void move(const sf::Vector2f& offset) = 0;
 
-	void accelerateVelocity(const sf::Vector2f& acceleration);
-	void move(const sf::Vector2f& offset);
+	virtual void setDirectionFactor(const sf::Vector2f& factor) = 0;
+	virtual void setDirection(const Directions direction) = 0;
+	virtual void turnAround() = 0;
 
-	void setDirectionFactor(const sf::Vector2f& factor);
-	void setDirection(const Directions direction);
-	void turnAround();
+	virtual void destroy() = 0;
 
-	void dispose();
-	void destroy();
-
-	void receiveEvents(const sf::Event& event);
+	virtual void receiveEvents(const sf::Event& event) = 0;
 	
-	void update(const sf::Time& frameTime);
+	virtual void update(const sf::Time& frameTime) = 0;
 
-	sf::Vector2f getPosition() const;
+	virtual sf::Vector2f getPosition() const = 0;
 
-	const sf::Vector2f& getMaxAcceleration() const;
-	const sf::Vector2f& getAcceleration() const;
-	const sf::Vector2f& getMaxVelocity() const;
-	const sf::Vector2f& getVelocity() const;
+	virtual const sf::Vector2f& getMaxAcceleration() const = 0;
+	virtual const sf::Vector2f& getAcceleration() const = 0;
+	virtual const sf::Vector2f& getMaxVelocity() const = 0;
+	virtual const sf::Vector2f& getVelocity() const = 0;
 
-	const sf::Vector2f& getDirectionFactor() const;
-	Directions getDirection() const;
+	virtual const sf::Vector2f& getDirectionFactor() const = 0;
+	virtual Directions getDirection() const = 0;
 
-	bool hasCollision(const GameObject& object) const;
+	virtual bool hasCollision(const GraphicsItem& item) const = 0;
 
-	bool isContainsPoint(const sf::Vector2f& point) const;
-	bool isDestroyed() const;
-
-private:
-	GraphicsSpriteItem* mSprite;
-	std::unique_ptr<GameObjectState> mState;
-	std::unique_ptr<Animation> mAnimation;
-
-	sf::Vector2f mMaxAcceleration;
-	sf::Vector2f mAcceleration;
-	sf::Vector2f mVelocity;
-	sf::Vector2f mMaxVelocity;
-
-	sf::Vector2f mDirectionFactor;
-	Directions mDirection;
-
-	bool mMouseOver;
+	virtual bool isContainsPoint(const sf::Vector2f& point) const = 0;
+	virtual bool isDestroyed() const = 0;
 };

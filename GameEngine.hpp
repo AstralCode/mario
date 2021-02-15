@@ -9,6 +9,7 @@
 #include "ResourceManager.hpp"
 #include "SpritesetManager.hpp"
 #include "GameObjectManager.hpp"
+#include "GameObjectFactory.hpp"
 #include "GameContextData.hpp"
 #include "GameStateManager.hpp"
 

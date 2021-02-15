@@ -8,13 +8,7 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 	GameState{gameContextData, gameStateChanger},
 	mGameObjectFactory{gameContextData.getResourceContainer(), gameContextData.getSpritesetContainer(), gameContextData.getGameObjectCreator()}
 {
-	mSceneLayer = getGraphicsScene().addItem();
 
-	mBackgroundLayer = mSceneLayer->addItem();
-	mPlayersLayer = mSceneLayer->addItem();
-	mEnemiesLayer = mSceneLayer->addItem();
-	mItemsLayer = mSceneLayer->addItem();
-	mBlocksLayer = mSceneLayer->addItem();
 }
 
 void InitialGameState::onEnter()
@@ -44,22 +38,22 @@ void InitialGameState::onEnter()
 	tiledMap.setBackgroundColor({97, 133, 246});
 	tiledMap.build({32u, 32u});
 
-	mGameObjectFactory.createScoreCoin(mBackgroundLayer)->setPosition(tiledMap.getGrid().getTilePosition({2, 0}));
+	mGameObjectFactory.createScoreCoin()->setPosition(tiledMap.getGrid().getTilePosition({2, 0}));
 
-	mGameObjectFactory.createGoomba(mEnemiesLayer)->setPosition(tiledMap.getGrid().getTilePosition({5, 12}));
-	mGameObjectFactory.createGoomba(mEnemiesLayer)->setPosition(tiledMap.getGrid().getTilePosition({7, 12}));
+	mGameObjectFactory.createGoomba()->setPosition(tiledMap.getGrid().getTilePosition({5, 12}));
+	mGameObjectFactory.createGoomba()->setPosition(tiledMap.getGrid().getTilePosition({7, 12}));
 
-	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({10, 7}));
-	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({11, 7}));
-	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({12, 7}));
-	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({13, 7}));
-	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({10, 8}));
-	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({11, 8}));
-	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({12, 8}));
-	mGameObjectFactory.createCoin(mItemsLayer)->setPosition(tiledMap.getGrid().getTilePosition({13, 8}));
+	mGameObjectFactory.createCoin()->setPosition(tiledMap.getGrid().getTilePosition({10, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tiledMap.getGrid().getTilePosition({11, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tiledMap.getGrid().getTilePosition({12, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tiledMap.getGrid().getTilePosition({13, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tiledMap.getGrid().getTilePosition({10, 8}));
+	mGameObjectFactory.createCoin()->setPosition(tiledMap.getGrid().getTilePosition({11, 8}));
+	mGameObjectFactory.createCoin()->setPosition(tiledMap.getGrid().getTilePosition({12, 8}));
+	mGameObjectFactory.createCoin()->setPosition(tiledMap.getGrid().getTilePosition({13, 8}));
 
-	mGameObjectFactory.createQuestionMarkBox(mBlocksLayer)->setPosition(tiledMap.getGrid().getTilePosition({7, 7}));
-	mGameObjectFactory.createQuestionMarkBox(mBlocksLayer)->setPosition(tiledMap.getGrid().getTilePosition({8, 7}));
+	mGameObjectFactory.createQuestionMarkBox()->setPosition(tiledMap.getGrid().getTilePosition({7, 7}));
+	mGameObjectFactory.createQuestionMarkBox()->setPosition(tiledMap.getGrid().getTilePosition({8, 7}));
 }
 
 void InitialGameState::onLeave()
@@ -74,11 +68,7 @@ void InitialGameState::processLogic(const sf::Time&)
 
 void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent)
 {
-	if (keyEvent.code == sf::Keyboard::F1)
-	{
-		mEnemiesLayer->setVisible(!mEnemiesLayer->isVisible());
-	}
-	else if (keyEvent.code == sf::Keyboard::F3)
+	if (keyEvent.code == sf::Keyboard::F3)
 	{
 		getTiledMap().setGridVisible(!getTiledMap().isGridVisible());
 	}

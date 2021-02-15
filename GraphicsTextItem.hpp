@@ -15,6 +15,8 @@ public:
 	const sf::String& getString() const;
 	unsigned int getCharacterSize() const;
 
+	sf::FloatRect getBounds() const override;
+
 private:
 	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const override;
 

@@ -49,11 +49,6 @@ TiledMap& GameState::getTiledMap()
 	return mGameContextData.getTiledMap();
 }
 
-GraphicsItem& GameState::getGraphicsScene()
-{
-	return mGameContextData.getGraphicsScene();
-}
-
 ResourceContainer& GameState::getResourceContainer()
 {
 	return mGameContextData.getResourceContainer();

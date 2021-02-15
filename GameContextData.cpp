@@ -1,8 +1,7 @@
 #include "GameContextData.hpp"
 
-GameContextData::GameContextData(TiledMap& tiledMap, GraphicsItem& graphicsScene, ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) :
+GameContextData::GameContextData(TiledMap& tiledMap, ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) :
 	mTiledMap{tiledMap},
-	mGraphicsScene{graphicsScene},
 	mResourceContainer{resourceContainer},
 	mSpritesetContainer{spritesetContainer},
 	mGameObjectCreator{gameObjectCreator}
@@ -13,11 +12,6 @@ GameContextData::GameContextData(TiledMap& tiledMap, GraphicsItem& graphicsScene
 TiledMap& GameContextData::getTiledMap()
 {
 	return mTiledMap;
-}
-
-GraphicsItem& GameContextData::getGraphicsScene()
-{
-	return mGraphicsScene;
 }
 
 ResourceContainer& GameContextData::getResourceContainer()

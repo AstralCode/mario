@@ -3,17 +3,19 @@
 #include <vector>
 #include <memory>
 
-#include "GameObject.hpp"
+#include "SFML/Window/Event.hpp"
+
 #include "GameObjectCreator.hpp"
 
+class GraphicsItem;
 class GamePhysics;
 
 class GameObjectManager final : public GameObjectCreator
 {
 public:
-	GameObjectManager(GamePhysics& physics);
+	GameObjectManager(GraphicsItem& graphicsScene, GamePhysics& physics);
 
-	GameObject* create(GraphicsSpriteItem* sprite) override;
+	GameObject* create() override;
 
 	void receiveEvents(const sf::Event& event);
 
@@ -21,10 +23,8 @@ public:
 	void update(const sf::Time& frameTime);
 
 private:
-	void disposeObjects();
-	void cleanObjects();
-
+	GraphicsItem& mGraphicsScene;
 	GamePhysics& mGamePhysics;
 
-	std::vector<std::unique_ptr<GameObject>> mGameObjects;
+	std::vector<GameObject*> mGameObjects;
 };

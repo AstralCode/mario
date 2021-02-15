@@ -3,22 +3,22 @@
 #include <algorithm>
 #include <functional>
 
+#include "GraphicsGameObject.hpp"
 #include "GamePhysics.hpp"
 
-GameObjectManager::GameObjectManager(GamePhysics& physics) :
+GameObjectManager::GameObjectManager(GraphicsItem& graphicsScene, GamePhysics& physics) :
+	mGraphicsScene{graphicsScene},
 	mGamePhysics{physics}
 {
 
 }
 
-GameObject* GameObjectManager::create(GraphicsSpriteItem* sprite)
+GameObject* GameObjectManager::create()
 {
-	auto object = std::make_unique<GameObject>(sprite);
-	auto objectPointer = object.get();
+	auto object = mGraphicsScene.addItem<GraphicsGameObject>();
+	mGameObjects.push_back(object);
 
-	mGameObjects.push_back(std::move(object));
-
-    return objectPointer;
+    return object;
 }
 
 void GameObjectManager::receiveEvents(const sf::Event& event)
@@ -31,8 +31,8 @@ void GameObjectManager::receiveEvents(const sf::Event& event)
 
 void GameObjectManager::clean()
 {
-	disposeObjects();
-	cleanObjects();
+	auto gameObjectsIterator = std::remove_if(mGameObjects.begin(), mGameObjects.end(), std::mem_fn(&GameObject::isDestroyed));
+	mGameObjects.erase(gameObjectsIterator, mGameObjects.end());
 }
 
 void GameObjectManager::update(const sf::Time& frameTime)
@@ -46,21 +46,4 @@ void GameObjectManager::update(const sf::Time& frameTime)
 			mGamePhysics.update(*object, frameTime);
 		}
 	}
-}
-
-void GameObjectManager::disposeObjects()
-{
-	for (auto& object : mGameObjects)
-	{
-		if (object->isDestroyed())
-		{
-			object->dispose();
-		}
-	}
-}
-
-void GameObjectManager::cleanObjects()
-{
-	auto gameObjectsIterator = std::remove_if(mGameObjects.begin(), mGameObjects.end(), std::mem_fn(&GameObject::isDestroyed));
-	mGameObjects.erase(gameObjectsIterator, mGameObjects.end());
 }

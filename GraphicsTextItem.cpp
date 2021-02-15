@@ -32,6 +32,11 @@ unsigned int GraphicsTextItem::getCharacterSize() const
 	return mText.getCharacterSize();
 }
 
+sf::FloatRect GraphicsTextItem::getBounds() const
+{
+	return getGlobalTransform().transformRect(mText.getLocalBounds());
+}
+
 void GraphicsTextItem::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mText, states);

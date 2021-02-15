@@ -32,5 +32,5 @@ public:
 	bool isDestroyed() const;
 
 private:
-	bool mDestroyed;
+	bool mRemoved;
 };

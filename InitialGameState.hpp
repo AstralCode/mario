@@ -17,13 +17,5 @@ private:
 	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) override;
 	void onEscapePressed() override;
 
-	GraphicsItem* mSceneLayer;
-
-	GraphicsItem* mBackgroundLayer;
-	GraphicsItem* mPlayersLayer;
-	GraphicsItem* mEnemiesLayer;
-	GraphicsItem* mItemsLayer;
-	GraphicsItem* mBlocksLayer;
-
 	GameObjectFactory mGameObjectFactory;
 };

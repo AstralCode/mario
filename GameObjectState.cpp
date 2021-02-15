@@ -1,7 +1,7 @@
 #include "GameObjectState.hpp"
 
 GameObjectState::GameObjectState() :
-    mDestroyed{false}
+    mRemoved{false}
 {
 
 }
@@ -18,7 +18,7 @@ void GameObjectState::onUnset(GameObject&)
 
 void GameObjectState::destroy()
 {
-    mDestroyed = true;
+    mRemoved = true;
 }
 
 void GameObjectState::update(GameObject&, const sf::Time&)
@@ -63,5 +63,5 @@ bool GameObjectState::isWreck() const
 
 bool GameObjectState::isDestroyed() const
 {
-    return mDestroyed && isWreck();
+    return mRemoved && isWreck();
 }

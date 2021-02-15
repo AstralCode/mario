@@ -8,8 +8,8 @@
 GameEngine::GameEngine() :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mStatistics{mFPSCounter},
-	mGameObjectManager{mGamePhysics},
-	mGameContextData{mTiledMap, mGraphicsScene, mResourceManager, mSpritesetManager, mGameObjectManager},
+	mGameObjectManager{mGraphicsScene, mGamePhysics},
+	mGameContextData{mTiledMap, mResourceManager, mSpritesetManager, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {
 	mRenderWindow.setKeyRepeatEnabled(false);

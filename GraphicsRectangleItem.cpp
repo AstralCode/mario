@@ -27,6 +27,11 @@ const sf::Vector2f& GraphicsRectangleItem::getSize() const
 	return mRectangleShape.getSize();
 }
 
+sf::FloatRect GraphicsRectangleItem::getBounds() const
+{
+	return getGlobalTransform().transformRect(mRectangleShape.getLocalBounds());
+}
+
 void GraphicsRectangleItem::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mRectangleShape, states);
