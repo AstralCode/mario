@@ -2,11 +2,10 @@
 
 #include "GameObject.hpp"
 #include "ResourceContainer.hpp"
-#include "SpritesetContainer.hpp"
 #include "GameObjectCreator.hpp"
-#include "Spriteset.hpp"
+#include "MarioStandState.hpp"
 
-GameObjectFactory::GameObjectFactory(ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) :
+GameObjectFactory::GameObjectFactory(ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) noexcept :
 	mResourceContainer{resourceContainer},
 	mSpritesetContainer{spritesetContainer},
 	mGameObjectCreator{gameObjectCreator}
@@ -14,26 +13,30 @@ GameObjectFactory::GameObjectFactory(ResourceContainer& resourceContainer, Sprit
 
 }
 
-GameObject* GameObjectFactory::createMario()
+GameObject* GameObjectFactory::createMario() noexcept
 {
-	auto object = create(TextureIdentifiers::Mario);
+	auto state = createObjectState<MarioStandState>(SpritesetIdentifiers::Mario);
+
+	auto object = createObject(TextureIdentifiers::Mario);
 	object->setMaxAcceleration({32.0f * 18.0f, 0.0f});
 	object->setMaxVelocity({32.0f * 18.0f, 0.0f});
+	object->setState(std::move(state));
 
 	return object;
 }
 
-GameObject* GameObjectFactory::createGoomba()
+GameObject* GameObjectFactory::createGoomba() noexcept
 {
-	auto animation = std::make_unique<Animation>(getSpritesetRegion(SpritesetIdentifiers::Enemy, SpritesetRegionIdentifiers::Goomba::Move));
+	auto animation = createAnimation(SpritesetIdentifiers::Enemy, SpritesetRegionIdentifiers::Goomba::Move);
 	animation->setDuration(sf::seconds(0.25f));
 	animation->setDirection(Animation::Directions::Normal);
 	animation->setRepeating(true);
-	animation->stop();
-	animation->play();
 
-	auto object = create(TextureIdentifiers::Enemies);
-	object->setAnimation(std::move(animation));
+	auto state = createObjectState<GameObjectState>(SpritesetIdentifiers::Enemy);
+	state->setAnimation(std::move(animation));
+
+	auto object = createObject(TextureIdentifiers::Enemies);
+	object->setState(std::move(state));
 	object->setMaxAcceleration({32.0f * 8.0f, 0.0f});
     object->setMaxVelocity({32.0f * 8.0f, 0.0f});
 	object->setAcceleration(object->getMaxAcceleration());
@@ -41,63 +44,66 @@ GameObject* GameObjectFactory::createGoomba()
 	return object;
 }
 
-GameObject* GameObjectFactory::createCoin()
+GameObject* GameObjectFactory::createCoin() noexcept
 {
-	auto animation = std::make_unique<Animation>(getSpritesetRegion(SpritesetIdentifiers::Items, SpritesetRegionIdentifiers::Items::Coin));
+	auto animation = createAnimation(SpritesetIdentifiers::Items, SpritesetRegionIdentifiers::Items::Coin);
 	animation->setDuration(sf::seconds(0.25f));
 	animation->setDelay(sf::seconds(0.25f));
 	animation->setDirection(Animation::Directions::Alternate);
 	animation->setRepeating(true);
-	animation->stop();
-	animation->play();
 
-	auto object = create(TextureIdentifiers::Scenery);
-	object->setAnimation(std::move(animation));
+	auto state = createObjectState<GameObjectState>(SpritesetIdentifiers::Items);
+	state->setAnimation(std::move(animation));
+
+	auto object = createObject(TextureIdentifiers::Scenery);
+	object->setState(std::move(state));
 
 	return object;
 }
 
-GameObject* GameObjectFactory::createScoreCoin()
+GameObject* GameObjectFactory::createScoreCoin() noexcept
 {
-	auto animation = std::make_unique<Animation>(getSpritesetRegion(SpritesetIdentifiers::Items, SpritesetRegionIdentifiers::Items::ScoreCoin));
+	auto animation = createAnimation(SpritesetIdentifiers::Items, SpritesetRegionIdentifiers::Items::ScoreCoin);
 	animation->setDuration(sf::seconds(0.25f));
 	animation->setDelay(sf::seconds(0.25f));
 	animation->setDirection(Animation::Directions::Alternate);
 	animation->setRepeating(true);
-	animation->stop();
-	animation->play();
 
-	auto object = create(TextureIdentifiers::Scenery);
-	object->setAnimation(std::move(animation));
+	auto state = createObjectState<GameObjectState>(SpritesetIdentifiers::Items);
+	state->setAnimation(std::move(animation));
+
+	auto object = createObject(TextureIdentifiers::Scenery);
+	object->setState(std::move(state));
 
 	return object;
 }
 
-GameObject* GameObjectFactory::createQuestionMarkBox()
+GameObject* GameObjectFactory::createQuestionMarkBox() noexcept
 {
-	auto animation = std::make_unique<Animation>(getSpritesetRegion(SpritesetIdentifiers::Blocks, SpritesetRegionIdentifiers::Blocks::QuestionMarkBox));
+	auto animation = createAnimation(SpritesetIdentifiers::Blocks, SpritesetRegionIdentifiers::Blocks::QuestionMarkBox);
 	animation->setDuration(sf::seconds(0.25f));
 	animation->setDelay(sf::seconds(0.25f));
 	animation->setDirection(Animation::Directions::Alternate);
 	animation->setRepeating(true);
-	animation->stop();
-	animation->play();
 
-	auto object = create(TextureIdentifiers::Scenery);
-	object->setAnimation(std::move(animation));
+	auto state = createObjectState<GameObjectState>(SpritesetIdentifiers::Blocks);
+	state->setAnimation(std::move(animation));
+
+	auto object = createObject(TextureIdentifiers::Scenery);
+	object->setState(std::move(state));
 
 	return object;
 }
 
-GameObject* GameObjectFactory::create(const TextureIdentifiers textureIdentifier) const
+std::unique_ptr<Animation> GameObjectFactory::createAnimation(const std::string& spritesetIdetntifier, const std::string& spritesetRegionIdentifier) const noexcept
+{
+	return std::make_unique<Animation>(mSpritesetContainer.getSpriteset(spritesetIdetntifier).getRegion(spritesetRegionIdentifier));
+}
+
+GameObject* GameObjectFactory::createObject(const TextureIdentifiers textureIdentifier) const noexcept
 {
 	auto object = mGameObjectCreator.create();
 	object->setTexture(mResourceContainer.getTexture(textureIdentifier));
 
 	return object;
-}
-
-const SpritesetRegion& GameObjectFactory::getSpritesetRegion(const std::string& spritesetIdetntifier, const std::string& spritesetRegionIdentifier) const noexcept
-{
-	return mSpritesetContainer.getSpriteset(spritesetIdetntifier).getRegion(spritesetRegionIdentifier);
 }

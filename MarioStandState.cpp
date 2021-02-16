@@ -3,15 +3,16 @@
 #include "GameObject.hpp"
 #include "MarioMoveState.hpp"
 
-void MarioStandState::onSet(GameObject& object)
+MarioStandState::MarioStandState(const Spriteset& spriteset) :
+    GameObjectState{spriteset}
 {
-    //object.setSprite("mario_stand", 0);
-    object.setAcceleration({});
+
 }
 
-void MarioStandState::update(GameObject&, const sf::Time&)
+void MarioStandState::onSet(GameObject& object)
 {
-
+    object.setTextureArea(getSprite(SpritesetRegionIdentifiers::Mario::Stand));
+    object.setAcceleration({});
 }
 
 void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent)
@@ -19,11 +20,16 @@ void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent
     if (keyEvent.code == sf::Keyboard::Q)
     {
         object.setDirection(GameObject::Directions::Left);
-        //object.setState(MarioMoveState::getInstance());
+        object.setState(createState<MarioMoveState>());
     }
     else if (keyEvent.code == sf::Keyboard::E)
     {
         object.setDirection(GameObject::Directions::Right);
-        //object.setState(MarioMoveState::getInstance());
+        object.setState(createState<MarioMoveState>());
     }
+}
+
+void MarioStandState::updateSelf(GameObject&, const sf::Time&)
+{
+
 }

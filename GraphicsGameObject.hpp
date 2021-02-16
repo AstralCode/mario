@@ -11,7 +11,6 @@ public:
 	GraphicsGameObject();
 
 	void setState(std::unique_ptr<GameObjectState> state) override;
-	void setAnimation(std::unique_ptr<Animation> animation) override;
 
 	void setPosition(const sf::Vector2f& position) override;
 	void setTexture(const sf::Texture& texture) override;
@@ -59,7 +58,6 @@ private:
 	GraphicsSpriteItem* mSprite;
 
 	std::unique_ptr<GameObjectState> mState;
-	std::unique_ptr<Animation> mAnimation;
 
 	sf::Vector2f mMaxAcceleration;
 	sf::Vector2f mAcceleration;

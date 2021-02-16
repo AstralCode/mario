@@ -4,7 +4,6 @@
 
 GraphicsGameObject::GraphicsGameObject() :
 	mSprite{addItem<GraphicsSpriteItem>()},
-	mState{std::make_unique<GameObjectState>()},
 	mDirection{Directions::Right},
 	mDirectionFactor{+1.0f, 0.0f},
 	mMouseOver{false}
@@ -21,11 +20,6 @@ void GraphicsGameObject::setState(std::unique_ptr<GameObjectState> state)
 
 	mState = std::move(state);
 	mState->onSet(*this);
-}
-
-void GraphicsGameObject::setAnimation(std::unique_ptr<Animation> animation)
-{
-	mAnimation = std::move(animation);
 }
 
 void GraphicsGameObject::setPosition(const sf::Vector2f& position)
@@ -105,6 +99,7 @@ void GraphicsGameObject::turnAround()
 void GraphicsGameObject::destroy()
 {
 	remove();
+
 	mState->destroy();
 }
 
@@ -162,13 +157,6 @@ void GraphicsGameObject::receiveEvents(const sf::Event& event)
 
 void GraphicsGameObject::update(const sf::Time& frameTime)
 {
-	if (mAnimation)
-	{
-		mAnimation->update(frameTime);
-
-		setTextureArea(mAnimation->getCurrentSprite());
-	}
-
 	mState->update(*this, frameTime);
 }
 

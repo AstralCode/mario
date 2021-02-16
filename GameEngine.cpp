@@ -46,7 +46,7 @@ void GameEngine::processEvents()
 		switch (event.type)
 		{
 		case sf::Event::KeyPressed:
-			if (event.key.code == sf::Keyboard::F2)
+			if (event.key.code == sf::Keyboard::F1)
 			{
 				mStatistics.setVisible(!mStatistics.isVisible());
 			}

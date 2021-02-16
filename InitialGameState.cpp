@@ -40,6 +40,8 @@ void InitialGameState::onEnter()
 
 	mGameObjectFactory.createScoreCoin()->setPosition(tiledMap.getGrid().getTilePosition({2, 0}));
 
+	mGameObjectFactory.createMario()->setPosition(tiledMap.getGrid().getTilePosition({2, 12}));
+
 	mGameObjectFactory.createGoomba()->setPosition(tiledMap.getGrid().getTilePosition({5, 12}));
 	mGameObjectFactory.createGoomba()->setPosition(tiledMap.getGrid().getTilePosition({7, 12}));
 
@@ -68,7 +70,7 @@ void InitialGameState::processLogic(const sf::Time&)
 
 void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent)
 {
-	if (keyEvent.code == sf::Keyboard::F3)
+	if (keyEvent.code == sf::Keyboard::F2)
 	{
 		getTiledMap().setGridVisible(!getTiledMap().isGridVisible());
 	}

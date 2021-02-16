@@ -3,35 +3,21 @@
 #include "GameObject.hpp"
 #include "MarioStandState.hpp"
 
-void MarioMoveState::onSet(GameObject& object)
+MarioMoveState::MarioMoveState(const Spriteset& spriteset) :
+    GameObjectState{spriteset}
 {
-    object.setAcceleration(object.getMaxAcceleration());
+
 }
 
-void MarioMoveState::update(GameObject& object, const sf::Time& frameTime)
+void MarioMoveState::onSet(GameObject& object)
 {
-    mAnimation.update(frameTime);
+    auto animation = createAnimation(SpritesetRegionIdentifiers::Mario::Move);
+    animation->setDuration(sf::seconds(0.25f));
+    animation->setRepeating(true);
 
-    object.setTextureArea(mAnimation.getCurrentSprite());
+    setAnimation(std::move(animation));
 
-    const auto minVelocity = 4.0f;
-
-    if (std::abs(object.getVelocity().x) > minVelocity)
-    {
-        const bool sliding =
-            (object.getDirection() == GameObject::Directions::Left && object.getVelocity().x > 0.0f) ||
-            (object.getDirection() == GameObject::Directions::Right && object.getVelocity().x < 0.0f);
-
-        if (sliding)
-        {
-            //object.setSprite("mario_slide", 0);
-        }
-
-    }
-    else if (object.getAcceleration().x == 0.0f)
-    {
-        //object.setState(MarioStandState::getInstance());
-    }
+    object.setAcceleration(object.getMaxAcceleration());
 }
 
 void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent)
@@ -66,6 +52,28 @@ void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent
         {
             moveLeft(object);
         }
+    }
+}
+
+void MarioMoveState::updateSelf(GameObject& object, const sf::Time&)
+{
+    const auto minVelocity = 4.0f;
+
+    if (std::abs(object.getVelocity().x) > minVelocity)
+    {
+        const bool sliding =
+            (object.getDirection() == GameObject::Directions::Left && object.getVelocity().x > 0.0f) ||
+            (object.getDirection() == GameObject::Directions::Right && object.getVelocity().x < 0.0f);
+
+        if (sliding)
+        {
+            object.setTextureArea(getSprite(SpritesetRegionIdentifiers::Mario::Slide));
+        }
+
+    }
+    else if (object.getAcceleration().x == 0.0f)
+    {
+        object.setState(createState<MarioStandState>());
     }
 }
 

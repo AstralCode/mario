@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "GameObjectState.hpp"
-#include "Animation.hpp"
 
 namespace sf
 {
@@ -21,7 +20,6 @@ public:
 	};
 
 	virtual void setState(std::unique_ptr<GameObjectState> state) = 0;
-	virtual void setAnimation(std::unique_ptr<Animation> animation) = 0;
 
 	virtual void setPosition(const sf::Vector2f& position) = 0;
 	virtual void setTexture(const sf::Texture& texture) = 0;
