@@ -24,6 +24,8 @@ public:
 	const sf::Vector2u& getTileSize() const;
 	const sf::Vector2u& getTileCount() const;
 
+	sf::Vector2f getTilePosition(const sf::Vector2u& tileIndex) const;
+
 	bool isGridVisible() const;
 
 private:
