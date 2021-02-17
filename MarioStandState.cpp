@@ -11,7 +11,7 @@ MarioStandState::MarioStandState(const Spriteset& spriteset) :
 
 void MarioStandState::onSet(GameObject& object)
 {
-    object.setTextureArea(getSprite(SpritesetRegionIdentifiers::Mario::Stand));
+    object.setTextureArea(getSpriteArea(SpritesetRegionIdentifiers::Mario::Stand));
     object.setAcceleration({});
 }
 

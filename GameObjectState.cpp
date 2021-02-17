@@ -17,10 +17,11 @@ void GameObjectState::setAnimation(std::unique_ptr<Animation> animation)
     mAnimation->play();
 }
 
-
-void GameObjectState::onSet(GameObject&)
+void GameObjectState::onSet(GameObject& object)
 {
-
+    object.setMaxAcceleration({});
+    object.setMaxVelocity({});
+    object.setAcceleration({});
 }
 
 void GameObjectState::onUnset(GameObject&)
@@ -35,14 +36,17 @@ void GameObjectState::destroy()
 
 void GameObjectState::update(GameObject& object, const sf::Time& frameTime)
 {
-    if (mAnimation)
+    if (!isDestroyed())
     {
-        mAnimation->update(frameTime);
+        if (mAnimation)
+        {
+            mAnimation->update(frameTime);
 
-        object.setTextureArea(mAnimation->getCurrentSprite());
+            object.setTextureArea(mAnimation->getCurrentSpriteArea());
+        }
+
+        updateSelf(object, frameTime);
     }
-
-    updateSelf(object, frameTime);
 }
 
 void GameObjectState::onKeyPressed(GameObject&, const sf::Event::KeyEvent&)
@@ -75,19 +79,14 @@ void GameObjectState::onMouseOver(GameObject&, const sf::Event::MouseMoveEvent&)
 
 }
 
-const sf::IntRect& GameObjectState::getSprite(const std::string& spritesetRegionidentifier) const
+const SpriteArea& GameObjectState::getSpriteArea(const std::string& spritesetRegionidentifier) const
 {
-    return mSpriteset.getRegion(spritesetRegionidentifier).getSprite(0);
-}
-
-bool GameObjectState::isWreck() const
-{
-    return true;
+    return mSpriteset.getRegion(spritesetRegionidentifier).getSpriteArea(0);
 }
 
 bool GameObjectState::isDestroyed() const
 {
-    return mRemoved && isWreck();
+    return mRemoved;
 }
 
 std::unique_ptr<Animation> GameObjectState::createAnimation(const std::string& spritesetRegionIdentifier) const

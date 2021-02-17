@@ -91,9 +91,9 @@ void Animation::update(const sf::Time& frameTime) noexcept
 	}
 }
 
-const sf::IntRect& Animation::getCurrentSprite() const noexcept
+const SpriteArea& Animation::getCurrentSpriteArea() const noexcept
 {
-	return mSpritesetRegion.getSprite(mCurrentSpriteIndex);
+	return mSpritesetRegion.getSpriteArea(mCurrentSpriteIndex);
 }
 
 int Animation::getSpriteCount() const noexcept

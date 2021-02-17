@@ -14,7 +14,7 @@ public:
 
 	void setPosition(const sf::Vector2f& position) override;
 	void setTexture(const sf::Texture& texture) override;
-	void setTextureArea(const sf::IntRect& area) override;
+	void setTextureArea(const SpriteArea& spriteArea) override;
 
 	void setMaxAcceleration(const sf::Vector2f& acceleration) override;
 	void setAcceleration(const sf::Vector2f& acceleration) override;
@@ -50,9 +50,6 @@ public:
 
 	bool isContainsPoint(const sf::Vector2f& point) const override;
 	bool isDestroyed() const override;
-
-protected:
-	bool isWreck() const override;
 
 private:
 	GraphicsSpriteItem* mSprite;

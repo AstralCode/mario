@@ -79,12 +79,7 @@ bool GraphicsItem::isVisible() const
 
 bool GraphicsItem::isRemoved() const
 {
-	return mRemoved && isWreck();
-}
-
-bool GraphicsItem::isWreck() const
-{
-	return true;
+	return mRemoved;
 }
 
 void GraphicsItem::setParent(GraphicsItem* item)

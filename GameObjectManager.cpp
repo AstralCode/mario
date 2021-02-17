@@ -39,11 +39,7 @@ void GameObjectManager::update(const sf::Time& frameTime)
 {
 	for (auto& object : mGameObjects)
 	{
-		if (!object->isDestroyed())
-		{
-			object->update(frameTime);
-
-			mGamePhysics.update(*object, frameTime);
-		}
+		object->update(frameTime);
+		mGamePhysics.update(*object, frameTime);
 	}
 }

@@ -5,14 +5,14 @@ SpritesetRegion::SpritesetRegion(const sf::Vector2i& gridSize, const sf::Vector2
     calculateSpriteAreas(gridSize, gridTileIndex, spritesetAreas);
 }
 
-const sf::IntRect& SpritesetRegion::getSprite(const int index) const noexcept
+const SpriteArea& SpritesetRegion::getSpriteArea(const int index) const noexcept
 {
-    return mSpritesetRegion[index];
+    return mSpriteAreas[index];
 }
 
 int SpritesetRegion::getSpriteCount() const noexcept
 {
-    return static_cast<int>(mSpritesetRegion.size());
+    return static_cast<int>(mSpriteAreas.size());
 }
 
 void SpritesetRegion::calculateSpriteAreas(const sf::Vector2i& gridSize, const sf::Vector2i& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
@@ -25,19 +25,19 @@ void SpritesetRegion::calculateSpriteAreas(const sf::Vector2i& gridSize, const s
     {
         for (int i{0}; i < static_cast<int>(spritesetAreas[j].size()); i++)
         {
-            auto& spriteArea = spritesetAreas[j][i];
+            auto& spritesetArea = spritesetAreas[j][i];
 
             sf::Vector2i spriteAreaOffset{};
-            spriteAreaOffset.x = spriteArea.getGridSize().x * spriteArea.getGridTileIndex().x;
-            spriteAreaOffset.y = spriteArea.getGridSize().y * spriteArea.getGridTileIndex().y;
+            spriteAreaOffset.x = spritesetArea.getGridSize().x * spritesetArea.getGridTileIndex().x;
+            spriteAreaOffset.y = spritesetArea.getGridSize().y * spritesetArea.getGridTileIndex().y;
 
-            sf::IntRect sprite{};
-            sprite.left = regionOffset.x + spriteAreaOffset.x + spriteArea.getArea().left;
-            sprite.top = regionOffset.y + spriteAreaOffset.y + spriteArea.getArea().top;
-            sprite.width = spriteArea.getArea().width;
-            sprite.height = spriteArea.getArea().height;
+            sf::IntRect spriteArea{};
+            spriteArea.left = regionOffset.x + spriteAreaOffset.x + spritesetArea.getSpriteArea().getArea().left;
+            spriteArea.top = regionOffset.y + spriteAreaOffset.y + spritesetArea.getSpriteArea().getArea().top;
+            spriteArea.width = spritesetArea.getSpriteArea().getArea().width;
+            spriteArea.height = spritesetArea.getSpriteArea().getArea().height;
 
-            mSpritesetRegion.push_back(sprite);
+            mSpriteAreas.push_back({spriteArea, spritesetArea.getSpriteArea().getOrigin()});
         }
     }
 }

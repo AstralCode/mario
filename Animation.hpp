@@ -5,6 +5,8 @@
 #include "SFML/System/Time.hpp"
 #include "SFML/Graphics/Rect.hpp"
 
+#include "SpriteArea.hpp"
+
 class SpritesetRegion;
 
 class Animation final
@@ -38,7 +40,7 @@ public:
 
 	void update(const sf::Time& frameTime) noexcept;
 
-	const sf::IntRect& getCurrentSprite() const noexcept;
+	const SpriteArea& getCurrentSpriteArea() const noexcept;
 
 	int getSpriteCount() const noexcept;
 

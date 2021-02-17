@@ -67,7 +67,7 @@ void MarioMoveState::updateSelf(GameObject& object, const sf::Time&)
 
         if (sliding)
         {
-            object.setTextureArea(getSprite(SpritesetRegionIdentifiers::Mario::Slide));
+            object.setTextureArea(getSpriteArea(SpritesetRegionIdentifiers::Mario::Slide));
         }
 
     }

@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "GameObjectState.hpp"
+#include "SpriteArea.hpp"
 
 namespace sf
 {
@@ -23,7 +24,7 @@ public:
 
 	virtual void setPosition(const sf::Vector2f& position) = 0;
 	virtual void setTexture(const sf::Texture& texture) = 0;
-	virtual void setTextureArea(const sf::IntRect& area) = 0;
+	virtual void setTextureArea(const SpriteArea& spriteArea) = 0;
 
 	virtual void setMaxAcceleration(const sf::Vector2f& acceleration) = 0;
 	virtual void setAcceleration(const sf::Vector2f& acceleration) = 0;

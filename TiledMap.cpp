@@ -129,6 +129,17 @@ sf::Vector2f TiledMap::getTilePosition(const sf::Vector2u& tileIndex) const
 	return mGrid.getTilePosition(tileIndex);
 }
 
+sf::Vector2f TiledMap::getTileCenterPosition(const sf::Vector2u& tileIndex) const
+{
+	auto& tileSize = mGrid.getTileSize();
+
+	auto position = getTilePosition(tileIndex);
+	position.x += tileSize.x / 2.0f;
+	position.y += tileSize.y / 2.0f;
+
+	return position;
+}
+
 bool TiledMap::isGridVisible() const
 {
 	return mGrid.isVisible();

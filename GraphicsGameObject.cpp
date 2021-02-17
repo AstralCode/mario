@@ -32,9 +32,10 @@ void GraphicsGameObject::setTexture(const sf::Texture& texture)
 	mSprite->setTexture(texture);
 }
 
-void GraphicsGameObject::setTextureArea(const sf::IntRect& area)
+void GraphicsGameObject::setTextureArea(const SpriteArea& spriteArea)
 {
-	mSprite->setTextureArea(area);
+	mSprite->setTextureArea(spriteArea.getArea());
+	mSprite->setOrigin(spriteArea.getOrigin());
 }
 
 void GraphicsGameObject::setMaxAcceleration(const sf::Vector2f& acceleration)
@@ -98,8 +99,6 @@ void GraphicsGameObject::turnAround()
 
 void GraphicsGameObject::destroy()
 {
-	remove();
-
 	mState->destroy();
 }
 
@@ -158,6 +157,11 @@ void GraphicsGameObject::receiveEvents(const sf::Event& event)
 void GraphicsGameObject::update(const sf::Time& frameTime)
 {
 	mState->update(*this, frameTime);
+
+	if (mState->isDestroyed())
+	{
+		remove();
+	}
 }
 
 sf::Vector2f GraphicsGameObject::getPosition() const
@@ -206,11 +210,6 @@ bool GraphicsGameObject::isContainsPoint(const sf::Vector2f& point) const
 }
 
 bool GraphicsGameObject::isDestroyed() const
-{
-	return isWreck();
-}
-
-bool GraphicsGameObject::isWreck() const
 {
 	return mState->isDestroyed();
 }

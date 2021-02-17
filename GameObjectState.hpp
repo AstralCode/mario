@@ -34,9 +34,7 @@ public:
 	virtual void onMouseLeave(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent);
 	virtual void onMouseOver(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent);
 
-	const sf::IntRect& getSprite(const std::string& spritesetRegionidentifier) const;
-
-	virtual bool isWreck() const;
+	const SpriteArea& getSpriteArea(const std::string& spritesetRegionidentifier) const;
 
 	bool isDestroyed() const;
 
