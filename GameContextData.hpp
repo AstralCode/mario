@@ -1,6 +1,6 @@
 #pragma once
 
-class TiledMap;
+class Tilemap;
 class GraphicsItem;
 class ResourceContainer;
 class SpritesetContainer;
@@ -9,15 +9,15 @@ class GameObjectCreator;
 class GameContextData final
 {
 public:
-	GameContextData(TiledMap& tiledMap, ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator);
+	GameContextData(Tilemap& tilemap, ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator);
 
-	TiledMap& getTiledMap();
+	Tilemap& getTilemap();
 	ResourceContainer& getResourceContainer();
 	SpritesetContainer& getSpritesetContainer();
 	GameObjectCreator& getGameObjectCreator();
 
 private:
-	TiledMap& mTiledMap;
+	Tilemap& mTilemap;
 	ResourceContainer& mResourceContainer;
 	SpritesetContainer& mSpritesetContainer;
 	GameObjectCreator& mGameObjectCreator;

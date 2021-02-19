@@ -9,7 +9,7 @@ GameEngine::GameEngine() :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mStatistics{mFPSCounter},
 	mGameObjectManager{mGraphicsScene, mGamePhysics},
-	mGameContextData{mTiledMap, mResourceManager, mSpritesetManager, mGameObjectManager},
+	mGameContextData{mTilemap, mResourceManager, mSpritesetManager, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {
 	mRenderWindow.setKeyRepeatEnabled(false);
@@ -39,7 +39,7 @@ void GameEngine::processEvents()
 
 	while (mRenderWindow.pollEvent(event))
 	{
-		mTiledMap.receiveEvents(event);
+		mTilemap.receiveEvents(event);
 		mGameObjectManager.receiveEvents(event);
 		mGameStateManager.processEvents(event);
 
@@ -84,9 +84,9 @@ void GameEngine::processRender()
 
 	mRenderWindow.clear();
 
-	mRenderWindow.draw(mTiledMap);
+	mRenderWindow.draw(mTilemap);
 	mRenderWindow.draw(mGraphicsScene);
-	mRenderWindow.draw(mTiledMap.getGrid());
+	mRenderWindow.draw(mTilemap.getGrid());
 
 	if (mStatistics.isVisible())
 	{

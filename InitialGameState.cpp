@@ -14,7 +14,12 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 
 void InitialGameState::onEnter()
 {
-	const std::vector<std::vector<unsigned int>> tileIdentifierMap =
+	const std::unordered_map<unsigned int, Flags<TileAttributes>> tileAttributes =
+	{
+		{1, {{TileAttributes::Solid, TileAttributes::Visible}}}
+	};
+
+	const std::vector<std::vector<unsigned int>> tileIdentifiers =
 	{
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
@@ -33,30 +38,31 @@ void InitialGameState::onEnter()
 		{ 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001 }
 	};
 
-	auto& tiledMap = getTiledMap();
-	tiledMap.setTileset(&getTexture(TextureIdentifiers::Scenery));
-	tiledMap.setTileIdentifierMap(tileIdentifierMap);
-	tiledMap.setBackgroundColor({97, 133, 246});
-	tiledMap.build({32u, 32u});
+	auto& tilemap = getTilemap();
+	tilemap.setTilesetTexture(&getTexture(TextureIdentifiers::Scenery));
+	tilemap.setTileAttributes(tileAttributes);
+	tilemap.setTileIdentifiers(tileIdentifiers);
+	tilemap.setBackgroundColor({97, 133, 246});
+	tilemap.build({32u, 32u});
 
-	mGameObjectFactory.createScoreCoin()->setPosition(tiledMap.getTileCenterPosition({2, 0}));
+	mGameObjectFactory.createScoreCoin()->setPosition(tilemap.getTileCenterPosition({2, 0}));
 
-	mGameObjectFactory.createMario()->setPosition(tiledMap.getTileCenterPosition({2, 12}));
+	mGameObjectFactory.createMario()->setPosition(tilemap.getTileCenterPosition({2, 12}));
 
-	(mGoomba = mGameObjectFactory.createGoomba())->setPosition(tiledMap.getTileCenterPosition({5, 12}));
-	mGameObjectFactory.createGoomba()->setPosition(tiledMap.getTileCenterPosition({7, 12}));
+	(mGoomba = mGameObjectFactory.createGoomba())->setPosition(tilemap.getTileCenterPosition({5, 12}));
+	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({7, 12}));
 
-	mGameObjectFactory.createCoin()->setPosition(tiledMap.getTileCenterPosition({10, 7}));
-	mGameObjectFactory.createCoin()->setPosition(tiledMap.getTileCenterPosition({11, 7}));
-	mGameObjectFactory.createCoin()->setPosition(tiledMap.getTileCenterPosition({12, 7}));
-	mGameObjectFactory.createCoin()->setPosition(tiledMap.getTileCenterPosition({13, 7}));
-	mGameObjectFactory.createCoin()->setPosition(tiledMap.getTileCenterPosition({10, 8}));
-	mGameObjectFactory.createCoin()->setPosition(tiledMap.getTileCenterPosition({11, 8}));
-	mGameObjectFactory.createCoin()->setPosition(tiledMap.getTileCenterPosition({12, 8}));
-	mGameObjectFactory.createCoin()->setPosition(tiledMap.getTileCenterPosition({13, 8}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({12, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({13, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 8}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 8}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({12, 8}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({13, 8}));
 
-	mGameObjectFactory.createQuestionMarkBox()->setPosition(tiledMap.getTileCenterPosition({7, 7}));
-	mGameObjectFactory.createQuestionMarkBox()->setPosition(tiledMap.getTileCenterPosition({8, 7}));
+	mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({7, 7}));
+	mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({8, 7}));
 }
 
 void InitialGameState::onLeave()
@@ -73,7 +79,7 @@ void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent)
 {
 	if (keyEvent.code == sf::Keyboard::F2)
 	{
-		getTiledMap().setGridVisible(!getTiledMap().isGridVisible());
+		getTilemap().setGridVisible(!getTilemap().isGridVisible());
 	}
 	else if (keyEvent.code == sf::Keyboard::F3)
 	{

@@ -1,37 +1,37 @@
-#include "TiledMapGrid.hpp"
+#include "TilemapGrid.hpp"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
-TiledMapGrid::TiledMapGrid() :
+TilemapGrid::TilemapGrid() :
 	mGridColor{sf::Color::White},
 	mGridVisible{false}
 {
-	mTiledMapVertexArray.setPrimitiveType(sf::PrimitiveType::Lines);
+	mTilemapVertexArray.setPrimitiveType(sf::PrimitiveType::Lines);
 }
 
-void TiledMapGrid::setTileSize(const sf::Vector2u& size)
+void TilemapGrid::setTileSize(const sf::Vector2u& size)
 {
 	mTileSize = size;
 }
 
-void TiledMapGrid::setTileCount(const sf::Vector2u& count)
+void TilemapGrid::setTileCount(const sf::Vector2u& count)
 {
 	mTileCount = count;
 }
 
-void TiledMapGrid::setVisible(const bool visible)
+void TilemapGrid::setVisible(const bool visible)
 {
 	mGridVisible = visible;
 }
 
-void TiledMapGrid::setGridColor(const sf::Color& color)
+void TilemapGrid::setGridColor(const sf::Color& color)
 {
 	mGridColor = color;
 }
 
-void TiledMapGrid::build()
+void TilemapGrid::build()
 {
-	mTiledMapVertexArray.clear();
+	mTilemapVertexArray.clear();
 
 	for (unsigned int y{0u}; y < mTileCount.y; ++y)
 	{
@@ -43,8 +43,8 @@ void TiledMapGrid::build()
 		horizontalRight.x = static_cast<float>(mTileSize.x * mTileCount.x);
 		horizontalRight.y = static_cast<float>(y * mTileSize.y);
 
-		mTiledMapVertexArray.append(sf::Vertex{horizontalLeft, mGridColor});
-		mTiledMapVertexArray.append(sf::Vertex{horizontalRight, mGridColor});
+		mTilemapVertexArray.append(sf::Vertex{horizontalLeft, mGridColor});
+		mTilemapVertexArray.append(sf::Vertex{horizontalRight, mGridColor});
 	}
 
 	for (unsigned int x{0u}; x < mTileCount.x; ++x)
@@ -57,22 +57,22 @@ void TiledMapGrid::build()
 		verticalBottom.x = static_cast<float>(x * mTileSize.x);
 		verticalBottom.y = static_cast<float>(mTileSize.y * mTileCount.y);
 
-		mTiledMapVertexArray.append(sf::Vertex{verticalTop, mGridColor});
-		mTiledMapVertexArray.append(sf::Vertex{verticalBottom, mGridColor});
+		mTilemapVertexArray.append(sf::Vertex{verticalTop, mGridColor});
+		mTilemapVertexArray.append(sf::Vertex{verticalBottom, mGridColor});
 	}
 }
 
-const sf::Vector2u& TiledMapGrid::getTileSize() const
+const sf::Vector2u& TilemapGrid::getTileSize() const
 {
 	return mTileSize;
 }
 
-const sf::Vector2u& TiledMapGrid::getTileCount() const
+const sf::Vector2u& TilemapGrid::getTileCount() const
 {
 	return mTileCount;
 }
 
-sf::Vector2u TiledMapGrid::getTileIndex(const sf::Vector2i& mousePosition) const
+sf::Vector2u TilemapGrid::getTileIndex(const sf::Vector2i& mousePosition) const
 {
 	sf::Vector2u index{};
 	index.x = mousePosition.x / mTileSize.x;
@@ -81,7 +81,7 @@ sf::Vector2u TiledMapGrid::getTileIndex(const sf::Vector2i& mousePosition) const
 	return index;
 }
 
-sf::Vector2f TiledMapGrid::getTilePosition(const sf::Vector2u& index) const
+sf::Vector2f TilemapGrid::getTilePosition(const sf::Vector2u& index) const
 {
 	sf::Vector2f position{};
 	position.x = static_cast<float>(mTileSize.x * index.x);
@@ -90,7 +90,7 @@ sf::Vector2f TiledMapGrid::getTilePosition(const sf::Vector2u& index) const
 	return position;
 }
 
-sf::FloatRect TiledMapGrid::getBounds() const
+sf::FloatRect TilemapGrid::getBounds() const
 {
 	sf::FloatRect bounds{};
 	bounds.left = 0.0f;
@@ -101,15 +101,15 @@ sf::FloatRect TiledMapGrid::getBounds() const
 	return bounds;
 }
 
-bool TiledMapGrid::isVisible() const
+bool TilemapGrid::isVisible() const
 {
 	return mGridVisible;
 }
 
-void TiledMapGrid::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void TilemapGrid::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	if (isVisible())
 	{
-		target.draw(mTiledMapVertexArray, states);
+		target.draw(mTilemapVertexArray, states);
 	}
 }

@@ -1,7 +1,7 @@
 #include "GameContextData.hpp"
 
-GameContextData::GameContextData(TiledMap& tiledMap, ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) :
-	mTiledMap{tiledMap},
+GameContextData::GameContextData(Tilemap& tilemap, ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) :
+	mTilemap{tilemap},
 	mResourceContainer{resourceContainer},
 	mSpritesetContainer{spritesetContainer},
 	mGameObjectCreator{gameObjectCreator}
@@ -9,9 +9,9 @@ GameContextData::GameContextData(TiledMap& tiledMap, ResourceContainer& resource
 
 }
 
-TiledMap& GameContextData::getTiledMap()
+Tilemap& GameContextData::getTilemap()
 {
-	return mTiledMap;
+	return mTilemap;
 }
 
 ResourceContainer& GameContextData::getResourceContainer()

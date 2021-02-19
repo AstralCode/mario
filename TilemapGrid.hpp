@@ -3,10 +3,10 @@
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/Graphics/VertexArray.hpp"
 
-class TiledMapGrid final : public sf::Drawable
+class TilemapGrid final : public sf::Drawable
 {
 public:
-	TiledMapGrid();
+	TilemapGrid();
 
 	void setTileSize(const sf::Vector2u& size);
 	void setTileCount(const sf::Vector2u& count);
@@ -34,7 +34,7 @@ private:
 
 	sf::Color mGridColor;
 
-	sf::VertexArray mTiledMapVertexArray;
+	sf::VertexArray mTilemapVertexArray;
 
 	bool mGridVisible;
 };

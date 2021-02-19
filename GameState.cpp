@@ -44,9 +44,9 @@ void GameState::onEscapePressed()
 
 }
 
-TiledMap& GameState::getTiledMap()
+Tilemap& GameState::getTilemap()
 {
-	return mGameContextData.getTiledMap();
+	return mGameContextData.getTilemap();
 }
 
 ResourceContainer& GameState::getResourceContainer()

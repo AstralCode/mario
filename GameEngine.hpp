@@ -3,7 +3,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Statistics.hpp"
-#include "TiledMap.hpp"
+#include "tilemap.hpp"
 #include "GamePhysics.hpp"
 #include "GraphicsItem.hpp"
 #include "ResourceManager.hpp"
@@ -44,7 +44,7 @@ private:
 
 	FPSCounter mFPSCounter;
 	Statistics mStatistics;
-	TiledMap mTiledMap;
+	Tilemap mTilemap;
 	GamePhysics mGamePhysics;
 	GraphicsItem mGraphicsScene;
 	ResourceManager mResourceManager;
