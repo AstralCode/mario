@@ -187,26 +187,26 @@ void GameEngine::initializeSpritesets()
 	}}});
 
 	auto& blocksSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Blocks);
-	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::QuestionMarkBox, {{32, 32}, {0, 3}, {{
+	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::QuestionMarkBox, {{32, 32}, {0, 0}, {{
 		SpritesetArea{{32, 32}, {0, 0}, {{0, 0, 32, 32}, {16, 16}}},
 		SpritesetArea{{32, 32}, {1, 0}, {{0, 0, 32, 32}, {16, 16}}},
 		SpritesetArea{{32, 32}, {2, 0}, {{0, 0, 32, 32}, {16, 16}}}
 	}}});
 
-	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::WaterQuestionMarkBox, {{32, 32}, {0, 4}, {{
+	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::WaterQuestionMarkBox, {{32, 32}, {0, 1}, {{
 		SpritesetArea{{32, 32}, {0, 0}, {{0, 0, 32, 32}, {16, 16}}},
 		SpritesetArea{{32, 32}, {1, 0}, {{0, 0, 32, 32}, {16, 16}}},
 		SpritesetArea{{32, 32}, {2, 0}, {{0, 0, 32, 32}, {16, 16}}}
 	}}});
 
 	auto& itemSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Items);
-	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::Coin, {{32, 32}, {12, 12}, {{
+	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::Coin, {{32, 32}, {4, 0}, {{
 		SpritesetArea{{32, 32}, {0, 0}, {{6, 2, 20, 28}, {10, 14}}},
 		SpritesetArea{{32, 32}, {1, 0}, {{6, 2, 20, 28}, {10, 14}}},
 		SpritesetArea{{32, 32}, {2, 0}, {{6, 2, 20, 28}, {10, 14}}}
 	}}});
 
-	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::ScoreCoin, {{32, 32}, {11, 15}, {{
+	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::ScoreCoin, {{32, 32}, {9, 3}, {{
 		SpritesetArea{{11, 16}, {0, 0}, {{0, 0, 10, 16}, {5, 8}}},
 		SpritesetArea{{11, 16}, {1, 0}, {{0, 0, 10, 16}, {5, 8}}},
 		SpritesetArea{{11, 16}, {2, 0}, {{0, 0, 10, 16}, {5, 8}}}
@@ -233,6 +233,7 @@ void GameEngine::loadFonts()
 void GameEngine::loadTextures()
 {
 	mResourceManager.addTexture(TextureIdentifiers::Enemies, ResourcePaths::Textures::Enemies);
+	mResourceManager.addTexture(TextureIdentifiers::Items, ResourcePaths::Textures::Items);
 	mResourceManager.addTexture(TextureIdentifiers::Mario, ResourcePaths::Textures::Mario);
 	mResourceManager.addTexture(TextureIdentifiers::Scenery, ResourcePaths::Textures::Scenery);
 }

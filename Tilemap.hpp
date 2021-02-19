@@ -1,6 +1,6 @@
 #pragma once
 
-#include <unordered_map>
+#include <map>
 #include <optional>
 
 #include "SFML/Window/Event.hpp"
@@ -19,7 +19,7 @@ public:
 
 	void setInformationText(const sf::Font& font, const unsigned int characterSize = 12u);
 
-	void setTileAttributes(const std::unordered_map<unsigned int, Flags<TileAttributes>>& tileAttributes);
+	void setTileAttributes(const std::map<unsigned int, Flags<TileAttributes>>& tileAttributes);
 	void setTileIdentifier(const unsigned int identifier, const sf::Vector2u& tileIndex);
 	void setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifiers);
 
@@ -74,6 +74,6 @@ private:
 
 	TilemapGrid mGrid;
 
-	std::unordered_map<unsigned int, Flags<TileAttributes>> mTileAttributes;
+	std::map<unsigned int, Flags<TileAttributes>> mTileAttributes;
 	std::vector<std::vector<unsigned int>> mTileIdentifiers;
 };

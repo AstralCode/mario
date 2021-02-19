@@ -1,4 +1,4 @@
-#include "tilemap.hpp"
+#include "Tilemap.hpp"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/Graphics/Texture.hpp"
@@ -25,7 +25,7 @@ void Tilemap::setTilesetTexture(const sf::Texture* tilesetTexture)
 	mTilesetTexture = tilesetTexture;
 }
 
-void Tilemap::setTileAttributes(const std::unordered_map<unsigned int, Flags<TileAttributes>>& tileAttributes)
+void Tilemap::setTileAttributes(const std::map<unsigned int, Flags<TileAttributes>>& tileAttributes)
 {
 	mTileAttributes = tileAttributes;
 }
@@ -181,10 +181,7 @@ void Tilemap::onMouseClick(const sf::Vector2i& position, const sf::Mouse::Button
 		if (tileAttributes.has_value())
 		{
 			information.append("\n");
-			information.append("\tDeadly: " + std::to_string(tileAttributes->isSet(TileAttributes::Deadly)) + "\n");
-			information.append("\tDestroyable: " + std::to_string(tileAttributes->isSet(TileAttributes::Destroyable)) + "\n");
-			information.append("\tSolid: " + std::to_string(tileAttributes->isSet(TileAttributes::Solid)) + "\n");
-			information.append("\tVisible: " + std::to_string(tileAttributes->isSet(TileAttributes::Visible)));
+			information.append("\tSolid: " + std::to_string(tileAttributes->isSet(TileAttributes::Solid)));
 		}
 
 		mInformationText.setString(information);

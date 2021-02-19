@@ -6,7 +6,7 @@
 
 InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) :
 	GameState{gameContextData, gameStateChanger},
-	mGameObjectFactory{gameContextData.getTilemap(), gameContextData.getResourceContainer(), gameContextData.getSpritesetContainer(), gameContextData.getGameObjectCreator()},
+	mGameObjectFactory{gameContextData.getResourceContainer(), gameContextData.getSpritesetContainer(), gameContextData.getGameObjectCreator()},
 	mGoomba{nullptr}
 {
 
@@ -14,9 +14,14 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 
 void InitialGameState::onEnter()
 {
-	const std::unordered_map<unsigned int, Flags<TileAttributes>> tileAttributes =
+	const std::map<unsigned int, Flags<TileAttributes>> tileAttributes =
 	{
-		{1, {{TileAttributes::Solid, TileAttributes::Visible}}}
+		{1u, {{TileAttributes::Solid}}},
+		{2u, {{TileAttributes::Solid}}},
+		{3u, {{TileAttributes::Solid}}},
+		{16u, {{TileAttributes::Solid}}},
+		{17u, {{TileAttributes::Solid}}},
+		{18u, {{TileAttributes::Solid}}}
 	};
 
 	const std::vector<std::vector<unsigned int>> tileIdentifiers =
@@ -29,11 +34,11 @@ void InitialGameState::onEnter()
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
-		{ 000, 000, 000, 000, 120, 121, 122, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
-		{ 000, 000, 000, 000, 138, 139, 140, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
-		{ 000, 000,  51, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
-		{ 000,  47,  48,  50, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
-		{  47,  48,  49,  48,  50, 000, 000, 000, 000, 000, 000,  44,  45,  45,  45,  46, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000, 000,  45, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000,  41,  42,  44, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{  41,  43,  43,  42,  44, 000, 000, 000, 000, 000, 000,  38,  39,  39,  39,  40, 000, 000, 000, 000 },
 		{ 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001 },
 		{ 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001 }
 	};
@@ -46,24 +51,24 @@ void InitialGameState::onEnter()
 	tilemap.setBackgroundColor({97, 133, 246});
 	tilemap.build({32u, 32u});
 
-	mGameObjectFactory.createScoreCoin({2, 0});
+	mGameObjectFactory.createScoreCoin()->setPosition(tilemap.getTileCenterPosition({2, 0}));
 
-	mGameObjectFactory.createMario({2, 12});
+	mGameObjectFactory.createMario()->setPosition(tilemap.getTileCenterPosition({2, 12}));
 
-	(mGoomba = mGameObjectFactory.createGoomba({5, 12}));
-	mGameObjectFactory.createGoomba({7, 12});
+	(mGoomba = mGameObjectFactory.createGoomba())->setPosition(tilemap.getTileCenterPosition({5, 12}));
+	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({7, 12}));
 
-	mGameObjectFactory.createCoin({10, 7});
-	mGameObjectFactory.createCoin({11, 7});
-	mGameObjectFactory.createCoin({12, 7});
-	mGameObjectFactory.createCoin({13, 7});
-	mGameObjectFactory.createCoin({10, 8});
-	mGameObjectFactory.createCoin({11, 8});
-	mGameObjectFactory.createCoin({12, 8});
-	mGameObjectFactory.createCoin({13, 8});
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({12, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({13, 7}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 8}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 8}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({12, 8}));
+	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({13, 8}));
 
-	mGameObjectFactory.createQuestionMarkBox({7, 7});
-	mGameObjectFactory.createQuestionMarkBox({8, 7});
+	mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({7, 7}));
+	mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({8, 7}));
 }
 
 void InitialGameState::onLeave()
