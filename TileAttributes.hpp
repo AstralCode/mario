@@ -2,8 +2,8 @@
 
 enum class TileAttributes
 {
-	Destroyable	= 1 << 0,
-	Visible		= 1 << 1,
-	Deadly		= 1 << 2,
-	Solid		= 1 << 3
+	Deadly		= 1 << 1,
+	Destroyable = 1 << 2,
+	Solid		= 1 << 3,
+	Visible		= 1 << 4
 };

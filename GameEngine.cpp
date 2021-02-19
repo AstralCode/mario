@@ -155,7 +155,6 @@ void GameEngine::executeMainLoop()
 
 void GameEngine::initializeStatistics()
 {
-	mStatistics.setPosition(5.0f, 5.0f);
 	mStatistics.setText(mResourceManager.getFont(FontIdentifiers::Roboto));
 	mStatistics.setVisible(false);
 }

@@ -7,8 +7,17 @@ Tilemap::Tilemap() :
 	mTilesetTexture{nullptr},
 	mBackgroundColor{sf::Color::Transparent}
 {
+	mInformationText.setPosition(6.0f, 128.0f);
+	mInformationText.setCharacterSize(12u);
+
 	mBackgroundVerticlesArray.setPrimitiveType(sf::PrimitiveType::Quads);
 	mTileVerticlesArray.setPrimitiveType(sf::PrimitiveType::Quads);
+}
+
+void Tilemap::setInformationText(const sf::Font& font, const unsigned int characterSize)
+{
+	mInformationText.setFont(font);
+	mInformationText.setCharacterSize(characterSize);
 }
 
 void Tilemap::setTilesetTexture(const sf::Texture* tilesetTexture)
@@ -21,9 +30,14 @@ void Tilemap::setTileAttributes(const std::unordered_map<unsigned int, Flags<Til
 	mTileAttributes = tileAttributes;
 }
 
-void Tilemap::setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifierMap)
+void Tilemap::setTileIdentifier(const unsigned int identifier, const sf::Vector2u& tileIndex)
 {
-	mTileIdentifiers = identifierMap;
+	mTileIdentifiers[tileIndex.y][tileIndex.x] = identifier;
+}
+
+void Tilemap::setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifiers)
+{
+	mTileIdentifiers = identifiers;
 }
 
 void Tilemap::setBackgroundColor(const sf::Color& color)
@@ -142,6 +156,11 @@ sf::Vector2f Tilemap::getTileCenterPosition(const sf::Vector2u& tileIndex) const
 	return position;
 }
 
+const sf::Text& Tilemap::getText() const
+{
+	return mInformationText;
+}
+
 bool Tilemap::isGridVisible() const
 {
 	return mGrid.isVisible();
@@ -149,16 +168,24 @@ bool Tilemap::isGridVisible() const
 
 void Tilemap::onMouseClick(const sf::Vector2i& position)
 {
-	if (isGridVisible())
-	{
-		auto tileIndex = getGrid().getTileIndex(position);
-		auto tileAttributes = getTileAttributes(tileIndex);
+	auto tileIndex = getGrid().getTileIndex(position);
+	auto tileIdentifier = getTileIdentifier(tileIndex);
+	auto tileAttributes = getTileAttributes(tileIndex);
 
-		if (tileAttributes.has_value())
-		{
-			bool b = isGridVisible();
-		}
+	auto information =
+		"TileIndex: " + std::to_string(tileIndex.x) + ", " + std::to_string(tileIndex.y) + "\n" +
+		"TileId: " + std::to_string(tileIdentifier);
+
+	if (tileAttributes.has_value())
+	{
+		information.append("\n");
+		information.append("- Deadly: " + std::to_string(tileAttributes->isSet(TileAttributes::Deadly)) + "\n");
+		information.append("- Destroyable: " + std::to_string(tileAttributes->isSet(TileAttributes::Destroyable)) + "\n");
+		information.append("- Solid: " + std::to_string(tileAttributes->isSet(TileAttributes::Solid)) + "\n");
+		information.append("- Visible: " + std::to_string(tileAttributes->isSet(TileAttributes::Visible)));
 	}
+
+	mInformationText.setString(information);
 }
 
 void Tilemap::onMouseMoved(const sf::Vector2i&)
@@ -221,7 +248,7 @@ void Tilemap::setTileSprite(const unsigned int tileIdentifier, const sf::Vector2
 		tileVerticles[3u] = {};
 	}
 
-	mTileIdentifiers[tileIndex.y][tileIndex.x] = tileIdentifier;
+	setTileIdentifier(tileIdentifier, tileIndex);
 }
 
 void Tilemap::clearTileSprite(const sf::Vector2u& tileIndex)
@@ -233,7 +260,7 @@ void Tilemap::clearTileSprite(const sf::Vector2u& tileIndex)
 	tileVerticles[2u] = {};
 	tileVerticles[3u] = {};
 
-	mTileIdentifiers[tileIndex.y][tileIndex.x] = 0u;
+	setTileIdentifier(0u, tileIndex);
 }
 
 sf::Vertex* Tilemap::getTileVerticles(const sf::Vector2u& tileIndex)
@@ -249,6 +276,8 @@ void Tilemap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	states.texture = mTilesetTexture;
 	target.draw(mTileVerticlesArray, states);
+
+	target.draw(mInformationText, states);
 }
 
 bool Tilemap::isContainsPoint(const sf::Vector2f& point) const

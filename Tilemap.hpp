@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "SFML/Window/Event.hpp"
+#include "SFML/Graphics/Text.hpp"
 
 #include "TilemapGrid.hpp"
 #include "TileAttributes.hpp"
@@ -16,8 +17,11 @@ public:
 
 	void setTilesetTexture(const sf::Texture* tilesetTexture);
 
+	void setInformationText(const sf::Font& font, const unsigned int characterSize = 12u);
+
 	void setTileAttributes(const std::unordered_map<unsigned int, Flags<TileAttributes>>& tileAttributes);
-	void setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifierMap);
+	void setTileIdentifier(const unsigned int identifier, const sf::Vector2u& tileIndex);
+	void setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifiers);
 
 	void setBackgroundColor(const sf::Color& color);
 	void setGridVisible(const bool visible);
@@ -37,6 +41,8 @@ public:
 
 	sf::Vector2f getTilePosition(const sf::Vector2u& tileIndex) const;
 	sf::Vector2f getTileCenterPosition(const sf::Vector2u& tileIndex) const;
+
+	const sf::Text& getText() const;
 
 	bool isGridVisible() const;
 
@@ -58,6 +64,8 @@ private:
 	bool isContainsPoint(const sf::Vector2f& point) const;
 
 	const sf::Texture* mTilesetTexture;
+
+	sf::Text mInformationText;
 
 	sf::Color mBackgroundColor;
 
