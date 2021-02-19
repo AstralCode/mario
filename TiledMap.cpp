@@ -7,7 +7,7 @@ Tilemap::Tilemap() :
 	mTilesetTexture{nullptr},
 	mBackgroundColor{sf::Color::Transparent}
 {
-	mInformationText.setPosition(6.0f, 128.0f);
+	mInformationText.setPosition(6.0f, 40.0f);
 	mInformationText.setCharacterSize(12u);
 
 	mBackgroundVerticlesArray.setPrimitiveType(sf::PrimitiveType::Quads);
@@ -58,7 +58,7 @@ void Tilemap::receiveEvents(const sf::Event& event)
 	{
 		if (isContainsPoint({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)}))
 		{
-			onMouseClick({event.mouseButton.x, event.mouseButton.y});
+			onMouseClick({event.mouseButton.x, event.mouseButton.y}, event.mouseButton.button);
 		}
 		break;
 	}
@@ -166,26 +166,29 @@ bool Tilemap::isGridVisible() const
 	return mGrid.isVisible();
 }
 
-void Tilemap::onMouseClick(const sf::Vector2i& position)
+void Tilemap::onMouseClick(const sf::Vector2i& position, const sf::Mouse::Button button)
 {
-	auto tileIndex = getGrid().getTileIndex(position);
-	auto tileIdentifier = getTileIdentifier(tileIndex);
-	auto tileAttributes = getTileAttributes(tileIndex);
-
-	auto information =
-		"TileIndex: " + std::to_string(tileIndex.x) + ", " + std::to_string(tileIndex.y) + "\n" +
-		"TileId: " + std::to_string(tileIdentifier);
-
-	if (tileAttributes.has_value())
+	if (button == sf::Mouse::Button::Left)
 	{
-		information.append("\n");
-		information.append("- Deadly: " + std::to_string(tileAttributes->isSet(TileAttributes::Deadly)) + "\n");
-		information.append("- Destroyable: " + std::to_string(tileAttributes->isSet(TileAttributes::Destroyable)) + "\n");
-		information.append("- Solid: " + std::to_string(tileAttributes->isSet(TileAttributes::Solid)) + "\n");
-		information.append("- Visible: " + std::to_string(tileAttributes->isSet(TileAttributes::Visible)));
-	}
+		auto tileIndex = getGrid().getTileIndex(position);
+		auto tileIdentifier = getTileIdentifier(tileIndex);
+		auto tileAttributes = getTileAttributes(tileIndex);
 
-	mInformationText.setString(information);
+		auto information =
+			"TileIndex: " + std::to_string(tileIndex.x) + ", " + std::to_string(tileIndex.y) + "\n" +
+			"TileId: " + std::to_string(tileIdentifier);
+
+		if (tileAttributes.has_value())
+		{
+			information.append("\n");
+			information.append("\tDeadly: " + std::to_string(tileAttributes->isSet(TileAttributes::Deadly)) + "\n");
+			information.append("\tDestroyable: " + std::to_string(tileAttributes->isSet(TileAttributes::Destroyable)) + "\n");
+			information.append("\tSolid: " + std::to_string(tileAttributes->isSet(TileAttributes::Solid)) + "\n");
+			information.append("\tVisible: " + std::to_string(tileAttributes->isSet(TileAttributes::Visible)));
+		}
+
+		mInformationText.setString(information);
+	}
 }
 
 void Tilemap::onMouseMoved(const sf::Vector2i&)

@@ -47,7 +47,7 @@ public:
 	bool isGridVisible() const;
 
 private:
-	void onMouseClick(const sf::Vector2i& position);
+	void onMouseClick(const sf::Vector2i& position, const sf::Mouse::Button button);
 	void onMouseMoved(const sf::Vector2i& position);
 
 	sf::Vector2u calculateTextureTilePosition(const unsigned int tileIdentifier, const sf::Vector2u& tileSize) const;
