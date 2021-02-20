@@ -34,6 +34,11 @@ void GameObjectState::destroy()
     mRemoved = true;
 }
 
+void GameObjectState::onCollision(GameObject&)
+{
+
+}
+
 void GameObjectState::update(GameObject& object, const sf::Time& frameTime)
 {
     if (!isDestroyed())

@@ -37,6 +37,8 @@ public:
 
 	void destroy();
 
+	void onCollision(GameObject& object);
+
 	void receiveEvents(const sf::Event& event);
 
 	void update(const sf::Time& frameTime);

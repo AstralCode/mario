@@ -22,6 +22,8 @@ public:
 
 	void destroy();
 
+	virtual void onCollision(GameObject& object);
+
 	void update(GameObject& object, const sf::Time& frameTime);
 
 	virtual void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent);

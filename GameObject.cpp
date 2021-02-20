@@ -106,6 +106,11 @@ void GameObject::destroy()
 	mState->destroy();
 }
 
+void GameObject::onCollision(GameObject& object)
+{
+	mState->onCollision(object);
+}
+
 void GameObject::receiveEvents(const sf::Event& event)
 {
 	switch (event.type)
