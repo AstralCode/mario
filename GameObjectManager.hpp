@@ -15,7 +15,7 @@ class GameObjectManager final : public GameObjectCreator
 public:
 	GameObjectManager(GraphicsItem& graphicsScene, GamePhysics& physics);
 
-	GameObject* create() override;
+	GraphicsGameObject* create() override;
 
 	void receiveEvents(const sf::Event& event);
 
@@ -23,8 +23,10 @@ public:
 	void update(const sf::Time& frameTime);
 
 private:
+	void checkCollisions() const;
+
 	GraphicsItem& mGraphicsScene;
 	GamePhysics& mGamePhysics;
 
-	std::vector<GameObject*> mGameObjects;
+	std::vector<GraphicsGameObject*> mGameObjects;
 };

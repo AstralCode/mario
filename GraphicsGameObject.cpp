@@ -1,11 +1,15 @@
 #include "GraphicsGameObject.hpp"
 
+#include "SFML/Graphics/RenderTarget.hpp"
+#include "SFML/Graphics/RectangleShape.hpp"
+
 #include "GraphicsSpriteItem.hpp"
 
 GraphicsGameObject::GraphicsGameObject() :
 	mSprite{addItem<GraphicsSpriteItem>()},
 	mDirection{Directions::Right},
 	mDirectionFactor{+1.0f, 0.0f},
+	mBoundsVisible{false},
 	mMouseOver{false}
 {
 
@@ -20,11 +24,6 @@ void GraphicsGameObject::setState(std::unique_ptr<GameObjectState> state)
 
 	mState = std::move(state);
 	mState->onSet(*this);
-}
-
-void GraphicsGameObject::setPosition(const sf::Vector2f& position)
-{
-	mSprite->setPosition(position);
 }
 
 void GraphicsGameObject::setTexture(const sf::Texture& texture)
@@ -57,6 +56,11 @@ void GraphicsGameObject::setVelocity(const sf::Vector2f& velocity)
 {
 	mVelocity.x = std::min(velocity.x, mMaxVelocity.x);
 	mVelocity.y = std::min(velocity.y, mMaxVelocity.y);
+}
+
+void GraphicsGameObject::setBoundsVisible(const bool visible)
+{
+	mBoundsVisible = visible;
 }
 
 void GraphicsGameObject::accelerateVelocity(const sf::Vector2f& acceleration)
@@ -164,11 +168,6 @@ void GraphicsGameObject::update(const sf::Time& frameTime)
 	}
 }
 
-sf::Vector2f GraphicsGameObject::getPosition() const
-{
-	return mSprite->getGlobalPosition();
-}
-
 const sf::Vector2f& GraphicsGameObject::getMaxVelocity() const
 {
 	return mMaxVelocity;
@@ -199,9 +198,14 @@ const sf::Vector2f& GraphicsGameObject::getAcceleration() const
 	return mAcceleration;
 }
 
-bool GraphicsGameObject::hasCollision(const GraphicsItem& item) const
+bool GraphicsGameObject::hasCollision(const GraphicsGameObject& object) const
 {
-	return mSprite->isIntersectsItem(item);
+	return mSprite->isIntersectsItem(object);
+}
+
+bool GraphicsGameObject::isBoundsVisible() const
+{
+	return mBoundsVisible;
 }
 
 bool GraphicsGameObject::isContainsPoint(const sf::Vector2f& point) const
@@ -212,6 +216,28 @@ bool GraphicsGameObject::isContainsPoint(const sf::Vector2f& point) const
 bool GraphicsGameObject::isDestroyed() const
 {
 	return mState->isDestroyed();
+}
+
+void GraphicsGameObject::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	if (mBoundsVisible)
+	{
+		drawBounds(target);
+	}
+}
+
+void GraphicsGameObject::drawBounds(sf::RenderTarget& target) const
+{
+	const auto itemBounds = getBounds();
+
+	sf::RectangleShape bounds{};
+	bounds.setPosition(itemBounds.left, itemBounds.top);
+	bounds.setSize({itemBounds.width, itemBounds.height});
+	bounds.setFillColor(sf::Color::Transparent);
+	bounds.setOutlineColor(sf::Color::Red);
+	bounds.setOutlineThickness(1.0f);
+
+	target.draw(bounds);
 }
 
 sf::FloatRect GraphicsGameObject::getBounds() const

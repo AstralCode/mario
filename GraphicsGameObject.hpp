@@ -1,57 +1,67 @@
 #pragma once
 
 #include "GraphicsItem.hpp"
-#include "GameObject.hpp"
+#include "GameObjectState.hpp"
 
 class GraphicsSpriteItem;
 
-class GraphicsGameObject final : public GraphicsItem, public GameObject
+class GraphicsGameObject final : public GraphicsItem
 {
 public:
+	enum class Directions
+	{
+		Left,
+		Right
+	};
+
 	GraphicsGameObject();
 
-	void setState(std::unique_ptr<GameObjectState> state) override;
+	void setState(std::unique_ptr<GameObjectState> state);
 
-	void setPosition(const sf::Vector2f& position) override;
-	void setTexture(const sf::Texture& texture) override;
-	void setTextureArea(const SpriteArea& spriteArea) override;
+	void setTexture(const sf::Texture& texture);
+	void setTextureArea(const SpriteArea& spriteArea);
 
-	void setMaxAcceleration(const sf::Vector2f& acceleration) override;
-	void setAcceleration(const sf::Vector2f& acceleration) override;
-	void setMaxVelocity(const sf::Vector2f& velocity) override;
-	void setVelocity(const sf::Vector2f& velocity) override;
+	void setMaxAcceleration(const sf::Vector2f& acceleration);
+	void setAcceleration(const sf::Vector2f& acceleration);
+	void setMaxVelocity(const sf::Vector2f& velocity);
+	void setVelocity(const sf::Vector2f& velocity);
+	
+	void setBoundsVisible(const bool visible);
 
-	void accelerateVelocity(const sf::Vector2f& acceleration) override;
-	void move(const sf::Vector2f& offset) override;
+	void accelerateVelocity(const sf::Vector2f& acceleration);
+	void move(const sf::Vector2f& offset);
 
-	void setDirectionFactor(const sf::Vector2f& factor) override;
-	void setDirection(const Directions direction) override;
-	void turnAround() override;
+	void setDirectionFactor(const sf::Vector2f& factor);
+	void setDirection(const Directions direction);
+	void turnAround();
 
-	void destroy() override;
+	void destroy();
 
-	void receiveEvents(const sf::Event& event) override;
+	void receiveEvents(const sf::Event& event);
 
-	void update(const sf::Time& frameTime) override;
+	void update(const sf::Time& frameTime);
 
-	sf::Vector2f getPosition() const override;
+	sf::FloatRect getBounds() const override;
 
-	sf::FloatRect getBounds() const;
+	const sf::Vector2f& getMaxAcceleration() const;
+	const sf::Vector2f& getAcceleration() const;
+	const sf::Vector2f& getMaxVelocity() const;
+	const sf::Vector2f& getVelocity() const;
 
-	const sf::Vector2f& getMaxAcceleration() const override;
-	const sf::Vector2f& getAcceleration() const override;
-	const sf::Vector2f& getMaxVelocity() const override;
-	const sf::Vector2f& getVelocity() const override;
+	const sf::Vector2f& getDirectionFactor() const;
+	Directions getDirection() const;
 
-	const sf::Vector2f& getDirectionFactor() const override;
-	Directions getDirection() const override;
+	bool hasCollision(const GraphicsGameObject& object) const;
+		
+	bool isBoundsVisible() const;;
 
-	bool hasCollision(const GraphicsItem& item) const override;
-
-	bool isContainsPoint(const sf::Vector2f& point) const override;
-	bool isDestroyed() const override;
+	bool isContainsPoint(const sf::Vector2f& point) const;
+	bool isDestroyed() const;
 
 private:
+	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const override;
+	void drawBounds(sf::RenderTarget& target) const;
+
 	GraphicsSpriteItem* mSprite;
 
 	std::unique_ptr<GameObjectState> mState;
@@ -64,5 +74,6 @@ private:
 	sf::Vector2f mDirectionFactor;
 	Directions mDirection;
 
+	bool mBoundsVisible;
 	bool mMouseOver;
 };

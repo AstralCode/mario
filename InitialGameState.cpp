@@ -6,8 +6,7 @@
 
 InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) :
 	GameState{gameContextData, gameStateChanger},
-	mGameObjectFactory{gameContextData.getResourceContainer(), gameContextData.getSpritesetContainer(), gameContextData.getGameObjectCreator()},
-	mGoomba{nullptr}
+	mGameObjectFactory{gameContextData.getResourceContainer(), gameContextData.getSpritesetContainer(), gameContextData.getGameObjectCreator()}
 {
 
 }
@@ -19,9 +18,10 @@ void InitialGameState::onEnter()
 		{1u, {{TileAttributes::Solid}}},
 		{2u, {{TileAttributes::Solid}}},
 		{3u, {{TileAttributes::Solid}}},
-		{16u, {{TileAttributes::Solid}}},
-		{17u, {{TileAttributes::Solid}}},
-		{18u, {{TileAttributes::Solid}}}
+		{50u, {{TileAttributes::Solid}}},
+		{51u, {{TileAttributes::Solid}}},
+		{52u, {{TileAttributes::Solid}}},
+		{70u, {{TileAttributes::Solid}}}
 	};
 
 	const std::vector<std::vector<unsigned int>> tileIdentifiers =
@@ -35,10 +35,10 @@ void InitialGameState::onEnter()
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
-		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
-		{ 000, 000,  45, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
-		{ 000,  41,  42,  44, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
-		{  41,  43,  43,  42,  44, 000, 000, 000, 000, 000, 000,  38,  39,  39,  39,  40, 000, 000, 000, 000 },
+		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000,  50,  51,  51,  51,  52 },
+		{ 000, 000,  45, 000, 000, 000, 000,  50,  51,  52, 000, 000, 000, 000, 000, 000, 000,  70, 000, 000 },
+		{ 000,  41,  42,  44, 000, 000, 000, 000,  70, 000, 000, 000, 000, 000, 000, 000, 000,  70, 000, 000 },
+		{  41,  43,  43,  42,  44, 000, 000, 000,  70, 000, 000,  38,  39,  39,  39,  40, 000,  70, 000, 000 },
 		{ 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001 },
 		{ 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001, 001 }
 	};
@@ -55,7 +55,7 @@ void InitialGameState::onEnter()
 
 	mGameObjectFactory.createMario()->setPosition(tilemap.getTileCenterPosition({2, 12}));
 
-	(mGoomba = mGameObjectFactory.createGoomba())->setPosition(tilemap.getTileCenterPosition({5, 12}));
+	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({5, 12}));
 	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({7, 12}));
 
 	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 7}));
@@ -67,8 +67,8 @@ void InitialGameState::onEnter()
 	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({12, 8}));
 	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({13, 8}));
 
-	mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({7, 7}));
-	mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({8, 7}));
+	mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({8, 6}));
+	mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({17, 5}));
 }
 
 void InitialGameState::onLeave()
@@ -86,13 +86,6 @@ void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent)
 	if (keyEvent.code == sf::Keyboard::F2)
 	{
 		getTilemap().setGridVisible(!getTilemap().isGridVisible());
-	}
-	else if (keyEvent.code == sf::Keyboard::F3)
-	{
-		auto deadState = std::make_unique<GameObjectState>(getSpritesetContainer().getSpriteset(SpritesetIdentifiers::Enemy));
-		
-		mGoomba->setState(std::move(deadState));
-		mGoomba->setTextureArea(getSpritesetContainer().getSpriteset(SpritesetIdentifiers::Enemy).getRegion(SpritesetRegionIdentifiers::Goomba::Dead).getSpriteArea(0));
 	}
 }
 

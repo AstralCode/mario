@@ -8,7 +8,7 @@
 #include "Animation.hpp"
 #include "SpritesetContainer.hpp"
 
-class GameObject;
+class GraphicsGameObject;
 
 class GameObjectState
 {
@@ -18,21 +18,21 @@ public:
 
 	void setAnimation(std::unique_ptr<Animation> animation);
 
-	virtual void onSet(GameObject& object);
-	virtual void onUnset(GameObject& object);
+	virtual void onSet(GraphicsGameObject& object);
+	virtual void onUnset(GraphicsGameObject& object);
 
 	void destroy();
 
-	void update(GameObject& object, const sf::Time& frameTime);
+	void update(GraphicsGameObject& object, const sf::Time& frameTime);
 
-	virtual void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent);
-	virtual void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent);
+	virtual void onKeyPressed(GraphicsGameObject& object, const sf::Event::KeyEvent& keyEvent);
+	virtual void onKeyReleased(GraphicsGameObject& object, const sf::Event::KeyEvent& keyEvent);
 
-	virtual void onMouseClick(GameObject& object, const sf::Event::MouseButtonEvent& mouseButtonEvent);
+	virtual void onMouseClick(GraphicsGameObject& object, const sf::Event::MouseButtonEvent& mouseButtonEvent);
 
-	virtual void onMouseEnter(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent);
-	virtual void onMouseLeave(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent);
-	virtual void onMouseOver(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent);
+	virtual void onMouseEnter(GraphicsGameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent);
+	virtual void onMouseLeave(GraphicsGameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent);
+	virtual void onMouseOver(GraphicsGameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent);
 
 	const SpriteArea& getSpriteArea(const std::string& spritesetRegionidentifier) const;
 
@@ -45,7 +45,7 @@ protected:
 	std::unique_ptr<TGameObjectState> createState() const;
 
 private:
-	virtual void updateSelf(GameObject& object, const sf::Time& frameTime);
+	virtual void updateSelf(GraphicsGameObject& object, const sf::Time& frameTime);
 
 	const Spriteset& mSpriteset;
 

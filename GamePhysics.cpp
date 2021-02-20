@@ -1,8 +1,8 @@
 #include "GamePhysics.hpp"
 
-#include "GameObject.hpp"
+#include "GraphicsGameObject.hpp"
 
-void GamePhysics::update(GameObject& object, const sf::Time& frameTime) const
+void GamePhysics::update(GraphicsGameObject& object, const sf::Time& frameTime) const
 {
     updateMovement(object, frameTime);
     applyFriction(object, frameTime);
@@ -13,13 +13,13 @@ float GamePhysics::getFriction()
 	return mFriction;
 }
 
-void GamePhysics::updateMovement(GameObject& object, const sf::Time& frameTime) const
+void GamePhysics::updateMovement(GraphicsGameObject& object, const sf::Time& frameTime) const
 {
     applyAcceleration(object, frameTime);
     updatePosition(object, frameTime);
 }
 
-void GamePhysics::applyAcceleration(GameObject& object, const sf::Time& frameTime) const
+void GamePhysics::applyAcceleration(GraphicsGameObject& object, const sf::Time& frameTime) const
 {
     sf::Vector2f acceleration{};
     acceleration.x = object.getAcceleration().x * frameTime.asSeconds() * object.getDirectionFactor().x;
@@ -28,7 +28,7 @@ void GamePhysics::applyAcceleration(GameObject& object, const sf::Time& frameTim
     object.accelerateVelocity(acceleration);
 }
 
-void GamePhysics::updatePosition(GameObject& object, const sf::Time& frameTime) const
+void GamePhysics::updatePosition(GraphicsGameObject& object, const sf::Time& frameTime) const
 {
     sf::Vector2f move{};
     move.x = object.getVelocity().x * frameTime.asSeconds();
@@ -37,7 +37,7 @@ void GamePhysics::updatePosition(GameObject& object, const sf::Time& frameTime) 
     object.move(move);
 }
 
-void GamePhysics::applyFriction(GameObject& object, const sf::Time&) const
+void GamePhysics::applyFriction(GraphicsGameObject& object, const sf::Time&) const
 {
     const auto friction = getFriction();
 

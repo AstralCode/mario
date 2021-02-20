@@ -100,7 +100,7 @@ void GraphicsItem::cleanItems()
 
 void GraphicsItem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	if (isVisible())
+	if (mVisible)
 	{
 		states.transform.combine(getTransform());
 
@@ -109,7 +109,7 @@ void GraphicsItem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
-void GraphicsItem::drawItems(sf::RenderTarget& target, sf::RenderStates& states) const
+void GraphicsItem::drawItems(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (auto& item : mItems)
 	{

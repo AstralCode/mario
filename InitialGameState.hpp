@@ -18,6 +18,4 @@ private:
 	void onEscapePressed() override;
 
 	GameObjectFactory mGameObjectFactory;
-
-	GameObject* mGoomba;
 };

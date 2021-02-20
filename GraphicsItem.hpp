@@ -23,7 +23,7 @@ public:
 	void clean();
 
 	virtual sf::FloatRect getBounds() const;
-	virtual sf::Transform getGlobalTransform() const;
+	sf::Transform getGlobalTransform() const;
 
 	sf::Vector2f getGlobalPosition() const;
 
@@ -40,7 +40,7 @@ private:
 	void cleanItems();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override final;
-	void drawItems(sf::RenderTarget& target, sf::RenderStates& states) const;
+	void drawItems(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	virtual void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const;
 
