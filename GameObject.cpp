@@ -213,7 +213,7 @@ bool GameObject::isDestroyed() const
 	return mState->isDestroyed();
 }
 
-void GameObject::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const
+void GameObject::drawSelf(sf::RenderTarget& target, sf::RenderStates) const
 {
 	if (mBoundsVisible)
 	{

@@ -2,7 +2,6 @@
 
 #include <memory>
 
-#include "SFML/System/Time.hpp"
 #include "SFML/Window/Event.hpp"
 
 #include "Animation.hpp"
