@@ -64,19 +64,19 @@ void GameObjectState::onKeyReleased(GameObject&, const sf::Event::KeyEvent&)
 
 }
 
-void GameObjectState::onMouseClick(GameObject& object, const sf::Event::MouseButtonEvent&)
-{
-    object.setBoundsVisible(!object.isBoundsVisible());
-}
-
-void GameObjectState::onMouseEnter(GameObject&, const sf::Event::MouseMoveEvent&)
+void GameObjectState::onMouseClick(GameObject&, const sf::Event::MouseButtonEvent&)
 {
 
 }
 
-void GameObjectState::onMouseLeave(GameObject&, const sf::Event::MouseMoveEvent&)
+void GameObjectState::onMouseEnter(GameObject& object, const sf::Event::MouseMoveEvent&)
 {
+    object.setBoundsVisible(true);
+}
 
+void GameObjectState::onMouseLeave(GameObject& object, const sf::Event::MouseMoveEvent&)
+{
+    object.setBoundsVisible(false);
 }
 
 void GameObjectState::onMouseOver(GameObject&, const sf::Event::MouseMoveEvent&)
