@@ -15,7 +15,7 @@ class GameObjectManager final : public GameObjectCreator
 public:
 	GameObjectManager(GraphicsItem& graphicsScene, GamePhysics& physics);
 
-	GraphicsGameObject* create() override;
+	GameObject* create() override;
 
 	void receiveEvents(const sf::Event& event);
 
@@ -28,5 +28,5 @@ private:
 	GraphicsItem& mGraphicsScene;
 	GamePhysics& mGamePhysics;
 
-	std::vector<GraphicsGameObject*> mGameObjects;
+	std::vector<GameObject*> mGameObjects;
 };

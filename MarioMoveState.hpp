@@ -7,14 +7,14 @@ class MarioMoveState final : public GameObjectState
 public:
 	MarioMoveState(const Spriteset& spriteset);
 
-	void onSet(GraphicsGameObject& object) override;
+	void onSet(GameObject& object) override;
 
-	void onKeyPressed(GraphicsGameObject& object, const sf::Event::KeyEvent& keyEvent) override;
-	void onKeyReleased(GraphicsGameObject& object, const sf::Event::KeyEvent& keyEvent) override;
+	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) override;
+	void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) override;
 
 private:
-	void updateSelf(GraphicsGameObject& object, const sf::Time& frameTime) override;
+	void updateSelf(GameObject& object, const sf::Time& frameTime) override;
 
-	void moveLeft(GraphicsGameObject& object) const;
-	void moveRight(GraphicsGameObject& object) const;
+	void moveLeft(GameObject& object) const;
+	void moveRight(GameObject& object) const;
 };

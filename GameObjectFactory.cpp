@@ -1,6 +1,6 @@
 #include "GameObjectFactory.hpp"
 
-#include "GraphicsGameObject.hpp"
+#include "GameObject.hpp"
 #include "ResourceContainer.hpp"
 #include "GameObjectCreator.hpp"
 #include "MarioStandState.hpp"
@@ -13,7 +13,7 @@ GameObjectFactory::GameObjectFactory(ResourceContainer& resourceContainer, Sprit
 
 }
 
-GraphicsGameObject* GameObjectFactory::createMario() noexcept
+GameObject* GameObjectFactory::createMario() noexcept
 {
 	auto state = createObjectState<MarioStandState>(SpritesetIdentifiers::Mario);
 
@@ -25,7 +25,7 @@ GraphicsGameObject* GameObjectFactory::createMario() noexcept
 	return object;
 }
 
-GraphicsGameObject* GameObjectFactory::createGoomba() noexcept
+GameObject* GameObjectFactory::createGoomba() noexcept
 {
 	auto animation = createAnimation(SpritesetIdentifiers::Enemy, SpritesetRegionIdentifiers::Goomba::Move);
 	animation->setDuration(sf::seconds(0.25f));
@@ -44,7 +44,7 @@ GraphicsGameObject* GameObjectFactory::createGoomba() noexcept
 	return object;
 }
 
-GraphicsGameObject* GameObjectFactory::createCoin() noexcept
+GameObject* GameObjectFactory::createCoin() noexcept
 {
 	auto animation = createAnimation(SpritesetIdentifiers::Items, SpritesetRegionIdentifiers::Items::Coin);
 	animation->setDuration(sf::seconds(0.25f));
@@ -61,7 +61,7 @@ GraphicsGameObject* GameObjectFactory::createCoin() noexcept
 	return object;
 }
 
-GraphicsGameObject* GameObjectFactory::createScoreCoin() noexcept
+GameObject* GameObjectFactory::createScoreCoin() noexcept
 {
 	auto animation = createAnimation(SpritesetIdentifiers::Items, SpritesetRegionIdentifiers::Items::ScoreCoin);
 	animation->setDuration(sf::seconds(0.25f));
@@ -78,7 +78,7 @@ GraphicsGameObject* GameObjectFactory::createScoreCoin() noexcept
 	return object;
 }
 
-GraphicsGameObject* GameObjectFactory::createQuestionMarkBox() noexcept
+GameObject* GameObjectFactory::createQuestionMarkBox() noexcept
 {
 	auto animation = createAnimation(SpritesetIdentifiers::Blocks, SpritesetRegionIdentifiers::Blocks::QuestionMarkBox);
 	animation->setDuration(sf::seconds(0.25f));
@@ -100,7 +100,7 @@ std::unique_ptr<Animation> GameObjectFactory::createAnimation(const std::string&
 	return std::make_unique<Animation>(mSpritesetContainer.getSpriteset(spritesetIdetntifier).getRegion(spritesetRegionIdentifier));
 }
 
-GraphicsGameObject* GameObjectFactory::createObject(const TextureIdentifiers textureIdentifier) const noexcept
+GameObject* GameObjectFactory::createObject(const TextureIdentifiers textureIdentifier) const noexcept
 {
 	auto object = mGameObjectCreator.create();
 	object->setTexture(mResourceContainer.getTexture(textureIdentifier));

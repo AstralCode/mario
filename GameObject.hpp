@@ -5,7 +5,7 @@
 
 class GraphicsSpriteItem;
 
-class GraphicsGameObject final : public GraphicsItem
+class GameObject final : public GraphicsItem
 {
 public:
 	enum class Directions
@@ -14,7 +14,7 @@ public:
 		Right
 	};
 
-	GraphicsGameObject();
+	GameObject();
 
 	void setState(std::unique_ptr<GameObjectState> state);
 
@@ -51,8 +51,6 @@ public:
 	const sf::Vector2f& getDirectionFactor() const;
 	Directions getDirection() const;
 
-	bool hasCollision(const GraphicsGameObject& object) const;
-		
 	bool isBoundsVisible() const;;
 
 	bool isContainsPoint(const sf::Vector2f& point) const;

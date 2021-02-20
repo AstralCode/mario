@@ -7,7 +7,7 @@
 #include "ResourceContainer.hpp"
 #include "SpritesetContainer.hpp"
 #include "GameObjectCreator.hpp"
-#include "GraphicsGameObject.hpp"
+#include "GameObject.hpp"
 
 class GameContextData;
 class GameStateChanger;

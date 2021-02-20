@@ -9,7 +9,7 @@
 
 class ResourceContainer;
 class Animation;
-class GraphicsGameObject;
+class GameObject;
 class GameObjectCreator;
 class GameObjectState;
 
@@ -18,12 +18,12 @@ class GameObjectFactory final
 public:
 	GameObjectFactory(ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) noexcept;
 
-	GraphicsGameObject* createMario() noexcept;
-	GraphicsGameObject* createGoomba() noexcept;
+	GameObject* createMario() noexcept;
+	GameObject* createGoomba() noexcept;
 
-	GraphicsGameObject* createCoin() noexcept;
-	GraphicsGameObject* createScoreCoin() noexcept;
-	GraphicsGameObject* createQuestionMarkBox() noexcept;
+	GameObject* createCoin() noexcept;
+	GameObject* createScoreCoin() noexcept;
+	GameObject* createQuestionMarkBox() noexcept;
 
 private:
 	std::unique_ptr<Animation> createAnimation(const std::string& spritesetIdetntifier, const std::string& spritesetRegionIdentifier) const noexcept;
@@ -31,7 +31,7 @@ private:
 	template <typename TGameObjectState>
 	std::unique_ptr<TGameObjectState> createObjectState(const std::string& spritesetIdetntifier) const noexcept;
 
-	GraphicsGameObject* createObject(const TextureIdentifiers textureIdentifier) const noexcept;
+	GameObject* createObject(const TextureIdentifiers textureIdentifier) const noexcept;
 
 	ResourceContainer& mResourceContainer;
 	SpritesetContainer& mSpritesetContainer;

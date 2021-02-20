@@ -1,11 +1,11 @@
 #pragma once
 
-class GraphicsGameObject;
+class GameObject;
 
 class GameObjectCreator
 {
 public:
 	virtual ~GameObjectCreator() = default;
 
-	virtual GraphicsGameObject* create() = 0;
+	virtual GameObject* create() = 0;
 };

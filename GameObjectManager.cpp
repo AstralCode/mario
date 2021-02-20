@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <functional>
 
-#include "GraphicsGameObject.hpp"
+#include "GameObject.hpp"
 #include "GamePhysics.hpp"
 
 GameObjectManager::GameObjectManager(GraphicsItem& graphicsScene, GamePhysics& physics) :
@@ -13,9 +13,9 @@ GameObjectManager::GameObjectManager(GraphicsItem& graphicsScene, GamePhysics& p
 
 }
 
-GraphicsGameObject* GameObjectManager::create()
+GameObject* GameObjectManager::create()
 {
-	auto object = mGraphicsScene.addItem<GraphicsGameObject>();
+	auto object = mGraphicsScene.addItem<GameObject>();
 	mGameObjects.push_back(object);
 
     return object;
@@ -31,7 +31,7 @@ void GameObjectManager::receiveEvents(const sf::Event& event)
 
 void GameObjectManager::clean()
 {
-	auto gameObjectsIterator = std::remove_if(mGameObjects.begin(), mGameObjects.end(), std::mem_fn(&GraphicsGameObject::isDestroyed));
+	auto gameObjectsIterator = std::remove_if(mGameObjects.begin(), mGameObjects.end(), std::mem_fn(&GameObject::isDestroyed));
 	mGameObjects.erase(gameObjectsIterator, mGameObjects.end());
 }
 
@@ -48,7 +48,7 @@ void GameObjectManager::update(const sf::Time& frameTime)
 
 void GameObjectManager::checkCollisions() const
 {
-	std::vector<GraphicsGameObject*> objects = mGameObjects;
+	std::vector<GameObject*> objects = mGameObjects;
 
 	for (auto objectsIterator = objects.begin(); objectsIterator != objects.end();)
 	{
@@ -56,7 +56,7 @@ void GameObjectManager::checkCollisions() const
 
 		if (objectAdvanceIterator != objects.end())
 		{
-			if ((*objectsIterator)->hasCollision(*(*objectAdvanceIterator)))
+			if ((*objectsIterator)->isIntersectsItem(*(*objectAdvanceIterator)))
 			{
 
 			}

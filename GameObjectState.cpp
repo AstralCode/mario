@@ -1,6 +1,6 @@
 #include "GameObjectState.hpp"
 
-#include "GraphicsGameObject.hpp"
+#include "GameObject.hpp"
 #include "Spriteset.hpp"
 
 GameObjectState::GameObjectState(const Spriteset& spriteset) :
@@ -17,14 +17,14 @@ void GameObjectState::setAnimation(std::unique_ptr<Animation> animation)
     mAnimation->play();
 }
 
-void GameObjectState::onSet(GraphicsGameObject& object)
+void GameObjectState::onSet(GameObject& object)
 {
     object.setMaxAcceleration({});
     object.setMaxVelocity({});
     object.setAcceleration({});
 }
 
-void GameObjectState::onUnset(GraphicsGameObject&)
+void GameObjectState::onUnset(GameObject&)
 {
 
 }
@@ -34,7 +34,7 @@ void GameObjectState::destroy()
     mRemoved = true;
 }
 
-void GameObjectState::update(GraphicsGameObject& object, const sf::Time& frameTime)
+void GameObjectState::update(GameObject& object, const sf::Time& frameTime)
 {
     if (!isDestroyed())
     {
@@ -49,32 +49,32 @@ void GameObjectState::update(GraphicsGameObject& object, const sf::Time& frameTi
     }
 }
 
-void GameObjectState::onKeyPressed(GraphicsGameObject&, const sf::Event::KeyEvent&)
+void GameObjectState::onKeyPressed(GameObject&, const sf::Event::KeyEvent&)
 {
 
 }
 
-void GameObjectState::onKeyReleased(GraphicsGameObject&, const sf::Event::KeyEvent&)
+void GameObjectState::onKeyReleased(GameObject&, const sf::Event::KeyEvent&)
 {
 
 }
 
-void GameObjectState::onMouseClick(GraphicsGameObject& object, const sf::Event::MouseButtonEvent&)
+void GameObjectState::onMouseClick(GameObject& object, const sf::Event::MouseButtonEvent&)
 {
     object.setBoundsVisible(!object.isBoundsVisible());
 }
 
-void GameObjectState::onMouseEnter(GraphicsGameObject&, const sf::Event::MouseMoveEvent&)
+void GameObjectState::onMouseEnter(GameObject&, const sf::Event::MouseMoveEvent&)
 {
 
 }
 
-void GameObjectState::onMouseLeave(GraphicsGameObject&, const sf::Event::MouseMoveEvent&)
+void GameObjectState::onMouseLeave(GameObject&, const sf::Event::MouseMoveEvent&)
 {
 
 }
 
-void GameObjectState::onMouseOver(GraphicsGameObject&, const sf::Event::MouseMoveEvent&)
+void GameObjectState::onMouseOver(GameObject&, const sf::Event::MouseMoveEvent&)
 {
 
 }
@@ -94,7 +94,7 @@ std::unique_ptr<Animation> GameObjectState::createAnimation(const std::string& s
     return std::make_unique<Animation>(mSpriteset.getRegion(spritesetRegionIdentifier));
 }
 
-void GameObjectState::updateSelf(GraphicsGameObject&, const sf::Time&)
+void GameObjectState::updateSelf(GameObject&, const sf::Time&)
 {
 
 }

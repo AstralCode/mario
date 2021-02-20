@@ -1,11 +1,11 @@
-#include "GraphicsGameObject.hpp"
+#include "GameObject.hpp"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/Graphics/RectangleShape.hpp"
 
 #include "GraphicsSpriteItem.hpp"
 
-GraphicsGameObject::GraphicsGameObject() :
+GameObject::GameObject() :
 	mSprite{addItem<GraphicsSpriteItem>()},
 	mDirection{Directions::Right},
 	mDirectionFactor{+1.0f, 0.0f},
@@ -15,7 +15,7 @@ GraphicsGameObject::GraphicsGameObject() :
 
 }
 
-void GraphicsGameObject::setState(std::unique_ptr<GameObjectState> state)
+void GameObject::setState(std::unique_ptr<GameObjectState> state)
 {
 	if (mState)
 	{
@@ -26,59 +26,59 @@ void GraphicsGameObject::setState(std::unique_ptr<GameObjectState> state)
 	mState->onSet(*this);
 }
 
-void GraphicsGameObject::setTexture(const sf::Texture& texture)
+void GameObject::setTexture(const sf::Texture& texture)
 {
 	mSprite->setTexture(texture);
 }
 
-void GraphicsGameObject::setTextureArea(const SpriteArea& spriteArea)
+void GameObject::setTextureArea(const SpriteArea& spriteArea)
 {
 	mSprite->setTextureArea(spriteArea.getArea());
 	mSprite->setOrigin(spriteArea.getOrigin());
 }
 
-void GraphicsGameObject::setMaxAcceleration(const sf::Vector2f& acceleration)
+void GameObject::setMaxAcceleration(const sf::Vector2f& acceleration)
 {
 	mMaxAcceleration = acceleration;
 }
 
-void GraphicsGameObject::setAcceleration(const sf::Vector2f& acceleration)
+void GameObject::setAcceleration(const sf::Vector2f& acceleration)
 {
 	mAcceleration = acceleration;
 }
 
-void GraphicsGameObject::setMaxVelocity(const sf::Vector2f& velocity)
+void GameObject::setMaxVelocity(const sf::Vector2f& velocity)
 {
 	mMaxVelocity = velocity;
 }
 
-void GraphicsGameObject::setVelocity(const sf::Vector2f& velocity)
+void GameObject::setVelocity(const sf::Vector2f& velocity)
 {
 	mVelocity.x = std::min(velocity.x, mMaxVelocity.x);
 	mVelocity.y = std::min(velocity.y, mMaxVelocity.y);
 }
 
-void GraphicsGameObject::setBoundsVisible(const bool visible)
+void GameObject::setBoundsVisible(const bool visible)
 {
 	mBoundsVisible = visible;
 }
 
-void GraphicsGameObject::accelerateVelocity(const sf::Vector2f& acceleration)
+void GameObject::accelerateVelocity(const sf::Vector2f& acceleration)
 {
 	setVelocity({mVelocity.x + acceleration.x, mVelocity.y + acceleration.y});
 }
 
-void GraphicsGameObject::move(const sf::Vector2f& offset)
+void GameObject::move(const sf::Vector2f& offset)
 {
 	mSprite->move(offset);
 }
 
-void GraphicsGameObject::setDirectionFactor(const sf::Vector2f& factor)
+void GameObject::setDirectionFactor(const sf::Vector2f& factor)
 {
 	mDirectionFactor = factor;
 }
 
-void GraphicsGameObject::setDirection(const Directions direction)
+void GameObject::setDirection(const Directions direction)
 {
 	if (direction != mDirection)
 	{
@@ -89,7 +89,7 @@ void GraphicsGameObject::setDirection(const Directions direction)
 	}
 }
 
-void GraphicsGameObject::turnAround()
+void GameObject::turnAround()
 {
 	if (mDirection == Directions::Right)
 	{
@@ -101,12 +101,12 @@ void GraphicsGameObject::turnAround()
 	}
 }
 
-void GraphicsGameObject::destroy()
+void GameObject::destroy()
 {
 	mState->destroy();
 }
 
-void GraphicsGameObject::receiveEvents(const sf::Event& event)
+void GameObject::receiveEvents(const sf::Event& event)
 {
 	switch (event.type)
 	{
@@ -158,7 +158,7 @@ void GraphicsGameObject::receiveEvents(const sf::Event& event)
 	}
 }
 
-void GraphicsGameObject::update(const sf::Time& frameTime)
+void GameObject::update(const sf::Time& frameTime)
 {
 	mState->update(*this, frameTime);
 
@@ -168,57 +168,52 @@ void GraphicsGameObject::update(const sf::Time& frameTime)
 	}
 }
 
-const sf::Vector2f& GraphicsGameObject::getMaxVelocity() const
+const sf::Vector2f& GameObject::getMaxVelocity() const
 {
 	return mMaxVelocity;
 }
 
-const sf::Vector2f& GraphicsGameObject::getVelocity() const
+const sf::Vector2f& GameObject::getVelocity() const
 {
 	return mVelocity;
 }
 
-const sf::Vector2f& GraphicsGameObject::getDirectionFactor() const
+const sf::Vector2f& GameObject::getDirectionFactor() const
 {
 	return mDirectionFactor;
 }
 
-GraphicsGameObject::Directions GraphicsGameObject::getDirection() const
+GameObject::Directions GameObject::getDirection() const
 {
 	return mDirection;
 }
 
-const sf::Vector2f& GraphicsGameObject::getMaxAcceleration() const
+const sf::Vector2f& GameObject::getMaxAcceleration() const
 {
 	return mMaxAcceleration;
 }
 
-const sf::Vector2f& GraphicsGameObject::getAcceleration() const
+const sf::Vector2f& GameObject::getAcceleration() const
 {
 	return mAcceleration;
 }
 
-bool GraphicsGameObject::hasCollision(const GraphicsGameObject& object) const
-{
-	return mSprite->isIntersectsItem(object);
-}
-
-bool GraphicsGameObject::isBoundsVisible() const
+bool GameObject::isBoundsVisible() const
 {
 	return mBoundsVisible;
 }
 
-bool GraphicsGameObject::isContainsPoint(const sf::Vector2f& point) const
+bool GameObject::isContainsPoint(const sf::Vector2f& point) const
 {
 	return mSprite->isContainsPoint(point);
 }
 
-bool GraphicsGameObject::isDestroyed() const
+bool GameObject::isDestroyed() const
 {
 	return mState->isDestroyed();
 }
 
-void GraphicsGameObject::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const
+void GameObject::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	if (mBoundsVisible)
 	{
@@ -226,7 +221,7 @@ void GraphicsGameObject::drawSelf(sf::RenderTarget& target, sf::RenderStates sta
 	}
 }
 
-void GraphicsGameObject::drawBounds(sf::RenderTarget& target) const
+void GameObject::drawBounds(sf::RenderTarget& target) const
 {
 	const auto itemBounds = getBounds();
 
@@ -240,7 +235,7 @@ void GraphicsGameObject::drawBounds(sf::RenderTarget& target) const
 	target.draw(bounds);
 }
 
-sf::FloatRect GraphicsGameObject::getBounds() const
+sf::FloatRect GameObject::getBounds() const
 {
 	return mSprite->getBounds();
 }
