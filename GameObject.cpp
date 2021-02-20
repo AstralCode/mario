@@ -5,7 +5,8 @@
 
 #include "GraphicsSpriteItem.hpp"
 
-GameObject::GameObject() :
+GameObject::GameObject(const GameObjectIdentifiers identifier) :
+	mIdentifier{identifier},
 	mSprite{addItem<GraphicsSpriteItem>()},
 	mDirection{Directions::Right},
 	mDirectionFactor{+1.0f, 0.0f},
@@ -173,6 +174,11 @@ void GameObject::update(const sf::Time& frameTime)
 	}
 }
 
+GameObjectIdentifiers GameObject::getIdentifier() const
+{
+	return mIdentifier;
+}
+
 const sf::Vector2f& GameObject::getMaxVelocity() const
 {
 	return mMaxVelocity;
@@ -191,6 +197,11 @@ const sf::Vector2f& GameObject::getDirectionFactor() const
 GameObject::Directions GameObject::getDirection() const
 {
 	return mDirection;
+}
+
+bool GameObject::hasIdentifier(const GameObjectIdentifiers identifier) const
+{
+	return mIdentifier == identifier;
 }
 
 const sf::Vector2f& GameObject::getMaxAcceleration() const

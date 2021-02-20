@@ -6,16 +6,18 @@
 #include "GameObject.hpp"
 #include "GamePhysics.hpp"
 
-GameObjectManager::GameObjectManager(GraphicsItem& graphicsScene, GamePhysics& physics) :
+GameObjectManager::GameObjectManager(Tilemap& tilemap, GraphicsItem& graphicsScene, GamePhysics& physics, SpritesetContainer& spritesetContainer) :
+	mTilemap{tilemap},
 	mGraphicsScene{graphicsScene},
-	mGamePhysics{physics}
+	mGamePhysics{physics},
+	mSpritesetContainer{spritesetContainer}
 {
 
 }
 
-GameObject* GameObjectManager::create()
+GameObject* GameObjectManager::create(const GameObjectIdentifiers identifier)
 {
-	auto object = mGraphicsScene.addItem<GameObject>();
+	auto object = mGraphicsScene.addItem<GameObject>(identifier);
 	mGameObjects.push_back(object);
 
     return object;
@@ -37,7 +39,7 @@ void GameObjectManager::clean()
 
 void GameObjectManager::update(const sf::Time& frameTime)
 {
-	//checkCollisions();
+	checkCollisions();
 
 	for (auto& object : mGameObjects)
 	{
@@ -50,15 +52,22 @@ void GameObjectManager::checkCollisions() const
 {
 	std::vector<GameObject*> objects = mGameObjects;
 
-	for (auto objectsIterator = objects.begin(); objectsIterator != objects.end();)
+	for (auto objectsIterator = objects.begin(); objectsIterator != objects.end(); objectsIterator++)
 	{
-		auto objectAdvanceIterator = std::next(objectsIterator, 1u);
+		auto& object = *objectsIterator;
 
-		if (objectAdvanceIterator != objects.end())
+		for (auto nextObjectIterator = std::next(objectsIterator, 1u); nextObjectIterator != objects.end() && !object->isDestroyed(); nextObjectIterator++)
 		{
-			if ((*objectsIterator)->isIntersectsItem(*(*objectAdvanceIterator)))
-			{
+			auto& nextObject = *nextObjectIterator;
 
+			if (object->isIntersectsItem(*nextObject))
+			{
+				auto collisionHandlerIterator = mCollisionHandlers.find(object->getIdentifier());
+				if (collisionHandlerIterator != mCollisionHandlers.end())
+				{
+					auto& collisionHandler = collisionHandlerIterator->second;
+					collisionHandler->onCollision(object, nextObject);
+				}
 			}
 		}
 	}

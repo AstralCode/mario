@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GameObjectIdentifiers.hpp"
+
 class GameObject;
 
 class GameObjectCreator
@@ -7,5 +9,5 @@ class GameObjectCreator
 public:
 	virtual ~GameObjectCreator() = default;
 
-	virtual GameObject* create() = 0;
+	virtual GameObject* create(const GameObjectIdentifiers identifier) = 0;
 };

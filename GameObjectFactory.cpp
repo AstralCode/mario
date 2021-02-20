@@ -17,7 +17,7 @@ GameObject* GameObjectFactory::createMario() noexcept
 {
 	auto state = createObjectState<MarioStandState>(SpritesetIdentifiers::Mario);
 
-	auto object = createObject(TextureIdentifiers::Mario);
+	auto object = createObject(GameObjectIdentifiers::Mario, TextureIdentifiers::Mario);
 	object->setMaxAcceleration({32.0f * 22.0f, 0.0f});
 	object->setMaxVelocity({32.0f * 22.0f, 0.0f});
 	object->setState(std::move(state));
@@ -35,7 +35,7 @@ GameObject* GameObjectFactory::createGoomba() noexcept
 	auto state = createObjectState<GameObjectState>(SpritesetIdentifiers::Enemy);
 	state->setAnimation(std::move(animation));
 
-	auto object = createObject(TextureIdentifiers::Enemies);
+	auto object = createObject(GameObjectIdentifiers::Goomba, TextureIdentifiers::Enemies);
 	object->setState(std::move(state));
 	object->setMaxAcceleration({32.0f * 8.0f, 0.0f});
     object->setMaxVelocity({32.0f * 8.0f, 0.0f});
@@ -55,7 +55,7 @@ GameObject* GameObjectFactory::createCoin() noexcept
 	auto state = createObjectState<GameObjectState>(SpritesetIdentifiers::Items);
 	state->setAnimation(std::move(animation));
 
-	auto object = createObject(TextureIdentifiers::Items);
+	auto object = createObject(GameObjectIdentifiers::Coin, TextureIdentifiers::Items);
 	object->setState(std::move(state));
 
 	return object;
@@ -72,7 +72,7 @@ GameObject* GameObjectFactory::createScoreCoin() noexcept
 	auto state = createObjectState<GameObjectState>(SpritesetIdentifiers::Items);
 	state->setAnimation(std::move(animation));
 
-	auto object = createObject(TextureIdentifiers::Items);
+	auto object = createObject(GameObjectIdentifiers::ScoreCoin, TextureIdentifiers::Items);
 	object->setState(std::move(state));
 
 	return object;
@@ -89,7 +89,7 @@ GameObject* GameObjectFactory::createQuestionMarkBox() noexcept
 	auto state = createObjectState<GameObjectState>(SpritesetIdentifiers::Blocks);
 	state->setAnimation(std::move(animation));
 
-	auto object = createObject(TextureIdentifiers::Items);
+	auto object = createObject(GameObjectIdentifiers::QuestionMarkBox, TextureIdentifiers::Items);
 	object->setState(std::move(state));
 
 	return object;
@@ -100,9 +100,9 @@ std::unique_ptr<Animation> GameObjectFactory::createAnimation(const std::string&
 	return std::make_unique<Animation>(mSpritesetContainer.getSpriteset(spritesetIdetntifier).getRegion(spritesetRegionIdentifier));
 }
 
-GameObject* GameObjectFactory::createObject(const TextureIdentifiers textureIdentifier) const noexcept
+GameObject* GameObjectFactory::createObject(const GameObjectIdentifiers identifier, const TextureIdentifiers textureIdentifier) const noexcept
 {
-	auto object = mGameObjectCreator.create();
+	auto object = mGameObjectCreator.create(identifier);
 	object->setTexture(mResourceContainer.getTexture(textureIdentifier));
 
 	return object;

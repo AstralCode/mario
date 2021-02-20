@@ -16,8 +16,9 @@ public:
 
 	void remove();
 
-	template<typename TGraphicsItem = GraphicsItem>
-	TGraphicsItem* addItem();
+	template<typename TGraphicsItem, typename... TArguments>
+	TGraphicsItem* addItem(TArguments&&... arguments);
+
 	void addItem(std::unique_ptr<GraphicsItem> item);
 
 	void clean();
@@ -52,12 +53,12 @@ private:
 	std::vector<std::unique_ptr<GraphicsItem>> mItems;
 };
 
-template<typename TGraphicsItem>
-inline TGraphicsItem* GraphicsItem::addItem()
+template<typename TGraphicsItem, typename... TArguments>
+inline TGraphicsItem* GraphicsItem::addItem(TArguments&&... arguments)
 {
 	static_assert(std::is_base_of_v<GraphicsItem, TGraphicsItem>, "TGraphicsItem must derived from GraphicsItem");
 
-	auto item = std::make_unique<TGraphicsItem>();
+	auto item = std::make_unique<TGraphicsItem>(std::forward<TArguments&&>(arguments)...);
 	auto itemPointer = item.get();
 
 	addItem(std::move(item));

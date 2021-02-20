@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GraphicsItem.hpp"
+#include "GameObjectIdentifiers.hpp"
 #include "GameObjectState.hpp"
 
 class GraphicsSpriteItem;
@@ -14,7 +15,7 @@ public:
 		Right
 	};
 
-	GameObject();
+	GameObject(const GameObjectIdentifiers identifier);
 
 	void setState(std::unique_ptr<GameObjectState> state);
 
@@ -43,6 +44,8 @@ public:
 
 	void update(const sf::Time& frameTime);
 
+	GameObjectIdentifiers getIdentifier() const;
+
 	sf::FloatRect getBounds() const override;
 
 	const sf::Vector2f& getMaxAcceleration() const;
@@ -53,6 +56,8 @@ public:
 	const sf::Vector2f& getDirectionFactor() const;
 	Directions getDirection() const;
 
+	bool hasIdentifier(const GameObjectIdentifiers identifier) const;
+
 	bool isBoundsVisible() const;;
 
 	bool isContainsPoint(const sf::Vector2f& point) const;
@@ -61,6 +66,8 @@ public:
 private:
 	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const override;
 	void drawBounds(sf::RenderTarget& target) const;
+
+	GameObjectIdentifiers mIdentifier;
 
 	GraphicsSpriteItem* mSprite;
 

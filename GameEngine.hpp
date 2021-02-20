@@ -34,6 +34,7 @@ private:
 
 	void initializeStatistics();
 	void initializeSpritesets();
+	void initializeCollisionHandlers();
 	void initializeGameState();
 
 	void loadResources();

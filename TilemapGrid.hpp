@@ -19,6 +19,7 @@ public:
 	const sf::Vector2u& getTileSize() const;
 	const sf::Vector2u& getTileCount() const;
 
+	sf::Vector2u getTileIndex(const sf::Vector2f& position) const;
 	sf::Vector2u getTileIndex(const sf::Vector2i& mousePosition) const;
 	sf::Vector2f getTilePosition(const sf::Vector2u& index) const;
 

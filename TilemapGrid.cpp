@@ -72,6 +72,11 @@ const sf::Vector2u& TilemapGrid::getTileCount() const
 	return mTileCount;
 }
 
+sf::Vector2u TilemapGrid::getTileIndex(const sf::Vector2f& position) const
+{
+	return getTileIndex(sf::Vector2i{static_cast<int>(position.x), static_cast<int>(position.y)});
+}
+
 sf::Vector2u TilemapGrid::getTileIndex(const sf::Vector2i& mousePosition) const
 {
 	sf::Vector2u index{};

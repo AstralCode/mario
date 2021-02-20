@@ -4,11 +4,12 @@
 #include <SFML/System/Sleep.hpp>
 
 #include "InitialGameState.hpp"
+#include "MarioCollisionHandler.hpp"
 
 GameEngine::GameEngine() :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mStatistics{mFPSCounter},
-	mGameObjectManager{mGraphicsScene, mGamePhysics},
+	mGameObjectManager{mTilemap, mGraphicsScene, mGamePhysics, mSpritesetManager},
 	mGameContextData{mTilemap, mResourceManager, mSpritesetManager, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {
@@ -20,6 +21,7 @@ void GameEngine::run()
 	loadResources();
 	initializeStatistics();
 	initializeSpritesets();
+	initializeCollisionHandlers();
 	executeMainLoop();
 }
 
@@ -211,6 +213,11 @@ void GameEngine::initializeSpritesets()
 		SpritesetArea{{11, 16}, {1, 0}, {{0, 0, 10, 16}, {5, 8}}},
 		SpritesetArea{{11, 16}, {2, 0}, {{0, 0, 10, 16}, {5, 8}}}
 	}}});
+}
+
+void GameEngine::initializeCollisionHandlers()
+{
+	mGameObjectManager.addCollisionHandler<MarioCollisionHandler>();
 }
 
 void GameEngine::initializeGameState()

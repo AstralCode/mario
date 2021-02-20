@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 
+#include "GameObjectIdentifiers.hpp"
 #include "ResourceIdentifiers.hpp"
 #include "SpritesetContainer.hpp"
 #include "Spriteset.hpp"
@@ -31,7 +32,7 @@ private:
 	template <typename TGameObjectState>
 	std::unique_ptr<TGameObjectState> createObjectState(const std::string& spritesetIdetntifier) const noexcept;
 
-	GameObject* createObject(const TextureIdentifiers textureIdentifier) const noexcept;
+	GameObject* createObject(const GameObjectIdentifiers identifier, const TextureIdentifiers textureIdentifier) const noexcept;
 
 	ResourceContainer& mResourceContainer;
 	SpritesetContainer& mSpritesetContainer;
