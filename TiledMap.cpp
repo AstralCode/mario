@@ -99,7 +99,7 @@ void Tilemap::build(const sf::Vector2u& tileSize)
 	{
 		for (tileIndex.x = 0u; tileIndex.x < tileCount.x; tileIndex.x++)
 		{
-			auto tileIdentifier = getTileIdentifier(tileIndex);
+			const auto tileIdentifier = getTileIdentifier(tileIndex);
 			setTileSprite(tileIdentifier, tileIndex);
 		}
 	}
@@ -129,8 +129,8 @@ std::optional<Flags<TileAttributes>> Tilemap::getTileAttributes(const sf::Vector
 {
 	std::optional<Flags<TileAttributes>> attributes{};
 
-	auto tileIdentifier = getTileIdentifier(tileIndex);
-	auto tileAttributesIterator = mTileAttributes.find(tileIdentifier);
+	const auto tileIdentifier = getTileIdentifier(tileIndex);
+	const auto tileAttributesIterator = mTileAttributes.find(tileIdentifier);
 
 	if (tileAttributesIterator != mTileAttributes.end())
 	{
@@ -170,9 +170,9 @@ void Tilemap::onMouseClick(const sf::Vector2i& position, const sf::Mouse::Button
 {
 	if (button == sf::Mouse::Button::Left)
 	{
-		auto tileIndex = getGrid().getTileIndex(position);
-		auto tileIdentifier = getTileIdentifier(tileIndex);
-		auto tileAttributes = getTileAttributes(tileIndex);
+		const auto tileIndex = getGrid().getTileIndex(position);
+		const auto tileIdentifier = getTileIdentifier(tileIndex);
+		const auto tileAttributes = getTileAttributes(tileIndex);
 
 		auto information =
 			"TileIndex: " + std::to_string(tileIndex.x) + ", " + std::to_string(tileIndex.y) + "\n" +

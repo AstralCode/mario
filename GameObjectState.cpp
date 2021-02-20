@@ -41,17 +41,14 @@ void GameObjectState::onCollision(GameObject&)
 
 void GameObjectState::update(GameObject& object, const sf::Time& frameTime)
 {
-    if (!isDestroyed())
+    if (mAnimation)
     {
-        if (mAnimation)
-        {
-            mAnimation->update(frameTime);
+        mAnimation->update(frameTime);
 
-            object.setTextureArea(mAnimation->getCurrentSpriteArea());
-        }
-
-        updateSelf(object, frameTime);
+        object.setTextureArea(mAnimation->getCurrentSpriteArea());
     }
+
+    updateSelf(object, frameTime);
 }
 
 void GameObjectState::onKeyPressed(GameObject&, const sf::Event::KeyEvent&)
