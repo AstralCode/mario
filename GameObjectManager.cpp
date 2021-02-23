@@ -36,12 +36,14 @@ void GameObjectManager::clean()
 {
 	auto gameObjectsIterator = std::remove_if(mGameObjects.begin(), mGameObjects.end(), std::mem_fn(&GameObject::isDestroyed));
 	mGameObjects.erase(gameObjectsIterator, mGameObjects.end());
+
+	mGraphicsScene.clean();
 }
 
 void GameObjectManager::update(const sf::Time& frameTime)
 {
-	checkTilemapCollisions();
-	checkObjectCollisions();
+	executeTilemapCollisionHandlers(checkTilemapCollisions());
+	executeObjectCollisionHandlers(checkObjectCollisions());
 
 	for (auto& object : mGameObjects)
 	{
@@ -50,16 +52,42 @@ void GameObjectManager::update(const sf::Time& frameTime)
 	}
 }
 
-void GameObjectManager::checkTilemapCollisions() const
+void GameObjectManager::executeTilemapCollisionHandlers(const std::vector<std::tuple<GameObject*, sf::Vector2u>>& colliders) const
 {
+	for (auto& [object, tileIndex] : colliders)
+	{
+		auto collisionHandlerIterator = mCollisionHandlers.find(object->getIdentifier());
+		if ( collisionHandlerIterator != mCollisionHandlers.end() )
+		{
+			return collisionHandlerIterator->second->onTileCollision(object, tileIndex);
+		}
+	}
+}
+
+void GameObjectManager::executeObjectCollisionHandlers(const std::vector<std::tuple<GameObject*, GameObject*>>& colliders) const
+{
+	for (auto& [target, object] : colliders)
+	{
+		auto collisionHandlerIterator = mCollisionHandlers.find(object->getIdentifier());
+		if (collisionHandlerIterator != mCollisionHandlers.end())
+		{
+			return collisionHandlerIterator->second->onObjectCollision(target, object);
+		}
+	}
+}
+
+std::vector<std::tuple<GameObject*, sf::Vector2u>> GameObjectManager::checkTilemapCollisions() const
+{
+	std::vector<std::tuple<GameObject*, sf::Vector2u>> colliders{};
+
 	for (auto object : mGameObjects)
 	{
-		auto objectPosition = object->getGlobalPosition();
-		auto objectArea = object->getBounds();
+		const auto objectPosition = object->getGlobalPosition();
+		const auto objectArea = object->getBounds();
 
 		sf::Vector2u indexCount{2u, 2u};
 
-		auto tileIndex = mTilemap.getGrid().getTileIndex( sf::Vector2f{ objectArea.left, objectArea.top } );
+		auto tileIndex = mTilemap.getGrid().getTileIndex(sf::Vector2f{objectArea.left, objectArea.top});
 		if (tileIndex.x > 0u)
 		{
 			tileIndex.x -= 1u;
@@ -86,18 +114,13 @@ void GameObjectManager::checkTilemapCollisions() const
 
 					if (x < tilemapCount.x)
 					{
-						auto tileArea = mTilemap.getGrid().getTileArea({x, y});
-						if (objectArea.intersects(tileArea))
+						const auto tileIdentifier = mTilemap.getTileIdentifier({x, y});
+						if (tileIdentifier > 0u)
 						{
-							const auto tileIdentifier = mTilemap.getTileIdentifier({x, y});
-							if (tileIdentifier > 0u)
+							auto tileArea = mTilemap.getGrid().getTileArea({x, y});
+							if (objectArea.intersects(tileArea))
 							{
-								auto collisionHandlerIterator = mCollisionHandlers.find(object->getIdentifier());
-								if (collisionHandlerIterator != mCollisionHandlers.end())
-								{
-									auto& collisionHandler = collisionHandlerIterator->second;
-									collisionHandler->onTileCollision(object, tileIdentifier);
-								}
+								colliders.emplace_back(object, sf::Vector2u{x, y});
 							}
 						}
 					}
@@ -105,10 +128,14 @@ void GameObjectManager::checkTilemapCollisions() const
 			}
 		}
 	}
+
+	return colliders;
 }
 
-void GameObjectManager::checkObjectCollisions() const
+std::vector<std::tuple<GameObject*, GameObject*>> GameObjectManager::checkObjectCollisions() const
 {
+	std::vector<std::tuple<GameObject*, GameObject*>> colliders{};
+
 	std::vector<GameObject*> objects = mGameObjects;
 
 	for (auto objectsIterator = objects.begin(); objectsIterator != objects.end(); objectsIterator++)
@@ -121,13 +148,10 @@ void GameObjectManager::checkObjectCollisions() const
 
 			if (object->isIntersectsItem(*nextObject))
 			{
-				auto collisionHandlerIterator = mCollisionHandlers.find(object->getIdentifier());
-				if (collisionHandlerIterator != mCollisionHandlers.end())
-				{
-					auto& collisionHandler = collisionHandlerIterator->second;
-					collisionHandler->onObjectCollision(object, nextObject);
-				}
+				colliders.emplace_back(object, nextObject);
 			}
 		}
 	}
+
+	return colliders;
 }

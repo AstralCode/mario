@@ -11,14 +11,20 @@ MarioCollisionHandler::MarioCollisionHandler(Tilemap& tilemap, SpritesetContaine
 
 }
 
-void MarioCollisionHandler::onTileCollision(GameObject* target, const unsigned int tileIdentifier) noexcept
+void MarioCollisionHandler::onTileCollision(GameObject* target, const sf::Vector2u& tileIndex) noexcept
 {
-    const auto tileAttributes = getTilemap().getTileAttributes(tileIdentifier);
+    auto& tilemap = getTilemap();
+
+    const auto tileAttributes = tilemap.getTileAttributes(tileIndex);
     if (tileAttributes.has_value())
     {
         if (tileAttributes.value().isSet(TileAttributes::Solid))
         {
-            target->destroy();
+            sf::Vector2u leftTileIndex{};
+            leftTileIndex.x = tileIndex.x - 1u;
+            leftTileIndex.y = tileIndex.y - 0u;
+
+            target->setPosition(tilemap.getTileCenterPosition(leftTileIndex));
         }
     }
 }

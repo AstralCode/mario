@@ -71,8 +71,6 @@ void GameEngine::processLogic(const sf::Time& frameTime)
 	mGameObjectManager.update(frameTime);
 	mGameObjectManager.clean();
 
-	mGraphicsScene.clean();
-
 	mGameStateManager.processLogic(frameTime);
 	mGameStateManager.executeRequests();
 }

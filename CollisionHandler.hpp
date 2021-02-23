@@ -1,5 +1,7 @@
 #pragma once
 
+#include "SFML/System/Vector2.hpp"
+
 #include "GameObjectIdentifiers.hpp"
 
 class GameObject;
@@ -13,7 +15,7 @@ public:
 
 	virtual ~CollisionHandler() = default;
 
-	virtual void onTileCollision( GameObject* target, const unsigned int tileIdentifier) noexcept = 0;
+	virtual void onTileCollision(GameObject* target, const sf::Vector2u& tileIndex) noexcept = 0;
 	virtual void onObjectCollision(GameObject* target, GameObject* object) noexcept = 0;
 
 	virtual GameObjectIdentifiers getTarget() const noexcept = 0;

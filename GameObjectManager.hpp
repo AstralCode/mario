@@ -3,6 +3,7 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <tuple>
 
 #include "SFML/Window/Event.hpp"
 
@@ -30,8 +31,11 @@ public:
 	void update(const sf::Time& frameTime);
 
 private:
-	void checkTilemapCollisions() const;
-	void checkObjectCollisions() const;
+	void executeTilemapCollisionHandlers(const std::vector<std::tuple<GameObject*, sf::Vector2u>>& colliders) const;
+	void executeObjectCollisionHandlers(const std::vector<std::tuple<GameObject*, GameObject*>>& colliders) const;
+
+	std::vector<std::tuple<GameObject*, sf::Vector2u>> checkTilemapCollisions() const;
+	std::vector<std::tuple<GameObject*, GameObject*>> checkObjectCollisions() const;
 
 	Tilemap& mTilemap;
 	GraphicsItem& mGraphicsScene;
