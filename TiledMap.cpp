@@ -115,6 +115,11 @@ unsigned int Tilemap::getTileIdentifier(const sf::Vector2u& tileIndex) const
 	return mTileIdentifiers[tileIndex.y][tileIndex.x];
 }
 
+sf::Vector2u Tilemap::getTileIndex(const sf::Vector2f& position) const
+{
+	return mGrid.getTileIndex(position);
+}
+
 const sf::Vector2u& Tilemap::getTileSize() const
 {
 	return mGrid.getTileSize();

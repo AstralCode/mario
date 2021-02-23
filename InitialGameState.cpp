@@ -54,8 +54,9 @@ void InitialGameState::onEnter()
 	//mGameObjectFactory.createScoreCoin()->setPosition(tilemap.getTileCenterPosition({0, 0}));
 
 	mGameObjectFactory.createMario()->setPosition(tilemap.getTileCenterPosition({2, 12}));
-
-	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({3, 12}));
+	
+	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({11, 12}));
+	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({13, 12}));
 
 	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 7}));
 	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 7}));

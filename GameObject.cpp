@@ -96,6 +96,8 @@ void GameObject::turnAround()
 	{
 		setDirection(Directions::Right);
 	}
+
+	setVelocity(-getVelocity());
 }
 
 void GameObject::destroy()

@@ -33,6 +33,7 @@ public:
 	const TilemapGrid& getGrid() const;
 
 	unsigned int getTileIdentifier(const sf::Vector2u& tileIndex) const;
+	sf::Vector2u getTileIndex(const sf::Vector2f& position) const;
 
 	const sf::Vector2u& getTileSize() const;
 	const sf::Vector2u& getTileCount() const;
