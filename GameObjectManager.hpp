@@ -1,6 +1,5 @@
 #pragma once
 
-#include <map>
 #include <vector>
 #include <memory>
 #include <tuple>
@@ -42,7 +41,7 @@ private:
 	GamePhysics& mGamePhysics;
 	SpritesetContainer& mSpritesetContainer;
 
-	std::map<GameObjectIdentifiers, std::unique_ptr<CollisionHandler>> mCollisionHandlers;
+	std::vector<std::unique_ptr<CollisionHandler>> mCollisionHandlers;
 
 	std::vector<GameObject*> mGameObjects;
 };
@@ -51,7 +50,6 @@ template <typename TCollisionHandler>
 inline void GameObjectManager::addCollisionHandler()
 {
 	static_assert(std::is_base_of_v<CollisionHandler, TCollisionHandler>, "TCollisionHandler must derived from CollisionHandler");
-	
-	auto handler = std::make_unique<TCollisionHandler>(mTilemap, mSpritesetContainer);
-	mCollisionHandlers.emplace(handler->getTarget(), std::move(handler));
+
+	mCollisionHandlers.push_back(std::make_unique<TCollisionHandler>(mTilemap, mSpritesetContainer));
 }

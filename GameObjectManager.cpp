@@ -56,10 +56,12 @@ void GameObjectManager::executeTilemapCollisionHandlers(const std::vector<std::t
 {
 	for (auto& [object, tileIndex] : colliders)
 	{
-		auto collisionHandlerIterator = mCollisionHandlers.find(object->getIdentifier());
-		if ( collisionHandlerIterator != mCollisionHandlers.end() )
+		for (auto& collisionHandler : mCollisionHandlers)
 		{
-			return collisionHandlerIterator->second->onTileCollision(object, tileIndex);
+			if (collisionHandler->isSetTarget(object->getIdentifier()))
+			{
+				collisionHandler->onTileCollision(object, tileIndex);
+			}
 		}
 	}
 }
@@ -68,10 +70,12 @@ void GameObjectManager::executeObjectCollisionHandlers(const std::vector<std::tu
 {
 	for (auto& [target, object] : colliders)
 	{
-		auto collisionHandlerIterator = mCollisionHandlers.find(object->getIdentifier());
-		if (collisionHandlerIterator != mCollisionHandlers.end())
+		for (auto& collisionHandler : mCollisionHandlers)
 		{
-			return collisionHandlerIterator->second->onObjectCollision(target, object);
+			if (collisionHandler->isSetTarget(target->getIdentifier()))
+			{
+				collisionHandler->onObjectCollision(target, object);
+			}
 		}
 	}
 }
@@ -114,13 +118,19 @@ std::vector<std::tuple<GameObject*, sf::Vector2u>> GameObjectManager::checkTilem
 
 					if (x < tilemapCount.x)
 					{
-						const auto tileIdentifier = mTilemap.getTileIdentifier({x, y});
-						if (tileIdentifier > 0u)
+						if (tileIndex.x != x && tileIndex.y != y)
 						{
-							auto tileArea = mTilemap.getGrid().getTileArea({x, y});
-							if (objectArea.intersects(tileArea))
+							const auto tileAttributes = mTilemap.getTileAttributes({x, y});
+							if (tileAttributes.has_value())
 							{
-								colliders.emplace_back(object, sf::Vector2u{x, y});
+								if (tileAttributes.value().isSet(TileAttributes::Solid))
+								{
+									auto tileArea = mTilemap.getGrid().getTileArea({x, y});
+									if (objectArea.intersects(tileArea))
+									{
+										colliders.emplace_back(object, sf::Vector2u{x, y});
+									}
+								}
 							}
 						}
 					}

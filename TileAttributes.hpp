@@ -1,6 +1,10 @@
 #pragma once
 
+#include "Flags.hpp"
+
 enum class TileAttributes
 {
-	Solid		= 1 << 1
+	Solid
 };
+
+using TileAttributeFlags = Flags<TileAttributes, 1u>;

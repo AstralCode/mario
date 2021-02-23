@@ -19,7 +19,7 @@ public:
 
 	void setInformationText(const sf::Font& font, const unsigned int characterSize = 12u);
 
-	void setTileAttributes(const std::map<unsigned int, Flags<TileAttributes>>& tileAttributes);
+	void setTileAttributes(const std::map<unsigned int, TileAttributeFlags>& tileAttributes);
 	void setTileIdentifier(const unsigned int identifier, const sf::Vector2u& tileIndex);
 	void setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifiers);
 
@@ -37,8 +37,8 @@ public:
 	const sf::Vector2u& getTileSize() const;
 	const sf::Vector2u& getTileCount() const;
 
-	std::optional<Flags<TileAttributes>> getTileAttributes(const unsigned int identifier) const;
-	std::optional<Flags<TileAttributes>> getTileAttributes(const sf::Vector2u& tileIndex) const;
+	std::optional<TileAttributeFlags> getTileAttributes(const unsigned int identifier) const;
+	std::optional<TileAttributeFlags> getTileAttributes(const sf::Vector2u& tileIndex) const;
 
 	sf::Vector2f getTilePosition(const sf::Vector2u& tileIndex) const;
 	sf::Vector2f getTileCenterPosition(const sf::Vector2u& tileIndex) const;
@@ -75,6 +75,6 @@ private:
 
 	TilemapGrid mGrid;
 
-	std::map<unsigned int, Flags<TileAttributes>> mTileAttributes;
+	std::map<unsigned int, TileAttributeFlags> mTileAttributes;
 	std::vector<std::vector<unsigned int>> mTileIdentifiers;
 };

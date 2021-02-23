@@ -25,7 +25,7 @@ void Tilemap::setTilesetTexture(const sf::Texture* tilesetTexture)
 	mTilesetTexture = tilesetTexture;
 }
 
-void Tilemap::setTileAttributes(const std::map<unsigned int, Flags<TileAttributes>>& tileAttributes)
+void Tilemap::setTileAttributes(const std::map<unsigned int, TileAttributeFlags>& tileAttributes)
 {
 	mTileAttributes = tileAttributes;
 }
@@ -125,9 +125,9 @@ const sf::Vector2u& Tilemap::getTileCount() const
 	return mGrid.getTileCount();
 }
 
-std::optional<Flags<TileAttributes>> Tilemap::getTileAttributes(const unsigned int identifier) const
+std::optional<TileAttributeFlags> Tilemap::getTileAttributes(const unsigned int identifier) const
 {
-	std::optional<Flags<TileAttributes>> attributes{};
+	std::optional<TileAttributeFlags> attributes{};
 
 	const auto tileAttributesIterator = mTileAttributes.find(identifier);
 	if (tileAttributesIterator != mTileAttributes.end())
@@ -138,7 +138,7 @@ std::optional<Flags<TileAttributes>> Tilemap::getTileAttributes(const unsigned i
 	return attributes;
 }
 
-std::optional<Flags<TileAttributes>> Tilemap::getTileAttributes(const sf::Vector2u& tileIndex) const
+std::optional<TileAttributeFlags> Tilemap::getTileAttributes(const sf::Vector2u& tileIndex) const
 {
 	const auto tileIdentifier = getTileIdentifier(tileIndex);
 

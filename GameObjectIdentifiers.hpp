@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Flags.hpp"
+
 enum class GameObjectIdentifiers
 {
 	Mario,
@@ -8,3 +10,5 @@ enum class GameObjectIdentifiers
 	ScoreCoin,
 	QuestionMarkBox
 };
+
+using GameObjectIdentifierFlags = Flags<GameObjectIdentifiers, 5u>;

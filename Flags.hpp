@@ -1,20 +1,23 @@
 #pragma once
 
+#include <bitset>
 #include <type_traits>
 #include <initializer_list>
 
-template <typename TEnum>
+template <typename TEnum, size_t TEnumSize>
 class Flags
 {
 public:
-	Flags() noexcept;
+	Flags() = default;
 	Flags(std::initializer_list<TEnum> flags) noexcept;
 
 	void set(const TEnum flag) noexcept;
 	void set(std::initializer_list<TEnum> flags) noexcept;
+	void set(const Flags& flags) noexcept;
 
 	void unset(const TEnum flag) noexcept;
 	void unset(std::initializer_list<TEnum> flags) noexcept;
+	void unset(const Flags& flags) noexcept;
 
 	void reset() noexcept;
 
@@ -25,33 +28,23 @@ public:
 	bool isSetNoneOf(const Flags& flags) const noexcept;
 
 private:
-	using UnderlyingType = std::underlying_type_t<TEnum>;
-
-	UnderlyingType mFlags;
+	std::bitset<TEnumSize> mFlags;
 };
 
-template<typename TEnum>
-inline Flags<TEnum>::Flags() noexcept :
-	mFlags{0}
-{
-
-}
-
-template<typename TEnum>
-inline Flags<TEnum>::Flags(std::initializer_list<TEnum> flags) noexcept :
-	mFlags{0}
+template<typename TEnum, size_t TEnumSize>
+inline Flags<TEnum, TEnumSize>::Flags(std::initializer_list<TEnum> flags) noexcept
 {
 	set(flags);
 }
 
-template<typename TEnum>
-inline void Flags<TEnum>::set(const TEnum flag) noexcept
+template<typename TEnum, size_t TEnumSize>
+inline void Flags<TEnum, TEnumSize>::set(const TEnum flag) noexcept
 {
-	mFlags |= static_cast<UnderlyingType>(flag);
+	mFlags.set(static_cast<int>(flag));
 }
 
-template<typename TEnum>
-inline void Flags<TEnum>::set(std::initializer_list<TEnum> flags) noexcept
+template<typename TEnum, size_t TEnumSize>
+inline void Flags<TEnum, TEnumSize>::set(std::initializer_list<TEnum> flags) noexcept
 {
 	for (auto flag : flags)
 	{
@@ -59,14 +52,20 @@ inline void Flags<TEnum>::set(std::initializer_list<TEnum> flags) noexcept
 	}
 }
 
-template<typename TEnum>
-inline void Flags<TEnum>::unset(const TEnum flag) noexcept
+template<typename TEnum, size_t TEnumSize>
+inline void Flags<TEnum, TEnumSize>::set(const Flags& flags) noexcept
 {
-	mFlags &= ~static_cast<UnderlyingType>(flag);
+	mFlags |= flags.mFlags;
 }
 
-template<typename TEnum>
-inline void Flags<TEnum>::unset(std::initializer_list<TEnum> flags) noexcept
+template<typename TEnum, size_t TEnumSize>
+inline void Flags<TEnum, TEnumSize>::unset(const TEnum flag) noexcept
+{
+	mFlags.set(static_cast<int>(flag), false);
+}
+
+template<typename TEnum, size_t TEnumSize>
+inline void Flags<TEnum, TEnumSize>::unset(std::initializer_list<TEnum> flags) noexcept
 {
 	for (auto flag : flags)
 	{
@@ -74,32 +73,38 @@ inline void Flags<TEnum>::unset(std::initializer_list<TEnum> flags) noexcept
 	}
 }
 
-template<typename TEnum>
-inline void Flags<TEnum>::reset() noexcept
+template<typename TEnum, size_t TEnumSize>
+inline void Flags<TEnum, TEnumSize>::unset(const Flags& flags) noexcept
 {
-	mFlags = 0;
+	mFlags |= ~flags.mFlags;
 }
 
-template<typename TEnum>
-inline bool Flags<TEnum>::isSet(const TEnum flag) const noexcept
+template<typename TEnum, size_t TEnumSize>
+inline void Flags<TEnum, TEnumSize>::reset() noexcept
 {
-	return (mFlags & static_cast<UnderlyingType>(flag)) == static_cast<UnderlyingType>(flag);
+	mFlags.reset();
 }
 
-template<typename TEnum>
-inline bool Flags<TEnum>::isSetAnyOf(const Flags& flags) const noexcept
+template<typename TEnum, size_t TEnumSize>
+inline bool Flags<TEnum, TEnumSize>::isSet(const TEnum flag) const noexcept
+{
+	return mFlags.test(static_cast<int>(flag));
+}
+
+template<typename TEnum, size_t TEnumSize>
+inline bool Flags<TEnum, TEnumSize>::isSetAnyOf(const Flags& flags) const noexcept
 {
 	return (mFlags & flags.mFlags) > 0;
 }
 
-template<typename TEnum>
-inline bool Flags<TEnum>::isSetAllOf(const Flags& flags) const noexcept
+template<typename TEnum, size_t TEnumSize>
+inline bool Flags<TEnum, TEnumSize>::isSetAllOf(const Flags& flags) const noexcept
 {
 	return (mFlags & flags.mFlags) == flags.mFlags;
 }
 
-template<typename TEnum>
-inline bool Flags<TEnum>::isSetNoneOf(const Flags& flags) const noexcept
+template<typename TEnum, size_t TEnumSize>
+inline bool Flags<TEnum, TEnumSize>::isSetNoneOf(const Flags& flags) const noexcept
 {
 	return !isSetAnyOf(flags);
 }

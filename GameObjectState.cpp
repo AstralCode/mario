@@ -22,6 +22,7 @@ void GameObjectState::onSet(GameObject& object)
     object.setMaxAcceleration({});
     object.setMaxVelocity({});
     object.setAcceleration({});
+    object.setTextureArea(mAnimation->getCurrentSpriteArea());
 }
 
 void GameObjectState::onUnset(GameObject&)

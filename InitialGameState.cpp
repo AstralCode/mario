@@ -13,7 +13,7 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 
 void InitialGameState::onEnter()
 {
-	const std::map<unsigned int, Flags<TileAttributes>> tileAttributes =
+	const std::map<unsigned int, TileAttributeFlags> tileAttributes =
 	{
 		{1u, {{TileAttributes::Solid}}},
 		{2u, {{TileAttributes::Solid}}},
@@ -55,8 +55,7 @@ void InitialGameState::onEnter()
 
 	mGameObjectFactory.createMario()->setPosition(tilemap.getTileCenterPosition({2, 12}));
 
-	//mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({5, 12}));
-	//mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({7, 12}));
+	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({3, 12}));
 
 	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 7}));
 	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 7}));

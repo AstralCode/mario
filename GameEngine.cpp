@@ -5,6 +5,7 @@
 
 #include "InitialGameState.hpp"
 #include "MarioCollisionHandler.hpp"
+#include "EnemyCollisionHandler.hpp"
 
 GameEngine::GameEngine() :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
@@ -216,6 +217,7 @@ void GameEngine::initializeSpritesets()
 void GameEngine::initializeCollisionHandlers()
 {
 	mGameObjectManager.addCollisionHandler<MarioCollisionHandler>();
+	mGameObjectManager.addCollisionHandler<EnemyCollisionHandler>();
 }
 
 void GameEngine::initializeGameState()
