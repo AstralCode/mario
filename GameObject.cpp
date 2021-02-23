@@ -35,7 +35,8 @@ void GameObject::setTexture(const sf::Texture& texture)
 void GameObject::setTextureArea(const SpriteArea& spriteArea)
 {
 	mSprite->setTextureArea(spriteArea.getArea());
-	mSprite->setOrigin(spriteArea.getOrigin());
+
+	setOrigin(spriteArea.getOrigin());
 }
 
 void GameObject::setMaxAcceleration(const sf::Vector2f& acceleration)
@@ -67,11 +68,6 @@ void GameObject::setBoundsVisible(const bool visible)
 void GameObject::accelerateVelocity(const sf::Vector2f& acceleration)
 {
 	setVelocity({mVelocity.x + acceleration.x, mVelocity.y + acceleration.y});
-}
-
-void GameObject::move(const sf::Vector2f& offset)
-{
-	mSprite->move(offset);
 }
 
 void GameObject::setDirectionFactor(const sf::Vector2f& factor)
@@ -107,7 +103,8 @@ void GameObject::destroy()
 	mState->destroy();
 }
 
-void GameObject::onCollision(GameObject& object)
+
+void GameObject::onObjectCollision(GameObject& object)
 {
 	mState->onCollision(object);
 }

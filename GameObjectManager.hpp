@@ -30,7 +30,8 @@ public:
 	void update(const sf::Time& frameTime);
 
 private:
-	void checkCollisions() const;
+	void checkTilemapCollisions() const;
+	void checkObjectCollisions() const;
 
 	Tilemap& mTilemap;
 	GraphicsItem& mGraphicsScene;

@@ -37,6 +37,7 @@ public:
 	const sf::Vector2u& getTileSize() const;
 	const sf::Vector2u& getTileCount() const;
 
+	std::optional<Flags<TileAttributes>> getTileAttributes(const unsigned int identifier) const;
 	std::optional<Flags<TileAttributes>> getTileAttributes(const sf::Vector2u& tileIndex) const;
 
 	sf::Vector2f getTilePosition(const sf::Vector2u& tileIndex) const;

@@ -5,6 +5,7 @@
 
 #include "GameObject.hpp"
 #include "GamePhysics.hpp"
+#include "Tilemap.hpp"
 
 GameObjectManager::GameObjectManager(Tilemap& tilemap, GraphicsItem& graphicsScene, GamePhysics& physics, SpritesetContainer& spritesetContainer) :
 	mTilemap{tilemap},
@@ -39,7 +40,8 @@ void GameObjectManager::clean()
 
 void GameObjectManager::update(const sf::Time& frameTime)
 {
-	checkCollisions();
+	checkTilemapCollisions();
+	checkObjectCollisions();
 
 	for (auto& object : mGameObjects)
 	{
@@ -48,7 +50,64 @@ void GameObjectManager::update(const sf::Time& frameTime)
 	}
 }
 
-void GameObjectManager::checkCollisions() const
+void GameObjectManager::checkTilemapCollisions() const
+{
+	for (auto object : mGameObjects)
+	{
+		auto objectPosition = object->getGlobalPosition();
+		auto objectArea = object->getBounds();
+
+		sf::Vector2u indexCount{2u, 2u};
+
+		auto tileIndex = mTilemap.getGrid().getTileIndex( sf::Vector2f{ objectArea.left, objectArea.top } );
+		if (tileIndex.x > 0u)
+		{
+			tileIndex.x -= 1u;
+			indexCount.x += 1u;
+		}
+
+		if (tileIndex.y > 0u)
+		{
+			tileIndex.y -= 1u;
+			indexCount.y += 1u;
+		}
+
+		auto& tilemapCount = mTilemap.getTileCount();
+
+		for (sf::Vector2u index{}; index.y < indexCount.y; index.y++)
+		{
+			const auto y = tileIndex.y + index.y;
+
+			if (y < tilemapCount.y)
+			{
+				for (index.x = 0u; index.x < indexCount.x; index.x++)
+				{
+					const auto x = tileIndex.x + index.x;
+
+					if (x < tilemapCount.x)
+					{
+						auto tileArea = mTilemap.getGrid().getTileArea({x, y});
+						if (objectArea.intersects(tileArea))
+						{
+							const auto tileIdentifier = mTilemap.getTileIdentifier({x, y});
+							if (tileIdentifier > 0u)
+							{
+								auto collisionHandlerIterator = mCollisionHandlers.find(object->getIdentifier());
+								if (collisionHandlerIterator != mCollisionHandlers.end())
+								{
+									auto& collisionHandler = collisionHandlerIterator->second;
+									collisionHandler->onTileCollision(object, tileIdentifier);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void GameObjectManager::checkObjectCollisions() const
 {
 	std::vector<GameObject*> objects = mGameObjects;
 
@@ -66,7 +125,7 @@ void GameObjectManager::checkCollisions() const
 				if (collisionHandlerIterator != mCollisionHandlers.end())
 				{
 					auto& collisionHandler = collisionHandlerIterator->second;
-					collisionHandler->onCollision(object, nextObject);
+					collisionHandler->onObjectCollision(object, nextObject);
 				}
 			}
 		}

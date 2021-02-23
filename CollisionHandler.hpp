@@ -13,7 +13,8 @@ public:
 
 	virtual ~CollisionHandler() = default;
 
-	virtual void onCollision(GameObject* target, GameObject* object) noexcept = 0;
+	virtual void onTileCollision( GameObject* target, const unsigned int tileIdentifier) noexcept = 0;
+	virtual void onObjectCollision(GameObject* target, GameObject* object) noexcept = 0;
 
 	virtual GameObjectIdentifiers getTarget() const noexcept = 0;
 

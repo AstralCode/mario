@@ -125,19 +125,24 @@ const sf::Vector2u& Tilemap::getTileCount() const
 	return mGrid.getTileCount();
 }
 
-std::optional<Flags<TileAttributes>> Tilemap::getTileAttributes(const sf::Vector2u& tileIndex) const
+std::optional<Flags<TileAttributes>> Tilemap::getTileAttributes(const unsigned int identifier) const
 {
 	std::optional<Flags<TileAttributes>> attributes{};
 
-	const auto tileIdentifier = getTileIdentifier(tileIndex);
-	const auto tileAttributesIterator = mTileAttributes.find(tileIdentifier);
-
+	const auto tileAttributesIterator = mTileAttributes.find(identifier);
 	if (tileAttributesIterator != mTileAttributes.end())
 	{
 		attributes = tileAttributesIterator->second;
 	}
 
 	return attributes;
+}
+
+std::optional<Flags<TileAttributes>> Tilemap::getTileAttributes(const sf::Vector2u& tileIndex) const
+{
+	const auto tileIdentifier = getTileIdentifier(tileIndex);
+
+	return getTileAttributes(tileIdentifier);
 }
 
 sf::Vector2f Tilemap::getTilePosition(const sf::Vector2u& tileIndex) const

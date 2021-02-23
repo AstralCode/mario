@@ -30,7 +30,6 @@ public:
 	void setBoundsVisible(const bool visible);
 
 	void accelerateVelocity(const sf::Vector2f& acceleration);
-	void move(const sf::Vector2f& offset);
 
 	void setDirectionFactor(const sf::Vector2f& factor);
 	void setDirection(const Directions direction);
@@ -38,7 +37,7 @@ public:
 
 	void destroy();
 
-	void onCollision(GameObject& object);
+	void onObjectCollision(GameObject& object);
 
 	void receiveEvents(const sf::Event& event);
 

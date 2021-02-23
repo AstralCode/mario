@@ -42,7 +42,7 @@ void GraphicsItem::clean()
 
 sf::FloatRect GraphicsItem::getBounds() const
 {
-	return getGlobalTransform().transformRect({});
+	return {};
 }
 
 sf::Transform GraphicsItem::getGlobalTransform() const

@@ -95,6 +95,20 @@ sf::Vector2f TilemapGrid::getTilePosition(const sf::Vector2u& index) const
 	return position;
 }
 
+sf::FloatRect TilemapGrid::getTileArea(const sf::Vector2u& index) const
+{
+	sf::FloatRect area{};
+
+	const auto position = getTilePosition(index);
+
+	area.left = position.x;
+	area.top = position.y;
+	area.width = mTileSize.x;
+	area.height = mTileSize.y;
+
+	return area;
+}
+
 sf::FloatRect TilemapGrid::getBounds() const
 {
 	sf::FloatRect bounds{};

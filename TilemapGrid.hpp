@@ -22,6 +22,7 @@ public:
 	sf::Vector2u getTileIndex(const sf::Vector2f& position) const;
 	sf::Vector2u getTileIndex(const sf::Vector2i& mousePosition) const;
 	sf::Vector2f getTilePosition(const sf::Vector2u& index) const;
+	sf::FloatRect getTileArea(const sf::Vector2u& index) const;
 
 	sf::FloatRect getBounds() const;
 

@@ -51,24 +51,24 @@ void InitialGameState::onEnter()
 	tilemap.setBackgroundColor({97, 133, 246});
 	tilemap.build({32u, 32u});
 
-	mGameObjectFactory.createScoreCoin()->setPosition(tilemap.getTileCenterPosition({2, 0}));
+	//mGameObjectFactory.createScoreCoin()->setPosition(tilemap.getTileCenterPosition({0, 0}));
 
 	mGameObjectFactory.createMario()->setPosition(tilemap.getTileCenterPosition({2, 12}));
 
-	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({5, 12}));
-	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({7, 12}));
+	//mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({5, 12}));
+	//mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({7, 12}));
 
-	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 7}));
-	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 7}));
-	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({12, 7}));
-	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({13, 7}));
-	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 8}));
-	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 8}));
-	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({12, 8}));
-	mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({13, 8}));
+	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 7}));
+	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 7}));
+	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({12, 7}));
+	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({13, 7}));
+	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 8}));
+	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 8}));
+	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({12, 8}));
+	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({13, 8}));
 
-	mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({8, 6}));
-	mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({17, 5}));
+	//mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({8, 6}));
+	//mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({17, 5}));
 }
 
 void InitialGameState::onLeave()
