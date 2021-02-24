@@ -1,5 +1,7 @@
 #include "MarioCollisionHandler.hpp"
 
+#include "MathCalculator.hpp"
+
 MarioCollisionHandler::MarioCollisionHandler(Tilemap& tilemap, SpritesetContainer& spritesetContainer) noexcept :
     CollisionHandler{tilemap, spritesetContainer}
 {
@@ -10,26 +12,24 @@ void MarioCollisionHandler::onTileCollision(GameObject* target, const sf::Vector
 {
     auto& tilemap = getTilemap();
 
-    const auto targetPosition = target->getGlobalPosition();
-    const auto tilePosition = tilemap.getTileCenterPosition( tileIndex );
+    const auto targetBounds = target->getBounds();
 
-    if ( target->getVelocity().x > 0.0f )
+    if (target->getVelocity().x > 0.0f)
     {
-        const auto diffPosition = tilePosition.x - targetPosition.x;
-        const auto intersectPosition = (32 ) + 16 - diffPosition;
+        const auto tilePosition = tilemap.getTileTopLeftPosition(tileIndex);
+        const auto offsetPosition = targetBounds.width / 2.0f;
 
-        target->move( intersectPosition, 0.0f );
+        target->setPositionX(tilePosition.x - offsetPosition);
+        target->setAccelerationX(0.0f);
     }
     else
     {
-        const auto diffPosition = targetPosition.x - tilePosition.x;
-        const auto intersectPosition = target->getBounds().width - target->getBounds().width / 2.0f - diffPosition;
+        const auto tilePosition = tilemap.getTileTopRightPosition(tileIndex);
+        const auto offsetPosition = targetBounds.width / 2.0f;
 
-        target->move( intersectPosition, 0.0f );
+        target->setPositionX(tilePosition.x + offsetPosition);
+        target->setAccelerationX(0.0f);
     }
-
-    target->setAcceleration({});
-    target->setVelocity({});
 }
 
 void MarioCollisionHandler::onObjectCollision(GameObject* target, GameObject* object) noexcept

@@ -22,5 +22,5 @@ private:
 
 	void applyFriction(GameObject& object, const sf::Time& frameTime) const noexcept;
 
-	static constexpr const float mFriction = 0.918f;
+	static constexpr const float mFriction = 0.005f;
 };

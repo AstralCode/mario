@@ -14,7 +14,4 @@ public:
 
 private:
 	void updateSelf(GameObject& object, const sf::Time& frameTime) override;
-
-	void moveLeft(GameObject& object) const;
-	void moveRight(GameObject& object) const;
 };

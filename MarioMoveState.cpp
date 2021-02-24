@@ -16,19 +16,17 @@ void MarioMoveState::onSet(GameObject& object)
     animation->setRepeating(true);
 
     setAnimation(std::move(animation));
-
-    object.setAcceleration(object.getMaxAcceleration());
 }
 
 void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent)
 {
     if (keyEvent.code == sf::Keyboard::Q)
     {
-        moveLeft(object);
+        object.moveLeft();
     }
     else if (keyEvent.code == sf::Keyboard::E)
     {
-        moveRight(object);
+        object.moveRight();
     }
 }
 
@@ -43,27 +41,25 @@ void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
         {
-            moveRight(object);
+            object.moveRight();
         }
     }
     else if (keyEvent.code == sf::Keyboard::E)
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
         {
-            moveLeft(object);
+            object.moveLeft();
         }
     }
 }
 
 void MarioMoveState::updateSelf(GameObject& object, const sf::Time&)
 {
-    const auto minVelocity = 4.0f;
-
-    if (std::abs(object.getVelocity().x) > minVelocity)
+    if (std::abs(object.getAcceleration().x) > 32.0f)
     {
         const bool sliding =
-            (object.getDirection() == GameObject::Directions::Left && object.getVelocity().x > 0.0f) ||
-            (object.getDirection() == GameObject::Directions::Right && object.getVelocity().x < 0.0f);
+            object.hasDirection(Directions::Left) && object.getVelocity().x > 0.0f ||
+            object.hasDirection(Directions::Right) && object.getVelocity().x < 0.0f;
 
         if (sliding)
         {
@@ -71,20 +67,8 @@ void MarioMoveState::updateSelf(GameObject& object, const sf::Time&)
         }
 
     }
-    else if (object.getAcceleration().x == 0.0f)
+    else if (std::abs(object.getVelocity().x) < 1.0f)
     {
         object.setState(createState<MarioStandState>());
     }
-}
-
-void MarioMoveState::moveLeft(GameObject& object) const
-{
-    object.setDirection(GameObject::Directions::Left);
-    object.setAcceleration(object.getMaxAcceleration());
-}
-
-void MarioMoveState::moveRight(GameObject& object) const
-{
-    object.setDirection(GameObject::Directions::Right);
-    object.setAcceleration(object.getMaxAcceleration());
 }

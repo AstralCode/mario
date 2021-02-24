@@ -42,14 +42,14 @@ void GameObjectManager::clean()
 
 void GameObjectManager::update(const sf::Time& frameTime)
 {
-	executeTilemapCollisionHandlers(checkTilemapCollisions());
-	executeObjectCollisionHandlers(checkObjectCollisions());
-
 	for (auto& object : mGameObjects)
 	{
 		object->update(frameTime);
 		mGamePhysics.update(*object, frameTime);
 	}
+
+	executeTilemapCollisionHandlers(checkTilemapCollisions());
+	executeObjectCollisionHandlers(checkObjectCollisions());
 }
 
 void GameObjectManager::executeTilemapCollisionHandlers(const std::vector<std::tuple<GameObject*, sf::Vector2u>>& colliders) const
@@ -118,7 +118,7 @@ std::vector<std::tuple<GameObject*, sf::Vector2u>> GameObjectManager::checkTilem
 
 					if (x < tilemapCount.x)
 					{
-						if (tileIndex.x != x && tileIndex.y != y)
+						if (tileIndex.x != x || tileIndex.y != y)
 						{
 							const auto tileAttributes = mTilemap.getTileAttributes({x, y});
 							if (tileAttributes.has_value())

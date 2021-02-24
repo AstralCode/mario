@@ -155,15 +155,30 @@ sf::Vector2f Tilemap::getTilePosition(const sf::Vector2u& tileIndex) const
 	return mGrid.getTilePosition(tileIndex);
 }
 
+sf::Vector2f Tilemap::getTileTopLeftPosition(const sf::Vector2u& tileIndex) const
+{
+	return getTilePosition(tileIndex);
+}
+
+sf::Vector2f Tilemap::getTileTopRightPosition(const sf::Vector2u& tileIndex) const
+{
+	const auto tileArea = getTileArea(tileIndex);
+
+	return {tileArea.left + tileArea.width, tileArea.top};
+}
+
 sf::Vector2f Tilemap::getTileCenterPosition(const sf::Vector2u& tileIndex) const
 {
-	auto& tileSize = mGrid.getTileSize();
+	auto tileArea = mGrid.getTileArea(tileIndex);
+	tileArea.left += tileArea.width / 2.0f;
+	tileArea.top += tileArea.height / 2.0f;
 
-	auto position = getTilePosition(tileIndex);
-	position.x += tileSize.x / 2.0f;
-	position.y += tileSize.y / 2.0f;
+	return {tileArea.left, tileArea.top};
+}
 
-	return position;
+sf::FloatRect Tilemap::getTileArea(const sf::Vector2u& tileIndex) const
+{
+	return mGrid.getTileArea(tileIndex);
 }
 
 const sf::Text& Tilemap::getText() const

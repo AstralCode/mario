@@ -13,18 +13,19 @@ void MarioStandState::onSet(GameObject& object)
 {
     object.setTextureArea(getSpriteArea(SpritesetRegionIdentifiers::Mario::Stand));
     object.setAcceleration({});
+    object.setVelocity({});
 }
 
 void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent)
 {
     if (keyEvent.code == sf::Keyboard::Q)
     {
-        object.setDirection(GameObject::Directions::Left);
+        object.moveLeft();
         object.setState(createState<MarioMoveState>());
     }
     else if (keyEvent.code == sf::Keyboard::E)
     {
-        object.setDirection(GameObject::Directions::Right);
+        object.moveRight();
         object.setState(createState<MarioMoveState>());
     }
 }

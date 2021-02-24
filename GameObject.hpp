@@ -1,41 +1,55 @@
 #pragma once
 
+#include "SFML/Graphics/Color.hpp"
+
 #include "GraphicsItem.hpp"
 #include "GameObjectIdentifiers.hpp"
 #include "GameObjectState.hpp"
 
 class GraphicsSpriteItem;
 
+enum class Directions
+{
+	Left,
+	Right
+};
+
 class GameObject final : public GraphicsItem
 {
 public:
-	enum class Directions
-	{
-		Left,
-		Right
-	};
-
 	GameObject(const GameObjectIdentifiers identifier);
 
 	void setState(std::unique_ptr<GameObjectState> state);
+
+	void setPositionX(const float x);
+	void setPositionY(const float y);
 
 	void setTexture(const sf::Texture& texture);
 	void setTextureArea(const SpriteArea& spriteArea);
 
 	void setMaxAcceleration(const sf::Vector2f& acceleration);
-	void setAcceleration(const sf::Vector2f& acceleration);
 	void setMaxVelocity(const sf::Vector2f& velocity);
+
+	void setAcceleration(const sf::Vector2f& acceleration);
+	void setAccelerationX(const float value);
+	void setAccelerationY(const float value);
+
 	void setVelocity(const sf::Vector2f& velocity);
+	void setVelocityX(const float value);
+	void setVelocityY(const float value);
 	
 	void setBoundsVisible(const bool visible);
+	void setBoundsColor(const sf::Color& color);
 
 	void accelerateVelocity(const sf::Vector2f& acceleration);
 
-	void setDirectionFactor(const sf::Vector2f& factor);
 	void setDirection(const Directions direction);
 	void turnAround();
 
 	void destroy();
+
+	void moveLeft();
+	void moveRight();
 
 	void onObjectCollision(GameObject& object);
 
@@ -52,9 +66,9 @@ public:
 	const sf::Vector2f& getMaxVelocity() const;
 	const sf::Vector2f& getVelocity() const;
 
-	const sf::Vector2f& getDirectionFactor() const;
 	Directions getDirection() const;
 
+	bool hasDirection(const Directions direction) const;
 	bool hasIdentifier(const GameObjectIdentifiers identifier) const;
 
 	bool isBoundsVisible() const;;
@@ -77,8 +91,9 @@ private:
 	sf::Vector2f mVelocity;
 	sf::Vector2f mMaxVelocity;
 
-	sf::Vector2f mDirectionFactor;
 	Directions mDirection;
+
+	sf::Color mBoundsColor;
 
 	bool mBoundsVisible;
 	bool mMouseOver;

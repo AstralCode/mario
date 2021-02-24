@@ -42,7 +42,11 @@ public:
 	std::optional<TileAttributeFlags> getTileAttributes(const sf::Vector2u& tileIndex) const;
 
 	sf::Vector2f getTilePosition(const sf::Vector2u& tileIndex) const;
+	sf::Vector2f getTileTopLeftPosition(const sf::Vector2u& tileIndex) const;
+	sf::Vector2f getTileTopRightPosition(const sf::Vector2u& tileIndex) const;
 	sf::Vector2f getTileCenterPosition(const sf::Vector2u& tileIndex) const;
+
+	sf::FloatRect getTileArea(const sf::Vector2u& tileIndex) const;
 
 	const sf::Text& getText() const;
 

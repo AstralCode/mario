@@ -62,19 +62,28 @@ void GameObjectState::onKeyReleased(GameObject&, const sf::Event::KeyEvent&)
 
 }
 
-void GameObjectState::onMouseClick(GameObject&, const sf::Event::MouseButtonEvent&)
+void GameObjectState::onMouseClick(GameObject& object, const sf::Event::MouseButtonEvent& event)
+{
+    if (event.button == sf::Mouse::Button::Left)
+    {
+        object.setBoundsColor(sf::Color::Red);
+    }
+    else if (event.button == sf::Mouse::Button::Right)
+    {
+        object.setBoundsColor(sf::Color::Yellow);
+    }
+
+    object.setBoundsVisible(!object.isBoundsVisible());
+}
+
+void GameObjectState::onMouseEnter(GameObject&, const sf::Event::MouseMoveEvent&)
 {
 
 }
 
-void GameObjectState::onMouseEnter(GameObject& object, const sf::Event::MouseMoveEvent&)
+void GameObjectState::onMouseLeave(GameObject&, const sf::Event::MouseMoveEvent&)
 {
-    object.setBoundsVisible(true);
-}
 
-void GameObjectState::onMouseLeave(GameObject& object, const sf::Event::MouseMoveEvent&)
-{
-    object.setBoundsVisible(false);
 }
 
 void GameObjectState::onMouseOver(GameObject&, const sf::Event::MouseMoveEvent&)
