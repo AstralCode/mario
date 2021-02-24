@@ -12,7 +12,7 @@ class GamePhysics final
 public:
 	void update(GameObject& object, const sf::Time& frameTime) const noexcept;
 
-	static float getFriction();
+	static constexpr float getFriction() noexcept;
 
 private:
 	void updateMovement(GameObject& object, const sf::Time& frameTime) const noexcept;
