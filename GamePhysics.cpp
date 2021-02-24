@@ -1,25 +1,27 @@
 #include "GamePhysics.hpp"
 
+#include "SFML/System/Time.hpp"
+
 #include "GameObject.hpp"
 
-void GamePhysics::update(GameObject& object, const sf::Time& frameTime) const
+void GamePhysics::update(GameObject& object, const sf::Time& frameTime) const noexcept
 {
     updateMovement(object, frameTime);
     applyFriction(object, frameTime);
 }
 
-float GamePhysics::getFriction()
+constexpr float GamePhysics::getFriction() noexcept
 {
 	return mFriction;
 }
 
-void GamePhysics::updateMovement(GameObject& object, const sf::Time& frameTime) const
+void GamePhysics::updateMovement(GameObject& object, const sf::Time& frameTime) const noexcept
 {
     applyAcceleration(object, frameTime);
     updatePosition(object, frameTime);
 }
 
-void GamePhysics::applyAcceleration(GameObject& object, const sf::Time& frameTime) const
+void GamePhysics::applyAcceleration(GameObject& object, const sf::Time& frameTime) const noexcept
 {
     sf::Vector2f acceleration{};
     acceleration.x = object.getAcceleration().x * frameTime.asSeconds() * object.getDirectionFactor().x;
@@ -28,18 +30,18 @@ void GamePhysics::applyAcceleration(GameObject& object, const sf::Time& frameTim
     object.accelerateVelocity(acceleration);
 }
 
-void GamePhysics::updatePosition(GameObject& object, const sf::Time& frameTime) const
+void GamePhysics::updatePosition(GameObject& object, const sf::Time& frameTime) const noexcept
 {
-    sf::Vector2f move{};
-    move.x = object.getVelocity().x * frameTime.asSeconds();
-    move.y = object.getVelocity().y * frameTime.asSeconds();
+    sf::Vector2f offset{};
+    offset.x = object.getVelocity().x * frameTime.asSeconds();
+    offset.y = object.getVelocity().y * frameTime.asSeconds();
 
-    object.move(move);
+    object.move(offset);
 }
 
-void GamePhysics::applyFriction(GameObject& object, const sf::Time&) const
+void GamePhysics::applyFriction(GameObject& object, const sf::Time&) const noexcept
 {
-    const auto friction = getFriction();
+    constexpr const auto friction = getFriction();
 
     sf::Vector2f velocity{};
     velocity.x = object.getVelocity().x * friction;
