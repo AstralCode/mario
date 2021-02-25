@@ -75,3 +75,6 @@ inline T Size<T>::getHeight() const noexcept
 {
 	return mHeight;
 }
+
+using IntSize = Size<int>;
+using FloatSize = Size<float>;

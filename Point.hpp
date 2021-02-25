@@ -85,3 +85,6 @@ inline T Point<T>::getY() const noexcept
 {
 	return mPoint.y;
 }
+
+using IntPoint = Point<int>;
+using FloatPoint = Point<float>;
