@@ -13,6 +13,9 @@ public:
 	void setWidth(const T width) noexcept;
 	void setHeight(const T height) noexcept;
 
+	T& getWidth() noexcept;
+	T& getHeight() noexcept;
+
 	T getWidth() const noexcept;
 	T getHeight() const noexcept;
 
@@ -37,16 +40,28 @@ inline Size<T>::Size(const sf::Vector2<T>& size) noexcept :
 
 }
 
-template<typename T>
+template <typename T>
 inline void Size<T>::setWidth(const T width) noexcept
 {
 	mWidth = width;
 }
 
-template<typename T>
+template <typename T>
 inline void Size<T>::setHeight(const T height) noexcept
 {
 	mHeight = height;
+}
+
+template <typename T>
+inline T& Size<T>::getWidth() noexcept
+{
+	return mWidth;
+}
+
+template <typename T>
+inline T& Size<T>::getHeight() noexcept
+{
+	return mHeight;
 }
 
 template <typename T>
