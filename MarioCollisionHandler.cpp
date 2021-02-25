@@ -1,7 +1,5 @@
 #include "MarioCollisionHandler.hpp"
 
-#include "MathCalculator.hpp"
-
 MarioCollisionHandler::MarioCollisionHandler(Tilemap& tilemap, SpritesetContainer& spritesetContainer) noexcept :
     CollisionHandler{tilemap, spritesetContainer}
 {
