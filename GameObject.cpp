@@ -252,7 +252,7 @@ const sf::Vector2f& GameObject::getVelocity() const noexcept
 	return mVelocity;
 }
 
-Directions GameObject::getDirection() const noexcept
+GameObject::Directions GameObject::getDirection() const noexcept
 {
 	return mDirection;
 }

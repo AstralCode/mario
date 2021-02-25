@@ -58,8 +58,8 @@ void MarioMoveState::updateSelf(GameObject& object, const sf::Time&) noexcept
     if (std::abs(object.getAcceleration().x) > 32.0f)
     {
         const bool sliding =
-            object.hasDirection(Directions::Left) && object.getVelocity().x > 0.0f ||
-            object.hasDirection(Directions::Right) && object.getVelocity().x < 0.0f;
+            object.hasDirection(GameObject::Directions::Left) && object.getVelocity().x > 0.0f ||
+            object.hasDirection(GameObject::Directions::Right) && object.getVelocity().x < 0.0f;
 
         if (sliding)
         {

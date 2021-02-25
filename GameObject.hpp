@@ -8,15 +8,15 @@
 
 class GraphicsSpriteItem;
 
-enum class Directions
-{
-	Left,
-	Right
-};
-
 class GameObject final : public GraphicsItem
 {
 public:
+	enum class Directions
+	{
+		Left,
+		Right
+	};
+
 	GameObject(const GameObjectIdentifiers identifier) noexcept;
 
 	void setState(std::unique_ptr<GameObjectState> state) noexcept;
