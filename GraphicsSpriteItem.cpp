@@ -49,7 +49,7 @@ const sf::Texture* GraphicsSpriteItem::getTexture() const noexcept
 	return mSprite.getTexture();
 }
 
-const IntArea& GraphicsSpriteItem::getTextureArea() const noexcept
+IntArea GraphicsSpriteItem::getTextureArea() const noexcept
 {
 	return mSprite.getTextureRect();
 }

@@ -2,16 +2,20 @@
 
 #include "SFML/Graphics/Rect.hpp"
 
+#include "Size.hpp"
+
 template <typename T>
 class Area final
 {
 public:
 	Area() = default;
-	Area(const sf::Rect<T>& rectangle) noexcept;
 	Area(const T x, const T y, const T width, const T height) noexcept;
+	Area(const sf::Rect<T>& rectangle) noexcept;
 
 	void setX(const T x) noexcept;
 	void setY(const T y) noexcept;
+
+	void setSize(const Size<T> size) noexcept;
 
 	void setWidth(const T width) noexcept;
 	void setHeight(const T height) noexcept;
@@ -35,7 +39,7 @@ public:
 	T getWidth() const noexcept;
 	T getHeight() const noexcept;
 
-	sf::Vector2<T> getSize() const noexcept;
+	Size<T> getSize() const noexcept;
 
 	const sf::Rect<T>& getRectangle() const noexcept;
 
@@ -50,15 +54,15 @@ private:
 };
 
 template <typename T>
-inline Area<T>::Area(const sf::Rect<T>& rectangle) noexcept :
-	mRectangle{rectangle}
+inline Area<T>::Area(const T x, const T y, const T width, const T height) noexcept :
+	mRectangle{x, y, width, height}
 {
 
 }
 
 template <typename T>
-inline Area<T>::Area(const T x, const T y, const T width, const T height) noexcept :
-	mRectangle{x, y, width, height}
+inline Area<T>::Area(const sf::Rect<T>& rectangle) noexcept :
+	mRectangle{rectangle}
 {
 
 }
@@ -75,13 +79,20 @@ inline void Area<T>::setY(const T y) noexcept
 	mRectangle.top = y;
 }
 
-template<typename T>
+template <typename T>
+inline void Area<T>::setSize(const Size<T> size) noexcept
+{
+	mRectangle.width = size.getWidth();
+	mRectangle.height = size.getHeight();
+}
+
+template <typename T>
 inline void Area<T>::setWidth(const T width) noexcept
 {
 	mRectangle.width = width;
 }
 
-template<typename T>
+template <typename T>
 inline void Area<T>::setHeight(const T height) noexcept
 {
 	mRectangle.height = height;
@@ -172,7 +183,7 @@ inline T Area<T>::getHeight() const noexcept
 }
 
 template <typename T>
-inline sf::Vector2<T> Area<T>::getSize() const noexcept
+inline Size<T> Area<T>::getSize() const noexcept
 {
 	return {mRectangle.width, mRectangle.height};
 }

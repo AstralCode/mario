@@ -21,7 +21,7 @@ public:
 	void flip(const Orientations orientation) noexcept;
 
 	const sf::Texture* getTexture() const noexcept;
-	const IntArea& getTextureArea() const noexcept;
+	IntArea getTextureArea() const noexcept;
 
 	FloatArea getArea() const noexcept override;
 
