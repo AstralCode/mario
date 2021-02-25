@@ -7,7 +7,7 @@
 #include "MarioCollisionHandler.hpp"
 #include "EnemyCollisionHandler.hpp"
 
-GameEngine::GameEngine() noexcept:
+GameEngine::GameEngine() noexcept :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mStatistics{mFPSCounter},
 	mGameObjectManager{mTilemap, mGraphicsScene, mGamePhysics, mSpritesetManager},
