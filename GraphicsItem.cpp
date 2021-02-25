@@ -13,6 +13,16 @@ GraphicsItem::GraphicsItem() noexcept :
 
 }
 
+void GraphicsItem::setPositionX(const float x) noexcept
+{
+	setPosition(x, getPosition().y);
+}
+
+void GraphicsItem::setPositionY(const float y) noexcept
+{
+	setPosition(getPosition().x, y);
+}
+
 void GraphicsItem::setVisible(const bool visible) noexcept
 {
 	mVisible = visible;
@@ -57,12 +67,12 @@ sf::Transform GraphicsItem::getGlobalTransform() const noexcept
 	return transform;
 }
 
-sf::Vector2f GraphicsItem::getGlobalPosition() const noexcept
+FloatPoint GraphicsItem::getGlobalPosition() const noexcept
 {
 	return getGlobalTransform() * sf::Vector2f{};
 }
 
-bool GraphicsItem::isContainsPoint(const sf::Vector2f& point) const noexcept
+bool GraphicsItem::isContainsPoint(const FloatPoint& point) const noexcept
 {
 	return getArea().isContainsPoint(point);
 }

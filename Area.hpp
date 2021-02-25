@@ -3,6 +3,7 @@
 #include "SFML/Graphics/Rect.hpp"
 
 #include "Size.hpp"
+#include "Point.hpp"
 
 template <typename T>
 class Area final
@@ -10,7 +11,10 @@ class Area final
 public:
 	Area() = default;
 	Area(const T x, const T y, const T width, const T height) noexcept;
+	Area(const Point<T>& point, const Size<T>& size) noexcept;
 	Area(const sf::Rect<T>& rectangle) noexcept;
+
+	void setPoint(const Point<T>& point) noexcept;
 
 	void setX(const T x) noexcept;
 	void setY(const T y) noexcept;
@@ -27,11 +31,11 @@ public:
 	T getRight() const noexcept;
 	T getBottom() const noexcept;
 
-	sf::Vector2<T> getTopLeft() const noexcept;
-	sf::Vector2<T> getTopRight() const noexcept;
-	sf::Vector2<T> getBottomLeft() const noexcept;
-	sf::Vector2<T> getBottomRight() const noexcept;
-	sf::Vector2<T> getCenter() const noexcept;
+	Point<T> getTopLeft() const noexcept;
+	Point<T> getTopRight() const noexcept;
+	Point<T> getBottomLeft() const noexcept;
+	Point<T> getBottomRight() const noexcept;
+	Point<T> getCenter() const noexcept;
 
 	T getX() const noexcept;
 	T getY() const noexcept;
@@ -44,7 +48,7 @@ public:
 	const sf::Rect<T>& getRectangle() const noexcept;
 
 	bool isContainsPoint(const T x, const T y) const noexcept;
-	bool isContainsPoint(const sf::Vector2<T>& point) const noexcept;
+	bool isContainsPoint(const Point<T>& point) const noexcept;
 
 	bool isIntersects(const Area<T>& area) const noexcept;
 	bool isIntersects(const sf::Rect<T>& rectangle) const noexcept;
@@ -61,10 +65,24 @@ inline Area<T>::Area(const T x, const T y, const T width, const T height) noexce
 }
 
 template <typename T>
+inline Area<T>::Area(const Point<T>& point, const Size<T>& size) noexcept :
+	mRectangle{point.getX(), point.getY(), size.getWidth(), size.getHeight()}
+{
+
+}
+
+template <typename T>
 inline Area<T>::Area(const sf::Rect<T>& rectangle) noexcept :
 	mRectangle{rectangle}
 {
 
+}
+
+template <typename T>
+inline void Area<T>::setPoint(const Point<T>& point) noexcept
+{
+	mRectangle.left = point.getX();
+	mRectangle.top = point.getY();
 }
 
 template <typename T>
@@ -129,31 +147,31 @@ inline T Area<T>::getBottom() const noexcept
 }
 
 template <typename T>
-inline sf::Vector2<T> Area<T>::getTopLeft() const noexcept
+inline Point<T> Area<T>::getTopLeft() const noexcept
 {
 	return {mRectangle.left, mRectangle.top};
 }
 
 template <typename T>
-inline sf::Vector2<T> Area<T>::getTopRight() const noexcept
+inline Point<T> Area<T>::getTopRight() const noexcept
 {
 	return {mRectangle.left + mRectangle.width, mRectangle.top};
 }
 
 template <typename T>
-inline sf::Vector2<T> Area<T>::getBottomLeft() const noexcept
+inline Point<T> Area<T>::getBottomLeft() const noexcept
 {
 	return {mRectangle.left, mRectangle.top + mRectangle.height};
 }
 
 template <typename T>
-inline sf::Vector2<T> Area<T>::getBottomRight() const noexcept
+inline Point<T> Area<T>::getBottomRight() const noexcept
 {
 	return {mRectangle.left + mRectangle.width, mRectangle.top + mRectangle.height};
 }
 
 template <typename T>
-inline sf::Vector2<T> Area<T>::getCenter() const noexcept
+inline Point<T> Area<T>::getCenter() const noexcept
 {
 	return {mRectangle.left + mRectangle.width / 2, mRectangle.top + mRectangle.height / 2};
 }
@@ -201,9 +219,9 @@ inline bool Area<T>::isContainsPoint(const T x, const T y) const noexcept
 }
 
 template <typename T>
-inline bool Area<T>::isContainsPoint(const sf::Vector2<T>& point) const noexcept
+inline bool Area<T>::isContainsPoint(const Point<T>& point) const noexcept
 {
-	return mRectangle.contains(point);
+	return mRectangle.contains(point.getX(), point.getY());
 }
 
 template <typename T>

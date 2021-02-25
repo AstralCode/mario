@@ -7,13 +7,13 @@
 class GraphicsRectangleItem final : public GraphicsItem
 {
 public:
-	void setSize(const sf::Vector2f& size) noexcept;
+	void setSize(const FloatSize& size) noexcept;
 
 	void setFillColor(const sf::Color& color) noexcept;
 	void setOutlineColor(const sf::Color& color) noexcept;
 	void setOutlineThickness(const float thickness) noexcept;
 
-	const sf::Vector2f& getSize() const noexcept;
+	const FloatSize& getSize() const noexcept;
 
 	FloatArea getArea() const noexcept override;
 

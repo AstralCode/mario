@@ -2,9 +2,9 @@
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
-void GraphicsRectangleItem::setSize(const sf::Vector2f& size) noexcept
+void GraphicsRectangleItem::setSize(const FloatSize& size) noexcept
 {
-	mRectangleShape.setSize(size);
+	mRectangleShape.setSize({size.getWidth(), size.getHeight()});
 }
 
 void GraphicsRectangleItem::setFillColor(const sf::Color& color) noexcept
@@ -22,7 +22,7 @@ void GraphicsRectangleItem::setOutlineThickness(const float thickness) noexcept
 	mRectangleShape.setOutlineThickness(thickness);
 }
 
-const sf::Vector2f& GraphicsRectangleItem::getSize() const noexcept
+const FloatSize& GraphicsRectangleItem::getSize() const noexcept
 {
 	return mRectangleShape.getSize();
 }

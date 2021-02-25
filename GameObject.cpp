@@ -27,16 +27,6 @@ void GameObject::setState(std::unique_ptr<GameObjectState> state) noexcept
 	mState->onSet(*this);
 }
 
-void GameObject::setPositionX(const float x) noexcept
-{
-	setPosition(x, getPosition().y);
-}
-
-void GameObject::setPositionY(const float y) noexcept
-{
-	setPosition(getPosition().x, y);
-}
-
 void GameObject::setTexture(const sf::Texture& texture) noexcept
 {
 	mSprite->setTexture(texture);
@@ -49,27 +39,27 @@ void GameObject::setTextureArea(const SpriteArea& spriteArea) noexcept
 	setOrigin(spriteArea.getOrigin());
 }
 
-void GameObject::setMaxAcceleration(const sf::Vector2f& acceleration) noexcept
+void GameObject::setMaxAcceleration(const FloatPoint& acceleration) noexcept
 {
 	mMaxAcceleration = acceleration;
 }
 
-void GameObject::setMaxVelocity(const sf::Vector2f& velocity) noexcept
+void GameObject::setMaxVelocity(const FloatPoint& velocity) noexcept
 {
 	mMaxVelocity = velocity;
 }
 
-void GameObject::setAcceleration(const sf::Vector2f& acceleration) noexcept
+void GameObject::setAcceleration(const FloatPoint& acceleration) noexcept
 {
 	switch (mDirection)
 	{
 	case Directions::Right:
-		mAcceleration.x = std::min(+acceleration.x, +mMaxAcceleration.x);
-		mAcceleration.y = std::min(+acceleration.y, +mMaxAcceleration.y);
+		mAcceleration.setX(std::min(+acceleration.getX(), +mMaxAcceleration.getX()));
+		mAcceleration.setY(std::min(+acceleration.getY(), +mMaxAcceleration.getY()));
 		break;
 	case Directions::Left:
-		mAcceleration.x = std::max(-acceleration.x, -mMaxAcceleration.x);
-		mAcceleration.y = std::max(-acceleration.y, -mMaxAcceleration.y);
+		mAcceleration.setX(std::max(-acceleration.getX(), -mMaxAcceleration.getX()));
+		mAcceleration.setY(std::max(-acceleration.getY(), -mMaxAcceleration.getY()));
 		break;
 	default:
 		break;
@@ -79,25 +69,25 @@ void GameObject::setAcceleration(const sf::Vector2f& acceleration) noexcept
 
 void GameObject::setAccelerationX(const float value) noexcept
 {
-	setAcceleration({value, mAcceleration.y});
+	setAcceleration({value, mAcceleration.getY()});
 }
 
 void GameObject::setAccelerationY(const float value) noexcept
 {
-	setAcceleration({mAcceleration.x, value});
+	setAcceleration({mAcceleration.getX(), value});
 }
 
-void GameObject::setVelocity(const sf::Vector2f& velocity) noexcept
+void GameObject::setVelocity(const FloatPoint& velocity) noexcept
 {
 	switch (mDirection)
 	{
 	case Directions::Right:
-		mVelocity.x = std::min(velocity.x, +mMaxVelocity.x);
-		mVelocity.y = std::min(velocity.y, +mMaxVelocity.y);
+		mVelocity.setX(std::min(velocity.getX(), +mMaxVelocity.getX()));
+		mVelocity.setY(std::min(velocity.getY(), +mMaxVelocity.getY()));
 		break;
 	case Directions::Left:
-		mVelocity.x = std::max(velocity.x, -mMaxVelocity.x);
-		mVelocity.y = std::max(velocity.y, -mMaxVelocity.y);
+		mVelocity.setX(std::max(velocity.getX(), -mMaxVelocity.getX()));
+		mVelocity.setY(std::max(velocity.getY(), -mMaxVelocity.getY()));
 		break;
 	default:
 		break;
@@ -106,12 +96,12 @@ void GameObject::setVelocity(const sf::Vector2f& velocity) noexcept
 
 void GameObject::setVelocityX(const float value) noexcept
 {
-	setVelocity({value, mVelocity.y});
+	setVelocity({value, mVelocity.getY()});
 }
 
 void GameObject::setVelocityY(const float value) noexcept
 {
-	setVelocity({mVelocity.x, value});
+	setVelocity({mVelocity.getX(), value});
 }
 
 void GameObject::setAreaBoundsVisible(const bool visible) noexcept
@@ -124,9 +114,9 @@ void GameObject::setAreaBoundsColor(const sf::Color& color) noexcept
 	mAreaBoundsColor = color;
 }
 
-void GameObject::accelerateVelocity(const sf::Vector2f& acceleration) noexcept
+void GameObject::accelerateVelocity(const FloatPoint& acceleration) noexcept
 {
-	setVelocity({mVelocity.x + acceleration.x, mVelocity.y + acceleration.y});
+	setVelocity({mVelocity.getX() + acceleration.getX(), mVelocity.getY() + acceleration.getY()});
 }
 
 void GameObject::setDirection(const Directions direction) noexcept
@@ -242,12 +232,12 @@ GameObjectIdentifiers GameObject::getIdentifier() const noexcept
 	return mIdentifier;
 }
 
-const sf::Vector2f& GameObject::getMaxVelocity() const noexcept
+const FloatPoint& GameObject::getMaxVelocity() const noexcept
 {
 	return mMaxVelocity;
 }
 
-const sf::Vector2f& GameObject::getVelocity() const noexcept
+const FloatPoint& GameObject::getVelocity() const noexcept
 {
 	return mVelocity;
 }
@@ -267,12 +257,12 @@ bool GameObject::hasDirection(const Directions direction) const noexcept
 	return mDirection == direction;
 }
 
-const sf::Vector2f& GameObject::getMaxAcceleration() const noexcept
+const FloatPoint& GameObject::getMaxAcceleration() const noexcept
 {
 	return mMaxAcceleration;
 }
 
-const sf::Vector2f& GameObject::getAcceleration() const noexcept
+const FloatPoint& GameObject::getAcceleration() const noexcept
 {
 	return mAcceleration;
 }
@@ -282,7 +272,7 @@ bool GameObject::isAreaBoundsVisible() const noexcept
 	return mAreaBoundsVisible;
 }
 
-bool GameObject::isContainsPoint(const sf::Vector2f& point) const noexcept
+bool GameObject::isContainsPoint(const FloatPoint& point) const noexcept
 {
 	return mSprite->isContainsPoint(point);
 }

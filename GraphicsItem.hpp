@@ -14,6 +14,9 @@ public:
 	GraphicsItem() noexcept;
 	virtual ~GraphicsItem() = default;
 
+	void setPositionX(const float x) noexcept;
+	void setPositionY(const float y) noexcept;
+
 	void setVisible(const bool visible) noexcept;
 
 	void remove() noexcept;
@@ -28,9 +31,9 @@ public:
 	virtual FloatArea getArea() const noexcept;
 	sf::Transform getGlobalTransform() const noexcept;
 
-	sf::Vector2f getGlobalPosition() const noexcept;
+	FloatPoint getGlobalPosition() const noexcept;
 
-	bool isContainsPoint(const sf::Vector2f& point) const noexcept;
+	bool isContainsPoint(const FloatPoint& point) const noexcept;
 	bool isIntersectsItem(const GraphicsItem& item) const noexcept;
 
 	bool isVisible() const noexcept;

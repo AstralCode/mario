@@ -23,6 +23,8 @@ public:
 	T getX() const noexcept;
 	T getY() const noexcept;
 
+	Point<T> operator-() const noexcept;
+
 private:
 	sf::Vector2<T> mPoint;
 };
@@ -84,6 +86,12 @@ template <typename T>
 inline T Point<T>::getY() const noexcept
 {
 	return mPoint.y;
+}
+
+template <typename T>
+Point<T> Point<T>::operator-() const noexcept
+{
+	return -mPoint;
 }
 
 using IntPoint = Point<int>;

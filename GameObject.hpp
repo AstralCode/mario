@@ -21,27 +21,24 @@ public:
 
 	void setState(std::unique_ptr<GameObjectState> state) noexcept;
 
-	void setPositionX(const float x) noexcept;
-	void setPositionY(const float y) noexcept;
-
 	void setTexture(const sf::Texture& texture) noexcept;
 	void setTextureArea(const SpriteArea& spriteArea) noexcept;
 
-	void setMaxAcceleration(const sf::Vector2f& acceleration) noexcept;
-	void setMaxVelocity(const sf::Vector2f& velocity) noexcept;
+	void setMaxAcceleration(const FloatPoint& acceleration) noexcept;
+	void setMaxVelocity(const FloatPoint& velocity) noexcept;
 
-	void setAcceleration(const sf::Vector2f& acceleration) noexcept;
+	void setAcceleration(const FloatPoint& acceleration) noexcept;
 	void setAccelerationX(const float value) noexcept;
 	void setAccelerationY(const float value) noexcept;
 
-	void setVelocity(const sf::Vector2f& velocity) noexcept;
+	void setVelocity(const FloatPoint& velocity) noexcept;
 	void setVelocityX(const float value) noexcept;
 	void setVelocityY(const float value) noexcept;
 	
 	void setAreaBoundsVisible(const bool visible) noexcept;
 	void setAreaBoundsColor(const sf::Color& color) noexcept;
 
-	void accelerateVelocity(const sf::Vector2f& acceleration) noexcept;
+	void accelerateVelocity(const FloatPoint& acceleration) noexcept;
 
 	void setDirection(const Directions direction) noexcept;
 	void turnAround() noexcept;
@@ -61,10 +58,10 @@ public:
 
 	FloatArea getArea() const noexcept override;
 
-	const sf::Vector2f& getMaxAcceleration() const noexcept;
-	const sf::Vector2f& getAcceleration() const noexcept;
-	const sf::Vector2f& getMaxVelocity() const noexcept;
-	const sf::Vector2f& getVelocity() const noexcept;
+	const FloatPoint& getMaxAcceleration() const noexcept;
+	const FloatPoint& getAcceleration() const noexcept;
+	const FloatPoint& getMaxVelocity() const noexcept;
+	const FloatPoint& getVelocity() const noexcept;
 
 	Directions getDirection() const noexcept;
 
@@ -73,7 +70,7 @@ public:
 
 	bool isAreaBoundsVisible() const noexcept;
 
-	bool isContainsPoint(const sf::Vector2f& point) const noexcept;
+	bool isContainsPoint(const FloatPoint& point) const noexcept;
 	bool isDestroyed() const noexcept;
 
 private:
@@ -86,10 +83,10 @@ private:
 
 	std::unique_ptr<GameObjectState> mState;
 
-	sf::Vector2f mMaxAcceleration;
-	sf::Vector2f mAcceleration;
-	sf::Vector2f mVelocity;
-	sf::Vector2f mMaxVelocity;
+	FloatPoint mMaxAcceleration;
+	FloatPoint mAcceleration;
+	FloatPoint mVelocity;
+	FloatPoint mMaxVelocity;
 
 	Directions mDirection;
 
