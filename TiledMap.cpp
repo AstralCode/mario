@@ -3,7 +3,9 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/Graphics/Texture.hpp"
 
-Tilemap::Tilemap() :
+#include "Area.hpp"
+
+Tilemap::Tilemap() noexcept :
 	mTilesetTexture{nullptr},
 	mBackgroundColor{sf::Color::Transparent}
 {
@@ -14,43 +16,43 @@ Tilemap::Tilemap() :
 	mTileVerticlesArray.setPrimitiveType(sf::PrimitiveType::Quads);
 }
 
-void Tilemap::setInformationText(const sf::Font& font, const unsigned int characterSize)
+void Tilemap::setInformationText(const sf::Font& font, const unsigned int characterSize) noexcept
 {
 	mInformationText.setFont(font);
 	mInformationText.setCharacterSize(characterSize);
 }
 
-void Tilemap::setTilesetTexture(const sf::Texture* tilesetTexture)
+void Tilemap::setTilesetTexture(const sf::Texture* tilesetTexture) noexcept
 {
 	mTilesetTexture = tilesetTexture;
 }
 
-void Tilemap::setTileAttributes(const std::map<unsigned int, TileAttributeFlags>& tileAttributes)
+void Tilemap::setTileAttributes(const std::map<unsigned int, TileAttributeFlags>& tileAttributes) noexcept
 {
 	mTileAttributes = tileAttributes;
 }
 
-void Tilemap::setTileIdentifier(const unsigned int identifier, const sf::Vector2u& tileIndex)
+void Tilemap::setTileIdentifier(const unsigned int identifier, const sf::Vector2u& index) noexcept
 {
-	mTileIdentifiers[tileIndex.y][tileIndex.x] = identifier;
+	mTileIdentifiers[index.y][index.x] = identifier;
 }
 
-void Tilemap::setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifiers)
+void Tilemap::setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifiers) noexcept
 {
 	mTileIdentifiers = identifiers;
 }
 
-void Tilemap::setBackgroundColor(const sf::Color& color)
+void Tilemap::setBackgroundColor(const sf::Color& color) noexcept
 {
 	mBackgroundColor = color;
 }
 
-void Tilemap::setGridVisible(const bool visible)
+void Tilemap::setGridVisible(const bool visible) noexcept
 {
 	mGrid.setVisible(visible);
 }
 
-void Tilemap::receiveEvents(const sf::Event& event)
+void Tilemap::receiveEvents(const sf::Event& event) noexcept
 {
 	switch (event.type)
 	{
@@ -77,7 +79,7 @@ void Tilemap::receiveEvents(const sf::Event& event)
 	}
 }
 
-void Tilemap::build(const sf::Vector2u& tileSize)
+void Tilemap::build(const sf::Vector2u& tileSize) noexcept
 {
 	const auto tileCount = calculateTileCount();
 
@@ -105,32 +107,41 @@ void Tilemap::build(const sf::Vector2u& tileSize)
 	}
 }
 
-const TilemapGrid& Tilemap::getGrid() const
+TileSide Tilemap::getTileSide(const FloatArea& area, const sf::Vector2u& tileIndex) const noexcept
+{
+	FloatArea tileArea{getTileArea(tileIndex)};
+
+	const auto center = tileArea.getCenter();
+
+	return TileSide::Bottom;
+}
+
+const TilemapGrid& Tilemap::getGrid() const noexcept
 {
 	return mGrid;
 }
 
-unsigned int Tilemap::getTileIdentifier(const sf::Vector2u& tileIndex) const
+unsigned int Tilemap::getTileIdentifier(const sf::Vector2u& index) const noexcept
 {
-	return mTileIdentifiers[tileIndex.y][tileIndex.x];
+	return mTileIdentifiers[index.y][index.x];
 }
 
-sf::Vector2u Tilemap::getTileIndex(const sf::Vector2f& position) const
+sf::Vector2u Tilemap::getTileIndex(const sf::Vector2f& position) const noexcept
 {
 	return mGrid.getTileIndex(position);
 }
 
-const sf::Vector2u& Tilemap::getTileSize() const
+const sf::Vector2u& Tilemap::getTileSize() const noexcept
 {
 	return mGrid.getTileSize();
 }
 
-const sf::Vector2u& Tilemap::getTileCount() const
+const sf::Vector2u& Tilemap::getTileCount() const noexcept
 {
 	return mGrid.getTileCount();
 }
 
-std::optional<TileAttributeFlags> Tilemap::getTileAttributes(const unsigned int identifier) const
+std::optional<TileAttributeFlags> Tilemap::getTileAttributes(const unsigned int identifier) const noexcept
 {
 	std::optional<TileAttributeFlags> attributes{};
 
@@ -143,55 +154,32 @@ std::optional<TileAttributeFlags> Tilemap::getTileAttributes(const unsigned int 
 	return attributes;
 }
 
-std::optional<TileAttributeFlags> Tilemap::getTileAttributes(const sf::Vector2u& tileIndex) const
+std::optional<TileAttributeFlags> Tilemap::getTileAttributes(const sf::Vector2u& index) const noexcept
 {
-	const auto tileIdentifier = getTileIdentifier(tileIndex);
-
-	return getTileAttributes(tileIdentifier);
+	return getTileAttributes(getTileIdentifier(index));
 }
 
-sf::Vector2f Tilemap::getTilePosition(const sf::Vector2u& tileIndex) const
+sf::Vector2f Tilemap::getTilePosition(const sf::Vector2u& index) const noexcept
 {
-	return mGrid.getTilePosition(tileIndex);
+	return mGrid.getTilePosition(index);
 }
 
-sf::Vector2f Tilemap::getTileTopLeftPosition(const sf::Vector2u& tileIndex) const
+FloatArea Tilemap::getTileArea(const sf::Vector2u& index) const noexcept
 {
-	return getTilePosition(tileIndex);
+	return mGrid.getTileArea(index);
 }
 
-sf::Vector2f Tilemap::getTileTopRightPosition(const sf::Vector2u& tileIndex) const
-{
-	const auto tileArea = getTileArea(tileIndex);
-
-	return {tileArea.left + tileArea.width, tileArea.top};
-}
-
-sf::Vector2f Tilemap::getTileCenterPosition(const sf::Vector2u& tileIndex) const
-{
-	auto tileArea = mGrid.getTileArea(tileIndex);
-	tileArea.left += tileArea.width / 2.0f;
-	tileArea.top += tileArea.height / 2.0f;
-
-	return {tileArea.left, tileArea.top};
-}
-
-sf::FloatRect Tilemap::getTileArea(const sf::Vector2u& tileIndex) const
-{
-	return mGrid.getTileArea(tileIndex);
-}
-
-const sf::Text& Tilemap::getText() const
+const sf::Text& Tilemap::getText() const noexcept
 {
 	return mInformationText;
 }
 
-bool Tilemap::isGridVisible() const
+bool Tilemap::isGridVisible() const noexcept
 {
 	return mGrid.isVisible();
 }
 
-void Tilemap::onMouseClick(const sf::Vector2i& position, const sf::Mouse::Button button)
+void Tilemap::onMouseClick(const sf::Vector2i& position, const sf::Mouse::Button button) noexcept
 {
 	if (button == sf::Mouse::Button::Left)
 	{
@@ -213,12 +201,12 @@ void Tilemap::onMouseClick(const sf::Vector2i& position, const sf::Mouse::Button
 	}
 }
 
-void Tilemap::onMouseMoved(const sf::Vector2i&)
+void Tilemap::onMouseMoved(const sf::Vector2i&) noexcept
 {
 
 }
 
-sf::Vector2u Tilemap::calculateTextureTilePosition(const unsigned int tileIdentifier, const sf::Vector2u& tileSize) const
+sf::Vector2u Tilemap::calculateTextureTilePosition(const unsigned int tileIdentifier, const sf::Vector2u& tileSize) const noexcept
 {
 	sf::Vector2u position{};
 
@@ -231,12 +219,12 @@ sf::Vector2u Tilemap::calculateTextureTilePosition(const unsigned int tileIdenti
 	return position;
 }
 
-unsigned int Tilemap::calculateTextureTileIdentifierCount(const sf::Vector2u& tileSize) const
+unsigned int Tilemap::calculateTextureTileIdentifierCount(const sf::Vector2u& tileSize) const noexcept
 {
 	return (mTilesetTexture->getSize().x / tileSize.x) * (mTilesetTexture->getSize().y / tileSize.y);
 }
 
-sf::Vector2u Tilemap::calculateTileCount() const
+sf::Vector2u Tilemap::calculateTileCount() const noexcept
 {
 	sf::Vector2u tileCount{};
 	tileCount.x = static_cast<unsigned int>(mTileIdentifiers[0u].size());
@@ -245,7 +233,7 @@ sf::Vector2u Tilemap::calculateTileCount() const
 	return tileCount;
 }
 
-void Tilemap::setTileSprite(const unsigned int tileIdentifier, const sf::Vector2u& tileIndex)
+void Tilemap::setTileSprite(const unsigned int tileIdentifier, const sf::Vector2u& tileIndex) noexcept
 {
 	sf::Vertex* tileVerticles = getTileVerticles(tileIndex);
 
@@ -276,7 +264,7 @@ void Tilemap::setTileSprite(const unsigned int tileIdentifier, const sf::Vector2
 	setTileIdentifier(tileIdentifier, tileIndex);
 }
 
-void Tilemap::clearTileSprite(const sf::Vector2u& tileIndex)
+void Tilemap::clearTileSprite(const sf::Vector2u& tileIndex) noexcept
 {
 	sf::Vertex* tileVerticles = getTileVerticles(tileIndex);
 
@@ -288,7 +276,7 @@ void Tilemap::clearTileSprite(const sf::Vector2u& tileIndex)
 	setTileIdentifier(0u, tileIndex);
 }
 
-sf::Vertex* Tilemap::getTileVerticles(const sf::Vector2u& tileIndex)
+sf::Vertex* Tilemap::getTileVerticles(const sf::Vector2u& tileIndex) noexcept
 {
 	const std::size_t verticlesArrayIndex = (static_cast<std::size_t>(tileIndex.y) * calculateTileCount().x + static_cast<std::size_t>(tileIndex.x)) * 4u;
 
@@ -305,7 +293,7 @@ void Tilemap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(mInformationText, states);
 }
 
-bool Tilemap::isContainsPoint(const sf::Vector2f& point) const
+bool Tilemap::isContainsPoint(const sf::Vector2f& point) const noexcept
 {
-	return mGrid.getBounds().contains(point);
+	return mGrid.getArea().isContainsPoint(point);
 }

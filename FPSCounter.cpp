@@ -1,17 +1,17 @@
 #include "FPSCounter.hpp"
 
-FPSCounter::FPSCounter() :
+FPSCounter::FPSCounter() noexcept :
 	mCounter{0u}
 {
 
 }
 
-void FPSCounter::tick()
+void FPSCounter::tick() noexcept
 {
 	++mCounter;
 }
 
-unsigned int FPSCounter::restart()
+unsigned int FPSCounter::restart() noexcept
 {
 	const auto counter{mCounter};
 

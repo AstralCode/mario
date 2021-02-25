@@ -7,7 +7,7 @@
 #include "MarioCollisionHandler.hpp"
 #include "EnemyCollisionHandler.hpp"
 
-GameEngine::GameEngine() :
+GameEngine::GameEngine() noexcept:
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mStatistics{mFPSCounter},
 	mGameObjectManager{mTilemap, mGraphicsScene, mGamePhysics, mSpritesetManager},
@@ -17,7 +17,7 @@ GameEngine::GameEngine() :
 	mRenderWindow.setKeyRepeatEnabled(false);
 }
 
-void GameEngine::run()
+void GameEngine::run() noexcept
 {
 	loadResources();
 	initializeStatistics();
@@ -26,17 +26,17 @@ void GameEngine::run()
 	executeMainLoop();
 }
 
-GameContextData& GameEngine::getContextData()
+GameContextData& GameEngine::getContextData() noexcept
 {
 	return mGameContextData;
 }
 
-bool GameEngine::isRunning() const
+bool GameEngine::isRunning() const noexcept
 {
 	return mGameStateManager.hasActiveStates();
 }
 
-void GameEngine::processEvents()
+void GameEngine::processEvents() noexcept
 {
 	sf::Event event{};
 
@@ -67,7 +67,7 @@ void GameEngine::processEvents()
 	mGameStateManager.executeRequests();
 }
 
-void GameEngine::processLogic(const sf::Time& frameTime)
+void GameEngine::processLogic(const sf::Time& frameTime) noexcept
 {
 	mGameObjectManager.update(frameTime);
 	mGameObjectManager.clean();
@@ -76,7 +76,7 @@ void GameEngine::processLogic(const sf::Time& frameTime)
 	mGameStateManager.executeRequests();
 }
 
-void GameEngine::processRender()
+void GameEngine::processRender() noexcept
 {
 	if (mStatistics.isVisible())
 	{
@@ -98,7 +98,7 @@ void GameEngine::processRender()
 	mRenderWindow.display();
 }
 
-void GameEngine::executeMainLoop()
+void GameEngine::executeMainLoop() noexcept
 {
 	const auto frameTime = sf::seconds(1.0f / 60);
 	const auto threadSleepTime = sf::milliseconds(10);
@@ -154,90 +154,90 @@ void GameEngine::executeMainLoop()
 	mRenderWindow.close();
 }
 
-void GameEngine::initializeStatistics()
+void GameEngine::initializeStatistics() noexcept
 {
 	mStatistics.setText(mResourceManager.getFont(FontIdentifiers::Roboto));
 	mStatistics.setVisible(false);
 }
 
-void GameEngine::initializeSpritesets()
+void GameEngine::initializeSpritesets() noexcept
 {
 	auto& marioSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Mario);
 	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Stand, {{32, 32}, {0, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, {{0, 0, 24, 32}, {13, 16}}}
+		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 24, 32}, {13, 16}}}
 	}}});
 
 	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Move, {{32, 32}, {1, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, {{0, 0, 26, 32}, {13, 16}}},
-		SpritesetArea{{32, 32}, {1, 0}, {{0, 0, 26, 32}, {13, 16}}},
-		SpritesetArea{{32, 32}, {2, 0}, {{0, 0, 24, 32}, {12, 16}}}
+		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 26, 32}, {13, 16}}},
+		SpritesetArea{{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 26, 32}, {13, 16}}},
+		SpritesetArea{{32, 32}, {2, 0}, SpriteArea{IntArea{0, 0, 24, 32}, {12, 16}}}
 	}}});
 
 	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Slide, {{32, 32}, {8, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, {{0, 0, 24, 32}, {12, 16}}}
+		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 24, 32}, {12, 16}}}
 	}}});
 
 	auto& enemySpriteset = mSpritesetManager.create(SpritesetIdentifiers::Enemy);
 	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Move, {{32, 32}, {0, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, {{0, 0, 32, 32}, {16, 16}}},
-		SpritesetArea{{32, 32}, {1, 0}, {{0, 0, 32, 32}, {16, 16}}}
+		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}},
+		SpritesetArea{{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}}
 	}}});
 
 	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Dead, {{32, 32}, {2, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, {{0, 16, 32, 16}, {16, 0}}}
+		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 16, 32, 16}, {16, 0}}}
 	}}});
 
 	auto& blocksSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Blocks);
 	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::QuestionMarkBox, {{32, 32}, {0, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, {{0, 0, 32, 32}, {16, 16}}},
-		SpritesetArea{{32, 32}, {1, 0}, {{0, 0, 32, 32}, {16, 16}}},
-		SpritesetArea{{32, 32}, {2, 0}, {{0, 0, 32, 32}, {16, 16}}}
+		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}},
+		SpritesetArea{{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}},
+		SpritesetArea{{32, 32}, {2, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}}
 	}}});
 
 	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::WaterQuestionMarkBox, {{32, 32}, {0, 1}, {{
-		SpritesetArea{{32, 32}, {0, 0}, {{0, 0, 32, 32}, {16, 16}}},
-		SpritesetArea{{32, 32}, {1, 0}, {{0, 0, 32, 32}, {16, 16}}},
-		SpritesetArea{{32, 32}, {2, 0}, {{0, 0, 32, 32}, {16, 16}}}
+		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}},
+		SpritesetArea{{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}},
+		SpritesetArea{{32, 32}, {2, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}}
 	}}});
 
 	auto& itemSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Items);
 	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::Coin, {{32, 32}, {4, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, {{6, 2, 20, 28}, {10, 14}}},
-		SpritesetArea{{32, 32}, {1, 0}, {{6, 2, 20, 28}, {10, 14}}},
-		SpritesetArea{{32, 32}, {2, 0}, {{6, 2, 20, 28}, {10, 14}}}
+		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{6, 2, 20, 28}, {10, 14}}},
+		SpritesetArea{{32, 32}, {1, 0}, SpriteArea{IntArea{6, 2, 20, 28}, {10, 14}}},
+		SpritesetArea{{32, 32}, {2, 0}, SpriteArea{IntArea{6, 2, 20, 28}, {10, 14}}}
 	}}});
 
 	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::ScoreCoin, {{32, 32}, {9, 3}, {{
-		SpritesetArea{{11, 16}, {0, 0}, {{0, 0, 10, 16}, {5, 8}}},
-		SpritesetArea{{11, 16}, {1, 0}, {{0, 0, 10, 16}, {5, 8}}},
-		SpritesetArea{{11, 16}, {2, 0}, {{0, 0, 10, 16}, {5, 8}}}
+		SpritesetArea{{11, 16}, {0, 0}, SpriteArea{IntArea{0, 0, 10, 16}, {5, 8}}},
+		SpritesetArea{{11, 16}, {1, 0}, SpriteArea{IntArea{0, 0, 10, 16}, {5, 8}}},
+		SpritesetArea{{11, 16}, {2, 0}, SpriteArea{IntArea{0, 0, 10, 16}, {5, 8}}}
 	}}});
 }
 
-void GameEngine::initializeCollisionHandlers()
+void GameEngine::initializeCollisionHandlers() noexcept
 {
 	mGameObjectManager.addCollisionHandler<MarioCollisionHandler>();
 	mGameObjectManager.addCollisionHandler<EnemyCollisionHandler>();
 }
 
-void GameEngine::initializeGameState()
+void GameEngine::initializeGameState() noexcept
 {
 	mGameStateManager.registerState<InitialGameState>(GameStateIdentifiers::Initial);
 	mGameStateManager.pushState(GameStateIdentifiers::Initial);
 }
 
-void GameEngine::loadResources()
+void GameEngine::loadResources() noexcept
 {
 	loadFonts();
 	loadTextures();
 }
 
-void GameEngine::loadFonts()
+void GameEngine::loadFonts() noexcept
 {
 	mResourceManager.addFont(FontIdentifiers::Roboto, ResourcePaths::Fonts::Roboto);
 }
 
-void GameEngine::loadTextures()
+void GameEngine::loadTextures() noexcept
 {
 	mResourceManager.addTexture(TextureIdentifiers::Enemies, ResourcePaths::Textures::Enemies);
 	mResourceManager.addTexture(TextureIdentifiers::Items, ResourcePaths::Textures::Items);

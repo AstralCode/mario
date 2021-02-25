@@ -15,33 +15,33 @@ class GameStateChanger;
 class GameState : public EventReceiver
 {
 public:
-	GameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger);
+	GameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) noexcept;
 	virtual ~GameState() = default;
 
-	virtual void onEnter() = 0;
-	virtual void onLeave() = 0;
+	virtual void onEnter() noexcept = 0;
+	virtual void onLeave() noexcept = 0;
 
-	virtual void processLogic(const sf::Time& frameTime) = 0;
+	virtual void processLogic(const sf::Time& frameTime) noexcept = 0;
 
-	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) override;
-	void onKeyReleased(const sf::Event::KeyEvent& keyEvent) override;
+	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcept override;
+	void onKeyReleased(const sf::Event::KeyEvent& keyEvent) noexcept override;
 
-	void onMouseButtonPressed(const sf::Event::MouseButtonEvent& mouseButtonEvent) override;
-	void onMouseButtonReleased(const sf::Event::MouseButtonEvent& mouseButtonEvent) override;
-	void onMouseMoved(const sf::Event::MouseMoveEvent& mouseMoveEvent) override;
+	void onMouseButtonPressed(const sf::Event::MouseButtonEvent& mouseButtonEvent) noexcept override;
+	void onMouseButtonReleased(const sf::Event::MouseButtonEvent& mouseButtonEvent) noexcept override;
+	void onMouseMoved(const sf::Event::MouseMoveEvent& mouseMoveEvent) noexcept override;
 
-	void onClosed() override;
+	void onClosed() noexcept override;
 
-	void onEscapePressed() override;
+	void onEscapePressed() noexcept override;
 
-	Tilemap& getTilemap();
-	ResourceContainer& getResourceContainer();
-	SpritesetContainer& getSpritesetContainer();
-	GameObjectCreator& getGameObjectCreator();
+	Tilemap& getTilemap() noexcept;
+	ResourceContainer& getResourceContainer() noexcept;
+	SpritesetContainer& getSpritesetContainer() noexcept;
+	GameObjectCreator& getGameObjectCreator() noexcept;
 
 protected:
-	const sf::Font& getFont(const FontIdentifiers identifier);
-	const sf::Texture& getTexture(const TextureIdentifiers identifier);
+	const sf::Font& getFont(const FontIdentifiers identifier) noexcept;
+	const sf::Texture& getTexture(const TextureIdentifiers identifier) noexcept;
 
 	GameContextData& mGameContextData;
 	GameStateChanger& mGameStateChanger;

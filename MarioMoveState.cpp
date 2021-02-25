@@ -3,13 +3,13 @@
 #include "GameObject.hpp"
 #include "MarioStandState.hpp"
 
-MarioMoveState::MarioMoveState(const Spriteset& spriteset) :
+MarioMoveState::MarioMoveState(const Spriteset& spriteset) noexcept :
     GameObjectState{spriteset}
 {
 
 }
 
-void MarioMoveState::onSet(GameObject& object)
+void MarioMoveState::onSet(GameObject&) noexcept
 {
     auto animation = createAnimation(SpritesetRegionIdentifiers::Mario::Move);
     animation->setDuration(sf::seconds(0.25f));
@@ -18,7 +18,7 @@ void MarioMoveState::onSet(GameObject& object)
     setAnimation(std::move(animation));
 }
 
-void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent)
+void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
     if (keyEvent.code == sf::Keyboard::Q)
     {
@@ -30,7 +30,7 @@ void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent&
     }
 }
 
-void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent)
+void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
     if (keyEvent.code == sf::Keyboard::Q || keyEvent.code == sf::Keyboard::E)
     {
@@ -53,7 +53,7 @@ void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent
     }
 }
 
-void MarioMoveState::updateSelf(GameObject& object, const sf::Time&)
+void MarioMoveState::updateSelf(GameObject& object, const sf::Time&) noexcept
 {
     if (std::abs(object.getAcceleration().x) > 32.0f)
     {

@@ -3,20 +3,20 @@
 #include "GameObject.hpp"
 #include "MarioMoveState.hpp"
 
-MarioStandState::MarioStandState(const Spriteset& spriteset) :
+MarioStandState::MarioStandState(const Spriteset& spriteset) noexcept :
     GameObjectState{spriteset}
 {
 
 }
 
-void MarioStandState::onSet(GameObject& object)
+void MarioStandState::onSet(GameObject& object) noexcept
 {
     object.setTextureArea(getSpriteArea(SpritesetRegionIdentifiers::Mario::Stand));
     object.setAcceleration({});
     object.setVelocity({});
 }
 
-void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent)
+void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
     if (keyEvent.code == sf::Keyboard::Q)
     {
@@ -30,7 +30,7 @@ void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent
     }
 }
 
-void MarioStandState::updateSelf(GameObject&, const sf::Time&)
+void MarioStandState::updateSelf(GameObject&, const sf::Time&) noexcept
 {
 
 }

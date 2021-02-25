@@ -31,13 +31,13 @@ void SpritesetRegion::calculateSpriteAreas(const sf::Vector2i& gridSize, const s
             spriteAreaOffset.x = spritesetArea.getGridSize().x * spritesetArea.getGridTileIndex().x;
             spriteAreaOffset.y = spritesetArea.getGridSize().y * spritesetArea.getGridTileIndex().y;
 
-            sf::IntRect spriteArea{};
-            spriteArea.left = regionOffset.x + spriteAreaOffset.x + spritesetArea.getSpriteArea().getArea().left;
-            spriteArea.top = regionOffset.y + spriteAreaOffset.y + spritesetArea.getSpriteArea().getArea().top;
-            spriteArea.width = spritesetArea.getSpriteArea().getArea().width;
-            spriteArea.height = spritesetArea.getSpriteArea().getArea().height;
+            IntArea spriteArea{};
+            spriteArea.setX(regionOffset.x + spriteAreaOffset.x + spritesetArea.getSpriteArea().getArea().getX());
+            spriteArea.setY(regionOffset.y + spriteAreaOffset.y + spritesetArea.getSpriteArea().getArea().getY());
+            spriteArea.setWidth(spritesetArea.getSpriteArea().getArea().getWidth());
+            spriteArea.setHeight(spritesetArea.getSpriteArea().getArea().getHeight());
 
-            mSpriteAreas.push_back({spriteArea, spritesetArea.getSpriteArea().getOrigin()});
+            mSpriteAreas.push_back(SpriteArea{spriteArea, spritesetArea.getSpriteArea().getOrigin()});
         }
     }
 }

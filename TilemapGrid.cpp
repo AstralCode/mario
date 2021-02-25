@@ -2,34 +2,34 @@
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
-TilemapGrid::TilemapGrid() :
+TilemapGrid::TilemapGrid() noexcept :
 	mGridColor{sf::Color::White},
 	mGridVisible{false}
 {
 	mTilemapVertexArray.setPrimitiveType(sf::PrimitiveType::Lines);
 }
 
-void TilemapGrid::setTileSize(const sf::Vector2u& size)
+void TilemapGrid::setTileSize(const sf::Vector2u& size) noexcept
 {
 	mTileSize = size;
 }
 
-void TilemapGrid::setTileCount(const sf::Vector2u& count)
+void TilemapGrid::setTileCount(const sf::Vector2u& count) noexcept
 {
 	mTileCount = count;
 }
 
-void TilemapGrid::setVisible(const bool visible)
+void TilemapGrid::setVisible(const bool visible) noexcept
 {
 	mGridVisible = visible;
 }
 
-void TilemapGrid::setGridColor(const sf::Color& color)
+void TilemapGrid::setGridColor(const sf::Color& color) noexcept
 {
 	mGridColor = color;
 }
 
-void TilemapGrid::build()
+void TilemapGrid::build() noexcept
 {
 	mTilemapVertexArray.clear();
 
@@ -62,22 +62,22 @@ void TilemapGrid::build()
 	}
 }
 
-const sf::Vector2u& TilemapGrid::getTileSize() const
+const sf::Vector2u& TilemapGrid::getTileSize() const noexcept
 {
 	return mTileSize;
 }
 
-const sf::Vector2u& TilemapGrid::getTileCount() const
+const sf::Vector2u& TilemapGrid::getTileCount() const noexcept
 {
 	return mTileCount;
 }
 
-sf::Vector2u TilemapGrid::getTileIndex(const sf::Vector2f& position) const
+sf::Vector2u TilemapGrid::getTileIndex(const sf::Vector2f& position) const noexcept
 {
 	return getTileIndex(sf::Vector2i{static_cast<int>(position.x), static_cast<int>(position.y)});
 }
 
-sf::Vector2u TilemapGrid::getTileIndex(const sf::Vector2i& mousePosition) const
+sf::Vector2u TilemapGrid::getTileIndex(const sf::Vector2i& mousePosition) const noexcept
 {
 	sf::Vector2u index{};
 	index.x = mousePosition.x / mTileSize.x;
@@ -86,7 +86,7 @@ sf::Vector2u TilemapGrid::getTileIndex(const sf::Vector2i& mousePosition) const
 	return index;
 }
 
-sf::Vector2f TilemapGrid::getTilePosition(const sf::Vector2u& index) const
+sf::Vector2f TilemapGrid::getTilePosition(const sf::Vector2u& index) const noexcept
 {
 	sf::Vector2f position{};
 	position.x = static_cast<float>(mTileSize.x * index.x);
@@ -95,32 +95,31 @@ sf::Vector2f TilemapGrid::getTilePosition(const sf::Vector2u& index) const
 	return position;
 }
 
-sf::FloatRect TilemapGrid::getTileArea(const sf::Vector2u& index) const
+FloatArea TilemapGrid::getTileArea(const sf::Vector2u& index) const noexcept
 {
-	sf::FloatRect area{};
-
 	const auto position = getTilePosition(index);
 
+	sf::FloatRect area{};
 	area.left = position.x;
 	area.top = position.y;
-	area.width = mTileSize.x;
-	area.height = mTileSize.y;
+	area.width = static_cast<float>(mTileSize.x);
+	area.height = static_cast<float>(mTileSize.y);
 
 	return area;
 }
 
-sf::FloatRect TilemapGrid::getBounds() const
+FloatArea TilemapGrid::getArea() const noexcept
 {
-	sf::FloatRect bounds{};
-	bounds.left = 0.0f;
-	bounds.top = 0.0f;
-	bounds.width = static_cast<float>(mTileSize.x * mTileCount.x);
-	bounds.height = static_cast<float>(mTileSize.y * mTileCount.y);
+	sf::FloatRect rectangle{};
+	rectangle.left = 0.0f;
+	rectangle.top = 0.0f;
+	rectangle.width = static_cast<float>(mTileSize.x * mTileCount.x);
+	rectangle.height = static_cast<float>(mTileSize.y * mTileCount.y);
 
-	return bounds;
+	return rectangle;
 }
 
-bool TilemapGrid::isVisible() const
+bool TilemapGrid::isVisible() const noexcept
 {
 	return mGridVisible;
 }

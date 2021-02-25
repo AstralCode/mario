@@ -10,64 +10,71 @@
 #include "TileAttributes.hpp"
 #include "Flags.hpp"
 
+enum class TileSide
+{
+	Left,
+	Right,
+	Top,
+	Bottom
+};
+
 class Tilemap final : public sf::Drawable
 {
 public:
-	Tilemap();
+	Tilemap() noexcept;
 
-	void setTilesetTexture(const sf::Texture* tilesetTexture);
+	void setTilesetTexture(const sf::Texture* tilesetTexture) noexcept;
 
-	void setInformationText(const sf::Font& font, const unsigned int characterSize = 12u);
+	void setInformationText(const sf::Font& font, const unsigned int characterSize = 12u) noexcept;
 
-	void setTileAttributes(const std::map<unsigned int, TileAttributeFlags>& tileAttributes);
-	void setTileIdentifier(const unsigned int identifier, const sf::Vector2u& tileIndex);
-	void setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifiers);
+	void setTileAttributes(const std::map<unsigned int, TileAttributeFlags>& tileAttributes) noexcept;
+	void setTileIdentifier(const unsigned int identifier, const sf::Vector2u& index) noexcept;
+	void setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifiers) noexcept;
 
-	void setBackgroundColor(const sf::Color& color);
-	void setGridVisible(const bool visible);
+	void setBackgroundColor(const sf::Color& color) noexcept;
+	void setGridVisible(const bool visible) noexcept;
 
-	void receiveEvents(const sf::Event& event);
+	void receiveEvents(const sf::Event& event) noexcept;
 
-	void build(const sf::Vector2u& tileSize);
+	void build(const sf::Vector2u& tileSize) noexcept;
 
-	const TilemapGrid& getGrid() const;
+	TileSide getTileSide(const FloatArea& area, const sf::Vector2u& tileIndex) const noexcept;
 
-	unsigned int getTileIdentifier(const sf::Vector2u& tileIndex) const;
-	sf::Vector2u getTileIndex(const sf::Vector2f& position) const;
+	const TilemapGrid& getGrid() const noexcept;
 
-	const sf::Vector2u& getTileSize() const;
-	const sf::Vector2u& getTileCount() const;
+	unsigned int getTileIdentifier(const sf::Vector2u& index) const noexcept;
+	sf::Vector2u getTileIndex(const sf::Vector2f& position) const noexcept;
 
-	std::optional<TileAttributeFlags> getTileAttributes(const unsigned int identifier) const;
-	std::optional<TileAttributeFlags> getTileAttributes(const sf::Vector2u& tileIndex) const;
+	const sf::Vector2u& getTileSize() const noexcept;
+	const sf::Vector2u& getTileCount() const noexcept;
 
-	sf::Vector2f getTilePosition(const sf::Vector2u& tileIndex) const;
-	sf::Vector2f getTileTopLeftPosition(const sf::Vector2u& tileIndex) const;
-	sf::Vector2f getTileTopRightPosition(const sf::Vector2u& tileIndex) const;
-	sf::Vector2f getTileCenterPosition(const sf::Vector2u& tileIndex) const;
+	std::optional<TileAttributeFlags> getTileAttributes(const unsigned int identifier) const noexcept;
+	std::optional<TileAttributeFlags> getTileAttributes(const sf::Vector2u& index) const noexcept;
 
-	sf::FloatRect getTileArea(const sf::Vector2u& tileIndex) const;
+	sf::Vector2f getTilePosition(const sf::Vector2u& index) const noexcept;
 
-	const sf::Text& getText() const;
+	FloatArea getTileArea(const sf::Vector2u& index) const noexcept;
 
-	bool isGridVisible() const;
+	const sf::Text& getText() const noexcept;
+
+	bool isGridVisible() const noexcept;
 
 private:
-	void onMouseClick(const sf::Vector2i& position, const sf::Mouse::Button button);
-	void onMouseMoved(const sf::Vector2i& position);
+	void onMouseClick(const sf::Vector2i& position, const sf::Mouse::Button button) noexcept;
+	void onMouseMoved(const sf::Vector2i& position) noexcept;
 
-	sf::Vector2u calculateTextureTilePosition(const unsigned int tileIdentifier, const sf::Vector2u& tileSize) const;
-	unsigned int calculateTextureTileIdentifierCount(const sf::Vector2u& tileSize) const;
-	sf::Vector2u calculateTileCount() const;
+	sf::Vector2u calculateTextureTilePosition(const unsigned int tileIdentifier, const sf::Vector2u& tileSize) const noexcept;
+	unsigned int calculateTextureTileIdentifierCount(const sf::Vector2u& tileSize) const noexcept;
+	sf::Vector2u calculateTileCount() const noexcept;
 
-	void setTileSprite(const unsigned int tileIdentifier, const sf::Vector2u& tileIndex);
-	void clearTileSprite(const sf::Vector2u& tileIndex);
+	void setTileSprite(const unsigned int tileIdentifier, const sf::Vector2u& tileIndex) noexcept;
+	void clearTileSprite(const sf::Vector2u& tileIndex) noexcept;
 
-	sf::Vertex* getTileVerticles(const sf::Vector2u& tileIndex);
+	sf::Vertex* getTileVerticles(const sf::Vector2u& tileIndex) noexcept;
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-	bool isContainsPoint(const sf::Vector2f& point) const;
+	bool isContainsPoint(const sf::Vector2f& point) const noexcept;
 
 	const sf::Texture* mTilesetTexture;
 

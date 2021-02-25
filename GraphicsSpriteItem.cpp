@@ -2,14 +2,14 @@
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
-GraphicsSpriteItem::GraphicsSpriteItem() :
+GraphicsSpriteItem::GraphicsSpriteItem() noexcept :
 	mHorizontalFlipped{false},
 	mVerticalFlipped{false}
 {
 
 }
 
-void GraphicsSpriteItem::setTexture(const sf::Texture& texture)
+void GraphicsSpriteItem::setTexture(const sf::Texture& texture) noexcept
 {
 	mSprite.setTexture(texture);
 	mDefaultArea = mSprite.getTextureRect();
@@ -17,15 +17,15 @@ void GraphicsSpriteItem::setTexture(const sf::Texture& texture)
 	updateArea();
 }
 
-void GraphicsSpriteItem::setTextureArea(const sf::IntRect& area)
+void GraphicsSpriteItem::setTextureArea(const IntArea& area) noexcept
 {
-	mSprite.setTextureRect(area);
-	mDefaultArea = area;
+	mSprite.setTextureRect(area.getRectangle());
+	mDefaultArea = area.getRectangle();
 
 	updateArea();
 }
 
-void GraphicsSpriteItem::flip(const Orientations orientation)
+void GraphicsSpriteItem::flip(const Orientations orientation) noexcept
 {
 	switch (orientation)
 	{
@@ -44,32 +44,32 @@ void GraphicsSpriteItem::flip(const Orientations orientation)
 	updateArea();
 }
 
-const sf::Texture* GraphicsSpriteItem::getTexture() const
+const sf::Texture* GraphicsSpriteItem::getTexture() const noexcept
 {
 	return mSprite.getTexture();
 }
 
-const sf::IntRect& GraphicsSpriteItem::getTextureArea() const
+const IntArea& GraphicsSpriteItem::getTextureArea() const noexcept
 {
 	return mSprite.getTextureRect();
 }
 
-sf::FloatRect GraphicsSpriteItem::getBounds() const
+FloatArea GraphicsSpriteItem::getArea() const noexcept
 {
 	return getGlobalTransform().transformRect(mSprite.getLocalBounds());
 }
 
-bool GraphicsSpriteItem::isFlippedHorizontally() const
+bool GraphicsSpriteItem::isFlippedHorizontally() const noexcept
 {
 	return mHorizontalFlipped;
 }
 
-bool GraphicsSpriteItem::isFlippedVertically() const
+bool GraphicsSpriteItem::isFlippedVertically() const noexcept
 {
 	return mVerticalFlipped;
 }
 
-void GraphicsSpriteItem::updateArea()
+void GraphicsSpriteItem::updateArea() noexcept
 {
 	sf::IntRect area{};
 
@@ -79,7 +79,7 @@ void GraphicsSpriteItem::updateArea()
 	mSprite.setTextureRect(area);
 }
 
-void GraphicsSpriteItem::updateAreaHorizontally(sf::IntRect& area)
+void GraphicsSpriteItem::updateAreaHorizontally(sf::IntRect& area) noexcept
 {
 	if (isFlippedHorizontally())
 	{
@@ -93,7 +93,7 @@ void GraphicsSpriteItem::updateAreaHorizontally(sf::IntRect& area)
 	}
 }
 
-void GraphicsSpriteItem::updateAreaVertically(sf::IntRect& area)
+void GraphicsSpriteItem::updateAreaVertically(sf::IntRect& area) noexcept
 {
 	if (isFlippedVertically())
 	{
@@ -107,7 +107,7 @@ void GraphicsSpriteItem::updateAreaVertically(sf::IntRect& area)
 	}
 }
 
-void GraphicsSpriteItem::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const
+void GraphicsSpriteItem::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept
 {
 	target.draw(mSprite, states);
 }

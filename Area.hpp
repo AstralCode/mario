@@ -6,7 +6,9 @@ template <typename T>
 class Area final
 {
 public:
+	Area() = default;
 	Area(const sf::Rect<T>& rectangle) noexcept;
+	Area(const T x, const T y, const T width, const T height) noexcept;
 
 	void setX(const T x) noexcept;
 	void setY(const T y) noexcept;
@@ -31,14 +33,12 @@ public:
 	T getY() const noexcept;
 
 	T getWidth() const noexcept;
-	T getheight() const noexcept;
+	T getHeight() const noexcept;
 
 	sf::Vector2<T> getSize() const noexcept;
 
 	const sf::Rect<T>& getRectangle() const noexcept;
 
-	bool isContainsPoint(const int x, const int y) const noexcept;
-	bool isContainsPoint(const sf::Vector2i& point) const noexcept;
 	bool isContainsPoint(const T x, const T y) const noexcept;
 	bool isContainsPoint(const sf::Vector2<T>& point) const noexcept;
 
@@ -52,6 +52,13 @@ private:
 template <typename T>
 inline Area<T>::Area(const sf::Rect<T>& rectangle) noexcept :
 	mRectangle{rectangle}
+{
+
+}
+
+template <typename T>
+inline Area<T>::Area(const T x, const T y, const T width, const T height) noexcept :
+	mRectangle{x, y, width, height}
 {
 
 }
@@ -89,13 +96,13 @@ inline void Area<T>::setRectangle(const sf::Rect<T>& rectangle)
 template <typename T>
 inline T Area<T>::getTop() const noexcept
 {
-	return mRectangle.top();
+	return mRectangle.top;
 }
 
 template <typename T>
 inline T Area<T>::getLeft() const noexcept
 {
-	return mRectangle.left();
+	return mRectangle.left;
 }
 
 template <typename T>
@@ -159,7 +166,7 @@ inline T Area<T>::getWidth() const noexcept
 }
 
 template <typename T>
-inline T Area<T>::getheight() const noexcept
+inline T Area<T>::getHeight() const noexcept
 {
 	return mRectangle.height;
 }
@@ -174,18 +181,6 @@ template <typename T>
 inline const sf::Rect<T>& Area<T>::getRectangle() const noexcept
 {
 	return mRectangle;
-}
-
-template <typename T>
-inline bool Area<T>::isContainsPoint(const int x, const int y) const noexcept
-{
-	return mRectangle.contains(static_cast<T>(x), static_cast<T>(y));
-}
-
-template <typename T>
-inline bool Area<T>::isContainsPoint(const sf::Vector2i& point) const noexcept
-{
-	return mRectangle.contains(static_cast<T>(point.x), static_cast<T>(point.y));
 }
 
 template <typename T>

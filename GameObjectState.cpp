@@ -3,21 +3,21 @@
 #include "GameObject.hpp"
 #include "Spriteset.hpp"
 
-GameObjectState::GameObjectState(const Spriteset& spriteset) :
+GameObjectState::GameObjectState(const Spriteset& spriteset) noexcept :
     mSpriteset{spriteset},
     mRemoved{false}
 {
 
 }
 
-void GameObjectState::setAnimation(std::unique_ptr<Animation> animation)
+void GameObjectState::setAnimation(std::unique_ptr<Animation> animation) noexcept
 {
     mAnimation = std::move(animation);
     mAnimation->stop();
     mAnimation->play();
 }
 
-void GameObjectState::onSet(GameObject& object)
+void GameObjectState::onSet(GameObject& object) noexcept
 {
     object.setMaxAcceleration({});
     object.setMaxVelocity({});
@@ -25,22 +25,22 @@ void GameObjectState::onSet(GameObject& object)
     object.setTextureArea(mAnimation->getCurrentSpriteArea());
 }
 
-void GameObjectState::onUnset(GameObject&)
+void GameObjectState::onUnset(GameObject&) noexcept
 {
 
 }
 
-void GameObjectState::destroy()
+void GameObjectState::destroy() noexcept
 {
     mRemoved = true;
 }
 
-void GameObjectState::onCollision(GameObject&)
+void GameObjectState::onCollision(GameObject&) noexcept
 {
 
 }
 
-void GameObjectState::update(GameObject& object, const sf::Time& frameTime)
+void GameObjectState::update(GameObject& object, const sf::Time& frameTime) noexcept
 {
     if (mAnimation)
     {
@@ -52,61 +52,61 @@ void GameObjectState::update(GameObject& object, const sf::Time& frameTime)
     updateSelf(object, frameTime);
 }
 
-void GameObjectState::onKeyPressed(GameObject&, const sf::Event::KeyEvent&)
+void GameObjectState::onKeyPressed(GameObject&, const sf::Event::KeyEvent&) noexcept
 {
 
 }
 
-void GameObjectState::onKeyReleased(GameObject&, const sf::Event::KeyEvent&)
+void GameObjectState::onKeyReleased(GameObject&, const sf::Event::KeyEvent&) noexcept
 {
 
 }
 
-void GameObjectState::onMouseClick(GameObject& object, const sf::Event::MouseButtonEvent& event)
+void GameObjectState::onMouseClick(GameObject& object, const sf::Event::MouseButtonEvent& event) noexcept
 {
     if (event.button == sf::Mouse::Button::Left)
     {
-        object.setBoundsColor(sf::Color::Red);
+        object.setAreaBoundsColor(sf::Color::Red);
     }
     else if (event.button == sf::Mouse::Button::Right)
     {
-        object.setBoundsColor(sf::Color::Yellow);
+        object.setAreaBoundsColor(sf::Color::Yellow);
     }
 
-    object.setBoundsVisible(!object.isBoundsVisible());
+    object.setAreaBoundsVisible(!object.isAreaBoundsVisible());
 }
 
-void GameObjectState::onMouseEnter(GameObject&, const sf::Event::MouseMoveEvent&)
+void GameObjectState::onMouseEnter(GameObject&, const sf::Event::MouseMoveEvent&) noexcept
 {
 
 }
 
-void GameObjectState::onMouseLeave(GameObject&, const sf::Event::MouseMoveEvent&)
+void GameObjectState::onMouseLeave(GameObject&, const sf::Event::MouseMoveEvent&) noexcept
 {
 
 }
 
-void GameObjectState::onMouseOver(GameObject&, const sf::Event::MouseMoveEvent&)
+void GameObjectState::onMouseOver(GameObject&, const sf::Event::MouseMoveEvent&) noexcept
 {
 
 }
 
-const SpriteArea& GameObjectState::getSpriteArea(const std::string& spritesetRegionidentifier) const
+const SpriteArea& GameObjectState::getSpriteArea(const std::string& spritesetRegionidentifier) const noexcept
 {
     return mSpriteset.getRegion(spritesetRegionidentifier).getSpriteArea(0);
 }
 
-bool GameObjectState::isDestroyed() const
+bool GameObjectState::isDestroyed() const noexcept
 {
     return mRemoved;
 }
 
-std::unique_ptr<Animation> GameObjectState::createAnimation(const std::string& spritesetRegionIdentifier) const
+std::unique_ptr<Animation> GameObjectState::createAnimation(const std::string& spritesetRegionIdentifier) const noexcept
 {
     return std::make_unique<Animation>(mSpriteset.getRegion(spritesetRegionIdentifier));
 }
 
-void GameObjectState::updateSelf(GameObject&, const sf::Time&)
+void GameObjectState::updateSelf(GameObject&, const sf::Time&) noexcept
 {
 
 }

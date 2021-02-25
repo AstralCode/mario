@@ -17,24 +17,24 @@ class SpritesetContainer;
 class GameObjectManager final : public GameObjectCreator
 {
 public:
-	GameObjectManager(Tilemap& tilemap, GraphicsItem& graphicsScene, GamePhysics& physics, SpritesetContainer& spritesetContainer);
+	GameObjectManager(Tilemap& tilemap, GraphicsItem& graphicsScene, GamePhysics& physics, SpritesetContainer& spritesetContainer) noexcept;
 
-	GameObject* create(const GameObjectIdentifiers identifier) override;
+	GameObject* create(const GameObjectIdentifiers identifier) noexcept override;
 
 	template <typename TCollisionHandler>
-	void addCollisionHandler();
+	void addCollisionHandler() noexcept;
 
-	void receiveEvents(const sf::Event& event);
+	void receiveEvents(const sf::Event& event) noexcept;
 
-	void clean();
-	void update(const sf::Time& frameTime);
+	void clean() noexcept;
+	void update(const sf::Time& frameTime) noexcept;
 
 private:
-	void executeTilemapCollisionHandlers(const std::vector<std::tuple<GameObject*, sf::Vector2u>>& colliders) const;
-	void executeObjectCollisionHandlers(const std::vector<std::tuple<GameObject*, GameObject*>>& colliders) const;
+	void executeTilemapCollisionHandlers(const std::vector<std::tuple<GameObject*, sf::Vector2u>>& colliders) const noexcept;
+	void executeObjectCollisionHandlers(const std::vector<std::tuple<GameObject*, GameObject*>>& colliders) const noexcept;
 
-	std::vector<std::tuple<GameObject*, sf::Vector2u>> checkTilemapCollisions() const;
-	std::vector<std::tuple<GameObject*, GameObject*>> checkObjectCollisions() const;
+	std::vector<std::tuple<GameObject*, sf::Vector2u>> checkTilemapCollisions() const noexcept;
+	std::vector<std::tuple<GameObject*, GameObject*>> checkObjectCollisions() const noexcept;
 
 	Tilemap& mTilemap;
 	GraphicsItem& mGraphicsScene;
@@ -47,7 +47,7 @@ private:
 };
 
 template <typename TCollisionHandler>
-inline void GameObjectManager::addCollisionHandler()
+inline void GameObjectManager::addCollisionHandler() noexcept
 {
 	static_assert(std::is_base_of_v<CollisionHandler, TCollisionHandler>, "TCollisionHandler must derived from CollisionHandler");
 

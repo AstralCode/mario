@@ -5,12 +5,12 @@
 class MarioStandState final : public GameObjectState
 {
 public:
-	MarioStandState(const Spriteset& spriteset);
+	MarioStandState(const Spriteset& spriteset) noexcept;
 
-	void onSet(GameObject& object) override;
+	void onSet(GameObject& object) noexcept override;
 
-	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) override;
+	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
 
 private:
-	void updateSelf(GameObject& object, const sf::Time& frameTime) override;
+	void updateSelf(GameObject& object, const sf::Time& frameTime) noexcept override;
 };

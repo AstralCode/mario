@@ -12,20 +12,23 @@ void MarioCollisionHandler::onTileCollision(GameObject* target, const sf::Vector
 {
     auto& tilemap = getTilemap();
 
-    const auto targetBounds = target->getBounds();
+    const auto targetArea = target->getArea();
+    const auto tileArea = tilemap.getTileArea(tileIndex);
 
     if (target->getVelocity().x > 0.0f)
     {
-        const auto tilePosition = tilemap.getTileTopLeftPosition(tileIndex);
-        const auto offsetPosition = targetBounds.width / 2.0f;
+        TileSide tileSide = tilemap.getTileSide(targetArea, tileIndex);
+
+        const auto tilePosition = tileArea.getTopLeft();
+        const auto offsetPosition = targetArea.getWidth() / 2.0f;
 
         target->setPositionX(tilePosition.x - offsetPosition);
         target->setAccelerationX(0.0f);
     }
     else
     {
-        const auto tilePosition = tilemap.getTileTopRightPosition(tileIndex);
-        const auto offsetPosition = targetBounds.width / 2.0f;
+        const auto tilePosition = tileArea.getTopRight();
+        const auto offsetPosition = targetArea.getWidth() / 2.0f;
 
         target->setPositionX(tilePosition.x + offsetPosition);
         target->setAccelerationX(0.0f);

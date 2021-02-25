@@ -6,16 +6,16 @@
 class InitialGameState final : public GameState
 {
 public:
-	InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger);
+	InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) noexcept;
 
-	void onEnter() override;
-	void onLeave() override;
+	void onEnter() noexcept override;
+	void onLeave() noexcept override;
 
-	void processLogic(const sf::Time& frameTime) override;
+	void processLogic(const sf::Time& frameTime) noexcept override;
 
 private:
-	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) override;
-	void onEscapePressed() override;
+	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcept override;
+	void onEscapePressed() noexcept override;
 
 	GameObjectFactory mGameObjectFactory;
 };

@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "SFML/System/Time.hpp"
-#include "SFML/Graphics/Rect.hpp"
 
 #include "SpriteArea.hpp"
 

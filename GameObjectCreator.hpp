@@ -9,5 +9,5 @@ class GameObjectCreator
 public:
 	virtual ~GameObjectCreator() = default;
 
-	virtual GameObject* create(const GameObjectIdentifiers identifier) = 0;
+	virtual GameObject* create(const GameObjectIdentifiers identifier) noexcept = 0;
 };

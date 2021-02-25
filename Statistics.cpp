@@ -2,7 +2,7 @@
 
 #include "SFML/Graphics/Font.hpp"
 
-Statistics::Statistics(FPSCounter& fpsCounter) :
+Statistics::Statistics(FPSCounter& fpsCounter) noexcept :
 	mFPSCounter{fpsCounter},
 	mUpdateTime{sf::seconds(1.0f)},
 	mVisible{false}
@@ -13,23 +13,23 @@ Statistics::Statistics(FPSCounter& fpsCounter) :
 	mFPSCounterGraphicsText->setCharacterSize(12u);
 }
 
-void Statistics::setPosition(const float x, const float y)
+void Statistics::setPosition(const float x, const float y) noexcept
 {
 	mFPSCounterGraphicsText->setPosition(x, y);
 }
 
-void Statistics::setText(const sf::Font& font, const unsigned int characterSize)
+void Statistics::setText(const sf::Font& font, const unsigned int characterSize) noexcept
 {
 	mFPSCounterGraphicsText->setFont(font);
 	mFPSCounterGraphicsText->setCharacterSize(characterSize);
 }
 
-void Statistics::setVisible(const bool visible)
+void Statistics::setVisible(const bool visible) noexcept
 {
 	mVisible = visible;
 }
 
-void Statistics::update(const sf::Time& updateTime)
+void Statistics::update(const sf::Time& updateTime) noexcept
 {
 	if (isVisible())
 	{
@@ -48,17 +48,17 @@ void Statistics::update(const sf::Time& updateTime)
 	}
 }
 
-const FPSCounter& Statistics::getFPSCounter() const
+const FPSCounter& Statistics::getFPSCounter() const noexcept
 {
 	return mFPSCounter;
 }
 
-const GraphicsItem& Statistics::getGraphics() const
+const GraphicsItem& Statistics::getGraphics() const noexcept
 {
 	return mGraphicsItem;
 }
 
-bool Statistics::isVisible()
+bool Statistics::isVisible() noexcept
 {
 	return mVisible;
 }

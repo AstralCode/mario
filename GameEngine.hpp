@@ -16,30 +16,30 @@
 class GameEngine final
 {
 public:
-	GameEngine();
+	GameEngine() noexcept;
 
-	void run();
+	void run() noexcept;
 
-	GameContextData& getContextData();
+	GameContextData& getContextData() noexcept;
 
-	bool isRunning() const;
+	bool isRunning() const noexcept;
 
 protected:
-	void processEvents();
-	void processLogic(const sf::Time& frameTime);
-	void processRender();
+	void processEvents() noexcept;
+	void processLogic(const sf::Time& frameTime) noexcept;
+	void processRender() noexcept;
 
 private:
-	void executeMainLoop();
+	void executeMainLoop() noexcept;
 
-	void initializeStatistics();
-	void initializeSpritesets();
-	void initializeCollisionHandlers();
-	void initializeGameState();
+	void initializeStatistics() noexcept;
+	void initializeSpritesets() noexcept;
+	void initializeCollisionHandlers() noexcept;
+	void initializeGameState() noexcept;
 
-	void loadResources();
-	void loadFonts();
-	void loadTextures();
+	void loadResources() noexcept;
+	void loadFonts() noexcept;
+	void loadTextures() noexcept;
 
 	sf::RenderWindow mRenderWindow;
 

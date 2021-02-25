@@ -4,14 +4,14 @@
 #include "GameStateChanger.hpp"
 #include "GraphicsRectangleItem.hpp"
 
-InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) :
+InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) noexcept :
 	GameState{gameContextData, gameStateChanger},
 	mGameObjectFactory{gameContextData.getResourceContainer(), gameContextData.getSpritesetContainer(), gameContextData.getGameObjectCreator()}
 {
 
 }
 
-void InitialGameState::onEnter()
+void InitialGameState::onEnter() noexcept
 {
 	const std::map<unsigned int, TileAttributeFlags> tileAttributes =
 	{
@@ -26,7 +26,7 @@ void InitialGameState::onEnter()
 
 	const std::vector<std::vector<unsigned int>> tileIdentifiers =
 	{
-		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+		{ 000,   1, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000,  46,  47, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
 		{ 000, 000, 000, 000, 000, 000,  46,  47, 000, 000, 000, 000, 000, 000,  61,  62, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
@@ -51,37 +51,23 @@ void InitialGameState::onEnter()
 	tilemap.setBackgroundColor({97, 133, 246});
 	tilemap.build({32, 32});
 
-	//mGameObjectFactory.createScoreCoin()->setPosition(tilemap.getTileCenterPosition({0, 0}));
-
-	mGameObjectFactory.createMario()->setPosition(tilemap.getTileCenterPosition({3, 12}));
+	mGameObjectFactory.createMario()->setPosition(tilemap.getTileArea({0, 0}).getCenter());
 	
-	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({11, 12}));
-	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileCenterPosition({13, 12}));
-
-	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 7}));
-	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 7}));
-	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({12, 7}));
-	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({13, 7}));
-	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({10, 8}));
-	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({11, 8}));
-	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({12, 8}));
-	//mGameObjectFactory.createCoin()->setPosition(tilemap.getTileCenterPosition({13, 8}));
-
-	//mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({8, 6}));
-	//mGameObjectFactory.createQuestionMarkBox()->setPosition(tilemap.getTileCenterPosition({17, 5}));
+	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileArea({11, 12}).getCenter());
+	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileArea({13, 12}).getCenter());
 }
 
-void InitialGameState::onLeave()
+void InitialGameState::onLeave() noexcept
 {
 
 }
 
-void InitialGameState::processLogic(const sf::Time&)
+void InitialGameState::processLogic(const sf::Time&) noexcept
 {
 	
 }
 
-void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent)
+void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcept
 {
 	if (keyEvent.code == sf::Keyboard::F2)
 	{
@@ -89,7 +75,7 @@ void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent)
 	}
 }
 
-void InitialGameState::onEscapePressed()
+void InitialGameState::onEscapePressed() noexcept
 {
 	mGameStateChanger.clearStatesRequest();
 }

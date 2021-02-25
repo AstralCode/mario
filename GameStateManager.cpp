@@ -2,13 +2,13 @@
 
 #include <stdexcept>
 
-GameStateManager::GameStateManager(GameContextData& gameContextData) :
+GameStateManager::GameStateManager(GameContextData& gameContextData) noexcept :
 	mGameContextData{gameContextData}
 {
 
 }
 
-void GameStateManager::pushState(const GameStateIdentifiers identifier)
+void GameStateManager::pushState(const GameStateIdentifiers identifier) noexcept
 {
 	if (hasActiveStates())
 	{
@@ -21,7 +21,7 @@ void GameStateManager::pushState(const GameStateIdentifiers identifier)
 	mGameStateStack.emplace_front(state);
 }
 
-void GameStateManager::popState()
+void GameStateManager::popState() noexcept
 {
 	if (hasActiveStates())
 	{
@@ -30,7 +30,7 @@ void GameStateManager::popState()
 	}
 }
 
-void GameStateManager::clearStates()
+void GameStateManager::clearStates() noexcept
 {
 	while (hasActiveStates())
 	{
@@ -38,22 +38,22 @@ void GameStateManager::clearStates()
 	}
 }
 
-void GameStateManager::pushStateRequest(const GameStateIdentifiers identifier)
+void GameStateManager::pushStateRequest(const GameStateIdentifiers identifier) noexcept
 {
 	mGameStateStackRequests.emplace(std::make_unique<PushGameStateRequest>(identifier));
 }
 
-void GameStateManager::popStateRequest()
+void GameStateManager::popStateRequest() noexcept
 {
 	mGameStateStackRequests.emplace(std::make_unique<PopGameStateRequest>());
 }
 
-void GameStateManager::clearStatesRequest()
+void GameStateManager::clearStatesRequest() noexcept
 {
 	mGameStateStackRequests.emplace(std::make_unique<ClearGameStatesRequest>());
 }
 
-void GameStateManager::executeRequests()
+void GameStateManager::executeRequests() noexcept
 {
 	while (!mGameStateStackRequests.empty())
 	{
@@ -62,7 +62,7 @@ void GameStateManager::executeRequests()
 	}
 }
 
-void GameStateManager::processEvents(const sf::Event& event)
+void GameStateManager::processEvents(const sf::Event& event) noexcept
 {
 	auto state = getActiveState();
 
@@ -102,17 +102,17 @@ void GameStateManager::processEvents(const sf::Event& event)
 	}
 }
 
-void GameStateManager::processLogic(const sf::Time& frameTime)
+void GameStateManager::processLogic(const sf::Time& frameTime) noexcept
 {
 	getActiveState()->processLogic(frameTime);
 }
 
-std::size_t GameStateManager::getActiveStateCount() const
+std::size_t GameStateManager::getActiveStateCount() const noexcept
 {
 	return mGameStateStack.size();
 }
 
-bool GameStateManager::hasActiveStates() const
+bool GameStateManager::hasActiveStates() const noexcept
 {
 	return !mGameStateStack.empty();
 }
@@ -128,7 +128,7 @@ GameState* GameStateManager::findState(const GameStateIdentifiers identifier) co
 	return gameStatesIterator->second.get();
 }
 
-GameState* GameStateManager::getActiveState() const
+GameState* GameStateManager::getActiveState() const noexcept
 {
 	return mGameStateStack.front();
 }

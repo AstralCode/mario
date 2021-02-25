@@ -3,10 +3,10 @@
 class FPSCounter final
 {
 public:
-	FPSCounter();
+	FPSCounter() noexcept;
 
-	void tick();
-	unsigned int restart();
+	void tick() noexcept;
+	unsigned int restart() noexcept;
 
 private:
 	unsigned int mCounter;

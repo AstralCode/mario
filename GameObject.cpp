@@ -5,18 +5,18 @@
 
 #include "GraphicsSpriteItem.hpp"
 
-GameObject::GameObject(const GameObjectIdentifiers identifier) :
+GameObject::GameObject(const GameObjectIdentifiers identifier) noexcept :
 	mIdentifier{identifier},
 	mSprite{addItem<GraphicsSpriteItem>()},
 	mDirection{Directions::Right},
-	mBoundsColor{sf::Color::Red},
-	mBoundsVisible{false},
+	mAreaBoundsColor{sf::Color::Red},
+	mAreaBoundsVisible{false},
 	mMouseOver{false}
 {
 
 }
 
-void GameObject::setState(std::unique_ptr<GameObjectState> state)
+void GameObject::setState(std::unique_ptr<GameObjectState> state) noexcept
 {
 	if (mState)
 	{
@@ -27,39 +27,39 @@ void GameObject::setState(std::unique_ptr<GameObjectState> state)
 	mState->onSet(*this);
 }
 
-void GameObject::setPositionX(const float x)
+void GameObject::setPositionX(const float x) noexcept
 {
 	setPosition(x, getPosition().y);
 }
 
-void GameObject::setPositionY(const float y)
+void GameObject::setPositionY(const float y) noexcept
 {
 	setPosition(getPosition().x, y);
 }
 
-void GameObject::setTexture(const sf::Texture& texture)
+void GameObject::setTexture(const sf::Texture& texture) noexcept
 {
 	mSprite->setTexture(texture);
 }
 
-void GameObject::setTextureArea(const SpriteArea& spriteArea)
+void GameObject::setTextureArea(const SpriteArea& spriteArea) noexcept
 {
 	mSprite->setTextureArea(spriteArea.getArea());
 
 	setOrigin(spriteArea.getOrigin());
 }
 
-void GameObject::setMaxAcceleration(const sf::Vector2f& acceleration)
+void GameObject::setMaxAcceleration(const sf::Vector2f& acceleration) noexcept
 {
 	mMaxAcceleration = acceleration;
 }
 
-void GameObject::setMaxVelocity(const sf::Vector2f& velocity)
+void GameObject::setMaxVelocity(const sf::Vector2f& velocity) noexcept
 {
 	mMaxVelocity = velocity;
 }
 
-void GameObject::setAcceleration(const sf::Vector2f& acceleration)
+void GameObject::setAcceleration(const sf::Vector2f& acceleration) noexcept
 {
 	switch (mDirection)
 	{
@@ -77,17 +77,17 @@ void GameObject::setAcceleration(const sf::Vector2f& acceleration)
 	mAcceleration = acceleration;
 }
 
-void GameObject::setAccelerationX(const float value)
+void GameObject::setAccelerationX(const float value) noexcept
 {
 	setAcceleration({value, mAcceleration.y});
 }
 
-void GameObject::setAccelerationY(const float value)
+void GameObject::setAccelerationY(const float value) noexcept
 {
 	setAcceleration({mAcceleration.x, value});
 }
 
-void GameObject::setVelocity(const sf::Vector2f& velocity)
+void GameObject::setVelocity(const sf::Vector2f& velocity) noexcept
 {
 	switch (mDirection)
 	{
@@ -104,32 +104,32 @@ void GameObject::setVelocity(const sf::Vector2f& velocity)
 	}	
 }
 
-void GameObject::setVelocityX(const float value)
+void GameObject::setVelocityX(const float value) noexcept
 {
 	setVelocity({value, mVelocity.y});
 }
 
-void GameObject::setVelocityY(const float value)
+void GameObject::setVelocityY(const float value) noexcept
 {
 	setVelocity({mVelocity.x, value});
 }
 
-void GameObject::setBoundsVisible(const bool visible)
+void GameObject::setAreaBoundsVisible(const bool visible) noexcept
 {
-	mBoundsVisible = visible;
+	mAreaBoundsVisible = visible;
 }
 
-void GameObject::setBoundsColor(const sf::Color& color)
+void GameObject::setAreaBoundsColor(const sf::Color& color) noexcept
 {
-	mBoundsColor = color;
+	mAreaBoundsColor = color;
 }
 
-void GameObject::accelerateVelocity(const sf::Vector2f& acceleration)
+void GameObject::accelerateVelocity(const sf::Vector2f& acceleration) noexcept
 {
 	setVelocity({mVelocity.x + acceleration.x, mVelocity.y + acceleration.y});
 }
 
-void GameObject::setDirection(const Directions direction)
+void GameObject::setDirection(const Directions direction) noexcept
 {
 	if (direction != mDirection)
 	{
@@ -139,7 +139,7 @@ void GameObject::setDirection(const Directions direction)
 	}
 }
 
-void GameObject::turnAround()
+void GameObject::turnAround() noexcept
 {
 	if (mDirection == Directions::Right)
 	{
@@ -153,29 +153,29 @@ void GameObject::turnAround()
 	}
 }
 
-void GameObject::destroy()
+void GameObject::destroy() noexcept
 {
 	mState->destroy();
 }
 
-void GameObject::moveLeft()
+void GameObject::moveLeft() noexcept
 {
 	setDirection(Directions::Left);
 	setAcceleration(-getMaxAcceleration());
 }
 
-void GameObject::moveRight()
+void GameObject::moveRight() noexcept
 {
 	setDirection(Directions::Right);
 	setAcceleration(getMaxAcceleration());
 }
 
-void GameObject::onObjectCollision(GameObject& object)
+void GameObject::onObjectCollision(GameObject& object) noexcept
 {
 	mState->onCollision(object);
 }
 
-void GameObject::receiveEvents(const sf::Event& event)
+void GameObject::receiveEvents(const sf::Event& event) noexcept
 {
 	switch (event.type)
 	{
@@ -227,7 +227,7 @@ void GameObject::receiveEvents(const sf::Event& event)
 	}
 }
 
-void GameObject::update(const sf::Time& frameTime)
+void GameObject::update(const sf::Time& frameTime) noexcept
 {
 	mState->update(*this, frameTime);
 
@@ -237,84 +237,84 @@ void GameObject::update(const sf::Time& frameTime)
 	}
 }
 
-GameObjectIdentifiers GameObject::getIdentifier() const
+GameObjectIdentifiers GameObject::getIdentifier() const noexcept
 {
 	return mIdentifier;
 }
 
-const sf::Vector2f& GameObject::getMaxVelocity() const
+const sf::Vector2f& GameObject::getMaxVelocity() const noexcept
 {
 	return mMaxVelocity;
 }
 
-const sf::Vector2f& GameObject::getVelocity() const
+const sf::Vector2f& GameObject::getVelocity() const noexcept
 {
 	return mVelocity;
 }
 
-Directions GameObject::getDirection() const
+Directions GameObject::getDirection() const noexcept
 {
 	return mDirection;
 }
 
-bool GameObject::hasIdentifier(const GameObjectIdentifiers identifier) const
+bool GameObject::hasIdentifier(const GameObjectIdentifiers identifier) const noexcept
 {
 	return mIdentifier == identifier;
 }
 
-bool GameObject::hasDirection(const Directions direction) const
+bool GameObject::hasDirection(const Directions direction) const noexcept
 {
 	return mDirection == direction;
 }
 
-const sf::Vector2f& GameObject::getMaxAcceleration() const
+const sf::Vector2f& GameObject::getMaxAcceleration() const noexcept
 {
 	return mMaxAcceleration;
 }
 
-const sf::Vector2f& GameObject::getAcceleration() const
+const sf::Vector2f& GameObject::getAcceleration() const noexcept
 {
 	return mAcceleration;
 }
 
-bool GameObject::isBoundsVisible() const
+bool GameObject::isAreaBoundsVisible() const noexcept
 {
-	return mBoundsVisible;
+	return mAreaBoundsVisible;
 }
 
-bool GameObject::isContainsPoint(const sf::Vector2f& point) const
+bool GameObject::isContainsPoint(const sf::Vector2f& point) const noexcept
 {
 	return mSprite->isContainsPoint(point);
 }
 
-bool GameObject::isDestroyed() const
+bool GameObject::isDestroyed() const noexcept
 {
 	return mState->isDestroyed();
 }
 
-void GameObject::drawSelf(sf::RenderTarget& target, sf::RenderStates) const
+void GameObject::drawSelf(sf::RenderTarget& target, sf::RenderStates) const noexcept
 {
-	if (mBoundsVisible)
+	if (mAreaBoundsVisible)
 	{
-		drawBounds(target);
+		drawAreaBounds(target);
 	}
 }
 
-void GameObject::drawBounds(sf::RenderTarget& target) const
+void GameObject::drawAreaBounds(sf::RenderTarget& target) const noexcept
 {
-	const auto itemBounds = getBounds();
+	const auto area = getArea();
 
-	sf::RectangleShape bounds{};
-	bounds.setPosition(itemBounds.left + 1.0f, itemBounds.top + 1.0f);
-	bounds.setSize({itemBounds.width - 2.0f, itemBounds.height - 2.0f});
-	bounds.setFillColor(sf::Color::Transparent);
-	bounds.setOutlineColor(mBoundsColor);
-	bounds.setOutlineThickness(1.0f);
+	sf::RectangleShape areaBounds{};
+	areaBounds.setPosition(area.getLeft() + 1.0f, area.getTop() + 1.0f);
+	areaBounds.setSize({area.getWidth() - 2.0f, area.getHeight() - 2.0f});
+	areaBounds.setFillColor(sf::Color::Transparent);
+	areaBounds.setOutlineColor(mAreaBoundsColor);
+	areaBounds.setOutlineThickness(1.0f);
 
-	target.draw(bounds);
+	target.draw(areaBounds);
 }
 
-sf::FloatRect GameObject::getBounds() const
+FloatArea GameObject::getArea() const noexcept
 {
-	return mSprite->getBounds();
+	return mSprite->getArea();
 }

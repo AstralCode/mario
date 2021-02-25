@@ -1,6 +1,6 @@
 #include "ResourceManager.hpp"
 
-void ResourceManager::addFont(const FontIdentifiers identifier, const std::string& filename)
+void ResourceManager::addFont(const FontIdentifiers identifier, const std::string& filename) noexcept
 {
 	auto font = std::make_unique<sf::Font>();
 
@@ -10,7 +10,7 @@ void ResourceManager::addFont(const FontIdentifiers identifier, const std::strin
 	}
 }
 
-void ResourceManager::addTexture(const TextureIdentifiers identifier, const std::string& filename)
+void ResourceManager::addTexture(const TextureIdentifiers identifier, const std::string& filename) noexcept
 {
 	auto texture = std::make_unique<sf::Texture>();
 
@@ -20,12 +20,12 @@ void ResourceManager::addTexture(const TextureIdentifiers identifier, const std:
 	}
 }
 
-const sf::Font& ResourceManager::getFont(const FontIdentifiers identifier) const
+const sf::Font& ResourceManager::getFont(const FontIdentifiers identifier) const noexcept
 {
 	return *mFonts.at(identifier);
 }
 
-const sf::Texture& ResourceManager::getTexture(const TextureIdentifiers identifier) const
+const sf::Texture& ResourceManager::getTexture(const TextureIdentifiers identifier) const noexcept
 {
 	return *mTextures.at(identifier);
 }

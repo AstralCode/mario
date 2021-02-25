@@ -2,74 +2,74 @@
 
 #include "GameContextData.hpp"
 
-GameState::GameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) :
+GameState::GameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) noexcept :
 	mGameContextData{gameContextData},
 	mGameStateChanger{gameStateChanger}
 {
 
 }
 
-void GameState::onKeyPressed(const sf::Event::KeyEvent&)
+void GameState::onKeyPressed(const sf::Event::KeyEvent&) noexcept
 {
 
 }
 
-void GameState::onKeyReleased(const sf::Event::KeyEvent&)
+void GameState::onKeyReleased(const sf::Event::KeyEvent&) noexcept
 {
 
 }
 
-void GameState::onMouseButtonPressed(const sf::Event::MouseButtonEvent&)
+void GameState::onMouseButtonPressed(const sf::Event::MouseButtonEvent&) noexcept
 {
 
 }
 
-void GameState::onMouseButtonReleased(const sf::Event::MouseButtonEvent&)
+void GameState::onMouseButtonReleased(const sf::Event::MouseButtonEvent&) noexcept
 {
 
 }
 
-void GameState::onMouseMoved(const sf::Event::MouseMoveEvent&)
+void GameState::onMouseMoved(const sf::Event::MouseMoveEvent&) noexcept
 {
 
 }
 
-void GameState::onClosed()
+void GameState::onClosed() noexcept
 {
 
 }
 
-void GameState::onEscapePressed()
+void GameState::onEscapePressed() noexcept
 {
 
 }
 
-Tilemap& GameState::getTilemap()
+Tilemap& GameState::getTilemap() noexcept
 {
 	return mGameContextData.getTilemap();
 }
 
-ResourceContainer& GameState::getResourceContainer()
+ResourceContainer& GameState::getResourceContainer() noexcept
 {
 	return mGameContextData.getResourceContainer();
 }
 
-SpritesetContainer& GameState::getSpritesetContainer()
+SpritesetContainer& GameState::getSpritesetContainer() noexcept
 {
 	return mGameContextData.getSpritesetContainer();
 }
 
-GameObjectCreator& GameState::getGameObjectCreator()
+GameObjectCreator& GameState::getGameObjectCreator() noexcept
 {
 	return mGameContextData.getGameObjectCreator();
 }
 
-const sf::Font& GameState::getFont(const FontIdentifiers identifier)
+const sf::Font& GameState::getFont(const FontIdentifiers identifier) noexcept
 {
 	return getResourceContainer().getFont(identifier);
 }
 
-const sf::Texture& GameState::getTexture(const TextureIdentifiers identifier)
+const sf::Texture& GameState::getTexture(const TextureIdentifiers identifier) noexcept
 {
 	return getResourceContainer().getTexture(identifier);
 }

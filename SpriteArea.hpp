@@ -1,16 +1,16 @@
 #pragma once
 
-#include "SFML/Graphics/Rect.hpp"
+#include "Area.hpp"
 
 class SpriteArea
 {
 public:
-	SpriteArea(const sf::IntRect& area, const sf::Vector2f& origin = {}) noexcept;
+	SpriteArea(const IntArea& area, const sf::Vector2f& origin = {}) noexcept;
 
-	const sf::IntRect& getArea() const noexcept;
+	const IntArea& getArea() const noexcept;
 	const sf::Vector2f& getOrigin() const noexcept;
 
 private:
+	IntArea mArea;
 	sf::Vector2f mOrigin;
-	sf::IntRect mArea;
 };

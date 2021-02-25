@@ -10,20 +10,20 @@ void EnemyCollisionHandler::onTileCollision(GameObject* target, const sf::Vector
 {
     auto& tilemap = getTilemap();
 
-    const auto targetBounds = target->getBounds();
+    const auto targetArea = target->getArea();
 
     if (target->getVelocity().x > 0.0f)
     {
-        const auto tilePosition = tilemap.getTileTopLeftPosition(tileIndex);
-        const auto offsetPosition = targetBounds.width / 2.0f;
+        const auto tilePosition = tilemap.getTileArea(tileIndex).getTopLeft();
+        const auto offsetPosition = targetArea.getWidth() / 2.0f;
 
         target->setPositionX(tilePosition.x - offsetPosition);
         target->turnAround();
     }
     else
     {
-        const auto tilePosition = tilemap.getTileTopRightPosition(tileIndex);
-        const auto offsetPosition = targetBounds.width / 2.0f;
+        const auto tilePosition = tilemap.getTileArea(tileIndex).getTopRight();
+        const auto offsetPosition = targetArea.getWidth() / 2.0f;
 
         target->setPositionX(tilePosition.x + offsetPosition);
         target->turnAround();
@@ -32,40 +32,40 @@ void EnemyCollisionHandler::onTileCollision(GameObject* target, const sf::Vector
 
 void EnemyCollisionHandler::onObjectCollision(GameObject* target, GameObject* object) noexcept
 {
-    const auto targetBounds = target->getBounds();
-    const auto objectBounds = object->getBounds();
+    const auto targetArea = target->getArea();
+    const auto objectArea = object->getArea();
 
     if (target->getVelocity().x > 0.0f)
     {
-        const auto objectPosition = objectBounds.left;
-        const auto offsetPosition = targetBounds.width / 2.0f;
+        const auto objectLeft = objectArea.getLeft();
+        const auto offset = targetArea.getWidth() / 2.0f;
 
-        target->setPositionX(objectPosition - offsetPosition);
+        target->setPositionX(objectLeft - offset);
         target->turnAround();
     }
     else
     {
-        const auto objectPosition = objectBounds.left + objectBounds.width;
-        const auto offsetPosition = targetBounds.width / 2.0f;
+        const auto objectRight = objectArea.getRight();
+        const auto offset = targetArea.getWidth() / 2.0f;
 
-        target->setPositionX(objectPosition + offsetPosition);
+        target->setPositionX(objectRight + offset);
         target->turnAround();
     }
 
     if (object->getVelocity().x > 0.0f)
     {
-        const auto targetPosition = targetBounds.left;
-        const auto offsetPosition = objectBounds.width / 2.0f;
+        const auto targetLeft = targetArea.getLeft();
+        const auto offset = objectArea.getWidth() / 2.0f;
 
-        object->setPositionX(targetPosition - offsetPosition);
+        object->setPositionX(targetLeft - offset);
         object->turnAround();
     }
     else
     {
-        const auto targetPosition = targetBounds.left + targetBounds.width;
-        const auto offsetPosition = objectBounds.width / 2.0f;
+        const auto targetRight = targetArea.getRight();
+        const auto offset = objectArea.getWidth() / 2.0f;
 
-        object->setPositionX(targetPosition + offsetPosition);
+        object->setPositionX(targetRight + offset);
         object->turnAround();
     }
 }

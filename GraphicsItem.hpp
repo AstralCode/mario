@@ -6,44 +6,46 @@
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/Graphics/Transformable.hpp"
 
+#include "Area.hpp"
+
 class GraphicsItem : public sf::Transformable, public sf::Drawable
 {
 public:
-	GraphicsItem();
+	GraphicsItem() noexcept;
 	virtual ~GraphicsItem() = default;
 
-	void setVisible(const bool visible);
+	void setVisible(const bool visible) noexcept;
 
-	void remove();
+	void remove() noexcept;
 
 	template<typename TGraphicsItem, typename... TArguments>
-	TGraphicsItem* addItem(TArguments&&... arguments);
+	TGraphicsItem* addItem(TArguments&&... arguments) noexcept;
 
-	void addItem(std::unique_ptr<GraphicsItem> item);
+	void addItem(std::unique_ptr<GraphicsItem> item) noexcept;
 
-	void clean();
+	void clean() noexcept;
 
-	virtual sf::FloatRect getBounds() const;
-	sf::Transform getGlobalTransform() const;
+	virtual FloatArea getArea() const noexcept;
+	sf::Transform getGlobalTransform() const noexcept;
 
-	sf::Vector2f getGlobalPosition() const;
+	sf::Vector2f getGlobalPosition() const noexcept;
 
-	bool isContainsPoint(const sf::Vector2f& point) const;
-	bool isIntersectsItem(const GraphicsItem& item) const;
+	bool isContainsPoint(const sf::Vector2f& point) const noexcept;
+	bool isIntersectsItem(const GraphicsItem& item) const noexcept;
 
-	bool isVisible() const;
-	bool isRemoved() const;
+	bool isVisible() const noexcept;
+	bool isRemoved() const noexcept;
 
 private:
-	void setParent(GraphicsItem* item);
-	GraphicsItem* getParent() const;
+	void setParent(GraphicsItem* item) noexcept;
+	GraphicsItem* getParent() const noexcept;
 
-	void cleanItems();
+	void cleanItems() noexcept;
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override final;
-	void drawItems(sf::RenderTarget& target, sf::RenderStates states) const;
+	void drawItems(sf::RenderTarget& target, sf::RenderStates states) const noexcept;
 
-	virtual void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept;
 
 	GraphicsItem* mParentItem;
 
@@ -54,7 +56,7 @@ private:
 };
 
 template<typename TGraphicsItem, typename... TArguments>
-inline TGraphicsItem* GraphicsItem::addItem(TArguments&&... arguments)
+inline TGraphicsItem* GraphicsItem::addItem(TArguments&&... arguments) noexcept
 {
 	static_assert(std::is_base_of_v<GraphicsItem, TGraphicsItem>, "TGraphicsItem must derived from GraphicsItem");
 

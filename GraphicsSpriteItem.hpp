@@ -13,27 +13,27 @@ public:
 		Vertical
 	};
 
-	GraphicsSpriteItem();
+	GraphicsSpriteItem() noexcept;
 
-	void setTexture(const sf::Texture& texture);
-	void setTextureArea(const sf::IntRect& area);
+	void setTexture(const sf::Texture& texture) noexcept;
+	void setTextureArea(const IntArea& area) noexcept;
 
-	void flip(const Orientations orientation);
+	void flip(const Orientations orientation) noexcept;
 
-	const sf::Texture* getTexture() const;
-	const sf::IntRect& getTextureArea() const;
+	const sf::Texture* getTexture() const noexcept;
+	const IntArea& getTextureArea() const noexcept;
 
-	sf::FloatRect getBounds() const override;
+	FloatArea getArea() const noexcept override;
 
-	bool isFlippedHorizontally() const;
-	bool isFlippedVertically() const;
+	bool isFlippedHorizontally() const noexcept;
+	bool isFlippedVertically() const noexcept;
 
 private:
-	void updateArea();
-	void updateAreaHorizontally(sf::IntRect& area);
-	void updateAreaVertically(sf::IntRect& area);
+	void updateArea() noexcept;
+	void updateAreaHorizontally(sf::IntRect& area) noexcept;
+	void updateAreaVertically(sf::IntRect& area) noexcept;
 
-	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const override;
+	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;
 
 	sf::Sprite mSprite;
 	sf::IntRect mDefaultArea;

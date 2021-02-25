@@ -8,19 +8,19 @@
 class Statistics final
 {
 public:
-	Statistics(FPSCounter& fpsCounter);
+	Statistics(FPSCounter& fpsCounter) noexcept;
 
-	void setPosition(const float x, const float y);
-	void setText(const sf::Font& font, const unsigned int characterSize = 12u);
+	void setPosition(const float x, const float y) noexcept;
+	void setText(const sf::Font& font, const unsigned int characterSize = 12u) noexcept;
 
-	void setVisible(const bool enabled);
+	void setVisible(const bool enabled) noexcept;
 
-	void update(const sf::Time& updateTime);
+	void update(const sf::Time& updateTime) noexcept;
 
-	const FPSCounter& getFPSCounter() const;
-	const GraphicsItem& getGraphics() const;
+	const FPSCounter& getFPSCounter() const noexcept;
+	const GraphicsItem& getGraphics() const noexcept;
 
-	bool isVisible();
+	bool isVisible() noexcept;
 
 private:
 	FPSCounter& mFPSCounter;

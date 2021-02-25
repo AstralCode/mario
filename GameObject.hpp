@@ -17,68 +17,68 @@ enum class Directions
 class GameObject final : public GraphicsItem
 {
 public:
-	GameObject(const GameObjectIdentifiers identifier);
+	GameObject(const GameObjectIdentifiers identifier) noexcept;
 
-	void setState(std::unique_ptr<GameObjectState> state);
+	void setState(std::unique_ptr<GameObjectState> state) noexcept;
 
-	void setPositionX(const float x);
-	void setPositionY(const float y);
+	void setPositionX(const float x) noexcept;
+	void setPositionY(const float y) noexcept;
 
-	void setTexture(const sf::Texture& texture);
-	void setTextureArea(const SpriteArea& spriteArea);
+	void setTexture(const sf::Texture& texture) noexcept;
+	void setTextureArea(const SpriteArea& spriteArea) noexcept;
 
-	void setMaxAcceleration(const sf::Vector2f& acceleration);
-	void setMaxVelocity(const sf::Vector2f& velocity);
+	void setMaxAcceleration(const sf::Vector2f& acceleration) noexcept;
+	void setMaxVelocity(const sf::Vector2f& velocity) noexcept;
 
-	void setAcceleration(const sf::Vector2f& acceleration);
-	void setAccelerationX(const float value);
-	void setAccelerationY(const float value);
+	void setAcceleration(const sf::Vector2f& acceleration) noexcept;
+	void setAccelerationX(const float value) noexcept;
+	void setAccelerationY(const float value) noexcept;
 
-	void setVelocity(const sf::Vector2f& velocity);
-	void setVelocityX(const float value);
-	void setVelocityY(const float value);
+	void setVelocity(const sf::Vector2f& velocity) noexcept;
+	void setVelocityX(const float value) noexcept;
+	void setVelocityY(const float value) noexcept;
 	
-	void setBoundsVisible(const bool visible);
-	void setBoundsColor(const sf::Color& color);
+	void setAreaBoundsVisible(const bool visible) noexcept;
+	void setAreaBoundsColor(const sf::Color& color) noexcept;
 
-	void accelerateVelocity(const sf::Vector2f& acceleration);
+	void accelerateVelocity(const sf::Vector2f& acceleration) noexcept;
 
-	void setDirection(const Directions direction);
-	void turnAround();
+	void setDirection(const Directions direction) noexcept;
+	void turnAround() noexcept;
 
-	void destroy();
+	void destroy() noexcept;
 
-	void moveLeft();
-	void moveRight();
+	void moveLeft() noexcept;
+	void moveRight() noexcept;
 
-	void onObjectCollision(GameObject& object);
+	void onObjectCollision(GameObject& object) noexcept;
 
-	void receiveEvents(const sf::Event& event);
+	void receiveEvents(const sf::Event& event) noexcept;
 
-	void update(const sf::Time& frameTime);
+	void update(const sf::Time& frameTime) noexcept;
 
-	GameObjectIdentifiers getIdentifier() const;
+	GameObjectIdentifiers getIdentifier() const noexcept;
 
-	sf::FloatRect getBounds() const override;
+	FloatArea getArea() const noexcept override;
 
-	const sf::Vector2f& getMaxAcceleration() const;
-	const sf::Vector2f& getAcceleration() const;
-	const sf::Vector2f& getMaxVelocity() const;
-	const sf::Vector2f& getVelocity() const;
+	const sf::Vector2f& getMaxAcceleration() const noexcept;
+	const sf::Vector2f& getAcceleration() const noexcept;
+	const sf::Vector2f& getMaxVelocity() const noexcept;
+	const sf::Vector2f& getVelocity() const noexcept;
 
-	Directions getDirection() const;
+	Directions getDirection() const noexcept;
 
-	bool hasDirection(const Directions direction) const;
-	bool hasIdentifier(const GameObjectIdentifiers identifier) const;
+	bool hasDirection(const Directions direction) const noexcept;
+	bool hasIdentifier(const GameObjectIdentifiers identifier) const noexcept;
 
-	bool isBoundsVisible() const;;
+	bool isAreaBoundsVisible() const noexcept;
 
-	bool isContainsPoint(const sf::Vector2f& point) const;
-	bool isDestroyed() const;
+	bool isContainsPoint(const sf::Vector2f& point) const noexcept;
+	bool isDestroyed() const noexcept;
 
 private:
-	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const override;
-	void drawBounds(sf::RenderTarget& target) const;
+	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;
+	void drawAreaBounds(sf::RenderTarget& target) const noexcept;
 
 	GameObjectIdentifiers mIdentifier;
 
@@ -93,8 +93,8 @@ private:
 
 	Directions mDirection;
 
-	sf::Color mBoundsColor;
+	sf::Color mAreaBoundsColor;
 
-	bool mBoundsVisible;
+	bool mAreaBoundsVisible;
 	bool mMouseOver;
 };

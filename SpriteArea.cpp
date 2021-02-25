@@ -1,13 +1,13 @@
 #include "SpriteArea.hpp"
 
-SpriteArea::SpriteArea(const sf::IntRect& area, const sf::Vector2f& origin) noexcept :
+SpriteArea::SpriteArea(const IntArea& area, const sf::Vector2f& origin) noexcept :
 	mArea{area},
 	mOrigin{origin}
 {
 
 }
 
-const sf::IntRect& SpriteArea::getArea() const noexcept
+const IntArea& SpriteArea::getArea() const noexcept
 {
 	return mArea;
 }

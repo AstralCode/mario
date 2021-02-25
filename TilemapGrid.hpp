@@ -3,30 +3,32 @@
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/Graphics/VertexArray.hpp"
 
+#include "Area.hpp"
+
 class TilemapGrid final : public sf::Drawable
 {
 public:
-	TilemapGrid();
+	TilemapGrid() noexcept;
 
-	void setTileSize(const sf::Vector2u& size);
-	void setTileCount(const sf::Vector2u& count);
+	void setTileSize(const sf::Vector2u& size) noexcept;
+	void setTileCount(const sf::Vector2u& count) noexcept;
 
-	void setVisible(const bool visible);
-	void setGridColor(const sf::Color& color);
+	void setVisible(const bool visible) noexcept;
+	void setGridColor(const sf::Color& color) noexcept;
 
-	void build();
+	void build() noexcept;
 
-	const sf::Vector2u& getTileSize() const;
-	const sf::Vector2u& getTileCount() const;
+	const sf::Vector2u& getTileSize() const noexcept;
+	const sf::Vector2u& getTileCount() const noexcept;
 
-	sf::Vector2u getTileIndex(const sf::Vector2f& position) const;
-	sf::Vector2u getTileIndex(const sf::Vector2i& mousePosition) const;
-	sf::Vector2f getTilePosition(const sf::Vector2u& index) const;
-	sf::FloatRect getTileArea(const sf::Vector2u& index) const;
+	sf::Vector2u getTileIndex(const sf::Vector2f& position) const noexcept;
+	sf::Vector2u getTileIndex(const sf::Vector2i& mousePosition) const noexcept;
+	sf::Vector2f getTilePosition(const sf::Vector2u& index) const noexcept;
 
-	sf::FloatRect getBounds() const;
+	FloatArea getTileArea(const sf::Vector2u& index) const noexcept;
+	FloatArea getArea() const noexcept;
 
-	bool isVisible() const;
+	bool isVisible() const noexcept;
 
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
