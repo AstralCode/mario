@@ -30,11 +30,14 @@ public:
 	void update(const sf::Time& frameTime) noexcept;
 
 private:
-	void executeTilemapCollisionHandlers(const std::vector<std::tuple<GameObject*, sf::Vector2u>>& colliders) const noexcept;
-	void executeObjectCollisionHandlers(const std::vector<std::tuple<GameObject*, GameObject*>>& colliders) const noexcept;
+	using TilemapColliders = std::tuple<GameObject*, TileIndex>;
+	using ObjectColliders = std::tuple<GameObject*, GameObject*>;
 
-	std::vector<std::tuple<GameObject*, sf::Vector2u>> checkTilemapCollisions() const noexcept;
-	std::vector<std::tuple<GameObject*, GameObject*>> checkObjectCollisions() const noexcept;
+	void executeTilemapCollisionHandlers(const std::vector<TilemapColliders>& colliders) const noexcept;
+	void executeObjectCollisionHandlers(const std::vector<ObjectColliders>& colliders) const noexcept;
+
+	std::vector<TilemapColliders> checkTilemapCollisions() const noexcept;
+	std::vector<ObjectColliders> checkObjectCollisions() const noexcept;
 
 	Tilemap& mTilemap;
 	GraphicsItem& mGraphicsScene;

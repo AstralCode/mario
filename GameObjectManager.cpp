@@ -52,7 +52,7 @@ void GameObjectManager::update(const sf::Time& frameTime) noexcept
 	executeObjectCollisionHandlers(checkObjectCollisions());
 }
 
-void GameObjectManager::executeTilemapCollisionHandlers(const std::vector<std::tuple<GameObject*, sf::Vector2u>>& colliders) const noexcept
+void GameObjectManager::executeTilemapCollisionHandlers(const std::vector<TilemapColliders>& colliders) const noexcept
 {
 	for (auto& [object, tileIndex] : colliders)
 	{
@@ -66,7 +66,7 @@ void GameObjectManager::executeTilemapCollisionHandlers(const std::vector<std::t
 	}
 }
 
-void GameObjectManager::executeObjectCollisionHandlers(const std::vector<std::tuple<GameObject*, GameObject*>>& colliders) const noexcept
+void GameObjectManager::executeObjectCollisionHandlers(const std::vector<ObjectColliders>& colliders) const noexcept
 {
 	for (auto& [target, object] : colliders)
 	{
@@ -80,53 +80,57 @@ void GameObjectManager::executeObjectCollisionHandlers(const std::vector<std::tu
 	}
 }
 
-std::vector<std::tuple<GameObject*, sf::Vector2u>> GameObjectManager::checkTilemapCollisions() const noexcept
+std::vector<GameObjectManager::TilemapColliders> GameObjectManager::checkTilemapCollisions() const noexcept
 {
-	std::vector<std::tuple<GameObject*, sf::Vector2u>> colliders{};
+	std::vector<TilemapColliders> colliders{};
 
 	for (auto object : mGameObjects)
 	{
 		const auto objectPosition = object->getGlobalPosition();
 		const auto objectArea = object->getArea();
 
-		sf::Vector2u indexCount{2u, 2u};
+		auto tileColumnCount = 2;
+		auto tileRowCount = 2;
 
-		auto tileIndex = mTilemap.getGrid().getTileIndex(objectArea.getTopLeft());
-		if (tileIndex.x > 0u)
+		auto objectTileIndex = mTilemap.getGrid().getTileIndex(objectArea.getTopLeft());
+		if (objectTileIndex.row > 0u)
 		{
-			tileIndex.x -= 1u;
-			indexCount.x += 1u;
+			objectTileIndex.row -= 1u;
+			tileRowCount += 1u;
 		}
 
-		if (tileIndex.y > 0u)
+		if (objectTileIndex.column > 0u)
 		{
-			tileIndex.y -= 1u;
-			indexCount.y += 1u;
+			objectTileIndex.column -= 1u;
+			tileColumnCount += 1u;
 		}
 
-		auto& tilemapCount = mTilemap.getTileCount();
+		const auto tilemapRowCount = mTilemap.getTileRowCount();
+		const auto tilemapColumnCount = mTilemap.getTileColumnCount();
 
-		for (sf::Vector2u index{}; index.y < indexCount.y; index.y++)
+		for (auto columnIndex{0}; columnIndex < tileColumnCount; columnIndex++)
 		{
-			const auto y = tileIndex.y + index.y;
-			if (y < tilemapCount.y)
+			TileIndex collideTileIndex{};
+
+			collideTileIndex.column = objectTileIndex.column + columnIndex;
+			if (collideTileIndex.column < tilemapColumnCount)
 			{
-				for (index.x = 0u; index.x < indexCount.x; index.x++)
+				for (auto rowIndex{0}; rowIndex < tileRowCount; rowIndex++)
 				{
-					const auto x = tileIndex.x + index.x;
-					if (x < tilemapCount.x)
+					collideTileIndex.row = objectTileIndex.row + rowIndex;
+					if (collideTileIndex.row < tilemapRowCount)
 					{
-						if (tileIndex.x != x || tileIndex.y != y)
+						if (objectTileIndex.row != collideTileIndex.row || objectTileIndex.column != collideTileIndex.column)
 						{
-							const auto tileAttributes = mTilemap.getTileAttributes({x, y});
+							const auto tileAttributes = mTilemap.getTileAttributes(collideTileIndex);
 							if (tileAttributes.has_value())
 							{
 								if (tileAttributes.value().isSet(TileAttributes::Solid))
 								{
-									const auto tileArea = mTilemap.getGrid().getTileArea({x, y});
-									if (objectArea.isIntersects(tileArea))
+									const auto collideTileArea = mTilemap.getGrid().getTileArea(collideTileIndex);
+									if (objectArea.isIntersects(collideTileArea))
 									{
-										colliders.emplace_back(object, sf::Vector2u{x, y});
+										colliders.emplace_back(object, collideTileIndex);
 									}
 								}
 							}
@@ -140,17 +144,15 @@ std::vector<std::tuple<GameObject*, sf::Vector2u>> GameObjectManager::checkTilem
 	return colliders;
 }
 
-std::vector<std::tuple<GameObject*, GameObject*>> GameObjectManager::checkObjectCollisions() const noexcept
+std::vector<GameObjectManager::ObjectColliders> GameObjectManager::checkObjectCollisions() const noexcept
 {
-	std::vector<std::tuple<GameObject*, GameObject*>> colliders{};
+	std::vector<ObjectColliders> colliders{};
 
-	std::vector<GameObject*> objects = mGameObjects;
-
-	for (auto objectsIterator = objects.begin(); objectsIterator != objects.end(); objectsIterator++)
+	for (auto objectsIterator = mGameObjects.cbegin(); objectsIterator != mGameObjects.cend(); objectsIterator++)
 	{
 		auto& object = *objectsIterator;
 
-		for (auto nextObjectIterator = std::next(objectsIterator, 1u); nextObjectIterator != objects.end() && !object->isDestroyed(); nextObjectIterator++)
+		for (auto nextObjectIterator = std::next(objectsIterator, 1u); nextObjectIterator != mGameObjects.cend() && !object->isDestroyed(); nextObjectIterator++)
 		{
 			auto& nextObject = *nextObjectIterator;
 

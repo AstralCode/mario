@@ -6,7 +6,7 @@ MarioCollisionHandler::MarioCollisionHandler(Tilemap& tilemap, SpritesetContaine
     setTarget(GameObjectIdentifiers::Mario);
 }
 
-void MarioCollisionHandler::onTileCollision(GameObject* target, const sf::Vector2u& tileIndex) noexcept
+void MarioCollisionHandler::onTileCollision(GameObject* target, const TileIndex& tileIndex) noexcept
 {
     auto& tilemap = getTilemap();
 

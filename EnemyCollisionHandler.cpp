@@ -6,7 +6,7 @@ EnemyCollisionHandler::EnemyCollisionHandler(Tilemap& tilemap, SpritesetContaine
 	setTargets({GameObjectIdentifiers::Goomba});
 }
 
-void EnemyCollisionHandler::onTileCollision(GameObject* target, const sf::Vector2u& tileIndex) noexcept
+void EnemyCollisionHandler::onTileCollision(GameObject* target, const TileIndex& tileIndex) noexcept
 {
     auto& tilemap = getTilemap();
 

@@ -7,6 +7,6 @@ class EnemyCollisionHandler final : public CollisionHandler
 public:
 	EnemyCollisionHandler(Tilemap& tilemap, SpritesetContainer& spritesetContainer) noexcept;
 
-	void onTileCollision(GameObject* target, const sf::Vector2u& tileIndex) noexcept override;
+	void onTileCollision(GameObject* target, const TileIndex& tileIndex) noexcept override;
 	void onObjectCollision(GameObject* target, GameObject* object) noexcept override;
 };
