@@ -8,7 +8,7 @@
 
 #include "Area.hpp"
 
-class GraphicsItem : public sf::Transformable, public sf::Drawable
+class GraphicsItem : public sf::Drawable
 {
 public:
 	GraphicsItem() noexcept;
@@ -18,6 +18,12 @@ public:
 	void setPosition(const FloatPoint& position) noexcept;
 	void setPositionX(const float x) noexcept;
 	void setPositionY(const float y) noexcept;
+
+	void move(const float x, const float y) noexcept;
+	void move(const FloatPoint& offset) noexcept;
+
+	void setOrigin(const float x, const float y);
+	void setOrigin(const FloatPoint& origin);
 
 	void setVisible(const bool visible) noexcept;
 
@@ -31,9 +37,11 @@ public:
 	void clean() noexcept;
 
 	virtual FloatArea getArea() const noexcept;
+
+	sf::Transform getLocalTransform() const noexcept;
 	sf::Transform getGlobalTransform() const noexcept;
 
-	FloatPoint getPosition() const noexcept;
+	FloatPoint getLocalPosition() const noexcept;
 	FloatPoint getGlobalPosition() const noexcept;
 
 	bool isContainsPoint(const FloatPoint& point) const noexcept;
@@ -52,6 +60,8 @@ private:
 	void drawItems(sf::RenderTarget& target, sf::RenderStates states) const noexcept;
 
 	virtual void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept;
+
+	sf::Transformable mTransform;
 
 	GraphicsItem* mParentItem;
 

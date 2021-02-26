@@ -1,6 +1,6 @@
 #include "SpritesetArea.hpp"
 
-SpritesetArea::SpritesetArea(const sf::Vector2i& gridSize, const sf::Vector2i& gridTileIndex, const SpriteArea& spriteArea) noexcept :
+SpritesetArea::SpritesetArea(const IntSize& gridSize, const sf::Vector2i& gridTileIndex, const SpriteArea& spriteArea) noexcept :
     mGridSize{gridSize},
     mGridTileIndex{gridTileIndex},
     mSpriteArea{spriteArea}
@@ -8,7 +8,7 @@ SpritesetArea::SpritesetArea(const sf::Vector2i& gridSize, const sf::Vector2i& g
 
 }
 
-const sf::Vector2i& SpritesetArea::getGridSize() const noexcept
+const IntSize& SpritesetArea::getGridSize() const noexcept
 {
     return mGridSize;
 }

@@ -5,12 +5,12 @@
 class SpriteArea
 {
 public:
-	SpriteArea(const IntArea& area, const sf::Vector2f& origin = {}) noexcept;
+	SpriteArea(const IntArea& area, const FloatPoint& origin = {}) noexcept;
 
 	const IntArea& getArea() const noexcept;
-	const sf::Vector2f& getOrigin() const noexcept;
+	const FloatPoint& getOrigin() const noexcept;
 
 private:
 	IntArea mArea;
-	sf::Vector2f mOrigin;
+	FloatPoint mOrigin;
 };

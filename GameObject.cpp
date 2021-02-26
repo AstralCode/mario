@@ -32,11 +32,11 @@ void GameObject::setTexture(const sf::Texture& texture) noexcept
 	mSprite->setTexture(texture);
 }
 
-void GameObject::setTextureArea(const SpriteArea& spriteArea) noexcept
+void GameObject::setTextureArea(const SpriteArea& area) noexcept
 {
-	mSprite->setTextureArea(spriteArea.getArea());
+	mSprite->setTextureArea(area.getArea());
 
-	setOrigin(spriteArea.getOrigin());
+	setOrigin(area.getOrigin());
 }
 
 void GameObject::setMaxAcceleration(const FloatPoint& acceleration) noexcept

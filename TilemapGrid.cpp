@@ -3,13 +3,14 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 TilemapGrid::TilemapGrid() noexcept :
+	mTileSize{},
 	mGridColor{sf::Color::White},
 	mGridVisible{false}
 {
 	mTilemapVertexArray.setPrimitiveType(sf::PrimitiveType::Lines);
 }
 
-void TilemapGrid::setTileSize(const sf::Vector2u& size) noexcept
+void TilemapGrid::setTileSize(const FloatSize& size) noexcept
 {
 	mTileSize = size;
 }
@@ -33,36 +34,36 @@ void TilemapGrid::build() noexcept
 {
 	mTilemapVertexArray.clear();
 
-	for (unsigned int y{0u}; y < mTileCount.y; ++y)
+	for (unsigned int y{0}; y < mTileCount.y; ++y)
 	{
-		sf::Vector2f horizontalLeft{};
-		horizontalLeft.x = 0.0f;
-		horizontalLeft.y = static_cast<float>(y * mTileSize.y);
+		FloatPoint horizontalLeft{};
+		horizontalLeft.setX(0.0f);
+		horizontalLeft.setY(mTileSize.getHeight() * y);
 
-		sf::Vector2f horizontalRight{};
-		horizontalRight.x = static_cast<float>(mTileSize.x * mTileCount.x);
-		horizontalRight.y = static_cast<float>(y * mTileSize.y);
+		FloatPoint horizontalRight{};
+		horizontalRight.setX(mTileSize.getWidth() * mTileCount.x);
+		horizontalRight.setY(mTileSize.getHeight() * y);
 
-		mTilemapVertexArray.append(sf::Vertex{horizontalLeft, mGridColor});
-		mTilemapVertexArray.append(sf::Vertex{horizontalRight, mGridColor});
+		mTilemapVertexArray.append(sf::Vertex(horizontalLeft.getVector(), mGridColor));
+		mTilemapVertexArray.append(sf::Vertex(horizontalRight.getVector(), mGridColor));
 	}
 
-	for (unsigned int x{0u}; x < mTileCount.x; ++x)
+	for (unsigned int x{0}; x < mTileCount.x; ++x)
 	{
-		sf::Vector2f verticalTop{};
-		verticalTop.x = static_cast<float>(x * mTileSize.x);
-		verticalTop.y = 0.0f;
+		FloatPoint verticalTop{};
+		verticalTop.setX(mTileSize.getWidth() * x);
+		verticalTop.setY(0.0f);
 
-		sf::Vector2f verticalBottom{};
-		verticalBottom.x = static_cast<float>(x * mTileSize.x);
-		verticalBottom.y = static_cast<float>(mTileSize.y * mTileCount.y);
+		FloatPoint verticalBottom{};
+		verticalBottom.setX(mTileSize.getWidth() * x);
+		verticalBottom.setY(mTileSize.getHeight() * mTileCount.y);
 
-		mTilemapVertexArray.append(sf::Vertex{verticalTop, mGridColor});
-		mTilemapVertexArray.append(sf::Vertex{verticalBottom, mGridColor});
+		mTilemapVertexArray.append(sf::Vertex(verticalTop.getVector(), mGridColor));
+		mTilemapVertexArray.append(sf::Vertex(verticalBottom.getVector(), mGridColor));
 	}
 }
 
-const sf::Vector2u& TilemapGrid::getTileSize() const noexcept
+const FloatSize& TilemapGrid::getTileSize() const noexcept
 {
 	return mTileSize;
 }
@@ -80,43 +81,31 @@ sf::Vector2u TilemapGrid::getTileIndex(const FloatPoint& position) const noexcep
 sf::Vector2u TilemapGrid::getTileIndex(const IntPoint& position) const noexcept
 {
 	sf::Vector2u index{};
-	index.x = position.getX() / mTileSize.x;
-	index.y = position.getY() / mTileSize.y;
+	index.x = position.getX() / static_cast<unsigned int>(mTileSize.getWidth());
+	index.y = position.getY() / static_cast<unsigned int>(mTileSize.getHeight());
 
 	return index;
 }
 
-sf::Vector2f TilemapGrid::getTilePosition(const sf::Vector2u& index) const noexcept
+FloatPoint TilemapGrid::getTilePosition(const sf::Vector2u& index) const noexcept
 {
-	sf::Vector2f position{};
-	position.x = static_cast<float>(mTileSize.x * index.x);
-	position.y = static_cast<float>(mTileSize.y * index.y);
-
-	return position;
+	return {mTileSize.getWidth() * index.x, mTileSize.getHeight() * index.y};
 }
 
 FloatArea TilemapGrid::getTileArea(const sf::Vector2u& index) const noexcept
 {
 	const auto position = getTilePosition(index);
-
-	sf::FloatRect area{};
-	area.left = position.x;
-	area.top = position.y;
-	area.width = static_cast<float>(mTileSize.x);
-	area.height = static_cast<float>(mTileSize.y);
-
-	return area;
+	return {position, mTileSize};
 }
 
 FloatArea TilemapGrid::getArea() const noexcept
 {
-	sf::FloatRect rectangle{};
-	rectangle.left = 0.0f;
-	rectangle.top = 0.0f;
-	rectangle.width = static_cast<float>(mTileSize.x * mTileCount.x);
-	rectangle.height = static_cast<float>(mTileSize.y * mTileCount.y);
+	FloatArea area{};
+	area.setPosition(0.0f, 0.0f);
+	area.setWidth(mTileSize.getWidth() * mTileCount.x);
+	area.setHeight(mTileSize.getHeight() * mTileCount.y);
 
-	return rectangle;
+	return area;
 }
 
 bool TilemapGrid::isVisible() const noexcept

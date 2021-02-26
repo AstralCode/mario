@@ -36,22 +36,24 @@ public:
 
 	void receiveEvents(const sf::Event& event) noexcept;
 
-	void build(const sf::Vector2u& tileSize) noexcept;
+	void build(const FloatSize& tileSize) noexcept;
 
 	TileSide getTileSide(const FloatArea& area, const sf::Vector2u& tileIndex) const noexcept;
 
 	const TilemapGrid& getGrid() const noexcept;
 
 	unsigned int getTileIdentifier(const sf::Vector2u& index) const noexcept;
+
+	sf::Vector2u getTileIndex(const IntPoint& position) const noexcept;
 	sf::Vector2u getTileIndex(const FloatPoint& position) const noexcept;
 
-	const sf::Vector2u& getTileSize() const noexcept;
+	const FloatSize& getTileSize() const noexcept;
 	const sf::Vector2u& getTileCount() const noexcept;
 
 	std::optional<TileAttributeFlags> getTileAttributes(const unsigned int identifier) const noexcept;
 	std::optional<TileAttributeFlags> getTileAttributes(const sf::Vector2u& index) const noexcept;
 
-	sf::Vector2f getTilePosition(const sf::Vector2u& index) const noexcept;
+	FloatPoint getTilePosition(const sf::Vector2u& index) const noexcept;
 
 	FloatArea getTileArea(const sf::Vector2u& index) const noexcept;
 
@@ -60,11 +62,11 @@ public:
 	bool isGridVisible() const noexcept;
 
 private:
-	void onMouseClick(const sf::Vector2i& position, const sf::Mouse::Button button) noexcept;
-	void onMouseMoved(const sf::Vector2i& position) noexcept;
+	void onMouseClick(const IntPoint& position, const sf::Mouse::Button button) noexcept;
+	void onMouseMoved(const IntPoint& position) noexcept;
 
-	sf::Vector2u calculateTextureTilePosition(const unsigned int tileIdentifier, const sf::Vector2u& tileSize) const noexcept;
-	unsigned int calculateTextureTileIdentifierCount(const sf::Vector2u& tileSize) const noexcept;
+	sf::Vector2u calculateTextureTilePosition(const unsigned int tileIdentifier, const FloatSize& tileSize) const noexcept;
+	unsigned int calculateTextureTileIdentifierCount(const FloatSize& tileSize) const noexcept;
 	sf::Vector2u calculateTileCount() const noexcept;
 
 	void setTileSprite(const unsigned int tileIdentifier, const sf::Vector2u& tileIndex) noexcept;

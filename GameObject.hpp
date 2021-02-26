@@ -22,7 +22,7 @@ public:
 	void setState(std::unique_ptr<GameObjectState> state) noexcept;
 
 	void setTexture(const sf::Texture& texture) noexcept;
-	void setTextureArea(const SpriteArea& spriteArea) noexcept;
+	void setTextureArea(const SpriteArea& area) noexcept;
 
 	void setMaxAcceleration(const FloatPoint& acceleration) noexcept;
 	void setMaxVelocity(const FloatPoint& velocity) noexcept;

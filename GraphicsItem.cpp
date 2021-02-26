@@ -15,22 +15,42 @@ GraphicsItem::GraphicsItem() noexcept :
 
 void GraphicsItem::setPosition(const float x, const float y) noexcept
 {
-	Transformable::setPosition(x, y);
+	mTransform.setPosition(x, y);
 }
 
 void GraphicsItem::setPosition(const FloatPoint& position) noexcept
 {
-	Transformable::setPosition(position.getX(), position.getY());
+	mTransform.setPosition(position.getX(), position.getY());
 }
 
 void GraphicsItem::setPositionX(const float x) noexcept
 {
-	Transformable::setPosition(x, getPosition().getY());
+	mTransform.setPosition(x, getLocalPosition().getY());
 }
 
 void GraphicsItem::setPositionY(const float y) noexcept
 {
-	Transformable::setPosition(getPosition().getX(), y);
+	mTransform.setPosition(getLocalPosition().getX(), y);
+}
+
+void GraphicsItem::move(const float x, const float y) noexcept
+{
+	mTransform.move(x, y);
+}
+
+void GraphicsItem::move(const FloatPoint& offset) noexcept
+{
+	mTransform.move(offset.getX(), offset.getY());
+}
+
+void GraphicsItem::setOrigin(const float x, const float y)
+{
+	mTransform.setOrigin(x, y);
+}
+
+void GraphicsItem::setOrigin(const FloatPoint& origin)
+{
+	mTransform.setOrigin(origin.getX(), origin.getY());
 }
 
 void GraphicsItem::setVisible(const bool visible) noexcept
@@ -65,21 +85,26 @@ FloatArea GraphicsItem::getArea() const noexcept
 	return {};
 }
 
+sf::Transform GraphicsItem::getLocalTransform() const noexcept
+{
+	return mTransform.getTransform();
+}
+
 sf::Transform GraphicsItem::getGlobalTransform() const noexcept
 {
 	auto transform = sf::Transform::Identity;
 
 	for (auto item{this}; item != nullptr; item = item->getParent())
 	{
-		transform.combine(item->getTransform());
+		transform.combine(item->getLocalTransform());
 	}
 
 	return transform;
 }
 
-FloatPoint GraphicsItem::getPosition() const noexcept
+FloatPoint GraphicsItem::getLocalPosition() const noexcept
 {
-	return Transformable::getPosition();
+	return mTransform.getPosition();
 }
 
 FloatPoint GraphicsItem::getGlobalPosition() const noexcept
@@ -127,7 +152,7 @@ void GraphicsItem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	if (mVisible)
 	{
-		states.transform.combine(getTransform());
+		states.transform.combine(mTransform.getTransform());
 
 		drawSelf(target, states);
 		drawItems(target, states);

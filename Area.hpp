@@ -14,7 +14,8 @@ public:
 	Area(const Point<T>& point, const Size<T>& size) noexcept;
 	Area(const sf::Rect<T>& rectangle) noexcept;
 
-	void setPoint(const Point<T>& point) noexcept;
+	void setPosition(const T x, const T y) noexcept;
+	void setPosition(const Point<T>& point) noexcept;
 
 	void setX(const T x) noexcept;
 	void setY(const T y) noexcept;
@@ -79,7 +80,14 @@ inline Area<T>::Area(const sf::Rect<T>& rectangle) noexcept :
 }
 
 template <typename T>
-inline void Area<T>::setPoint(const Point<T>& point) noexcept
+inline void Area<T>::setPosition( const T x, const T y ) noexcept
+{
+	mRectangle.left = x;
+	mRectangle.top = y;
+}
+
+template <typename T>
+inline void Area<T>::setPosition(const Point<T>& point) noexcept
 {
 	mRectangle.left = point.getX();
 	mRectangle.top = point.getY();

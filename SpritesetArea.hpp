@@ -5,14 +5,14 @@
 class SpritesetArea final
 {
 public:
-	SpritesetArea(const sf::Vector2i& gridSize, const sf::Vector2i& gridTileIndex, const SpriteArea& spriteArea) noexcept;
+	SpritesetArea(const IntSize& gridSize, const sf::Vector2i& gridTileIndex, const SpriteArea& spriteArea) noexcept;
 
-	const sf::Vector2i& getGridSize() const noexcept;
+	const IntSize& getGridSize() const noexcept;
 	const sf::Vector2i& getGridTileIndex() const noexcept;
 	const SpriteArea& getSpriteArea() const noexcept;
 
 private:
-	sf::Vector2i mGridSize;
+	IntSize mGridSize;
 	sf::Vector2i mGridTileIndex;
 	SpriteArea mSpriteArea;
 };
