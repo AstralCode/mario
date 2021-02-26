@@ -13,14 +13,24 @@ GraphicsItem::GraphicsItem() noexcept :
 
 }
 
+void GraphicsItem::setPosition(const float x, const float y) noexcept
+{
+	Transformable::setPosition(x, y);
+}
+
+void GraphicsItem::setPosition(const FloatPoint& position) noexcept
+{
+	Transformable::setPosition(position.getX(), position.getY());
+}
+
 void GraphicsItem::setPositionX(const float x) noexcept
 {
-	setPosition(x, getPosition().y);
+	Transformable::setPosition(x, getPosition().getY());
 }
 
 void GraphicsItem::setPositionY(const float y) noexcept
 {
-	setPosition(getPosition().x, y);
+	Transformable::setPosition(getPosition().getX(), y);
 }
 
 void GraphicsItem::setVisible(const bool visible) noexcept
@@ -65,6 +75,11 @@ sf::Transform GraphicsItem::getGlobalTransform() const noexcept
 	}
 
 	return transform;
+}
+
+FloatPoint GraphicsItem::getPosition() const noexcept
+{
+	return Transformable::getPosition();
 }
 
 FloatPoint GraphicsItem::getGlobalPosition() const noexcept

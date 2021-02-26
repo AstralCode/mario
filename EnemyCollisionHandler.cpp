@@ -12,12 +12,12 @@ void EnemyCollisionHandler::onTileCollision(GameObject* target, const sf::Vector
 
     const auto targetArea = target->getArea();
 
-    if (target->getVelocity().x > 0.0f)
+    if (target->getVelocity().getX() > 0.0f)
     {
         const auto tilePosition = tilemap.getTileArea(tileIndex).getTopLeft();
         const auto offsetPosition = targetArea.getWidth() / 2.0f;
 
-        target->setPositionX(tilePosition.x - offsetPosition);
+        target->setPositionX(tilePosition.getX() - offsetPosition);
         target->turnAround();
     }
     else
@@ -25,7 +25,7 @@ void EnemyCollisionHandler::onTileCollision(GameObject* target, const sf::Vector
         const auto tilePosition = tilemap.getTileArea(tileIndex).getTopRight();
         const auto offsetPosition = targetArea.getWidth() / 2.0f;
 
-        target->setPositionX(tilePosition.x + offsetPosition);
+        target->setPositionX(tilePosition.getX() + offsetPosition);
         target->turnAround();
     }
 }
@@ -35,7 +35,7 @@ void EnemyCollisionHandler::onObjectCollision(GameObject* target, GameObject* ob
     const auto targetArea = target->getArea();
     const auto objectArea = object->getArea();
 
-    if (target->getVelocity().x > 0.0f)
+    if (target->getVelocity().getX() > 0.0f)
     {
         const auto objectLeft = objectArea.getLeft();
         const auto offset = targetArea.getWidth() / 2.0f;
@@ -52,7 +52,7 @@ void EnemyCollisionHandler::onObjectCollision(GameObject* target, GameObject* ob
         target->turnAround();
     }
 
-    if (object->getVelocity().x > 0.0f)
+    if (object->getVelocity().getX() > 0.0f)
     {
         const auto targetLeft = targetArea.getLeft();
         const auto offset = objectArea.getWidth() / 2.0f;

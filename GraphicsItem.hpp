@@ -14,6 +14,8 @@ public:
 	GraphicsItem() noexcept;
 	virtual ~GraphicsItem() = default;
 
+	void setPosition(const float x, const float y) noexcept;
+	void setPosition(const FloatPoint& position) noexcept;
 	void setPositionX(const float x) noexcept;
 	void setPositionY(const float y) noexcept;
 
@@ -31,6 +33,7 @@ public:
 	virtual FloatArea getArea() const noexcept;
 	sf::Transform getGlobalTransform() const noexcept;
 
+	FloatPoint getPosition() const noexcept;
 	FloatPoint getGlobalPosition() const noexcept;
 
 	bool isContainsPoint(const FloatPoint& point) const noexcept;

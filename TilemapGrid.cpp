@@ -72,16 +72,16 @@ const sf::Vector2u& TilemapGrid::getTileCount() const noexcept
 	return mTileCount;
 }
 
-sf::Vector2u TilemapGrid::getTileIndex(const sf::Vector2f& position) const noexcept
+sf::Vector2u TilemapGrid::getTileIndex(const FloatPoint& position) const noexcept
 {
-	return getTileIndex(sf::Vector2i{static_cast<int>(position.x), static_cast<int>(position.y)});
+	return getTileIndex(position.cast<int>());
 }
 
-sf::Vector2u TilemapGrid::getTileIndex(const sf::Vector2i& mousePosition) const noexcept
+sf::Vector2u TilemapGrid::getTileIndex(const IntPoint& position) const noexcept
 {
 	sf::Vector2u index{};
-	index.x = mousePosition.x / mTileSize.x;
-	index.y = mousePosition.y / mTileSize.y;
+	index.x = position.getX() / mTileSize.x;
+	index.y = position.getY() / mTileSize.y;
 
 	return index;
 }

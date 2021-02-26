@@ -24,8 +24,8 @@ void GamePhysics::updateMovement(GameObject& object, const sf::Time& frameTime) 
 void GamePhysics::applyAcceleration(GameObject& object, const sf::Time& frameTime) const noexcept
 {
     sf::Vector2f acceleration{};
-    acceleration.x = object.getAcceleration().x * frameTime.asSeconds();
-    acceleration.y = object.getAcceleration().y * frameTime.asSeconds();
+    acceleration.x = object.getAcceleration().getX() * frameTime.asSeconds();
+    acceleration.y = object.getAcceleration().getY() * frameTime.asSeconds();
 
     object.accelerateVelocity(acceleration);
 }
@@ -33,8 +33,8 @@ void GamePhysics::applyAcceleration(GameObject& object, const sf::Time& frameTim
 void GamePhysics::updatePosition(GameObject& object, const sf::Time& frameTime) const noexcept
 {
     sf::Vector2f offset{};
-    offset.x = object.getVelocity().x * frameTime.asSeconds();
-    offset.y = object.getVelocity().y * frameTime.asSeconds();
+    offset.x = object.getVelocity().getX() * frameTime.asSeconds();
+    offset.y = object.getVelocity().getY() * frameTime.asSeconds();
 
     object.move(offset);
 }
@@ -44,8 +44,8 @@ void GamePhysics::applyFriction(GameObject& object, const sf::Time& frameTime) c
     constexpr const auto friction = getFriction();
 
     sf::Vector2f velocity{};
-    velocity.x = object.getVelocity().x * std::pow(friction, frameTime.asSeconds());
-    velocity.y = object.getVelocity().y * std::pow(friction, frameTime.asSeconds());
+    velocity.x = object.getVelocity().getX() * std::pow(friction, frameTime.asSeconds());
+    velocity.y = object.getVelocity().getY() * std::pow(friction, frameTime.asSeconds());
 
     object.setVelocity(velocity);
 }

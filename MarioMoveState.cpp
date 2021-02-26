@@ -55,11 +55,11 @@ void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent
 
 void MarioMoveState::updateSelf(GameObject& object, const sf::Time&) noexcept
 {
-    if (std::abs(object.getAcceleration().x) > 32.0f)
+    if (std::abs(object.getAcceleration().getX()) > 32.0f)
     {
         const bool sliding =
-            object.hasDirection(GameObject::Directions::Left) && object.getVelocity().x > 0.0f ||
-            object.hasDirection(GameObject::Directions::Right) && object.getVelocity().x < 0.0f;
+            object.hasDirection(GameObject::Directions::Left) && object.getVelocity().getX() > 0.0f ||
+            object.hasDirection(GameObject::Directions::Right) && object.getVelocity().getX() < 0.0f;
 
         if (sliding)
         {
@@ -67,7 +67,7 @@ void MarioMoveState::updateSelf(GameObject& object, const sf::Time&) noexcept
         }
 
     }
-    else if (std::abs(object.getVelocity().x) < 1.0f)
+    else if (std::abs(object.getVelocity().getX()) < 1.0f)
     {
         object.setState(createState<MarioStandState>());
     }

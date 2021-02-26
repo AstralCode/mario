@@ -43,7 +43,7 @@ public:
 	const TilemapGrid& getGrid() const noexcept;
 
 	unsigned int getTileIdentifier(const sf::Vector2u& index) const noexcept;
-	sf::Vector2u getTileIndex(const sf::Vector2f& position) const noexcept;
+	sf::Vector2u getTileIndex(const FloatPoint& position) const noexcept;
 
 	const sf::Vector2u& getTileSize() const noexcept;
 	const sf::Vector2u& getTileCount() const noexcept;

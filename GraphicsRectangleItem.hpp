@@ -13,7 +13,7 @@ public:
 	void setOutlineColor(const sf::Color& color) noexcept;
 	void setOutlineThickness(const float thickness) noexcept;
 
-	const FloatSize& getSize() const noexcept;
+	FloatSize getSize() const noexcept;
 
 	FloatArea getArea() const noexcept override;
 

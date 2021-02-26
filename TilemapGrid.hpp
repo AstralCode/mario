@@ -21,8 +21,8 @@ public:
 	const sf::Vector2u& getTileSize() const noexcept;
 	const sf::Vector2u& getTileCount() const noexcept;
 
-	sf::Vector2u getTileIndex(const sf::Vector2f& position) const noexcept;
-	sf::Vector2u getTileIndex(const sf::Vector2i& mousePosition) const noexcept;
+	sf::Vector2u getTileIndex(const FloatPoint& position) const noexcept;
+	sf::Vector2u getTileIndex(const IntPoint& position) const noexcept;
 	sf::Vector2f getTilePosition(const sf::Vector2u& index) const noexcept;
 
 	FloatArea getTileArea(const sf::Vector2u& index) const noexcept;

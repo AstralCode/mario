@@ -22,7 +22,7 @@ void GraphicsRectangleItem::setOutlineThickness(const float thickness) noexcept
 	mRectangleShape.setOutlineThickness(thickness);
 }
 
-const FloatSize& GraphicsRectangleItem::getSize() const noexcept
+FloatSize GraphicsRectangleItem::getSize() const noexcept
 {
 	return mRectangleShape.getSize();
 }

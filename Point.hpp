@@ -14,6 +14,9 @@ public:
 
 	float distance(const Point& point) const noexcept;
 
+	template <typename U>
+	Point<U> cast() const noexcept;
+
 	void setX(const T x) noexcept;
 	void setY(const T y) noexcept;
 
@@ -50,6 +53,13 @@ inline float Point<T>::distance(const Point& point) const noexcept
 	const auto y = point.getY() - mPoint.y;
 
 	return std::sqrt(x * x + y * y);
+}
+
+template<typename T>
+template<typename U>
+inline Point<U> Point<T>::cast() const noexcept
+{
+	return Point<U>{static_cast<U>(mPoint.x), static_cast<U>(mPoint.y)};
 }
 
 template <typename T>

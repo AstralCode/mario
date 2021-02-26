@@ -126,7 +126,7 @@ unsigned int Tilemap::getTileIdentifier(const sf::Vector2u& index) const noexcep
 	return mTileIdentifiers[index.y][index.x];
 }
 
-sf::Vector2u Tilemap::getTileIndex(const sf::Vector2f& position) const noexcept
+sf::Vector2u Tilemap::getTileIndex(const FloatPoint& position) const noexcept
 {
 	return mGrid.getTileIndex(position);
 }
