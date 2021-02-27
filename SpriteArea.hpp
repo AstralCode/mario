@@ -2,15 +2,17 @@
 
 #include "Area.hpp"
 
+using OriginPoint = FloatPoint;
+
 class SpriteArea
 {
 public:
-	SpriteArea(const IntArea& area, const FloatPoint& origin = {}) noexcept;
+	SpriteArea(const IntArea& area, const OriginPoint& origin = {}) noexcept;
 
 	const IntArea& getArea() const noexcept;
-	const FloatPoint& getOrigin() const noexcept;
+	const OriginPoint& getOrigin() const noexcept;
 
 private:
 	IntArea mArea;
-	FloatPoint mOrigin;
+	OriginPoint mOrigin;
 };

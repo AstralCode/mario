@@ -3,17 +3,20 @@
 #include "SpriteArea.hpp"
 #include "Tile.hpp"
 
+using GridSize = IntSize;
+using GridTileIndex = TileIndex;
+
 class SpritesetArea final
 {
 public:
-	SpritesetArea(const IntSize& gridSize, const TileIndex& gridTileIndex, const SpriteArea& spriteArea) noexcept;
+	SpritesetArea(const GridSize& gridSize, const GridTileIndex& gridTileIndex, const SpriteArea& spriteArea) noexcept;
 
-	const IntSize& getGridSize() const noexcept;
-	const TileIndex& getGridTileIndex() const noexcept;
+	const GridSize& getGridSize() const noexcept;
+	const GridTileIndex& getGridTileIndex() const noexcept;
 	const SpriteArea& getSpriteArea() const noexcept;
 
 private:
-	IntSize mGridSize;
-	TileIndex mGridTileIndex;
+	GridSize mGridSize;
+	GridTileIndex mGridTileIndex;
 	SpriteArea mSpriteArea;
 };
