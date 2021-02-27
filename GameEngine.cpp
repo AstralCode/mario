@@ -163,54 +163,54 @@ void GameEngine::initializeStatistics() noexcept
 void GameEngine::initializeSpritesets() noexcept
 {
 	auto& marioSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Mario);
-	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Stand, {{32, 32}, {0, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 24, 32}, {13, 16}}}
+	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Stand, SpritesetRegion{IntSize{32, 32}, {0, 0}, {{
+		SpritesetArea{IntSize{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 24, 32}, FloatPoint{13, 16}}}
 	}}});
 
-	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Move, {{32, 32}, {1, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 26, 32}, {13, 16}}},
-		SpritesetArea{{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 26, 32}, {13, 16}}},
-		SpritesetArea{{32, 32}, {2, 0}, SpriteArea{IntArea{0, 0, 24, 32}, {12, 16}}}
+	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Move, SpritesetRegion{IntSize{32, 32}, {1, 0}, {{
+		SpritesetArea{IntSize{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 26, 32}, FloatPoint{13, 16}}},
+		SpritesetArea{IntSize{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 26, 32}, FloatPoint{13, 16}}},
+		SpritesetArea{IntSize{32, 32}, {2, 0}, SpriteArea{IntArea{0, 0, 24, 32}, FloatPoint{12, 16}}}
 	}}});
 
-	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Slide, {{32, 32}, {8, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 24, 32}, {12, 16}}}
+	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Slide, SpritesetRegion{IntSize{32, 32}, {8, 0}, {{
+		SpritesetArea{IntSize{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 24, 32}, FloatPoint{12, 16}}}
 	}}});
 
 	auto& enemySpriteset = mSpritesetManager.create(SpritesetIdentifiers::Enemy);
-	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Move, {{32, 32}, {0, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}},
-		SpritesetArea{{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}}
+	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Move, SpritesetRegion{IntSize{32, 32}, {0, 0}, {{
+		SpritesetArea{IntSize{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, FloatPoint{16, 16}}},
+		SpritesetArea{IntSize{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, FloatPoint{16, 16}}}
 	}}});
 
-	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Dead, {{32, 32}, {2, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 16, 32, 16}, {16, 0}}}
+	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Dead, {IntSize{32, 32}, {2, 0}, {{
+		SpritesetArea{IntSize{32, 32}, {0, 0}, SpriteArea{IntArea{0, 16, 32, 16}, FloatPoint{16, 0}}}
 	}}});
 
 	auto& blocksSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Blocks);
-	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::QuestionMarkBox, {{32, 32}, {0, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}},
-		SpritesetArea{{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}},
-		SpritesetArea{{32, 32}, {2, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}}
+	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::QuestionMarkBox, SpritesetRegion{IntSize{32, 32}, {0, 0}, {{
+		SpritesetArea{IntSize{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, FloatPoint{16, 16}}},
+		SpritesetArea{IntSize{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, FloatPoint{16, 16}}},
+		SpritesetArea{IntSize{32, 32}, {2, 0}, SpriteArea{IntArea{0, 0, 32, 32}, FloatPoint{16, 16}}}
 	}}});
 
-	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::WaterQuestionMarkBox, {{32, 32}, {0, 1}, {{
-		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}},
-		SpritesetArea{{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}},
-		SpritesetArea{{32, 32}, {2, 0}, SpriteArea{IntArea{0, 0, 32, 32}, {16, 16}}}
+	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::WaterQuestionMarkBox, SpritesetRegion{IntSize{32, 32}, {0, 1}, {{
+		SpritesetArea{IntSize{32, 32}, {0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, FloatPoint{16, 16}}},
+		SpritesetArea{IntSize{32, 32}, {1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, FloatPoint{16, 16}}},
+		SpritesetArea{IntSize{32, 32}, {2, 0}, SpriteArea{IntArea{0, 0, 32, 32}, FloatPoint{16, 16}}}
 	}}});
 
 	auto& itemSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Items);
-	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::Coin, {{32, 32}, {4, 0}, {{
-		SpritesetArea{{32, 32}, {0, 0}, SpriteArea{IntArea{6, 2, 20, 28}, {10, 14}}},
-		SpritesetArea{{32, 32}, {1, 0}, SpriteArea{IntArea{6, 2, 20, 28}, {10, 14}}},
-		SpritesetArea{{32, 32}, {2, 0}, SpriteArea{IntArea{6, 2, 20, 28}, {10, 14}}}
+	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::Coin, SpritesetRegion{IntSize{32, 32}, {4, 0}, {{
+		SpritesetArea{IntSize{32, 32}, {0, 0}, SpriteArea{IntArea{6, 2, 20, 28}, FloatPoint{10, 14}}},
+		SpritesetArea{IntSize{32, 32}, {1, 0}, SpriteArea{IntArea{6, 2, 20, 28}, FloatPoint{10, 14}}},
+		SpritesetArea{IntSize{32, 32}, {2, 0}, SpriteArea{IntArea{6, 2, 20, 28}, FloatPoint{10, 14}}}
 	}}});
 
-	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::ScoreCoin, {{32, 32}, {9, 3}, {{
-		SpritesetArea{{11, 16}, {0, 0}, SpriteArea{IntArea{0, 0, 10, 16}, {5, 8}}},
-		SpritesetArea{{11, 16}, {1, 0}, SpriteArea{IntArea{0, 0, 10, 16}, {5, 8}}},
-		SpritesetArea{{11, 16}, {2, 0}, SpriteArea{IntArea{0, 0, 10, 16}, {5, 8}}}
+	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::ScoreCoin, SpritesetRegion{IntSize{32, 32}, {9, 3}, {{
+		SpritesetArea{IntSize{11, 16}, {0, 0}, SpriteArea{IntArea{0, 0, 10, 16}, FloatPoint{5, 8}}},
+		SpritesetArea{IntSize{11, 16}, {1, 0}, SpriteArea{IntArea{0, 0, 10, 16}, FloatPoint{5, 8}}},
+		SpritesetArea{IntSize{11, 16}, {2, 0}, SpriteArea{IntArea{0, 0, 10, 16}, FloatPoint{5, 8}}}
 	}}});
 }
 
