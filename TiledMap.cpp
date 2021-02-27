@@ -108,15 +108,6 @@ void Tilemap::build(const FloatSize& tileSize) noexcept
 	}
 }
 
-TileSide Tilemap::getTileSide(const FloatArea& area, const TileIndex& tileIndex) const noexcept
-{
-	FloatArea tileArea{getTileArea(tileIndex)};
-
-	const auto center = tileArea.getCenter();
-
-	return TileSide::Bottom;
-}
-
 const TilemapGrid& Tilemap::getGrid() const noexcept
 {
 	return mGrid;

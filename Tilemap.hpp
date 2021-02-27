@@ -36,8 +36,6 @@ public:
 
 	void build(const FloatSize& tileSize) noexcept;
 
-	TileSide getTileSide(const FloatArea& area, const TileIndex& tileIndex) const noexcept;
-
 	const TilemapGrid& getGrid() const noexcept;
 
 	TileIdentifier getTileIdentifier(const TileIndex& index) const noexcept;
