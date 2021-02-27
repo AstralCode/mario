@@ -14,7 +14,7 @@ struct TileIndex
 
 enum class TileAttributes
 {
-	Solid
+	Collider
 };
 
 using TileAttributeFlags = Flags<TileAttributes, 1u>;

@@ -205,7 +205,7 @@ void Tilemap::onMouseClick(const IntPoint& position, const sf::Mouse::Button but
 		if (tileAttributes.has_value())
 		{
 			information.append("\n");
-			information.append("\tSolid: " + std::to_string(tileAttributes->isSet(TileAttributes::Solid)));
+			information.append("\tSolid: " + std::to_string(tileAttributes->isSet(TileAttributes::Collider)));
 		}
 
 		mInformationText.setString(information);

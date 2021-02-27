@@ -125,7 +125,7 @@ std::vector<GameObjectManager::TilemapColliders> GameObjectManager::checkTilemap
 							const auto tileAttributes = mTilemap.getTileAttributes(collideTileIndex);
 							if (tileAttributes.has_value())
 							{
-								if (tileAttributes.value().isSet(TileAttributes::Solid))
+								if (tileAttributes.value().isSet(TileAttributes::Collider))
 								{
 									const auto collideTileArea = mTilemap.getGrid().getTileArea(collideTileIndex);
 									if (objectArea.isIntersects(collideTileArea))

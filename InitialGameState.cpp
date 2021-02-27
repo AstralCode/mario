@@ -15,13 +15,13 @@ void InitialGameState::onEnter() noexcept
 {
 	const std::map<TileIdentifier, TileAttributeFlags> tileAttributes =
 	{
-		{1, {{TileAttributes::Solid}}},
-		{2, {{TileAttributes::Solid}}},
-		{3, {{TileAttributes::Solid}}},
-		{5, {{TileAttributes::Solid}}},
-		{6, {{TileAttributes::Solid}}},
-		{7, {{TileAttributes::Solid}}},
-		{47, {{TileAttributes::Solid}}}
+		{1, {{TileAttributes::Collider}}},
+		{2, {{TileAttributes::Collider}}},
+		{3, {{TileAttributes::Collider}}},
+		{5, {{TileAttributes::Collider}}},
+		{6, {{TileAttributes::Collider}}},
+		{7, {{TileAttributes::Collider}}},
+		{47, {{TileAttributes::Collider}}}
 	};
 
 	const std::vector<std::vector<TileIdentifier>> tileIdentifiers =
