@@ -1,7 +1,7 @@
 #include "MarioCollisionHandler.hpp"
 
-MarioCollisionHandler::MarioCollisionHandler(Tilemap& tilemap, SpritesetContainer& spritesetContainer) noexcept :
-    CollisionHandler{tilemap, spritesetContainer}
+MarioCollisionHandler::MarioCollisionHandler(Tilemap& tilemap) noexcept :
+    CollisionHandler{tilemap}
 {
     setTarget(GameObjectIdentifiers::Mario);
 }

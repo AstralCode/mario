@@ -8,6 +8,7 @@
 #include "GraphicsItem.hpp"
 #include "ResourceManager.hpp"
 #include "SpritesetManager.hpp"
+#include "CollisionModule.hpp"
 #include "GameObjectManager.hpp"
 #include "GameObjectFactory.hpp"
 #include "GameContextData.hpp"
@@ -50,6 +51,7 @@ private:
 	GraphicsItem mGraphicsScene;
 	ResourceManager mResourceManager;
 	SpritesetManager mSpritesetManager;
+	CollisionModule mCollisionModule;
 	GameObjectManager mGameObjectManager;
 	GameContextData mGameContextData;
 	GameStateManager mGameStateManager;

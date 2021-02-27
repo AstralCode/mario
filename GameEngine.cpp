@@ -10,7 +10,8 @@
 GameEngine::GameEngine() noexcept :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mStatistics{mFPSCounter},
-	mGameObjectManager{mTilemap, mGraphicsScene, mGamePhysics, mSpritesetManager},
+	mCollisionModule{mTilemap},
+	mGameObjectManager{mGraphicsScene, mGamePhysics, mCollisionModule},
 	mGameContextData{mTilemap, mResourceManager, mSpritesetManager, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {
@@ -216,8 +217,8 @@ void GameEngine::initializeSpritesets() noexcept
 
 void GameEngine::initializeCollisionHandlers() noexcept
 {
-	mGameObjectManager.addCollisionHandler<MarioCollisionHandler>();
-	mGameObjectManager.addCollisionHandler<EnemyCollisionHandler>();
+	mCollisionModule.addHandler<MarioCollisionHandler>();
+	mCollisionModule.addHandler<EnemyCollisionHandler>();
 }
 
 void GameEngine::initializeGameState() noexcept

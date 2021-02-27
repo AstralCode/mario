@@ -1,7 +1,7 @@
 #include "EnemyCollisionHandler.hpp"
 
-EnemyCollisionHandler::EnemyCollisionHandler(Tilemap& tilemap, SpritesetContainer& spritesetContainer) noexcept :
-	CollisionHandler{tilemap, spritesetContainer}
+EnemyCollisionHandler::EnemyCollisionHandler(Tilemap& tilemap) noexcept :
+	CollisionHandler{tilemap}
 {
 	setTargets({GameObjectIdentifiers::Goomba});
 }

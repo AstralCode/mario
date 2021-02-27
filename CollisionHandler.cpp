@@ -1,8 +1,7 @@
 #include "CollisionHandler.hpp"
 
-CollisionHandler::CollisionHandler(Tilemap& tilemap, SpritesetContainer& spritesetContainer) noexcept :
-	mTilemap{tilemap},
-	mSpritesetContainer{spritesetContainer}
+CollisionHandler::CollisionHandler(Tilemap& tilemap) noexcept :
+	mTilemap{tilemap}
 {
 
 }
@@ -35,11 +34,6 @@ const GameObjectIdentifierFlags& CollisionHandler::getTargets() const noexcept
 Tilemap& CollisionHandler::getTilemap() noexcept
 {
 	return mTilemap;
-}
-
-SpritesetContainer& CollisionHandler::getSpritesetContainer() noexcept
-{
-	return mSpritesetContainer;
 }
 
 bool CollisionHandler::isSetTarget(const GameObjectIdentifiers identifier) const noexcept

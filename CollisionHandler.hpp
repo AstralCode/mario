@@ -5,12 +5,10 @@
 #include "Tilemap.hpp"
 #include "GameObject.hpp"
 
-class SpritesetContainer;
-
 class CollisionHandler
 {
 public:
-	CollisionHandler(Tilemap& tilemap, SpritesetContainer& spritesetContainer) noexcept;
+	CollisionHandler(Tilemap& tilemap) noexcept;
 	virtual ~CollisionHandler() = default;
 
 	void setTarget(const GameObjectIdentifiers identifier) noexcept;
@@ -25,13 +23,11 @@ public:
 	const GameObjectIdentifierFlags& getTargets() const noexcept;
 
 	Tilemap& getTilemap() noexcept;
-	SpritesetContainer& getSpritesetContainer() noexcept;
 
 	bool isSetTarget(const GameObjectIdentifiers identifier) const noexcept;
 
 private:
 	Tilemap& mTilemap;
-	SpritesetContainer& mSpritesetContainer;
 
 	GameObjectIdentifierFlags mTargets;
 };
