@@ -243,4 +243,5 @@ void GameEngine::loadTextures() noexcept
 	mResourceManager.addTexture(TextureIdentifiers::Items, ResourcePaths::Textures::Items);
 	mResourceManager.addTexture(TextureIdentifiers::Mario, ResourcePaths::Textures::Mario);
 	mResourceManager.addTexture(TextureIdentifiers::Scenery, ResourcePaths::Textures::Scenery);
+	mResourceManager.addTexture(TextureIdentifiers::Scenery, ResourcePaths::Textures::Logo);
 }
