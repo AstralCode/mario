@@ -14,6 +14,8 @@ public:
 	Area(const Point<T>& point, const Size<T>& size) noexcept;
 	Area(const sf::Rect<T>& rectangle) noexcept;
 
+	void set(const sf::Rect<T>& rectangle);
+
 	void setPosition(const T x, const T y) noexcept;
 	void setPosition(const Point<T>& point) noexcept;
 
@@ -24,8 +26,6 @@ public:
 
 	void setWidth(const T width) noexcept;
 	void setHeight(const T height) noexcept;
-
-	void setRectangle(const sf::Rect<T>& rectangle);
 
 	T getTop() const noexcept;
 	T getLeft() const noexcept;
@@ -80,6 +80,12 @@ inline Area<T>::Area(const sf::Rect<T>& rectangle) noexcept :
 }
 
 template <typename T>
+inline void Area<T>::set(const sf::Rect<T>& rectangle)
+{
+	mRectangle = rectangle;
+}
+
+template <typename T>
 inline void Area<T>::setPosition( const T x, const T y ) noexcept
 {
 	mRectangle.left = x;
@@ -122,12 +128,6 @@ template <typename T>
 inline void Area<T>::setHeight(const T height) noexcept
 {
 	mRectangle.height = height;
-}
-
-template <typename T>
-inline void Area<T>::setRectangle(const sf::Rect<T>& rectangle)
-{
-	mRectangle = rectangle;
 }
 
 template <typename T>

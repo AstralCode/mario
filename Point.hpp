@@ -12,13 +12,15 @@ public:
 	Point(const T x, const T y) noexcept;
 	Point(const sf::Vector2<T>& point) noexcept;
 
+	void set(const sf::Vector2<T>& point) noexcept;
+
+	void setX(const T x) noexcept;
+	void setY(const T y) noexcept;
+
 	float distance(const Point& point) const noexcept;
 
 	template <typename U>
 	Point<U> cast() const noexcept;
-
-	void setX(const T x) noexcept;
-	void setY(const T y) noexcept;
 
 	T& getX() noexcept;
 	T& getY() noexcept;
@@ -49,6 +51,24 @@ inline Point<T>::Point(const sf::Vector2<T>& point) noexcept :
 }
 
 template <typename T>
+inline void Point<T>::set(const sf::Vector2<T>& point) noexcept
+{
+	mPoint = point;
+}
+
+template <typename T>
+inline void Point<T>::setX(const T x) noexcept
+{
+	mPoint.x = x;
+}
+
+template <typename T>
+inline void Point<T>::setY(const T y) noexcept
+{
+	mPoint.y = y;
+}
+
+template <typename T>
 inline float Point<T>::distance(const Point& point) const noexcept
 {
 	const auto x = point.getX() - mPoint.x;
@@ -62,18 +82,6 @@ template<typename U>
 inline Point<U> Point<T>::cast() const noexcept
 {
 	return Point<U>{static_cast<U>(mPoint.x), static_cast<U>(mPoint.y)};
-}
-
-template <typename T>
-inline void Point<T>::setX(const T x) noexcept
-{
-	mPoint.x = x;
-}
-
-template <typename T>
-inline void Point<T>::setY(const T y) noexcept
-{
-	mPoint.y = y;
 }
 
 template <typename T>
