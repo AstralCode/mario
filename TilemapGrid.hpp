@@ -3,7 +3,7 @@
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/Graphics/VertexArray.hpp"
 
-#include "TileIndex.hpp"
+#include "Tile.hpp"
 #include "Area.hpp"
 
 class TilemapGrid final : public sf::Drawable

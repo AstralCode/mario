@@ -1,13 +1,13 @@
 #include "SpritesetRegion.hpp"
 
-SpritesetRegion::SpritesetRegion(const IntSize& gridSize, const sf::Vector2i& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
+SpritesetRegion::SpritesetRegion(const IntSize& gridSize, const TileIndex& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
 {
     calculateSpriteAreas(gridSize, gridTileIndex, spritesetAreas);
 }
 
-const SpriteArea& SpritesetRegion::getSpriteArea(const int index) const noexcept
+const SpriteArea& SpritesetRegion::getSpriteArea(const int number) const noexcept
 {
-    return mSpriteAreas[index];
+    return mSpriteAreas[number];
 }
 
 int SpritesetRegion::getSpriteCount() const noexcept
@@ -15,11 +15,11 @@ int SpritesetRegion::getSpriteCount() const noexcept
     return static_cast<int>(mSpriteAreas.size());
 }
 
-void SpritesetRegion::calculateSpriteAreas(const IntSize& gridSize, const sf::Vector2i& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
+void SpritesetRegion::calculateSpriteAreas(const IntSize& gridSize, const TileIndex& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
 {
     IntPoint regionOffset{};
-    regionOffset.setX(gridSize.getWidth() * gridTileIndex.x);
-    regionOffset.setY(gridSize.getHeight() * gridTileIndex.y);
+    regionOffset.setX(gridSize.getWidth() * gridTileIndex.row);
+    regionOffset.setY(gridSize.getHeight() * gridTileIndex.column);
 
     for (int j{0}; j < static_cast<int>(spritesetAreas.size()); j++)
     {
@@ -28,8 +28,8 @@ void SpritesetRegion::calculateSpriteAreas(const IntSize& gridSize, const sf::Ve
             auto& spritesetArea = spritesetAreas[j][i];
 
             IntPoint spriteAreaOffset{};
-            spriteAreaOffset.setX(spritesetArea.getGridSize().getWidth() * spritesetArea.getGridTileIndex().x);
-            spriteAreaOffset.setY(spritesetArea.getGridSize().getHeight() * spritesetArea.getGridTileIndex().y);
+            spriteAreaOffset.setX(spritesetArea.getGridSize().getWidth() * spritesetArea.getGridTileIndex().row);
+            spriteAreaOffset.setY(spritesetArea.getGridSize().getHeight() * spritesetArea.getGridTileIndex().column);
 
             IntArea spriteArea{};
             spriteArea.setX(regionOffset.getX() + spriteAreaOffset.getX() + spritesetArea.getSpriteArea().getArea().getX());

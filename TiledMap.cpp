@@ -27,17 +27,17 @@ void Tilemap::setTilesetTexture(const sf::Texture* tilesetTexture) noexcept
 	mTilesetTexture = tilesetTexture;
 }
 
-void Tilemap::setTileAttributes(const std::map<unsigned int, TileAttributeFlags>& tileAttributes) noexcept
+void Tilemap::setTileAttributes(const std::map<TileIdentifier, TileAttributeFlags>& tileAttributes) noexcept
 {
 	mTileAttributes = tileAttributes;
 }
 
-void Tilemap::setTileIdentifier(const unsigned int identifier, const TileIndex& index) noexcept
+void Tilemap::setTileIdentifier(const TileIdentifier identifier, const TileIndex& index) noexcept
 {
 	mTileIdentifiers[index.column][index.row] = identifier;
 }
 
-void Tilemap::setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifiers) noexcept
+void Tilemap::setTileIdentifiers(const std::vector<std::vector<TileIdentifier>>& identifiers) noexcept
 {
 	mTileIdentifiers = identifiers;
 }
@@ -122,7 +122,7 @@ const TilemapGrid& Tilemap::getGrid() const noexcept
 	return mGrid;
 }
 
-unsigned int Tilemap::getTileIdentifier(const TileIndex& index) const noexcept
+TileIdentifier Tilemap::getTileIdentifier(const TileIndex& index) const noexcept
 {
 	return mTileIdentifiers[index.column][index.row];
 }
@@ -152,7 +152,7 @@ const int Tilemap::getTileColumnCount() const noexcept
 	return mGrid.getTileColumnCount();
 }
 
-std::optional<TileAttributeFlags> Tilemap::getTileAttributes(const unsigned int identifier) const noexcept
+std::optional<TileAttributeFlags> Tilemap::getTileAttributes(const TileIdentifier identifier) const noexcept
 {
 	std::optional<TileAttributeFlags> attributes{};
 
@@ -217,7 +217,7 @@ void Tilemap::onMouseMoved(const IntPoint&) noexcept
 
 }
 
-sf::Vector2u Tilemap::calculateTextureTilePosition(const unsigned int tileIdentifier, const FloatSize& tileSize) const noexcept
+sf::Vector2u Tilemap::calculateTextureTilePosition(const TileIdentifier tileIdentifier, const FloatSize& tileSize) const noexcept
 {
 	sf::Vector2u position{};
 
@@ -245,7 +245,7 @@ int Tilemap::calculateTileColumnCount() const noexcept
 	return static_cast<int>(mTileIdentifiers.size());
 }
 
-void Tilemap::setTileSprite(const unsigned int tileIdentifier, const TileIndex& tileIndex) noexcept
+void Tilemap::setTileSprite(const TileIdentifier tileIdentifier, const TileIndex& tileIndex) noexcept
 {
 	sf::Vertex* tileVerticles = getTileVerticles(tileIndex);
 

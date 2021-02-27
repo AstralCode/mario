@@ -1,18 +1,19 @@
 #pragma once
 
 #include "SpriteArea.hpp"
+#include "Tile.hpp"
 
 class SpritesetArea final
 {
 public:
-	SpritesetArea(const IntSize& gridSize, const sf::Vector2i& gridTileIndex, const SpriteArea& spriteArea) noexcept;
+	SpritesetArea(const IntSize& gridSize, const TileIndex& gridTileIndex, const SpriteArea& spriteArea) noexcept;
 
 	const IntSize& getGridSize() const noexcept;
-	const sf::Vector2i& getGridTileIndex() const noexcept;
+	const TileIndex& getGridTileIndex() const noexcept;
 	const SpriteArea& getSpriteArea() const noexcept;
 
 private:
 	IntSize mGridSize;
-	sf::Vector2i mGridTileIndex;
+	TileIndex mGridTileIndex;
 	SpriteArea mSpriteArea;
 };

@@ -2,6 +2,16 @@
 
 #include "Flags.hpp"
 
+using TileIdentifier = unsigned short;
+
+struct TileIndex
+{
+	using ValueType = int;
+
+	ValueType row;
+	ValueType column;
+};
+
 enum class TileAttributes
 {
 	Solid

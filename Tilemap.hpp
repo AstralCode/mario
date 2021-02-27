@@ -7,7 +7,6 @@
 #include "SFML/Graphics/Text.hpp"
 
 #include "TilemapGrid.hpp"
-#include "TileAttributes.hpp"
 
 enum class TileSide
 {
@@ -26,9 +25,9 @@ public:
 
 	void setInformationText(const sf::Font& font, const unsigned int characterSize = 12u) noexcept;
 
-	void setTileAttributes(const std::map<unsigned int, TileAttributeFlags>& tileAttributes) noexcept;
-	void setTileIdentifier(const unsigned int identifier, const TileIndex& index) noexcept;
-	void setTileIdentifiers(const std::vector<std::vector<unsigned int>>& identifiers) noexcept;
+	void setTileAttributes(const std::map<TileIdentifier, TileAttributeFlags>& tileAttributes) noexcept;
+	void setTileIdentifier(const TileIdentifier identifier, const TileIndex& index) noexcept;
+	void setTileIdentifiers(const std::vector<std::vector<TileIdentifier>>& identifiers) noexcept;
 
 	void setBackgroundColor(const sf::Color& color) noexcept;
 	void setGridVisible(const bool visible) noexcept;
@@ -41,7 +40,7 @@ public:
 
 	const TilemapGrid& getGrid() const noexcept;
 
-	unsigned int getTileIdentifier(const TileIndex& index) const noexcept;
+	TileIdentifier getTileIdentifier(const TileIndex& index) const noexcept;
 
 	TileIndex getTileIndex(const IntPoint& position) const noexcept;
 	TileIndex getTileIndex(const FloatPoint& position) const noexcept;
@@ -51,7 +50,7 @@ public:
 	const int getTileRowCount() const noexcept;
 	const int getTileColumnCount() const noexcept;
 
-	std::optional<TileAttributeFlags> getTileAttributes(const unsigned int identifier) const noexcept;
+	std::optional<TileAttributeFlags> getTileAttributes(const TileIdentifier identifier) const noexcept;
 	std::optional<TileAttributeFlags> getTileAttributes(const TileIndex& index) const noexcept;
 
 	FloatPoint getTilePosition(const TileIndex& index) const noexcept;
@@ -66,13 +65,13 @@ private:
 	void onMouseClick(const IntPoint& position, const sf::Mouse::Button button) noexcept;
 	void onMouseMoved(const IntPoint& position) noexcept;
 
-	sf::Vector2u calculateTextureTilePosition(const unsigned int tileIdentifier, const FloatSize& tileSize) const noexcept;
+	sf::Vector2u calculateTextureTilePosition(const TileIdentifier tileIdentifier, const FloatSize& tileSize) const noexcept;
 	unsigned int calculateTextureTileIdentifierCount(const FloatSize& tileSize) const noexcept;
 
 	int calculateTileRowCount() const noexcept;
 	int calculateTileColumnCount() const noexcept;
 
-	void setTileSprite(const unsigned int tileIdentifier, const TileIndex& tileIndex) noexcept;
+	void setTileSprite(const TileIdentifier tileIdentifier, const TileIndex& tileIndex) noexcept;
 	void clearTileSprite(const TileIndex& tileIndex) noexcept;
 
 	sf::Vertex* getTileVerticles(const TileIndex& tileIndex) noexcept;
@@ -92,6 +91,6 @@ private:
 
 	TilemapGrid mGrid;
 
-	std::map<unsigned int, TileAttributeFlags> mTileAttributes;
-	std::vector<std::vector<unsigned int>> mTileIdentifiers;
+	std::map<TileIdentifier, TileAttributeFlags> mTileAttributes;
+	std::vector<std::vector<TileIdentifier>> mTileIdentifiers;
 };
