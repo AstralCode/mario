@@ -13,13 +13,13 @@ public:
 
 	Tilemap(const int tileRowCount, const int tileColumnCount) noexcept;
 
-	void setAttributes(const std::map<TileIdentifier, TileAttributeFlags>& attributes) noexcept;
 	void setIdentifier(const TileIndex& index, const TileIdentifier identifier) noexcept;
+	void setAttributes(const std::map<TileIdentifier, TileAttributeFlags>& attributes) noexcept;
+
+	TileIdentifier getIdentifier(const TileIndex& index) const noexcept;
 
 	std::optional<TileAttributeFlags> getAttributes(const TileIdentifier identifier) const noexcept;
 	std::optional<TileAttributeFlags> getAttributes(const TileIndex& index) const noexcept;
-
-	TileIdentifier getIdentifier(const TileIndex& index) const noexcept;
 
 	Row& getRow(const int rowIndex) noexcept;
 	Row getRow(const int rowIndex) const noexcept;

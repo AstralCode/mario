@@ -13,17 +13,6 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 
 void InitialGameState::onEnter() noexcept
 {
-	const std::map<TileIdentifier, TileAttributeFlags> tileAttributes =
-	{
-		{1, {{TileAttributes::Collider}}},
-		{2, {{TileAttributes::Collider}}},
-		{3, {{TileAttributes::Collider}}},
-		{5, {{TileAttributes::Collider}}},
-		{6, {{TileAttributes::Collider}}},
-		{7, {{TileAttributes::Collider}}},
-		{47, {{TileAttributes::Collider}}}
-	};
-
 	auto tilemap = std::make_unique<Tilemap>(20, 15);
 	tilemap->getRow(0)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(1)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
@@ -40,6 +29,17 @@ void InitialGameState::onEnter() noexcept
 	tilemap->getRow(12) = Tilemap::Row{ 23,  24,  39,  39,  25,  36,  37,  38,  47,   0,   0,  36,  37,  37,  37,  38,   0,  47,   0,   0 };
 	tilemap->getRow(13) = Tilemap::Row{  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 };
 	tilemap->getRow(14) = Tilemap::Row{  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 };
+
+	const std::map<TileIdentifier, TileAttributeFlags> tileAttributes =
+	{
+		{1, {{TileAttributes::Collider}}},
+		{2, {{TileAttributes::Collider}}},
+		{3, {{TileAttributes::Collider}}},
+		{5, {{TileAttributes::Collider}}},
+		{6, {{TileAttributes::Collider}}},
+		{7, {{TileAttributes::Collider}}},
+		{47, {{TileAttributes::Collider}}}
+	};
 
 	tilemap->setAttributes(tileAttributes);
 
