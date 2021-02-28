@@ -6,7 +6,7 @@
 #include "GameObjectIdentifiers.hpp"
 #include "GameObjectState.hpp"
 
-class GraphicsSpriteItem;
+class Sprite;
 
 class GameObject final : public GraphicsItem
 {
@@ -79,7 +79,7 @@ private:
 
 	GameObjectIdentifiers mIdentifier;
 
-	GraphicsSpriteItem* mSprite;
+	Sprite* mSprite;
 
 	std::unique_ptr<GameObjectState> mState;
 

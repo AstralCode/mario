@@ -3,7 +3,7 @@
 #include "SFML/System/Time.hpp"
 
 #include "FPSCounter.hpp"
-#include "GraphicsTextItem.hpp"
+#include "Text.hpp"
 
 class Statistics final
 {
@@ -29,7 +29,7 @@ private:
 	sf::Time mElapsedUpdateTime;
 
 	GraphicsItem mGraphicsItem;
-	GraphicsTextItem* mFPSCounterGraphicsText;
+	Text* mFPSCounterGraphicsText;
 
 	bool mVisible;
 };

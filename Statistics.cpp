@@ -7,7 +7,7 @@ Statistics::Statistics(FPSCounter& fpsCounter) noexcept :
 	mUpdateTime{sf::seconds(1.0f)},
 	mVisible{false}
 {
-	mFPSCounterGraphicsText = mGraphicsItem.addItem<GraphicsTextItem>();
+	mFPSCounterGraphicsText = mGraphicsItem.addItem<Text>();
 	mFPSCounterGraphicsText->setPosition(6.0f, 6.0f);
 	mFPSCounterGraphicsText->setString("FPS: 0");
 	mFPSCounterGraphicsText->setCharacterSize(12u);

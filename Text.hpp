@@ -4,7 +4,7 @@
 
 #include "GraphicsItem.hpp"
 
-class GraphicsTextItem final : public GraphicsItem
+class Text final : public GraphicsItem
 {
 public:
 	void setFont(const sf::Font& font) noexcept;

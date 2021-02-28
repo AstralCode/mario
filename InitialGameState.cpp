@@ -2,7 +2,7 @@
 
 #include "GameContextData.hpp"
 #include "GameStateChanger.hpp"
-#include "GraphicsRectangleItem.hpp"
+#include "RectangleShape.hpp"
 
 InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) noexcept :
 	GameState{gameContextData, gameStateChanger},

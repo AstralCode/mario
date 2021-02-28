@@ -3,11 +3,11 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/Graphics/RectangleShape.hpp"
 
-#include "GraphicsSpriteItem.hpp"
+#include "Sprite.hpp"
 
 GameObject::GameObject(const GameObjectIdentifiers identifier) noexcept :
 	mIdentifier{identifier},
-	mSprite{addItem<GraphicsSpriteItem>()},
+	mSprite{addItem<Sprite>()},
 	mDirection{Directions::Right},
 	mAreaBoundsColor{sf::Color::Red},
 	mAreaBoundsVisible{false},
@@ -125,7 +125,7 @@ void GameObject::setDirection(const Directions direction) noexcept
 	{
 		mDirection = direction;
 
-		mSprite->flip(GraphicsSpriteItem::Orientations::Horizontal);
+		mSprite->flip(Sprite::Orientations::Horizontal);
 	}
 }
 
