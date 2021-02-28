@@ -2,13 +2,13 @@
 
 #include "SFML/System/Vector2.hpp"
 
-#include "Tilemap.hpp"
+#include "TilemapView.hpp"
 #include "GameObject.hpp"
 
 class CollisionHandler
 {
 public:
-	CollisionHandler(Tilemap& tilemap) noexcept;
+	CollisionHandler(TilemapView& tilemapView) noexcept;
 	virtual ~CollisionHandler() = default;
 
 	void setTarget(const GameObjectIdentifiers identifier) noexcept;
@@ -22,12 +22,12 @@ public:
 
 	const GameObjectIdentifierFlags& getTargets() const noexcept;
 
-	Tilemap& getTilemap() noexcept;
+	TilemapView& getTilemapView() noexcept;
 
 	bool isSetTarget(const GameObjectIdentifiers identifier) const noexcept;
 
 private:
-	Tilemap& mTilemap;
+	TilemapView& mTilemapView;
 
 	GameObjectIdentifierFlags mTargets;
 };

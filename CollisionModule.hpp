@@ -7,12 +7,12 @@
 #include "CollisionHandler.hpp"
 
 class GraphicsItem;
-class Tilemap;
+class TilemapView;
 
 class CollisionModule final
 {
 public:
-	CollisionModule(Tilemap& tilemap) noexcept;
+	CollisionModule(TilemapView& tilemapView) noexcept;
 
 	template <typename TCollisionHandler>
 	void addHandler() noexcept;
@@ -31,7 +31,7 @@ private:
 
 	std::vector<std::unique_ptr<CollisionHandler>> mCollisionHandlers;
 
-	Tilemap& mTilemap;
+	TilemapView& mTilemapView;
 };
 
 
@@ -40,5 +40,5 @@ inline void CollisionModule::addHandler() noexcept
 {
 	static_assert(std::is_base_of_v<CollisionHandler, TCollisionHandler>, "TCollisionHandler must derived from CollisionHandler");
 
-	mCollisionHandlers.push_back(std::make_unique<TCollisionHandler>(mTilemap));
+	mCollisionHandlers.push_back(std::make_unique<TCollisionHandler>(mTilemapView));
 }

@@ -3,7 +3,7 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 #include "EventReceiver.hpp"
-#include "Tilemap.hpp"
+#include "TilemapView.hpp"
 #include "ResourceContainer.hpp"
 #include "SpritesetContainer.hpp"
 #include "GameObjectCreator.hpp"
@@ -34,7 +34,7 @@ public:
 
 	void onEscapePressed() noexcept override;
 
-	Tilemap& getTilemap() noexcept;
+	TilemapView& getTilemapView() noexcept;
 	ResourceContainer& getResourceContainer() noexcept;
 	SpritesetContainer& getSpritesetContainer() noexcept;
 	GameObjectCreator& getGameObjectCreator() noexcept;

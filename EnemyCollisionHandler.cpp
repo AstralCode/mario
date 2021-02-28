@@ -1,20 +1,20 @@
 #include "EnemyCollisionHandler.hpp"
 
-EnemyCollisionHandler::EnemyCollisionHandler(Tilemap& tilemap) noexcept :
-	CollisionHandler{tilemap}
+EnemyCollisionHandler::EnemyCollisionHandler(TilemapView& tilemapView) noexcept :
+	CollisionHandler{tilemapView}
 {
 	setTargets({GameObjectIdentifiers::Goomba});
 }
 
 void EnemyCollisionHandler::onTileCollision(GameObject* target, const TileIndex& tileIndex) noexcept
 {
-    auto& tilemap = getTilemap();
+    auto& tilemapView = getTilemapView();
 
     const auto targetArea = target->getArea();
 
     if (target->getVelocity().getX() > 0.0f)
     {
-        const auto tilePosition = tilemap.getTileArea(tileIndex).getTopLeft();
+        const auto tilePosition = tilemapView.getTileArea(tileIndex).getTopLeft();
         const auto offsetPosition = targetArea.getWidth() / 2.0f;
 
         target->setPositionX(tilePosition.getX() - offsetPosition);
@@ -22,7 +22,7 @@ void EnemyCollisionHandler::onTileCollision(GameObject* target, const TileIndex&
     }
     else
     {
-        const auto tilePosition = tilemap.getTileArea(tileIndex).getTopRight();
+        const auto tilePosition = tilemapView.getTileArea(tileIndex).getTopRight();
         const auto offsetPosition = targetArea.getWidth() / 2.0f;
 
         target->setPositionX(tilePosition.getX() + offsetPosition);

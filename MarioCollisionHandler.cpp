@@ -1,21 +1,21 @@
 #include "MarioCollisionHandler.hpp"
 
-MarioCollisionHandler::MarioCollisionHandler(Tilemap& tilemap) noexcept :
-    CollisionHandler{tilemap}
+MarioCollisionHandler::MarioCollisionHandler(TilemapView& tilemapView) noexcept :
+    CollisionHandler{tilemapView}
 {
     setTarget(GameObjectIdentifiers::Mario);
 }
 
 void MarioCollisionHandler::onTileCollision(GameObject* target, const TileIndex& tileIndex) noexcept
 {
-    auto& tilemap = getTilemap();
+    auto& tilemapView = getTilemapView();
 
     const auto targetArea = target->getArea();
-    const auto tileArea = tilemap.getTileArea(tileIndex);
+    const auto tileArea = tilemapView.getTileArea(tileIndex);
 
     if (target->getVelocity().getX() > 0.0f)
     {
-        //TileSide tileSide = tilemap.getTileSide(targetArea, tileIndex);
+        //TileSide tileSide = tilemapView.getTileSide(targetArea, tileIndex);
 
         const auto tilePosition = tileArea.getTopLeft();
         const auto offsetPosition = targetArea.getWidth() / 2.0f;

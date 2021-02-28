@@ -44,9 +44,9 @@ void GameState::onEscapePressed() noexcept
 
 }
 
-Tilemap& GameState::getTilemap() noexcept
+TilemapView& GameState::getTilemapView() noexcept
 {
-	return mGameContextData.getTilemap();
+	return mGameContextData.getTilemapView();
 }
 
 ResourceContainer& GameState::getResourceContainer() noexcept

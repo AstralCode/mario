@@ -1,9 +1,9 @@
 #include "CollisionModule.hpp"
 
-#include "Tilemap.hpp"
+#include "TilemapView.hpp"
 
-CollisionModule::CollisionModule(Tilemap& tilemap) noexcept :
-	mTilemap{tilemap}
+CollisionModule::CollisionModule(TilemapView& tilemapView) noexcept :
+	mTilemapView{tilemapView}
 {
 
 }
@@ -54,7 +54,7 @@ std::vector<CollisionModule::TilemapColliders> CollisionModule::checkTilemapColl
 		auto tileColumnCount = 2;
 		auto tileRowCount = 2;
 
-		auto objectTileIndex = mTilemap.getGrid().getTileIndex(objectArea.getTopLeft());
+		auto objectTileIndex = mTilemapView.getTileIndex(objectArea.getTopLeft());
 		if (objectTileIndex.row > 0u)
 		{
 			objectTileIndex.row -= 1u;
@@ -67,8 +67,8 @@ std::vector<CollisionModule::TilemapColliders> CollisionModule::checkTilemapColl
 			tileColumnCount += 1u;
 		}
 
-		const auto tilemapRowCount = mTilemap.getTileRowCount();
-		const auto tilemapColumnCount = mTilemap.getTileColumnCount();
+		const auto tilemapRowCount = mTilemapView.getTileRowCount();
+		const auto tilemapColumnCount = mTilemapView.getTileColumnCount();
 
 		for (auto columnIndex{0}; columnIndex < tileColumnCount; columnIndex++)
 		{
@@ -84,12 +84,12 @@ std::vector<CollisionModule::TilemapColliders> CollisionModule::checkTilemapColl
 					{
 						if (objectTileIndex.row != collideTileIndex.row || objectTileIndex.column != collideTileIndex.column)
 						{
-							const auto tileAttributes = mTilemap.getTileAttributes(collideTileIndex);
+							const auto tileAttributes = mTilemapView.getTileAttributes(collideTileIndex);
 							if (tileAttributes.has_value())
 							{
 								if (tileAttributes.value().isSet(TileAttributes::Collider))
 								{
-									const auto collideTileArea = mTilemap.getGrid().getTileArea(collideTileIndex);
+									const auto collideTileArea = mTilemapView.getTileArea(collideTileIndex);
 									if (objectArea.isIntersects(collideTileArea))
 									{
 										colliders.emplace_back(object, collideTileIndex);

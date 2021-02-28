@@ -43,18 +43,18 @@ void InitialGameState::onEnter() noexcept
 		{   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 }
 	};
 
-	auto& tilemap = getTilemap();
-	tilemap.setInformationText(getFont(FontIdentifiers::Roboto));
-	tilemap.setTilesetTexture(&getTexture(TextureIdentifiers::Scenery));
-	tilemap.setTileAttributes(tileAttributes);
-	tilemap.setTileIdentifiers(tileIdentifiers);
-	tilemap.setBackgroundColor({97, 133, 246});
-	tilemap.build({32, 32});
+	auto& tilemapView = getTilemapView();
+	tilemapView.setInformationText(getFont(FontIdentifiers::Roboto));
+	tilemapView.setTilesetTexture(&getTexture(TextureIdentifiers::Scenery));
+	tilemapView.setTileAttributes(tileAttributes);
+	tilemapView.setTileIdentifiers(tileIdentifiers);
+	tilemapView.setBackgroundColor({97, 133, 246});
+	tilemapView.build({32, 32});
 
-	mGameObjectFactory.createMario()->setPosition(tilemap.getTileArea({4, 12}).getCenter());
+	mGameObjectFactory.createMario()->setPosition(tilemapView.getTileArea({4, 12}).getCenter());
 	
-	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileArea({11, 12}).getCenter());
-	mGameObjectFactory.createGoomba()->setPosition(tilemap.getTileArea({13, 12}).getCenter());
+	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTileArea({11, 12}).getCenter());
+	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTileArea({13, 12}).getCenter());
 }
 
 void InitialGameState::onLeave() noexcept
@@ -71,7 +71,7 @@ void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcep
 {
 	if (keyEvent.code == sf::Keyboard::F2)
 	{
-		getTilemap().setGridVisible(!getTilemap().isGridVisible());
+		getTilemapView().setGridVisible(!getTilemapView().isGridVisible());
 	}
 }
 
