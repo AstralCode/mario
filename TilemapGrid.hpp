@@ -21,8 +21,8 @@ public:
 
 	const FloatSize& getTileSize() const noexcept;
 
-	const int getTileRowCount() const noexcept;
-	const int getTileColumnCount() const noexcept;
+	const int getRowCount() const noexcept;
+	const int getColumnCount() const noexcept;
 
 	TileIndex getTileIndex(const FloatPoint& position) const noexcept;
 	TileIndex getTileIndex(const IntPoint& position) const noexcept;
@@ -42,8 +42,8 @@ private:
 
 	FloatSize mTileSize;
 	
-	int mTileRowCount;
-	int mTileColumnCount;
+	int mRowCount;
+	int mColumnCount;
 
 	sf::Color mGridColor;
 

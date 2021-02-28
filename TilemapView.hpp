@@ -1,12 +1,10 @@
 #pragma once
 
-#include <map>
-#include <optional>
-
 #include "SFML/Window/Event.hpp"
 #include "SFML/Graphics/Text.hpp"
 
 #include "TilemapGrid.hpp"
+#include "Tilemap.hpp"
 
 enum class TileSide
 {
@@ -21,15 +19,14 @@ class TilemapView final : public sf::Drawable
 public:
 	TilemapView() noexcept;
 
-	void setTilesetTexture(const sf::Texture* tilesetTexture) noexcept;
+	void setTilemap(std::unique_ptr<Tilemap> tilemap) noexcept;
+
+	void setTilemapTexture(const sf::Texture& texture) noexcept;
 
 	void setInformationText(const sf::Font& font, const unsigned int characterSize = 12u) noexcept;
 
-	void setTileAttributes(const std::map<TileIdentifier, TileAttributeFlags>& tileAttributes) noexcept;
-	void setTileIdentifier(const TileIdentifier identifier, const TileIndex& index) noexcept;
-	void setTileIdentifiers(const std::vector<std::vector<TileIdentifier>>& identifiers) noexcept;
-
 	void setBackgroundColor(const sf::Color& color) noexcept;
+
 	void setGridVisible(const bool visible) noexcept;
 
 	void receiveEvents(const sf::Event& event) noexcept;
@@ -38,21 +35,20 @@ public:
 
 	const TilemapGrid& getGrid() const noexcept;
 
-	TileIdentifier getTileIdentifier(const TileIndex& index) const noexcept;
+	TileIdentifier getIdentifier(const TileIndex& index) const noexcept;
+
+	std::optional<TileAttributeFlags> getAttributes(const TileIdentifier identifier) const noexcept;
+	std::optional<TileAttributeFlags> getAttributes(const TileIndex& index) const noexcept;
 
 	TileIndex getTileIndex(const IntPoint& position) const noexcept;
 	TileIndex getTileIndex(const FloatPoint& position) const noexcept;
 
 	const FloatSize& getTileSize() const noexcept;
 
-	const int getTileRowCount() const noexcept;
-	const int getTileColumnCount() const noexcept;
-
-	std::optional<TileAttributeFlags> getTileAttributes(const TileIdentifier identifier) const noexcept;
-	std::optional<TileAttributeFlags> getTileAttributes(const TileIndex& index) const noexcept;
+	const int getRowCount() const noexcept;
+	const int getColumnCount() const noexcept;
 
 	FloatPoint getTilePosition(const TileIndex& index) const noexcept;
-
 	FloatArea getTileArea(const TileIndex& index) const noexcept;
 
 	const sf::Text& getText() const noexcept;
@@ -78,7 +74,9 @@ private:
 
 	bool isContainsPoint(const FloatPoint& point) const noexcept;
 
-	const sf::Texture* mTilesetTexture;
+	std::unique_ptr<Tilemap> mTilemap;
+
+	const sf::Texture* mTilemapTexture;
 
 	sf::Text mInformationText;
 
@@ -88,7 +86,4 @@ private:
 	sf::VertexArray mTileVerticlesArray;
 
 	TilemapGrid mGrid;
-
-	std::map<TileIdentifier, TileAttributeFlags> mTileAttributes;
-	std::vector<std::vector<TileIdentifier>> mTileIdentifiers;
 };

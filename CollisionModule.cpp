@@ -67,8 +67,8 @@ std::vector<CollisionModule::TilemapColliders> CollisionModule::checkTilemapColl
 			tileColumnCount += 1u;
 		}
 
-		const auto tilemapRowCount = mTilemapView.getTileRowCount();
-		const auto tilemapColumnCount = mTilemapView.getTileColumnCount();
+		const auto tilemapRowCount = mTilemapView.getRowCount();
+		const auto tilemapColumnCount = mTilemapView.getColumnCount();
 
 		for (auto columnIndex{0}; columnIndex < tileColumnCount; columnIndex++)
 		{
@@ -84,7 +84,7 @@ std::vector<CollisionModule::TilemapColliders> CollisionModule::checkTilemapColl
 					{
 						if (objectTileIndex.row != collideTileIndex.row || objectTileIndex.column != collideTileIndex.column)
 						{
-							const auto tileAttributes = mTilemapView.getTileAttributes(collideTileIndex);
+							const auto tileAttributes = mTilemapView.getAttributes(collideTileIndex);
 							if (tileAttributes.has_value())
 							{
 								if (tileAttributes.value().isSet(TileAttributes::Collider))

@@ -6,7 +6,7 @@
 #include "Area.hpp"
 
 TilemapView::TilemapView() noexcept :
-	mTilesetTexture{nullptr},
+	mTilemapTexture{nullptr},
 	mBackgroundColor{sf::Color::Transparent}
 {
 	mInformationText.setPosition(6.0f, 40.0f);
@@ -16,30 +16,20 @@ TilemapView::TilemapView() noexcept :
 	mTileVerticlesArray.setPrimitiveType(sf::PrimitiveType::Quads);
 }
 
+void TilemapView::setTilemap(std::unique_ptr<Tilemap> tilemap) noexcept
+{
+	mTilemap = std::move(tilemap);
+}
+
+void TilemapView::setTilemapTexture(const sf::Texture& texture) noexcept
+{
+	mTilemapTexture = &texture;
+}
+
 void TilemapView::setInformationText(const sf::Font& font, const unsigned int characterSize) noexcept
 {
 	mInformationText.setFont(font);
 	mInformationText.setCharacterSize(characterSize);
-}
-
-void TilemapView::setTilesetTexture(const sf::Texture* tilesetTexture) noexcept
-{
-	mTilesetTexture = tilesetTexture;
-}
-
-void TilemapView::setTileAttributes(const std::map<TileIdentifier, TileAttributeFlags>& tileAttributes) noexcept
-{
-	mTileAttributes = tileAttributes;
-}
-
-void TilemapView::setTileIdentifier(const TileIdentifier identifier, const TileIndex& index) noexcept
-{
-	mTileIdentifiers[index.column][index.row] = identifier;
-}
-
-void TilemapView::setTileIdentifiers(const std::vector<std::vector<TileIdentifier>>& identifiers) noexcept
-{
-	mTileIdentifiers = identifiers;
 }
 
 void TilemapView::setBackgroundColor(const sf::Color& color) noexcept
@@ -102,7 +92,7 @@ void TilemapView::build(const FloatSize& tileSize) noexcept
 	{
 		for (tileIndex.row = 0u; tileIndex.row < tileRowCount; tileIndex.row++)
 		{
-			const auto tileIdentifier = getTileIdentifier(tileIndex);
+			const auto tileIdentifier = getIdentifier(tileIndex);
 			setTileSprite(tileIdentifier, tileIndex);
 		}
 	}
@@ -113,9 +103,19 @@ const TilemapGrid& TilemapView::getGrid() const noexcept
 	return mGrid;
 }
 
-TileIdentifier TilemapView::getTileIdentifier(const TileIndex& index) const noexcept
+TileIdentifier TilemapView::getIdentifier(const TileIndex& index) const noexcept
 {
-	return mTileIdentifiers[index.column][index.row];
+	return mTilemap->getIdentifier(index);
+}
+
+std::optional<TileAttributeFlags> TilemapView::getAttributes(const TileIdentifier identifier) const noexcept
+{
+	return mTilemap->getAttributes(identifier);
+}
+
+std::optional<TileAttributeFlags> TilemapView::getAttributes(const TileIndex& index) const noexcept
+{
+	return mTilemap->getAttributes(index);
 }
 
 TileIndex TilemapView::getTileIndex(const IntPoint& position) const noexcept
@@ -133,32 +133,14 @@ const FloatSize& TilemapView::getTileSize() const noexcept
 	return mGrid.getTileSize();
 }
 
-const int TilemapView::getTileRowCount() const noexcept
+const int TilemapView::getRowCount() const noexcept
 {
-	return mGrid.getTileRowCount();
+	return mGrid.getRowCount();
 }
 
-const int TilemapView::getTileColumnCount() const noexcept
+const int TilemapView::getColumnCount() const noexcept
 {
-	return mGrid.getTileColumnCount();
-}
-
-std::optional<TileAttributeFlags> TilemapView::getTileAttributes(const TileIdentifier identifier) const noexcept
-{
-	std::optional<TileAttributeFlags> attributes{};
-
-	const auto tileAttributesIterator = mTileAttributes.find(identifier);
-	if (tileAttributesIterator != mTileAttributes.end())
-	{
-		attributes = tileAttributesIterator->second;
-	}
-
-	return attributes;
-}
-
-std::optional<TileAttributeFlags> TilemapView::getTileAttributes(const TileIndex& index) const noexcept
-{
-	return getTileAttributes(getTileIdentifier(index));
+	return mGrid.getColumnCount();
 }
 
 FloatPoint TilemapView::getTilePosition(const TileIndex& index) const noexcept
@@ -186,8 +168,8 @@ void TilemapView::onMouseClick(const IntPoint& position, const sf::Mouse::Button
 	if (button == sf::Mouse::Button::Left)
 	{
 		const auto tileIndex = getTileIndex(position);
-		const auto tileIdentifier = getTileIdentifier(tileIndex);
-		const auto tileAttributes = getTileAttributes(tileIndex);
+		const auto tileIdentifier = getIdentifier(tileIndex);
+		const auto tileAttributes = getAttributes(tileIndex);
 
 		auto information =
 			"TileIndex: " + std::to_string(tileIndex.row) + ", " + std::to_string(tileIndex.column) + "\n" +
@@ -214,8 +196,8 @@ sf::Vector2u TilemapView::calculateTextureTilePosition(const TileIdentifier tile
 
 	if (tileIdentifier > 1u)
 	{
-		position.x = (tileIdentifier - 1u) % static_cast<int>(mTilesetTexture->getSize().x / tileSize.getWidth());
-		position.y = (tileIdentifier - 1u) / static_cast<int>(mTilesetTexture->getSize().x / tileSize.getWidth());
+		position.x = (tileIdentifier - 1u) % static_cast<int>(mTilemapTexture->getSize().x / tileSize.getWidth());
+		position.y = (tileIdentifier - 1u) / static_cast<int>(mTilemapTexture->getSize().x / tileSize.getWidth());
 	}
 
 	return position;
@@ -223,17 +205,17 @@ sf::Vector2u TilemapView::calculateTextureTilePosition(const TileIdentifier tile
 
 unsigned int TilemapView::calculateTextureTileIdentifierCount(const FloatSize& tileSize) const noexcept
 {
-	return (mTilesetTexture->getSize().x / static_cast<unsigned int>(tileSize.getWidth())) * (mTilesetTexture->getSize().y / static_cast<unsigned int>(tileSize.getHeight()));
+	return (mTilemapTexture->getSize().x / static_cast<unsigned int>(tileSize.getWidth())) * (mTilemapTexture->getSize().y / static_cast<unsigned int>(tileSize.getHeight()));
 }
 
 int TilemapView::calculateTileRowCount() const noexcept
 {
-	return static_cast<int>(mTileIdentifiers[0u].size());
+	return static_cast<int>(mTilemap->getRowCount());
 }
 
 int TilemapView::calculateTileColumnCount() const noexcept
 {
-	return static_cast<int>(mTileIdentifiers.size());
+	return static_cast<int>(mTilemap->getColumnCount());
 }
 
 void TilemapView::setTileSprite(const TileIdentifier tileIdentifier, const TileIndex& tileIndex) noexcept
@@ -264,7 +246,7 @@ void TilemapView::setTileSprite(const TileIdentifier tileIdentifier, const TileI
 		tileVerticles[3u] = {};
 	}
 
-	setTileIdentifier(tileIdentifier, tileIndex);
+	mTilemap->setIdentifier(tileIndex, tileIdentifier);
 }
 
 void TilemapView::clearTileSprite(const TileIndex& tileIndex) noexcept
@@ -276,7 +258,7 @@ void TilemapView::clearTileSprite(const TileIndex& tileIndex) noexcept
 	tileVerticles[2u] = {};
 	tileVerticles[3u] = {};
 
-	setTileIdentifier(0u, tileIndex);
+	mTilemap->setIdentifier(tileIndex, 0);
 }
 
 sf::Vertex* TilemapView::getTileVerticles(const TileIndex& tileIndex) noexcept
@@ -291,7 +273,7 @@ void TilemapView::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mBackgroundVerticlesArray, states);
 
-	states.texture = mTilesetTexture;
+	states.texture = mTilemapTexture;
 	target.draw(mTileVerticlesArray, states);
 
 	target.draw(mInformationText, states);
