@@ -16,6 +16,26 @@ TilemapView::TilemapView() noexcept :
 	mTileVerticlesArray.setPrimitiveType(sf::PrimitiveType::Quads);
 }
 
+void TilemapView::setPosition(const float x, const float y) noexcept
+{
+	mTransform.setPosition(x, y);
+}
+
+void TilemapView::setPosition(const FloatPoint& position) noexcept
+{
+	mTransform.setPosition(position.getVector());
+}
+
+void TilemapView::setMargins(const float left, const float top, const float right, const float bottom) noexcept
+{
+	mMargins.set(left, top, right, bottom);
+}
+
+void TilemapView::setMargins(const FloatMargins& margins) noexcept
+{
+	mMargins = margins;
+}
+
 void TilemapView::setTilemap(std::unique_ptr<Tilemap> tilemap) noexcept
 {
 	mTilemap = std::move(tilemap);
@@ -86,7 +106,7 @@ void TilemapView::build(const FloatSize& tileSize) noexcept
 	mBackgroundVerticlesArray[3u] = sf::Vertex{sf::Vector2f{0.0f, tileSize.getHeight() * tileColumnCount}, mBackgroundColor};
 
 	mTileVerticlesArray.clear();
-	mTileVerticlesArray.resize(static_cast<std::size_t>(tileRowCount * tileColumnCount * 4u));
+	mTileVerticlesArray.resize(static_cast<std::size_t>(tileRowCount) * static_cast<std::size_t>(tileColumnCount) * 4u);
 
 	for (TileIndex tileIndex{}; tileIndex.column < tileColumnCount; tileIndex.column++)
 	{
@@ -231,6 +251,18 @@ void TilemapView::setTileSprite(const TileIdentifier tileIdentifier, const TileI
 		tileVerticles[2u].position = sf::Vector2f{(tileIndex.row + 1u) * tileSize.getWidth(), (tileIndex.column + 1u) * tileSize.getHeight()};
 		tileVerticles[3u].position = sf::Vector2f{tileIndex.row * tileSize.getWidth(), (tileIndex.column + 1u) * tileSize.getHeight()};
 
+		tileVerticles[0u].position.x += mMargins.getLeft() + mMargins.getRight();
+		tileVerticles[0u].position.y += mMargins.getTop() + mMargins.getBottom();
+
+		tileVerticles[1u].position.x += mMargins.getLeft() + mMargins.getRight();
+		tileVerticles[1u].position.y += mMargins.getTop() + mMargins.getBottom();
+
+		tileVerticles[2u].position.x += mMargins.getLeft() + mMargins.getRight();
+		tileVerticles[2u].position.y += mMargins.getTop() + mMargins.getBottom();
+
+		tileVerticles[3u].position.x += mMargins.getLeft() + mMargins.getRight();
+		tileVerticles[3u].position.y += mMargins.getTop() + mMargins.getBottom();
+
 		const auto textureTilePosition = calculateTextureTilePosition(tileIdentifier, tileSize);
 
 		tileVerticles[0u].texCoords = sf::Vector2f{textureTilePosition.x * tileSize.getWidth(), textureTilePosition.y * tileSize.getHeight()};
@@ -271,6 +303,8 @@ sf::Vertex* TilemapView::getTileVerticles(const TileIndex& tileIndex) noexcept
 
 void TilemapView::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	states.transform.combine(mTransform.getTransform());
+
 	target.draw(mBackgroundVerticlesArray, states);
 
 	states.texture = mTilemapTexture;

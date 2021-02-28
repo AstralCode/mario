@@ -49,6 +49,11 @@ TilemapView& GameState::getTilemapView() noexcept
 	return mGameContextData.getTilemapView();
 }
 
+TilemapEditor& GameState::getTilemapEditor() noexcept
+{
+	return mGameContextData.getTilemapEditor();
+}
+
 ResourceContainer& GameState::getResourceContainer() noexcept
 {
 	return mGameContextData.getResourceContainer();

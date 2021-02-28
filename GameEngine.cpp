@@ -10,9 +10,10 @@
 GameEngine::GameEngine() noexcept :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mStatistics{mFPSCounter},
+	mTilemapEditor{mResourceManager},
 	mCollisionModule{mTilemapView},
 	mGameObjectManager{mGraphicsScene, mGamePhysics, mCollisionModule},
-	mGameContextData{mTilemapView, mResourceManager, mSpritesetManager, mGameObjectManager},
+	mGameContextData{mTilemapView, mTilemapEditor, mResourceManager, mSpritesetManager, mGameObjectManager},
 	mGameStateManager{mGameContextData}
 {
 	mRenderWindow.setKeyRepeatEnabled(false);
@@ -23,6 +24,7 @@ void GameEngine::run() noexcept
 	loadResources();
 	initializeStatistics();
 	initializeSpritesets();
+	initializeTilemapEditor();
 	initializeCollisionHandlers();
 	executeMainLoop();
 }
@@ -86,9 +88,10 @@ void GameEngine::processRender() noexcept
 
 	mRenderWindow.clear();
 
-	mRenderWindow.draw(mTilemapView);
-	mRenderWindow.draw(mGraphicsScene);
-	mRenderWindow.draw(mTilemapView.getGrid());
+	//mRenderWindow.draw(mTilemapView);
+	//mRenderWindow.draw(mGraphicsScene);
+	//mRenderWindow.draw(mTilemapView.getGrid());
+	mRenderWindow.draw(mTilemapEditor);
 
 	if (mStatistics.isVisible())
 	{
@@ -213,6 +216,11 @@ void GameEngine::initializeSpritesets() noexcept
 		SpritesetArea{GridSize{11, 16}, GridTileIndex{1, 0}, SpriteArea{IntArea{0, 0, 10, 16}, OriginPoint{5, 8}}},
 		SpritesetArea{GridSize{11, 16}, GridTileIndex{2, 0}, SpriteArea{IntArea{0, 0, 10, 16}, OriginPoint{5, 8}}}
 	}}});
+}
+
+void GameEngine::initializeTilemapEditor() noexcept
+{
+	mTilemapEditor.initialize(mResourceManager.getTexture(TextureIdentifiers::Scenery));
 }
 
 void GameEngine::initializeCollisionHandlers() noexcept

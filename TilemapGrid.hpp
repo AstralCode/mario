@@ -11,6 +11,7 @@ class TilemapGrid final : public sf::Drawable
 public:
 	TilemapGrid() noexcept;
 
+	void setTileSize(const float x, const float y) noexcept;
 	void setTileSize(const FloatSize& size) noexcept;
 	void setTileCount(const int rowCount, const int columnCount) noexcept;
 

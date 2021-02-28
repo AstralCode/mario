@@ -12,6 +12,11 @@ TilemapGrid::TilemapGrid() noexcept :
 	mTilemapVertexArray.setPrimitiveType(sf::PrimitiveType::Lines);
 }
 
+void TilemapGrid::setTileSize(const float x, const float y) noexcept
+{
+	mTileSize.set(x, y);
+}
+
 void TilemapGrid::setTileSize(const FloatSize& size) noexcept
 {
 	mTileSize = size;

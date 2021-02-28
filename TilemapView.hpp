@@ -5,6 +5,7 @@
 
 #include "TilemapGrid.hpp"
 #include "Tilemap.hpp"
+#include "Margins.hpp"
 
 enum class TileSide
 {
@@ -19,8 +20,12 @@ class TilemapView final : public sf::Drawable
 public:
 	TilemapView() noexcept;
 
-	void setTilemap(std::unique_ptr<Tilemap> tilemap) noexcept;
+	void setPosition(const float x, const float y) noexcept;
+	void setPosition(const FloatPoint& position) noexcept;
+	void setMargins(const float left, const float top, const float right, const float bottom) noexcept;
+	void setMargins(const FloatMargins& margins) noexcept;
 
+	void setTilemap(std::unique_ptr<Tilemap> tilemap) noexcept;
 	void setTilemapTexture(const sf::Texture& texture) noexcept;
 
 	void setInformationText(const sf::Font& font, const unsigned int characterSize = 12u) noexcept;
@@ -73,6 +78,10 @@ private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	bool isContainsPoint(const FloatPoint& point) const noexcept;
+
+	FloatMargins mMargins;
+
+	sf::Transformable mTransform;
 
 	std::unique_ptr<Tilemap> mTilemap;
 

@@ -3,11 +3,12 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Statistics.hpp"
-#include "TilemapView.hpp"
 #include "GamePhysics.hpp"
 #include "GraphicsItem.hpp"
 #include "ResourceManager.hpp"
 #include "SpritesetManager.hpp"
+#include "TilemapView.hpp"
+#include "TilemapEditor.hpp"
 #include "CollisionModule.hpp"
 #include "GameObjectManager.hpp"
 #include "GameObjectFactory.hpp"
@@ -35,6 +36,7 @@ private:
 
 	void initializeStatistics() noexcept;
 	void initializeSpritesets() noexcept;
+	void initializeTilemapEditor() noexcept;
 	void initializeCollisionHandlers() noexcept;
 	void initializeGameState() noexcept;
 
@@ -46,11 +48,12 @@ private:
 
 	FPSCounter mFPSCounter;
 	Statistics mStatistics;
-	TilemapView mTilemapView;
 	GamePhysics mGamePhysics;
 	GraphicsItem mGraphicsScene;
 	ResourceManager mResourceManager;
 	SpritesetManager mSpritesetManager;
+	TilemapView mTilemapView;
+	TilemapEditor mTilemapEditor;
 	CollisionModule mCollisionModule;
 	GameObjectManager mGameObjectManager;
 	GameContextData mGameContextData;

@@ -12,6 +12,7 @@ public:
 	Point(const T x, const T y) noexcept;
 	Point(const sf::Vector2<T>& point) noexcept;
 
+	void set(const T x, const T y) noexcept;
 	void set(const sf::Vector2<T>& point) noexcept;
 
 	void setX(const T x) noexcept;
@@ -48,6 +49,13 @@ inline Point<T>::Point(const sf::Vector2<T>& point) noexcept :
 	mPoint{point}
 {
 
+}
+
+template <typename T>
+inline void Point<T>::set(const T x, const T y) noexcept
+{
+	mPoint.x = x;
+	mPoint.y = y;
 }
 
 template <typename T>

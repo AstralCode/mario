@@ -10,6 +10,8 @@ public:
 	Size(const T width, const T height) noexcept;
 	Size(const sf::Vector2<T>& size) noexcept;
 
+	void set(const T width, const T height) noexcept;
+
 	void setWidth(const T width) noexcept;
 	void setHeight(const T height) noexcept;
 
@@ -38,6 +40,13 @@ inline Size<T>::Size(const sf::Vector2<T>& size) noexcept :
 	mHeight{size.y}
 {
 
+}
+
+template <typename T>
+inline void Size<T>::set(const T width, const T height) noexcept
+{
+	mWidth = width;
+	mHeight = height;
 }
 
 template <typename T>

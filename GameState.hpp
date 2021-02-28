@@ -4,6 +4,7 @@
 
 #include "EventReceiver.hpp"
 #include "TilemapView.hpp"
+#include "TilemapEditor.hpp"
 #include "ResourceContainer.hpp"
 #include "SpritesetContainer.hpp"
 #include "GameObjectCreator.hpp"
@@ -35,6 +36,7 @@ public:
 	void onEscapePressed() noexcept override;
 
 	TilemapView& getTilemapView() noexcept;
+	TilemapEditor& getTilemapEditor() noexcept;
 	ResourceContainer& getResourceContainer() noexcept;
 	SpritesetContainer& getSpritesetContainer() noexcept;
 	GameObjectCreator& getGameObjectCreator() noexcept;

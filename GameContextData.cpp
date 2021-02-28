@@ -1,7 +1,8 @@
 #include "GameContextData.hpp"
 
-GameContextData::GameContextData(TilemapView& tilemapView, ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) noexcept :
+GameContextData::GameContextData(TilemapView& tilemapView, TilemapEditor& tilemapEditor, ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) noexcept :
 	mTilemapView{tilemapView},
+	mTilemapEditor{tilemapEditor},
 	mResourceContainer{resourceContainer},
 	mSpritesetContainer{spritesetContainer},
 	mGameObjectCreator{gameObjectCreator}
@@ -12,6 +13,11 @@ GameContextData::GameContextData(TilemapView& tilemapView, ResourceContainer& re
 TilemapView& GameContextData::getTilemapView() noexcept
 {
 	return mTilemapView;
+}
+
+TilemapEditor& GameContextData::getTilemapEditor() noexcept
+{
+	return mTilemapEditor;
 }
 
 ResourceContainer& GameContextData::getResourceContainer() noexcept
