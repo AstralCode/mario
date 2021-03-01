@@ -88,10 +88,10 @@ void GameEngine::processRender() noexcept
 
 	mRenderWindow.clear();
 
-	mRenderWindow.draw(mTilemapView);
-	mRenderWindow.draw(mGraphicsScene);
-	mRenderWindow.draw(mTilemapView.getGrid());
-	//mRenderWindow.draw(mTilemapEditor);
+	//mRenderWindow.draw(mTilemapView);
+	//mRenderWindow.draw(mGraphicsScene);
+	//mRenderWindow.draw(mTilemapView.getGrid());
+	mRenderWindow.draw(mTilemapEditor);
 
 	if (mStatistics.isVisible())
 	{

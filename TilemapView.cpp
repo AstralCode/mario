@@ -305,10 +305,10 @@ void TilemapView::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform.combine(mTransform.getTransform());
 
-	target.draw(mBackgroundVerticlesArray, states);
+	//target.draw(mBackgroundVerticlesArray, states);
 
-	states.texture = mTilemapTexture;
-	target.draw(mTileVerticlesArray, states);
+	//states.texture = mTilemapTexture;
+	//target.draw(mTileVerticlesArray, states);
 
 	target.draw(mInformationText, states);
 }

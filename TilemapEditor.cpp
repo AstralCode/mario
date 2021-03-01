@@ -15,24 +15,26 @@ TilemapEditor::TilemapEditor(const ResourceContainer& resourceContainer) noexcep
 void TilemapEditor::initialize(const sf::Texture& texture) noexcept
 {
 	mTilemapPaletteView.setTilemapTexture(texture);
+	mTilemapPaletteView.setInformationText(mResourceContainer.getFont(FontIdentifiers::Roboto));
 
-	const auto positionY = mTilemapGrid.getTilePosition({0, 11}).getY();
+	TileIdentifier tileIdentifier = 0;
 
-	mTilemapPaletteBorder.setPosition(6.0f, positionY);
-	mTilemapPaletteBorder.setSize({32.0f * 20.0f - 12.0f, 32.0f * 4.0f - 4.0f});
-	mTilemapPaletteBorder.setFillColor(sf::Color::Transparent);
-	mTilemapPaletteBorder.setOutlineColor(sf::Color::White);
-	mTilemapPaletteBorder.setOutlineThickness(1.0f);
+	auto tilemapPalette = std::make_unique<Tilemap>(4, 14);
+	for (auto rowIndex{0}; rowIndex < tilemapPalette->getRowCount(); rowIndex++)
+	{
+		auto& tilemapRow = tilemapPalette->getRow(rowIndex);
 
-	auto tilemapPalette = std::make_unique<Tilemap>(4, 4);
-	tilemapPalette->getRow(0) = Tilemap::Row{1,   2,   3,   4};
-	tilemapPalette->getRow(1) = Tilemap::Row{5,   6,   7,   8};
-	tilemapPalette->getRow(2) = Tilemap::Row{9,  10,  11,  12};
-	tilemapPalette->getRow(3) = Tilemap::Row{13,  14,  15,  16};
+		for (auto columnIndex{0}; columnIndex < tilemapPalette->getColumnCount(); columnIndex++)
+		{
+			tilemapRow[columnIndex] = ++tileIdentifier;
+		}
+	}
+
+	const auto positionY = mTilemapGrid.getTilePosition({11, 0}).getY() - 4.0f;
 
 	mTilemapPaletteView.setTilemap(std::move(tilemapPalette));
-	mTilemapPaletteView.setPosition(6.0f, positionY);
-	mTilemapPaletteView.setMargins(4.0f, 4.0f, 0.0f, 0.0f);
+	mTilemapPaletteView.setPosition(4.0f, positionY);
+	mTilemapPaletteView.setMargins(0.0f, 0.0f, 0.0f, 0.0f);
 	mTilemapPaletteView.build({32, 32});
 }
 
