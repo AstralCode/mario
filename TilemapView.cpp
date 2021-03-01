@@ -118,11 +118,6 @@ void TilemapView::build(const FloatSize& tileSize) noexcept
 	}
 }
 
-const TilemapGrid& TilemapView::getGrid() const noexcept
-{
-	return mGrid;
-}
-
 TileIdentifier TilemapView::getIdentifier(const TileIndex& index) const noexcept
 {
 	return mTilemap->getIdentifier(index);
@@ -305,12 +300,13 @@ void TilemapView::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform.combine(mTransform.getTransform());
 
-	//target.draw(mBackgroundVerticlesArray, states);
+	target.draw(mBackgroundVerticlesArray, states);
 
-	//states.texture = mTilemapTexture;
-	//target.draw(mTileVerticlesArray, states);
+	states.texture = mTilemapTexture;
+	target.draw(mTileVerticlesArray, states);
 
-	target.draw(mInformationText, states);
+	target.draw(mInformationText);
+	target.draw(mGrid);
 }
 
 bool TilemapView::isContainsPoint(const FloatPoint& point) const noexcept

@@ -38,17 +38,17 @@ std::optional<TileAttributeFlags> Tilemap::getAttributes(const TileIdentifier id
 
 std::optional<TileAttributeFlags> Tilemap::getAttributes(const TileIndex& index) const noexcept
 {
-	return getAttributes(mTileIdentifiers[index.row][index.column] );
+	return getAttributes(mTileIdentifiers[index.row][index.column]);
 }
 
-Tilemap::Row& Tilemap::getRow(const int rowIndex) noexcept
+Tilemap::Row& Tilemap::getRow(const int index) noexcept
 {
-	return mTileIdentifiers[rowIndex];
+	return mTileIdentifiers[index];
 }
 
-Tilemap::Row Tilemap::getRow(const int rowIndex) const noexcept
+Tilemap::Row Tilemap::getRow(const int index) const noexcept
 {
-	return mTileIdentifiers[rowIndex];
+	return mTileIdentifiers[index];
 }
 
 const int Tilemap::getRowCount() const noexcept

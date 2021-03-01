@@ -38,8 +38,6 @@ public:
 
 	void build(const FloatSize& tileSize) noexcept;
 
-	const TilemapGrid& getGrid() const noexcept;
-
 	TileIdentifier getIdentifier(const TileIndex& index) const noexcept;
 
 	std::optional<TileAttributeFlags> getAttributes(const TileIdentifier identifier) const noexcept;

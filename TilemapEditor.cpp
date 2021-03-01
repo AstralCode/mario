@@ -14,10 +14,7 @@ TilemapEditor::TilemapEditor(const ResourceContainer& resourceContainer) noexcep
 
 void TilemapEditor::initialize(const sf::Texture& texture) noexcept
 {
-	mTilemapPaletteView.setTilemapTexture(texture);
-	mTilemapPaletteView.setInformationText(mResourceContainer.getFont(FontIdentifiers::Roboto));
-
-	TileIdentifier tileIdentifier = 0;
+	TileIdentifier tileIdentifier{0};
 
 	auto tilemapPalette = std::make_unique<Tilemap>(4, 14);
 	for (auto rowIndex{0}; rowIndex < tilemapPalette->getRowCount(); rowIndex++)
@@ -33,6 +30,7 @@ void TilemapEditor::initialize(const sf::Texture& texture) noexcept
 	const auto positionY = mTilemapGrid.getTilePosition({11, 0}).getY() - 4.0f;
 
 	mTilemapPaletteView.setTilemap(std::move(tilemapPalette));
+	mTilemapPaletteView.setTilemapTexture(mResourceContainer.getTexture(TextureIdentifiers::Scenery));
 	mTilemapPaletteView.setPosition(4.0f, positionY);
 	mTilemapPaletteView.setMargins(0.0f, 0.0f, 0.0f, 0.0f);
 	mTilemapPaletteView.build({32, 32});

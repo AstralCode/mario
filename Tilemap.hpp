@@ -21,8 +21,8 @@ public:
 	std::optional<TileAttributeFlags> getAttributes(const TileIdentifier identifier) const noexcept;
 	std::optional<TileAttributeFlags> getAttributes(const TileIndex& index) const noexcept;
 
-	Row& getRow(const int rowIndex) noexcept;
-	Row getRow(const int rowIndex) const noexcept;
+	Row& getRow(const int index) noexcept;
+	Row getRow(const int index) const noexcept;
 
 	const int getRowCount() const noexcept;
 	const int getColumnCount() const noexcept;
