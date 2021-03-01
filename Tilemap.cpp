@@ -1,16 +1,16 @@
 #include "Tilemap.hpp"
 
-Tilemap::Tilemap(const int tileRowCount, const int tileColumnCount) noexcept :
-	mRowCount{tileRowCount},
-	mColumnCount{tileColumnCount},
-	mTileIdentifiers(tileRowCount, std::vector<TileIdentifier>(tileColumnCount))
+Tilemap::Tilemap(const int rowCount, const int columnCount) noexcept :
+	mRowCount{rowCount},
+	mColumnCount{columnCount},
+	mTileIdentifiers(rowCount, std::vector<TileIdentifier>(columnCount))
 {
 
 }
 
 void Tilemap::setIdentifier(const TileIndex& index, const TileIdentifier identifier) noexcept
 {
-	mTileIdentifiers[index.column][index.row] = identifier;
+	mTileIdentifiers[index.row][index.column] = identifier;
 }
 
 void Tilemap::setAttributes(const std::map<TileIdentifier, TileAttributeFlags>& attributes) noexcept
@@ -20,7 +20,7 @@ void Tilemap::setAttributes(const std::map<TileIdentifier, TileAttributeFlags>& 
 
 TileIdentifier Tilemap::getIdentifier(const TileIndex& index) const noexcept
 {
-	return mTileIdentifiers[index.column][index.row];
+	return mTileIdentifiers[index.row][index.column];
 }
 
 std::optional<TileAttributeFlags> Tilemap::getAttributes(const TileIdentifier identifier) const noexcept
@@ -38,7 +38,7 @@ std::optional<TileAttributeFlags> Tilemap::getAttributes(const TileIdentifier id
 
 std::optional<TileAttributeFlags> Tilemap::getAttributes(const TileIndex& index) const noexcept
 {
-	return getAttributes(mTileIdentifiers[index.column][index.row]);
+	return getAttributes(mTileIdentifiers[index.row][index.column] );
 }
 
 Tilemap::Row& Tilemap::getRow(const int rowIndex) noexcept

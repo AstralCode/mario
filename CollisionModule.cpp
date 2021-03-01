@@ -51,36 +51,36 @@ std::vector<CollisionModule::TilemapColliders> CollisionModule::checkTilemapColl
 		const auto objectPosition = object->getGlobalPosition();
 		const auto objectArea = object->getArea();
 
-		auto tileColumnCount = 2;
 		auto tileRowCount = 2;
+		auto tileColumnCount = 2;
 
 		auto objectTileIndex = mTilemapView.getTileIndex(objectArea.getTopLeft());
-		if (objectTileIndex.row > 0u)
+		if (objectTileIndex.row > 0)
 		{
-			objectTileIndex.row -= 1u;
-			tileRowCount += 1u;
+			objectTileIndex.row -= 1;
+			tileRowCount += 1;
 		}
 
-		if (objectTileIndex.column > 0u)
+		if (objectTileIndex.column > 0)
 		{
-			objectTileIndex.column -= 1u;
-			tileColumnCount += 1u;
+			objectTileIndex.column -= 1;
+			tileColumnCount += 1;
 		}
 
 		const auto tilemapRowCount = mTilemapView.getRowCount();
 		const auto tilemapColumnCount = mTilemapView.getColumnCount();
 
-		for (auto columnIndex{0}; columnIndex < tileColumnCount; columnIndex++)
+		for (auto rowIndex{0}; rowIndex < tileRowCount; rowIndex++)
 		{
 			TileIndex collideTileIndex{};
 
-			collideTileIndex.column = objectTileIndex.column + columnIndex;
-			if (collideTileIndex.column < tilemapColumnCount)
+			collideTileIndex.row = objectTileIndex.row + rowIndex;
+			if (collideTileIndex.row < tilemapRowCount )
 			{
-				for (auto rowIndex{0}; rowIndex < tileRowCount; rowIndex++)
+				for (auto columnIndex{0}; columnIndex < tileColumnCount; columnIndex++)
 				{
-					collideTileIndex.row = objectTileIndex.row + rowIndex;
-					if (collideTileIndex.row < tilemapRowCount)
+					collideTileIndex.column = objectTileIndex.column + columnIndex;
+					if (collideTileIndex.column < tilemapColumnCount)
 					{
 						if (objectTileIndex.row != collideTileIndex.row || objectTileIndex.column != collideTileIndex.column)
 						{

@@ -11,7 +11,7 @@ class Tilemap final
 public:
 	using Row = std::vector<TileIdentifier>;
 
-	Tilemap(const int tileRowCount, const int tileColumnCount) noexcept;
+	Tilemap(const int rowCount, const int columnCount) noexcept;
 
 	void setIdentifier(const TileIndex& index, const TileIdentifier identifier) noexcept;
 	void setAttributes(const std::map<TileIdentifier, TileAttributeFlags>& attributes) noexcept;

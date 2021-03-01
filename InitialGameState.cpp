@@ -13,7 +13,7 @@ InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateCh
 
 void InitialGameState::onEnter() noexcept
 {
-	auto tilemap = std::make_unique<Tilemap>(20, 15);
+	auto tilemap = std::make_unique<Tilemap>(15, 20);
 	tilemap->getRow(0)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(1)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(2)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  50,  51,   0,   0,   0,   0 };
@@ -50,9 +50,9 @@ void InitialGameState::onEnter() noexcept
 	tilemapView.setBackgroundColor({97, 133, 246});
 	tilemapView.build({32, 32});
 
-	mGameObjectFactory.createMario()->setPosition(tilemapView.getTileArea({4, 12}).getCenter());
-	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTileArea({11, 12}).getCenter());
-	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTileArea({13, 12}).getCenter());
+	mGameObjectFactory.createMario()->setPosition(tilemapView.getTileArea({12, 4}).getCenter());
+	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTileArea({12, 11}).getCenter());
+	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTileArea({12, 13}).getCenter());
 }
 
 void InitialGameState::onLeave() noexcept

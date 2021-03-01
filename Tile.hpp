@@ -8,8 +8,8 @@ struct TileIndex
 {
 	using ValueType = int;
 
-	ValueType row;
-	ValueType column;
+	ValueType row = 0;
+	ValueType column = 0;
 };
 
 enum class TileAttributes

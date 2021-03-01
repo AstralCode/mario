@@ -69,15 +69,15 @@ TileIndex TilemapGrid::getTileIndex(const FloatPoint& position) const noexcept
 TileIndex TilemapGrid::getTileIndex(const IntPoint& position) const noexcept
 {
 	TileIndex index{};
-	index.row = position.getX() / static_cast<unsigned int>(mTileSize.getWidth());
-	index.column = position.getY() / static_cast<unsigned int>(mTileSize.getHeight());
+	index.column = position.getX() / static_cast<unsigned int>(mTileSize.getWidth());
+	index.row = position.getY() / static_cast<unsigned int>(mTileSize.getHeight());
 
 	return index;
 }
 
 FloatPoint TilemapGrid::getTilePosition(const TileIndex& index) const noexcept
 {
-	return {mTileSize.getWidth() * index.row, mTileSize.getHeight() * index.column};
+	return {mTileSize.getWidth() * index.column, mTileSize.getHeight() * index.row};
 }
 
 FloatArea TilemapGrid::getTileArea(const TileIndex& index) const noexcept
@@ -90,8 +90,8 @@ FloatArea TilemapGrid::getArea() const noexcept
 {
 	FloatArea area{};
 	area.setPosition(0.0f, 0.0f);
-	area.setWidth(mTileSize.getWidth() * mRowCount);
-	area.setHeight(mTileSize.getHeight() * mColumnCount);
+	area.setWidth(mTileSize.getWidth() * mColumnCount);
+	area.setHeight(mTileSize.getHeight() * mRowCount);
 
 	return area;
 }
@@ -103,35 +103,35 @@ bool TilemapGrid::isVisible() const noexcept
 
 void TilemapGrid::buildHorizontalLines() noexcept
 {
-	for (auto columnIndex{0}; columnIndex < mColumnCount; ++columnIndex)
+	for (auto rowIndex{0}; rowIndex < mRowCount; ++rowIndex)
 	{
 		FloatPoint horizontalLeft{};
 		horizontalLeft.setX(0.0f);
-		horizontalLeft.setY(mTileSize.getHeight() * columnIndex);
+		horizontalLeft.setY(mTileSize.getHeight() * rowIndex);
 
 		FloatPoint horizontalRight{};
-		horizontalRight.setX(mTileSize.getWidth() * mRowCount);
-		horizontalRight.setY(mTileSize.getHeight() * columnIndex);
+		horizontalRight.setX(mTileSize.getWidth() * mColumnCount);
+		horizontalRight.setY(mTileSize.getHeight() * rowIndex);
 
-		mTilemapVertexArray.append(sf::Vertex(horizontalLeft.getVector(), mGridColor));
-		mTilemapVertexArray.append(sf::Vertex(horizontalRight.getVector(), mGridColor));
+		mTilemapVertexArray.append(sf::Vertex{horizontalLeft.getVector(), mGridColor});
+		mTilemapVertexArray.append(sf::Vertex{horizontalRight.getVector(), mGridColor});
 	}
 }
 
 void TilemapGrid::buildVerticalLines() noexcept
 {
-	for (auto rowIndex{0}; rowIndex < mRowCount; ++rowIndex)
+	for (auto columnIndex{0}; columnIndex < mColumnCount; ++columnIndex)
 	{
 		FloatPoint verticalTop{};
-		verticalTop.setX(mTileSize.getWidth() * rowIndex);
+		verticalTop.setX(mTileSize.getWidth() * columnIndex);
 		verticalTop.setY(0.0f);
 
 		FloatPoint verticalBottom{};
-		verticalBottom.setX(mTileSize.getWidth() * rowIndex);
-		verticalBottom.setY(mTileSize.getHeight() * mColumnCount);
+		verticalBottom.setX(mTileSize.getWidth() * columnIndex);
+		verticalBottom.setY(mTileSize.getHeight() * mRowCount);
 
-		mTilemapVertexArray.append(sf::Vertex(verticalTop.getVector(), mGridColor));
-		mTilemapVertexArray.append(sf::Vertex(verticalBottom.getVector(), mGridColor));
+		mTilemapVertexArray.append(sf::Vertex{verticalTop.getVector(), mGridColor});
+		mTilemapVertexArray.append(sf::Vertex{verticalBottom.getVector(), mGridColor});
 	}
 }
 
