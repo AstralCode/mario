@@ -17,7 +17,7 @@ public:
 	template <typename TCollisionHandler>
 	void addHandler() noexcept;
 
-	void execute(const std::vector<GameObject*> objects) noexcept;
+	void detectCollisions(const std::vector<GameObject*> objects) noexcept;
 
 private:
 	using TilemapColliders = std::tuple<GameObject*, TileIndex>;

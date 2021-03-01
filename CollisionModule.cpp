@@ -8,7 +8,7 @@ CollisionModule::CollisionModule(TilemapView& tilemapView) noexcept :
 
 }
 
-void CollisionModule::execute(const std::vector<GameObject*> objects) noexcept
+void CollisionModule::detectCollisions(const std::vector<GameObject*> objects) noexcept
 {
 	executeTilemapCollisionHandlers(checkTilemapCollisions(objects));
 	executeObjectCollisionHandlers(checkObjectCollisions(objects));

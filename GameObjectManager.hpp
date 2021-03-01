@@ -3,15 +3,13 @@
 #include "SFML/Window/Event.hpp"
 
 #include "GameObjectCreator.hpp"
+#include "PhysicsModule.hpp"
 #include "CollisionModule.hpp"
-
-class GamePhysics;
-class SpritesetContainer;
 
 class GameObjectManager final : public GameObjectCreator
 {
 public:
-	GameObjectManager(GraphicsItem& graphicsScene, GamePhysics& physics, CollisionModule& collisionModule) noexcept;
+	GameObjectManager() noexcept;
 
 	GameObject* create(const GameObjectIdentifiers identifier) noexcept override;
 
@@ -22,9 +20,8 @@ public:
 	void update(const sf::Time& frameTime) noexcept;
 
 private:
-	GraphicsItem& mGraphicsScene;
-	GamePhysics& mGamePhysics;
-	CollisionModule& mCollisionModule;
+	PhysicsModule mPhysicsModule;
+	CollisionModule mCollisionModule;
 
 	std::vector<GameObject*> mGameObjects;
 };

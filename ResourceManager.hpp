@@ -11,8 +11,8 @@
 class ResourceManager final : public ResourceContainer
 {
 public:
-	void addFont(const FontIdentifiers identifier, const std::string& filename) noexcept;
-	void addTexture(const TextureIdentifiers identifier, const std::string& filename) noexcept;
+	bool loadFont(const FontIdentifiers identifier, const std::string& filename) noexcept;
+	bool loadTexture(const TextureIdentifiers identifier, const std::string& filename) noexcept;
 
 	const sf::Font& getFont(const FontIdentifiers identifier) const noexcept override;
 	const sf::Texture& getTexture(const TextureIdentifiers identifier) const noexcept override;

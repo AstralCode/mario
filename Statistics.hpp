@@ -2,7 +2,7 @@
 
 #include "SFML/System/Time.hpp"
 
-#include "FPSCounter.hpp"
+
 #include "Text.hpp"
 
 class Statistics final

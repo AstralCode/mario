@@ -1,15 +1,11 @@
 #pragma once
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/System/Time.hpp>
 
-#include "Statistics.hpp"
-#include "GamePhysics.hpp"
-#include "GraphicsItem.hpp"
 #include "ResourceManager.hpp"
 #include "SpritesetManager.hpp"
-#include "TilemapView.hpp"
-#include "TilemapEditor.hpp"
-#include "CollisionModule.hpp"
 #include "GameObjectManager.hpp"
 #include "GameObjectFactory.hpp"
 #include "GameContextData.hpp"
@@ -20,9 +16,7 @@ class GameEngine final
 public:
 	GameEngine() noexcept;
 
-	void run() noexcept;
-
-	GameContextData& getContextData() noexcept;
+	int run() noexcept;
 
 	bool isRunning() const noexcept;
 
@@ -34,28 +28,29 @@ protected:
 private:
 	void executeMainLoop() noexcept;
 
-	void initializeStatistics() noexcept;
+	void initializeFramerateText() noexcept;
 	void initializeSpritesets() noexcept;
 	void initializeTilemapEditor() noexcept;
 	void initializeCollisionHandlers() noexcept;
 	void initializeGameState() noexcept;
 
-	void loadResources() noexcept;
-	void loadFonts() noexcept;
-	void loadTextures() noexcept;
+	bool loadResources() noexcept;
+	bool loadFonts() noexcept;
+	bool loadTextures() noexcept;
 
 	sf::RenderWindow mRenderWindow;
 
-	FPSCounter mFPSCounter;
-	Statistics mStatistics;
-	GamePhysics mGamePhysics;
-	GraphicsItem mGraphicsScene;
+	unsigned int mFramerate;
+	sf::Text mFramerateText;
+
 	ResourceManager mResourceManager;
 	SpritesetManager mSpritesetManager;
+
 	TilemapView mTilemapView;
-	TilemapEditor mTilemapEditor;
-	CollisionModule mCollisionModule;
+	
 	GameObjectManager mGameObjectManager;
 	GameContextData mGameContextData;
 	GameStateManager mGameStateManager;
+
+	bool mFramerateTextVisible;
 };

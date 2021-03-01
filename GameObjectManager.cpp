@@ -4,19 +4,15 @@
 #include <functional>
 
 #include "GameObject.hpp"
-#include "GamePhysics.hpp"
 
-GameObjectManager::GameObjectManager(GraphicsItem& graphicsScene, GamePhysics& physics, CollisionModule& collisionModule) noexcept :
-	mGraphicsScene{graphicsScene},
-	mGamePhysics{physics},
-	mCollisionModule{collisionModule}
+GameObjectManager::GameObjectManager() noexcept
 {
 
 }
 
 GameObject* GameObjectManager::create(const GameObjectIdentifiers identifier) noexcept
 {
-	auto object = mGraphicsScene.addItem<GameObject>(identifier);
+	auto object = std::make_unique<GameObject>(identifier);
 	mGameObjects.push_back(object);
 
     return object;
@@ -43,8 +39,8 @@ void GameObjectManager::update(const sf::Time& frameTime) noexcept
 	for (auto& object : mGameObjects)
 	{
 		object->update(frameTime);
-		mGamePhysics.update(*object, frameTime);
+		mPhysicsModule.update(*object, frameTime);
 	}
 
-	mCollisionModule.execute(mGameObjects);
+	mCollisionModule.detectCollisions(mGameObjects);
 }

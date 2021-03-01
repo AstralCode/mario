@@ -9,29 +9,30 @@
 
 GameEngine::GameEngine() noexcept :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
-	mStatistics{mFPSCounter},
-	mTilemapEditor{mResourceManager},
-	mCollisionModule{mTilemapView},
-	mGameObjectManager{mGraphicsScene, mGamePhysics, mCollisionModule},
-	mGameContextData{mTilemapView, mTilemapEditor, mResourceManager, mSpritesetManager, mGameObjectManager},
-	mGameStateManager{mGameContextData}
+	mFramerate{0u},
+	mGameObjectManager{mGraphicsScene},
+	mGameContextData{mResourceManager, mSpritesetManager, mGameObjectManager, mTilemapView},
+	mGameStateManager{mGameContextData},
+	mFramerateTextVisible{false}
 {
 	mRenderWindow.setKeyRepeatEnabled(false);
 }
 
-void GameEngine::run() noexcept
+int GameEngine::run() noexcept
 {
-	loadResources();
-	initializeStatistics();
+	if (!loadResources())
+	{
+		return 1;
+	}
+
+	initializeFramerateText();
 	initializeSpritesets();
 	initializeTilemapEditor();
 	initializeCollisionHandlers();
-	executeMainLoop();
-}
 
-GameContextData& GameEngine::getContextData() noexcept
-{
-	return mGameContextData;
+	executeMainLoop();
+
+	return 0;
 }
 
 bool GameEngine::isRunning() const noexcept
@@ -54,7 +55,7 @@ void GameEngine::processEvents() noexcept
 		case sf::Event::KeyPressed:
 			if (event.key.code == sf::Keyboard::F1)
 			{
-				mStatistics.setVisible(!mStatistics.isVisible());
+				mFramerateTextVisible = !mFramerateTextVisible;
 			}
 			break;
 
@@ -81,21 +82,20 @@ void GameEngine::processLogic(const sf::Time& frameTime) noexcept
 
 void GameEngine::processRender() noexcept
 {
-	if (mStatistics.isVisible())
+	if (mFramerateTextVisible)
 	{
-		mFPSCounter.tick();
+		mFramerate++;
 	}
 
 	mRenderWindow.clear();
 
 	mRenderWindow.draw(mTilemapView);
 	mRenderWindow.draw(mGraphicsScene);
-	//mRenderWindow.draw(mTilemapEditor);
 
-	if (mStatistics.isVisible())
+	if (mFramerateTextVisible)
 	{
 		mRenderWindow.setView(mRenderWindow.getDefaultView());
-		mRenderWindow.draw(mStatistics.getGraphics());
+		mRenderWindow.draw(mFramerateText);
 	}
 
 	mRenderWindow.display();
@@ -103,22 +103,25 @@ void GameEngine::processRender() noexcept
 
 void GameEngine::executeMainLoop() noexcept
 {
-	const auto frameTime = sf::seconds(1.0f / 60);
+	const auto frameTime = sf::seconds(1.0f / 60u);
+	const auto framerateTextUpdateTime = sf::seconds(1.0f);
 	const auto threadSleepTime = sf::milliseconds(10);
 
 	sf::Clock clock{};
+
 	sf::Time elapsedFrameUpdateTime{};
-	sf::Time elapsedFPSCounterUpdateTime{};
+	sf::Time elapsedFramerateTextUpdateTime{};
 
 	initializeGameState();
 
 	while (isRunning())
 	{
-		const auto loopTime = clock.restart();
 		bool renderFrame{false};
 
-		elapsedFrameUpdateTime += loopTime;
-		elapsedFPSCounterUpdateTime += loopTime;
+		const auto deltaTime = clock.restart();
+
+		elapsedFrameUpdateTime += deltaTime;
+		elapsedFramerateTextUpdateTime += deltaTime;
 
 		while (elapsedFrameUpdateTime > frameTime)
 		{
@@ -146,7 +149,12 @@ void GameEngine::executeMainLoop() noexcept
 			processRender();
 		}
 
-		mStatistics.update(loopTime);
+		if (elapsedFramerateTextUpdateTime > framerateTextUpdateTime)
+		{
+			const auto framerateDisplayText = std::to_string(mFramerate);
+
+			mFramerateText.setString(framerateDisplayText);
+		}
 
 		if (!renderFrame)
 		{
@@ -157,10 +165,11 @@ void GameEngine::executeMainLoop() noexcept
 	mRenderWindow.close();
 }
 
-void GameEngine::initializeStatistics() noexcept
+void GameEngine::initializeFramerateText() noexcept
 {
-	mStatistics.setText(mResourceManager.getFont(FontIdentifiers::Roboto));
-	mStatistics.setVisible(false);
+	mFramerateText.setPosition(4.0f, 4.0f);
+	mFramerateText.setFont(mResourceManager.getFont(FontIdentifiers::Roboto));
+	mFramerateText.setCharacterSize(12u);
 }
 
 void GameEngine::initializeSpritesets() noexcept
@@ -234,22 +243,57 @@ void GameEngine::initializeGameState() noexcept
 	mGameStateManager.pushState(GameStateIdentifiers::Initial);
 }
 
-void GameEngine::loadResources() noexcept
+bool GameEngine::loadResources() noexcept
 {
-	loadFonts();
-	loadTextures();
+	if (!loadFonts())
+	{
+		return false;
+	}
+
+	if (!loadTextures())
+	{
+		return false;
+	}
+	
+	return true;
 }
 
-void GameEngine::loadFonts() noexcept
+bool GameEngine::loadFonts() noexcept
 {
-	mResourceManager.addFont(FontIdentifiers::Roboto, ResourcePaths::Fonts::Roboto);
+	if (!mResourceManager.loadFont(FontIdentifiers::Roboto, ResourcePaths::Fonts::Roboto))
+	{
+		return false;
+	}
+
+	return true;
 }
 
-void GameEngine::loadTextures() noexcept
+bool GameEngine::loadTextures() noexcept
 {
-	mResourceManager.addTexture(TextureIdentifiers::Enemies, ResourcePaths::Textures::Enemies);
-	mResourceManager.addTexture(TextureIdentifiers::Items, ResourcePaths::Textures::Items);
-	mResourceManager.addTexture(TextureIdentifiers::Mario, ResourcePaths::Textures::Mario);
-	mResourceManager.addTexture(TextureIdentifiers::Scenery, ResourcePaths::Textures::Scenery);
-	mResourceManager.addTexture(TextureIdentifiers::Scenery, ResourcePaths::Textures::Logo);
+	if (!mResourceManager.loadTexture(TextureIdentifiers::Enemies, ResourcePaths::Textures::Enemies))
+	{
+		return false;
+	}
+
+	if (!mResourceManager.loadTexture(TextureIdentifiers::Items, ResourcePaths::Textures::Items))
+	{
+		return false;
+	}
+
+	if (!mResourceManager.loadTexture(TextureIdentifiers::Mario, ResourcePaths::Textures::Mario))
+	{
+		return false;
+	}
+
+	if (!mResourceManager.loadTexture(TextureIdentifiers::Scenery, ResourcePaths::Textures::Scenery))
+	{
+		return false;
+	}
+
+	if (!mResourceManager.loadTexture(TextureIdentifiers::Logo, ResourcePaths::Textures::Logo))
+	{
+		return false;
+	}
+
+	return true;
 }

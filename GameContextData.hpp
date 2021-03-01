@@ -1,27 +1,23 @@
 #pragma once
 
-class TilemapView; 
-class TilemapEditor;
-class GraphicsItem;
 class ResourceContainer;
 class SpritesetContainer;
 class GameObjectCreator;
+class TilemapView;
 
 class GameContextData final
 {
 public:
-	GameContextData(TilemapView& tilemapView, TilemapEditor& tilemapEditor, ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) noexcept;
+	GameContextData(ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator, TilemapView& tilemapView) noexcept;
 
-	TilemapView& getTilemapView() noexcept;
-	TilemapEditor& getTilemapEditor() noexcept;
 	ResourceContainer& getResourceContainer() noexcept;
 	SpritesetContainer& getSpritesetContainer() noexcept;
 	GameObjectCreator& getGameObjectCreator() noexcept;
+	TilemapView& getTilemapView() noexcept;
 
 private:
-	TilemapView& mTilemapView;
-	TilemapEditor& mTilemapEditor;
 	ResourceContainer& mResourceContainer;
 	SpritesetContainer& mSpritesetContainer;
 	GameObjectCreator& mGameObjectCreator;
+	TilemapView& mTilemapView;
 };

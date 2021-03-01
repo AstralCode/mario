@@ -2,6 +2,7 @@
 
 int main()
 {
-	GameEngine marioGameEngine{};
-	marioGameEngine.run();
+	GameEngine gameEngine{};
+
+	return gameEngine.run();
 }

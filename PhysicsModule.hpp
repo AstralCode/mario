@@ -7,7 +7,7 @@ class Time;
 
 class GameObject;
 
-class GamePhysics final
+class PhysicsModule final
 {
 public:
 	void update(GameObject& object, const sf::Time& frameTime) const noexcept;

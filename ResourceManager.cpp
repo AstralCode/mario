@@ -1,23 +1,29 @@
 #include "ResourceManager.hpp"
 
-void ResourceManager::addFont(const FontIdentifiers identifier, const std::string& filename) noexcept
+bool ResourceManager::loadFont(const FontIdentifiers identifier, const std::string& filename) noexcept
 {
 	auto font = std::make_unique<sf::Font>();
-
-	if (font->loadFromFile(filename))
+	if (!font->loadFromFile(filename))
 	{
-		mFonts.emplace(identifier, std::move(font));
+		return false;
 	}
+
+	mFonts.emplace(identifier, std::move(font));
+
+	return true;
 }
 
-void ResourceManager::addTexture(const TextureIdentifiers identifier, const std::string& filename) noexcept
+bool ResourceManager::loadTexture(const TextureIdentifiers identifier, const std::string& filename) noexcept
 {
 	auto texture = std::make_unique<sf::Texture>();
-
-	if (texture->loadFromFile(filename))
+	if (!texture->loadFromFile(filename))
 	{
-		mTextures.emplace(identifier, std::move(texture));
+		return false;
 	}
+
+	mTextures.emplace(identifier, std::move(texture));
+
+	return true;
 }
 
 const sf::Font& ResourceManager::getFont(const FontIdentifiers identifier) const noexcept
