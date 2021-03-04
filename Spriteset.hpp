@@ -1,6 +1,6 @@
 #pragma once
 
-#include <unordered_map>
+#include <map>
 
 #include "SpritesetRegion.hpp"
 
@@ -11,5 +11,5 @@ public:
 	const SpritesetRegion& getRegion(const std::string& identifier) const noexcept;
 
 private:
-	std::unordered_map<std::string, SpritesetRegion> mRegions;
+	std::map<std::string, SpritesetRegion> mRegions;
 };

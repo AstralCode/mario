@@ -3,10 +3,9 @@
 #include <string>
 #include <memory>
 
-#include "GameObjectIdentifiers.hpp"
 #include "ResourceIdentifiers.hpp"
+#include "GameObjectIdentifiers.hpp"
 #include "SpritesetContainer.hpp"
-#include "Spriteset.hpp"
 
 class ResourceContainer;
 class Animation;
@@ -17,7 +16,7 @@ class GameObjectState;
 class GameObjectFactory final
 {
 public:
-	GameObjectFactory(ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator) noexcept;
+	GameObjectFactory(ResourceContainer& resources, SpritesetContainer& spritesets, GameObjectCreator& gameObjectCreator) noexcept;
 
 	GameObject* createMario() noexcept;
 	GameObject* createGoomba() noexcept;
@@ -34,8 +33,8 @@ private:
 
 	GameObject* createObject(const GameObjectIdentifiers identifier, const TextureIdentifiers textureIdentifier) const noexcept;
 
-	ResourceContainer& mResourceContainer;
-	SpritesetContainer& mSpritesetContainer;
+	ResourceContainer& mResources;
+	SpritesetContainer& mSpritesets;
 	GameObjectCreator& mGameObjectCreator;
 };
 
@@ -44,5 +43,5 @@ inline std::unique_ptr<TGameObjectState> GameObjectFactory::createObjectState(co
 {
 	static_assert(std::is_base_of_v<GameObjectState, TGameObjectState>, "TGameObjectState must derived from GameObjectState");
 
-	return std::make_unique<TGameObjectState>(mSpritesetContainer.getSpriteset(spritesetIdetntifier));
+	return std::make_unique<TGameObjectState>(mSpritesets.getSpriteset(spritesetIdetntifier));
 }

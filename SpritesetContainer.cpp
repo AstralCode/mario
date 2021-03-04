@@ -1,6 +1,6 @@
-#include "SpritesetManager.hpp"
+#include "SpritesetContainer.hpp"
 
-Spriteset& SpritesetManager::create(const std::string& identifier) noexcept
+Spriteset& SpritesetContainer::create(const std::string& identifier) noexcept
 {
 	auto spriteset = std::make_unique<Spriteset>();
 	auto spritesetPointer = spriteset.get();
@@ -10,7 +10,7 @@ Spriteset& SpritesetManager::create(const std::string& identifier) noexcept
 	return *spritesetPointer;
 }
 
-const Spriteset& SpritesetManager::getSpriteset(const std::string& identifier) const noexcept
+const Spriteset& SpritesetContainer::getSpriteset(const std::string& identifier) const
 {
 	return *mSpritesets.at(identifier);
 }

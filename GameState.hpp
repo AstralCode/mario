@@ -4,7 +4,6 @@
 
 #include "EventReceiver.hpp"
 #include "TilemapView.hpp"
-#include "TilemapEditor.hpp"
 #include "ResourceContainer.hpp"
 #include "SpritesetContainer.hpp"
 #include "GameObjectCreator.hpp"
@@ -16,7 +15,7 @@ class GameStateChanger;
 class GameState : public EventReceiver
 {
 public:
-	GameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) noexcept;
+	GameState(GameContextData& contextData, GameStateChanger& gameStateChanger) noexcept;
 	virtual ~GameState() = default;
 
 	virtual void onEnter() noexcept = 0;
@@ -36,15 +35,14 @@ public:
 	void onEscapePressed() noexcept override;
 
 	TilemapView& getTilemapView() noexcept;
-	TilemapEditor& getTilemapEditor() noexcept;
-	ResourceContainer& getResourceContainer() noexcept;
-	SpritesetContainer& getSpritesetContainer() noexcept;
+	ResourceContainer& getResources() noexcept;
+	SpritesetContainer& getSpritesets() noexcept;
 	GameObjectCreator& getGameObjectCreator() noexcept;
 
 protected:
 	const sf::Font& getFont(const FontIdentifiers identifier) noexcept;
 	const sf::Texture& getTexture(const TextureIdentifiers identifier) noexcept;
 
-	GameContextData& mGameContextData;
+	GameContextData& mContextData;
 	GameStateChanger& mGameStateChanger;
 };

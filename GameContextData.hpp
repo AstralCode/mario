@@ -8,16 +8,16 @@ class TilemapView;
 class GameContextData final
 {
 public:
-	GameContextData(ResourceContainer& resourceContainer, SpritesetContainer& spritesetContainer, GameObjectCreator& gameObjectCreator, TilemapView& tilemapView) noexcept;
+	GameContextData(ResourceContainer& resources, SpritesetContainer& spritesets, GameObjectCreator& gameObjectCreator, TilemapView& tilemapView) noexcept;
 
-	ResourceContainer& getResourceContainer() noexcept;
-	SpritesetContainer& getSpritesetContainer() noexcept;
+	ResourceContainer& getResources() noexcept;
+	SpritesetContainer& getSpritesets() noexcept;
 	GameObjectCreator& getGameObjectCreator() noexcept;
 	TilemapView& getTilemapView() noexcept;
 
 private:
-	ResourceContainer& mResourceContainer;
-	SpritesetContainer& mSpritesetContainer;
+	ResourceContainer& mResources;
+	SpritesetContainer& mSpritesets;
 	GameObjectCreator& mGameObjectCreator;
 	TilemapView& mTilemapView;
 };

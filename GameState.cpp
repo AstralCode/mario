@@ -2,8 +2,8 @@
 
 #include "GameContextData.hpp"
 
-GameState::GameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) noexcept :
-	mGameContextData{gameContextData},
+GameState::GameState(GameContextData& contextData, GameStateChanger& gameStateChanger) noexcept :
+	mContextData{contextData},
 	mGameStateChanger{gameStateChanger}
 {
 
@@ -46,35 +46,30 @@ void GameState::onEscapePressed() noexcept
 
 TilemapView& GameState::getTilemapView() noexcept
 {
-	return mGameContextData.getTilemapView();
+	return mContextData.getTilemapView();
 }
 
-TilemapEditor& GameState::getTilemapEditor() noexcept
+ResourceContainer& GameState::getResources() noexcept
 {
-	return mGameContextData.getTilemapEditor();
+	return mContextData.getResources();
 }
 
-ResourceContainer& GameState::getResourceContainer() noexcept
+SpritesetContainer& GameState::getSpritesets() noexcept
 {
-	return mGameContextData.getResourceContainer();
-}
-
-SpritesetContainer& GameState::getSpritesetContainer() noexcept
-{
-	return mGameContextData.getSpritesetContainer();
+	return mContextData.getSpritesets();
 }
 
 GameObjectCreator& GameState::getGameObjectCreator() noexcept
 {
-	return mGameContextData.getGameObjectCreator();
+	return mContextData.getGameObjectCreator();
 }
 
 const sf::Font& GameState::getFont(const FontIdentifiers identifier) noexcept
 {
-	return getResourceContainer().getFont(identifier);
+	return getResources().getFont(identifier);
 }
 
 const sf::Texture& GameState::getTexture(const TextureIdentifiers identifier) noexcept
 {
-	return getResourceContainer().getTexture(identifier);
+	return getResources().getTexture(identifier);
 }

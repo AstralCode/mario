@@ -12,7 +12,7 @@ class ResourceContainer;
 class TilemapEditor final : public sf::Drawable
 {
 public:
-	TilemapEditor(const ResourceContainer& resourceContainer) noexcept;
+	TilemapEditor(const ResourceContainer& resources) noexcept;
 
 	void initialize(const sf::Texture& texture) noexcept;
 
@@ -24,7 +24,7 @@ private:
 
 	std::unique_ptr<Tilemap> mTilemap;
 
-	const ResourceContainer& mResourceContainer;
+	const ResourceContainer& mResources;
 
 	TilemapGrid mTilemapGrid;
 	TilemapView mTilemapPaletteView;

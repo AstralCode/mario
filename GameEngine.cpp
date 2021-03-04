@@ -3,16 +3,14 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Sleep.hpp>
 
+#include "ResourceLoader.hpp"
 #include "InitialGameState.hpp"
-#include "MarioCollisionHandler.hpp"
-#include "EnemyCollisionHandler.hpp"
 
 GameEngine::GameEngine() noexcept :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
+	mContextData{mResources, mSpritesets, mGameObjectManager, mTilemapView},
+	mGameStateManager{mContextData},
 	mFramerate{0u},
-	mGameObjectManager{mGraphicsScene},
-	mGameContextData{mResourceManager, mSpritesetManager, mGameObjectManager, mTilemapView},
-	mGameStateManager{mGameContextData},
 	mFramerateTextVisible{false}
 {
 	mRenderWindow.setKeyRepeatEnabled(false);
@@ -20,15 +18,10 @@ GameEngine::GameEngine() noexcept :
 
 int GameEngine::run() noexcept
 {
-	if (!loadResources())
-	{
-		return 1;
-	}
+	loadResources();
 
 	initializeFramerateText();
 	initializeSpritesets();
-	initializeTilemapEditor();
-	initializeCollisionHandlers();
 
 	executeMainLoop();
 
@@ -101,6 +94,93 @@ void GameEngine::processRender() noexcept
 	mRenderWindow.display();
 }
 
+void GameEngine::loadResources()
+{
+	loadFonts();
+	loadTextures();
+}
+
+void GameEngine::loadFonts()
+{
+	mResources.addFont(FontIdentifiers::Roboto, ResourceLoader::loadFont(ResourcePaths::Fonts::Roboto));
+}
+
+void GameEngine::loadTextures()
+{
+	mResources.addTexture(TextureIdentifiers::Enemies, ResourceLoader::loadTexture(ResourcePaths::Textures::Enemies));
+	mResources.addTexture(TextureIdentifiers::Items, ResourceLoader::loadTexture(ResourcePaths::Textures::Items));
+	mResources.addTexture(TextureIdentifiers::Mario, ResourceLoader::loadTexture(ResourcePaths::Textures::Mario));
+	mResources.addTexture(TextureIdentifiers::Scenery, ResourceLoader::loadTexture(ResourcePaths::Textures::Scenery));
+	mResources.addTexture(TextureIdentifiers::Logo, ResourceLoader::loadTexture(ResourcePaths::Textures::Logo));
+}
+
+void GameEngine::initializeFramerateText() noexcept
+{
+	mFramerateText.setPosition(4.0f, 4.0f);
+	mFramerateText.setFont(mResources.getFont(FontIdentifiers::Roboto));
+	mFramerateText.setCharacterSize(12u);
+}
+
+void GameEngine::initializeSpritesets() noexcept
+{
+	auto& marioSpriteset = mSpritesets.create(SpritesetIdentifiers::Mario);
+	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Stand, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 24, 32}, OriginPoint{13, 16}}}
+	}}});
+
+	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Move, SpritesetRegion{GridSize{32, 32}, GridTileIndex{1, 0}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 26, 32}, OriginPoint{13, 16}}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{IntArea{0, 0, 26, 32}, OriginPoint{13, 16}}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{IntArea{0, 0, 24, 32}, OriginPoint{12, 16}}}
+	}}});
+
+	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Slide, SpritesetRegion{GridSize{32, 32}, GridTileIndex{8, 0}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 24, 32}, OriginPoint{12, 16}}}
+	}}});
+
+	auto& enemySpriteset = mSpritesets.create(SpritesetIdentifiers::Enemy);
+	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Move, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}}
+	}}});
+
+	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Dead, {GridSize{32, 32}, {2, 0}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 16, 32, 16}, OriginPoint{16, 0}}}
+	}}});
+
+	auto& blocksSpriteset = mSpritesets.create(SpritesetIdentifiers::Blocks);
+	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::QuestionMarkBox, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}}
+	}}});
+
+	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::WaterQuestionMarkBox, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 1}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}}
+	}}});
+
+	auto& itemSpriteset = mSpritesets.create(SpritesetIdentifiers::Items);
+	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::Coin, SpritesetRegion{GridSize{32, 32}, GridTileIndex{4, 0}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{6, 2, 20, 28}, OriginPoint{10, 14}}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{IntArea{6, 2, 20, 28}, OriginPoint{10, 14}}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{IntArea{6, 2, 20, 28}, OriginPoint{10, 14}}}
+	}}});
+
+	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::ScoreCoin, SpritesetRegion{GridSize{32, 32}, GridTileIndex{9, 3}, {{
+		SpritesetArea{GridSize{11, 16}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 10, 16}, OriginPoint{5, 8}}},
+		SpritesetArea{GridSize{11, 16}, GridTileIndex{1, 0}, SpriteArea{IntArea{0, 0, 10, 16}, OriginPoint{5, 8}}},
+		SpritesetArea{GridSize{11, 16}, GridTileIndex{2, 0}, SpriteArea{IntArea{0, 0, 10, 16}, OriginPoint{5, 8}}}
+	}}});
+}
+
+void GameEngine::initializeGameState() noexcept
+{
+	mGameStateManager.registerState<InitialGameState>(GameStateIdentifiers::Initial);
+	mGameStateManager.pushState(GameStateIdentifiers::Initial);
+}
+
 void GameEngine::executeMainLoop() noexcept
 {
 	const auto frameTime = sf::seconds(1.0f / 60u);
@@ -116,7 +196,7 @@ void GameEngine::executeMainLoop() noexcept
 
 	while (isRunning())
 	{
-		bool renderFrame{false};
+		bool renderFrame{ false };
 
 		const auto deltaTime = clock.restart();
 
@@ -163,137 +243,4 @@ void GameEngine::executeMainLoop() noexcept
 	}
 
 	mRenderWindow.close();
-}
-
-void GameEngine::initializeFramerateText() noexcept
-{
-	mFramerateText.setPosition(4.0f, 4.0f);
-	mFramerateText.setFont(mResourceManager.getFont(FontIdentifiers::Roboto));
-	mFramerateText.setCharacterSize(12u);
-}
-
-void GameEngine::initializeSpritesets() noexcept
-{
-	auto& marioSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Mario);
-	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Stand, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 24, 32}, OriginPoint{13, 16}}}
-	}}});
-
-	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Move, SpritesetRegion{GridSize{32, 32}, GridTileIndex{1, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 26, 32}, OriginPoint{13, 16}}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{IntArea{0, 0, 26, 32}, OriginPoint{13, 16}}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{IntArea{0, 0, 24, 32}, OriginPoint{12, 16}}}
-	}}});
-
-	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Slide, SpritesetRegion{GridSize{32, 32}, GridTileIndex{8, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 24, 32}, OriginPoint{12, 16}}}
-	}}});
-
-	auto& enemySpriteset = mSpritesetManager.create(SpritesetIdentifiers::Enemy);
-	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Move, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}}
-	}}});
-
-	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Dead, {GridSize{32, 32}, {2, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 16, 32, 16}, OriginPoint{16, 0}}}
-	}}});
-
-	auto& blocksSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Blocks);
-	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::QuestionMarkBox, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}}
-	}}});
-
-	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::WaterQuestionMarkBox, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 1}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{IntArea{0, 0, 32, 32}, OriginPoint{16, 16}}}
-	}}});
-
-	auto& itemSpriteset = mSpritesetManager.create(SpritesetIdentifiers::Items);
-	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::Coin, SpritesetRegion{GridSize{32, 32}, GridTileIndex{4, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{IntArea{6, 2, 20, 28}, OriginPoint{10, 14}}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{IntArea{6, 2, 20, 28}, OriginPoint{10, 14}}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{IntArea{6, 2, 20, 28}, OriginPoint{10, 14}}}
-	}}});
-
-	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::ScoreCoin, SpritesetRegion{GridSize{32, 32}, GridTileIndex{9, 3}, {{
-		SpritesetArea{GridSize{11, 16}, GridTileIndex{0, 0}, SpriteArea{IntArea{0, 0, 10, 16}, OriginPoint{5, 8}}},
-		SpritesetArea{GridSize{11, 16}, GridTileIndex{1, 0}, SpriteArea{IntArea{0, 0, 10, 16}, OriginPoint{5, 8}}},
-		SpritesetArea{GridSize{11, 16}, GridTileIndex{2, 0}, SpriteArea{IntArea{0, 0, 10, 16}, OriginPoint{5, 8}}}
-	}}});
-}
-
-void GameEngine::initializeTilemapEditor() noexcept
-{
-	mTilemapEditor.initialize(mResourceManager.getTexture(TextureIdentifiers::Scenery));
-}
-
-void GameEngine::initializeCollisionHandlers() noexcept
-{
-	mCollisionModule.addHandler<MarioCollisionHandler>();
-	mCollisionModule.addHandler<EnemyCollisionHandler>();
-}
-
-void GameEngine::initializeGameState() noexcept
-{
-	mGameStateManager.registerState<InitialGameState>(GameStateIdentifiers::Initial);
-	mGameStateManager.pushState(GameStateIdentifiers::Initial);
-}
-
-bool GameEngine::loadResources() noexcept
-{
-	if (!loadFonts())
-	{
-		return false;
-	}
-
-	if (!loadTextures())
-	{
-		return false;
-	}
-	
-	return true;
-}
-
-bool GameEngine::loadFonts() noexcept
-{
-	if (!mResourceManager.loadFont(FontIdentifiers::Roboto, ResourcePaths::Fonts::Roboto))
-	{
-		return false;
-	}
-
-	return true;
-}
-
-bool GameEngine::loadTextures() noexcept
-{
-	if (!mResourceManager.loadTexture(TextureIdentifiers::Enemies, ResourcePaths::Textures::Enemies))
-	{
-		return false;
-	}
-
-	if (!mResourceManager.loadTexture(TextureIdentifiers::Items, ResourcePaths::Textures::Items))
-	{
-		return false;
-	}
-
-	if (!mResourceManager.loadTexture(TextureIdentifiers::Mario, ResourcePaths::Textures::Mario))
-	{
-		return false;
-	}
-
-	if (!mResourceManager.loadTexture(TextureIdentifiers::Scenery, ResourcePaths::Textures::Scenery))
-	{
-		return false;
-	}
-
-	if (!mResourceManager.loadTexture(TextureIdentifiers::Logo, ResourcePaths::Textures::Logo))
-	{
-		return false;
-	}
-
-	return true;
 }

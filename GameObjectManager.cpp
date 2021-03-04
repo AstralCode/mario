@@ -4,10 +4,13 @@
 #include <functional>
 
 #include "GameObject.hpp"
+#include "MarioCollisionHandler.hpp"
+#include "EnemyCollisionHandler.hpp"
 
 GameObjectManager::GameObjectManager() noexcept
 {
-
+	mCollisionModule.addHandler<MarioCollisionHandler>();
+	mCollisionModule.addHandler<EnemyCollisionHandler>();
 }
 
 GameObject* GameObjectManager::create(const GameObjectIdentifiers identifier) noexcept

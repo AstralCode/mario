@@ -4,9 +4,9 @@
 #include "GameStateChanger.hpp"
 #include "RectangleShape.hpp"
 
-InitialGameState::InitialGameState(GameContextData& gameContextData, GameStateChanger& gameStateChanger) noexcept :
-	GameState{gameContextData, gameStateChanger},
-	mGameObjectFactory{gameContextData.getResourceContainer(), gameContextData.getSpritesetContainer(), gameContextData.getGameObjectCreator()}
+InitialGameState::InitialGameState(GameContextData& contextData, GameStateChanger& gameStateChanger) noexcept :
+	GameState{contextData, gameStateChanger},
+	mGameObjectFactory{contextData.getResources(), contextData.getSpritesets(), contextData.getGameObjectCreator()}
 {
 
 }

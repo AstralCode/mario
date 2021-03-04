@@ -1,18 +1,23 @@
 #pragma once
 
+#include <map>
+#include <memory>
+
+#include "SFML/Graphics/Font.hpp"
+#include "SFML/Graphics/Texture.hpp"
+
 #include "ResourceIdentifiers.hpp"
 
-namespace sf
-{
-class Font;
-class Texture;
-}
-
-class ResourceContainer
+class ResourceContainer final
 {
 public:
-	virtual ~ResourceContainer() = default;
+	void addFont(const FontIdentifiers identifier, std::unique_ptr<sf::Font> resource) noexcept;
+	void addTexture(const TextureIdentifiers identifier, std::unique_ptr<sf::Texture> resource) noexcept;
 
-	virtual const sf::Font& getFont(const FontIdentifiers identifier) const noexcept = 0;
-	virtual const sf::Texture& getTexture(const TextureIdentifiers identifier) const noexcept = 0;
+	const sf::Font& getFont(const FontIdentifiers identifier) const;
+	const sf::Texture& getTexture(const TextureIdentifiers identifier) const;
+
+private:
+	std::map<FontIdentifiers, std::unique_ptr<sf::Font>> mFonts;
+	std::map<TextureIdentifiers, std::unique_ptr<sf::Texture>> mTextures;
 };

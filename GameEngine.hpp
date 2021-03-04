@@ -4,8 +4,8 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Time.hpp>
 
-#include "ResourceManager.hpp"
-#include "SpritesetManager.hpp"
+#include "ResourceContainer.hpp"
+#include "SpritesetContainer.hpp"
 #include "GameObjectManager.hpp"
 #include "GameObjectFactory.hpp"
 #include "GameContextData.hpp"
@@ -26,31 +26,29 @@ protected:
 	void processRender() noexcept;
 
 private:
-	void executeMainLoop() noexcept;
+	void loadResources();
+	void loadFonts();
+	void loadTextures();
 
 	void initializeFramerateText() noexcept;
 	void initializeSpritesets() noexcept;
-	void initializeTilemapEditor() noexcept;
-	void initializeCollisionHandlers() noexcept;
 	void initializeGameState() noexcept;
 
-	bool loadResources() noexcept;
-	bool loadFonts() noexcept;
-	bool loadTextures() noexcept;
+	void executeMainLoop() noexcept;
 
 	sf::RenderWindow mRenderWindow;
 
-	unsigned int mFramerate;
-	sf::Text mFramerateText;
-
-	ResourceManager mResourceManager;
-	SpritesetManager mSpritesetManager;
+	ResourceContainer mResources;
+	SpritesetContainer mSpritesets;
 
 	TilemapView mTilemapView;
-	
+
 	GameObjectManager mGameObjectManager;
-	GameContextData mGameContextData;
+	GameContextData mContextData;
 	GameStateManager mGameStateManager;
+
+	sf::Text mFramerateText;
+	unsigned int mFramerate;
 
 	bool mFramerateTextVisible;
 };

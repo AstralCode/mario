@@ -4,8 +4,8 @@
 
 #include "ResourceContainer.hpp"
 
-TilemapEditor::TilemapEditor(const ResourceContainer& resourceContainer) noexcept :
-	mResourceContainer{resourceContainer}
+TilemapEditor::TilemapEditor(const ResourceContainer& resources) noexcept :
+	mResources{resources}
 {
 	mTilemapGrid.setTileSize(32.0f, 32.0f);
 	mTilemapGrid.setTileCount(20, 15);
@@ -30,7 +30,7 @@ void TilemapEditor::initialize(const sf::Texture& texture) noexcept
 	const auto positionY = mTilemapGrid.getTilePosition({11, 0}).getY() - 4.0f;
 
 	mTilemapPaletteView.setTilemap(std::move(tilemapPalette));
-	mTilemapPaletteView.setTilemapTexture(mResourceContainer.getTexture(TextureIdentifiers::Scenery));
+	mTilemapPaletteView.setTilemapTexture(mResources.getTexture(TextureIdentifiers::Scenery));
 	mTilemapPaletteView.setPosition(4.0f, positionY);
 	mTilemapPaletteView.setMargins(0.0f, 0.0f, 0.0f, 0.0f);
 	mTilemapPaletteView.build({32, 32});
