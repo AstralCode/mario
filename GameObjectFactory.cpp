@@ -1,14 +1,13 @@
 #include "GameObjectFactory.hpp"
 
 #include "ResourceContainer.hpp"
-#include "GameObject.hpp"
-#include "GameObjectCreator.hpp"
+#include "GraphicsScene.hpp"
 #include "MarioStandState.hpp"
 
-GameObjectFactory::GameObjectFactory(ResourceContainer& resources, SpritesetContainer& spritesets, GameObjectCreator& gameObjectCreator) noexcept :
+GameObjectFactory::GameObjectFactory(ResourceContainer& resources, SpritesetContainer& spritesets, GraphicsScene& scene) noexcept :
 	mResources{resources},
 	mSpritesets{spritesets},
-	mGameObjectCreator{gameObjectCreator}
+	mScene{scene}
 {
 
 }
@@ -102,7 +101,7 @@ std::unique_ptr<Animation> GameObjectFactory::createAnimation(const std::string&
 
 GameObject* GameObjectFactory::createObject(const GameObjectIdentifiers identifier, const TextureIdentifiers textureIdentifier) const noexcept
 {
-	auto object = mGameObjectCreator.create(identifier);
+	auto object = mScene.createGameObject(identifier);
 	object->setTexture(mResources.getTexture(textureIdentifier));
 
 	return object;

@@ -7,7 +7,7 @@ void ResourceContainer::addFont(const FontIdentifiers identifier, std::unique_pt
 
 void ResourceContainer::addTexture(const TextureIdentifiers identifier, std::unique_ptr<sf::Texture> resource) noexcept
 {
-	mFonts.emplace(identifier, std::move(resource));
+	mTextures.emplace(identifier, std::move(resource));
 }
 
 const sf::Font& ResourceContainer::getFont(const FontIdentifiers identifier) const

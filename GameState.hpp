@@ -3,11 +3,9 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 #include "EventReceiver.hpp"
-#include "TilemapView.hpp"
 #include "ResourceContainer.hpp"
 #include "SpritesetContainer.hpp"
-#include "GameObjectCreator.hpp"
-#include "GameObject.hpp"
+#include "GraphicsScene.hpp"
 
 class GameContextData;
 class GameStateChanger;
@@ -34,10 +32,9 @@ public:
 
 	void onEscapePressed() noexcept override;
 
-	TilemapView& getTilemapView() noexcept;
 	ResourceContainer& getResources() noexcept;
 	SpritesetContainer& getSpritesets() noexcept;
-	GameObjectCreator& getGameObjectCreator() noexcept;
+	GraphicsScene& getScene() noexcept;
 
 protected:
 	const sf::Font& getFont(const FontIdentifiers identifier) noexcept;

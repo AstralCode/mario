@@ -13,7 +13,7 @@
 class GameStateManager final : public GameStateChanger
 {
 public:
-	GameStateManager(GameContextData& gameContextData) noexcept;
+	GameStateManager(GameContextData& contextData) noexcept;
 
 	template<typename TGameState>
 	void registerState(const GameStateIdentifiers identifier) noexcept;
@@ -39,10 +39,10 @@ private:
 	GameState* findState(const GameStateIdentifiers identifier) const;
 	GameState* getActiveState() const noexcept;
 
-	GameContextData& mGameContextData;
-	std::unordered_map<GameStateIdentifiers, std::unique_ptr<GameState>> mGameStates;
-	std::queue<std::unique_ptr<GameStateStackRequest>> mGameStateStackRequests;
-	std::deque<GameState*> mGameStateStack;
+	GameContextData& mContextData;
+	std::unordered_map<GameStateIdentifiers, std::unique_ptr<GameState>> mStates;
+	std::queue<std::unique_ptr<GameStateStackRequest>> mStateStackRequests;
+	std::deque<GameState*> mStateStack;
 };
 
 template<typename TGameState>
@@ -50,5 +50,5 @@ inline void GameStateManager::registerState(const GameStateIdentifiers identifie
 {
 	static_assert(std::is_base_of_v<GameState, TGameState>, "TGameState must derived from GameState");
 
-	mGameStates.emplace(identifier, std::make_unique<TGameState>(mGameContextData, *this));
+	mStates.emplace(identifier, std::make_unique<TGameState>(mContextData, *this));
 }

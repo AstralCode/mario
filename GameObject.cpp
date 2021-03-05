@@ -165,58 +165,6 @@ void GameObject::onObjectCollision(GameObject& object) noexcept
 	mState->onCollision(object);
 }
 
-void GameObject::receiveEvents(const sf::Event& event) noexcept
-{
-	switch (event.type)
-	{
-	case sf::Event::KeyPressed:
-		mState->onKeyPressed(*this, event.key);
-		break;
-
-	case sf::Event::KeyReleased:
-		mState->onKeyReleased(*this, event.key);
-		break;
-
-	case sf::Event::MouseButtonPressed:
-		if (isContainsPoint({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)}))
-		{
-			mState->onMouseClick(*this, event.mouseButton);
-		}
-		break;
-
-	case sf::Event::MouseMoved:
-	{
-		const bool mouseOver = isContainsPoint({static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)});
-
-		if (mouseOver)
-		{
-			if (mMouseOver)
-			{
-				mState->onMouseOver(*this, event.mouseMove);
-			}
-			else
-			{
-				mState->onMouseEnter(*this, event.mouseMove);
-				mState->onMouseOver(*this, event.mouseMove);
-				mMouseOver = true;
-			}
-		}
-		else
-		{
-			if (mMouseOver)
-			{
-				mState->onMouseLeave(*this, event.mouseMove);
-				mMouseOver = false;
-			}
-		}
-		break;
-	}
-
-	default:
-		break;
-	}
-}
-
 void GameObject::update(const sf::Time& frameTime) noexcept
 {
 	mState->update(*this, frameTime);
@@ -287,6 +235,58 @@ void GameObject::drawSelf(sf::RenderTarget& target, sf::RenderStates) const noex
 	if (mAreaBoundsVisible)
 	{
 		drawAreaBounds(target);
+	}
+}
+
+void GameObject::receiveEventsSelf(const sf::Event& event) noexcept
+{
+	switch (event.type)
+	{
+	case sf::Event::KeyPressed:
+		mState->onKeyPressed(*this, event.key);
+		break;
+
+	case sf::Event::KeyReleased:
+		mState->onKeyReleased(*this, event.key);
+		break;
+
+	case sf::Event::MouseButtonPressed:
+		if (isContainsPoint({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)}))
+		{
+			mState->onMouseClick(*this, event.mouseButton);
+		}
+		break;
+
+	case sf::Event::MouseMoved:
+	{
+		const bool mouseOver = isContainsPoint({static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)});
+
+		if (mouseOver)
+		{
+			if (mMouseOver)
+			{
+				mState->onMouseOver(*this, event.mouseMove);
+			}
+			else
+			{
+				mState->onMouseEnter(*this, event.mouseMove);
+				mState->onMouseOver(*this, event.mouseMove);
+				mMouseOver = true;
+			}
+		}
+		else
+		{
+			if (mMouseOver)
+			{
+				mState->onMouseLeave(*this, event.mouseMove);
+				mMouseOver = false;
+			}
+		}
+		break;
+	}
+
+	default:
+		break;
 	}
 }
 

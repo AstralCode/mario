@@ -73,6 +73,8 @@ public:
 
 private:
 	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;
+	void receiveEventsSelf(const sf::Event& event) noexcept override;
+
 	void drawAreaBounds(sf::RenderTarget& target) const noexcept;
 
 	GameObjectIdentifiers mIdentifier;

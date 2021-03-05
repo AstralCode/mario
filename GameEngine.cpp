@@ -8,7 +8,7 @@
 
 GameEngine::GameEngine() noexcept :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
-	mContextData{mResources, mSpritesets, mGameObjectManager, mTilemapView},
+	mContextData{mResources, mSpritesets, mScene},
 	mGameStateManager{mContextData},
 	mFramerate{0u},
 	mFramerateTextVisible{false}
@@ -39,8 +39,7 @@ void GameEngine::processEvents() noexcept
 
 	while (mRenderWindow.pollEvent(event))
 	{
-		mTilemapView.receiveEvents(event);
-		mGameObjectManager.receiveEvents(event);
+		mScene.receiveEvents(event);
 		mGameStateManager.processEvents(event);
 
 		switch (event.type)
@@ -66,8 +65,7 @@ void GameEngine::processEvents() noexcept
 
 void GameEngine::processLogic(const sf::Time& frameTime) noexcept
 {
-	mGameObjectManager.update(frameTime);
-	mGameObjectManager.clean();
+	mScene.update(frameTime);
 
 	mGameStateManager.processLogic(frameTime);
 	mGameStateManager.executeRequests();
@@ -75,15 +73,10 @@ void GameEngine::processLogic(const sf::Time& frameTime) noexcept
 
 void GameEngine::processRender() noexcept
 {
-	if (mFramerateTextVisible)
-	{
-		mFramerate++;
-	}
+	mFramerate++;
 
 	mRenderWindow.clear();
-
-	mRenderWindow.draw(mTilemapView);
-	mRenderWindow.draw(mGraphicsScene);
+	mRenderWindow.draw(mScene);
 
 	if (mFramerateTextVisible)
 	{
@@ -229,11 +222,12 @@ void GameEngine::executeMainLoop() noexcept
 			processRender();
 		}
 
-		if (elapsedFramerateTextUpdateTime > framerateTextUpdateTime)
+		if (const auto displayText = std::to_string(mFramerate); elapsedFramerateTextUpdateTime > framerateTextUpdateTime)
 		{
-			const auto framerateDisplayText = std::to_string(mFramerate);
+			mFramerateText.setString("FPS: " + displayText);
 
-			mFramerateText.setString(framerateDisplayText);
+			elapsedFramerateTextUpdateTime = sf::Time::Zero;
+			mFramerate = 0u;
 		}
 
 		if (!renderFrame)

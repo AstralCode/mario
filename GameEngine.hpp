@@ -6,7 +6,7 @@
 
 #include "ResourceContainer.hpp"
 #include "SpritesetContainer.hpp"
-#include "GameObjectManager.hpp"
+#include "GraphicsScene.hpp"
 #include "GameObjectFactory.hpp"
 #include "GameContextData.hpp"
 #include "GameStateManager.hpp"
@@ -40,8 +40,7 @@ private:
 
 	ResourceContainer mResources;
 	SpritesetContainer mSpritesets;
-
-	GameObjectManager mGameObjectManager;
+	GraphicsScene mScene;
 	GameContextData mContextData;
 	GameStateManager mGameStateManager;
 

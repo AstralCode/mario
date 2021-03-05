@@ -2,8 +2,8 @@
 
 #include <stdexcept>
 
-GameStateManager::GameStateManager(GameContextData& gameContextData) noexcept :
-	mGameContextData{gameContextData}
+GameStateManager::GameStateManager(GameContextData& contextData ) noexcept :
+	mContextData{contextData}
 {
 
 }
@@ -18,7 +18,7 @@ void GameStateManager::pushState(const GameStateIdentifiers identifier) noexcept
 	auto state = findState(identifier);
 	state->onEnter();
 
-	mGameStateStack.emplace_front(state);
+	mStateStack.emplace_front(state);
 }
 
 void GameStateManager::popState() noexcept
@@ -26,7 +26,7 @@ void GameStateManager::popState() noexcept
 	if (hasActiveStates())
 	{
 		getActiveState()->onLeave();
-		mGameStateStack.pop_front();
+		mStateStack.pop_front();
 	}
 }
 
@@ -40,25 +40,25 @@ void GameStateManager::clearStates() noexcept
 
 void GameStateManager::pushStateRequest(const GameStateIdentifiers identifier) noexcept
 {
-	mGameStateStackRequests.emplace(std::make_unique<PushGameStateRequest>(identifier));
+	mStateStackRequests.emplace(std::make_unique<PushGameStateRequest>(identifier));
 }
 
 void GameStateManager::popStateRequest() noexcept
 {
-	mGameStateStackRequests.emplace(std::make_unique<PopGameStateRequest>());
+	mStateStackRequests.emplace(std::make_unique<PopGameStateRequest>());
 }
 
 void GameStateManager::clearStatesRequest() noexcept
 {
-	mGameStateStackRequests.emplace(std::make_unique<ClearGameStatesRequest>());
+	mStateStackRequests.emplace(std::make_unique<ClearGameStatesRequest>());
 }
 
 void GameStateManager::executeRequests() noexcept
 {
-	while (!mGameStateStackRequests.empty())
+	while (!mStateStackRequests.empty())
 	{
-		mGameStateStackRequests.front()->execute(*this);
-		mGameStateStackRequests.pop();
+		mStateStackRequests.front()->execute(*this);
+		mStateStackRequests.pop();
 	}
 }
 
@@ -109,18 +109,18 @@ void GameStateManager::processLogic(const sf::Time& frameTime) noexcept
 
 std::size_t GameStateManager::getActiveStateCount() const noexcept
 {
-	return mGameStateStack.size();
+	return mStateStack.size();
 }
 
 bool GameStateManager::hasActiveStates() const noexcept
 {
-	return !mGameStateStack.empty();
+	return !mStateStack.empty();
 }
 
 GameState* GameStateManager::findState(const GameStateIdentifiers identifier) const
 {
-	auto gameStatesIterator = mGameStates.find(identifier);
-	if (gameStatesIterator == mGameStates.cend())
+	auto gameStatesIterator = mStates.find(identifier);
+	if (gameStatesIterator == mStates.cend())
 	{
 		throw std::logic_error("GameEngine state not found!");
 	}
@@ -130,5 +130,5 @@ GameState* GameStateManager::findState(const GameStateIdentifiers identifier) co
 
 GameState* GameStateManager::getActiveState() const noexcept
 {
-	return mGameStateStack.front();
+	return mStateStack.front();
 }

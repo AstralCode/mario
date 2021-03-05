@@ -2,19 +2,19 @@
 
 class ResourceContainer;
 class SpritesetContainer;
-class GameObjectCreator;
+class GraphicsScene;
 
 class GameContextData final
 {
 public:
-	GameContextData(ResourceContainer& resources, SpritesetContainer& spritesets, GameObjectCreator& gameObjectCreator) noexcept;
+	GameContextData(ResourceContainer& resources, SpritesetContainer& spritesets, GraphicsScene& scene) noexcept;
 
 	ResourceContainer& getResources() noexcept;
 	SpritesetContainer& getSpritesets() noexcept;
-	GameObjectCreator& getGameObjectCreator() noexcept;
+	GraphicsScene& getScene() noexcept;
 
 private:
 	ResourceContainer& mResources;
 	SpritesetContainer& mSpritesets;
-	GameObjectCreator& mGameObjectCreator;
+	GraphicsScene& mScene;
 };

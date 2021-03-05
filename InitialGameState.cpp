@@ -6,7 +6,7 @@
 
 InitialGameState::InitialGameState(GameContextData& contextData, GameStateChanger& gameStateChanger) noexcept :
 	GameState{contextData, gameStateChanger},
-	mGameObjectFactory{contextData.getResources(), contextData.getSpritesets(), contextData.getGameObjectCreator()}
+	mGameObjectFactory{contextData.getResources(), contextData.getSpritesets(), contextData.getScene()}
 {
 
 }
@@ -43,7 +43,7 @@ void InitialGameState::onEnter() noexcept
 
 	tilemap->setAttributes(tileAttributes);
 
-	auto& tilemapView = getTilemapView();
+	auto& tilemapView = getScene().getTilemapView();
 	tilemapView.setTilemap(std::move(tilemap));
 	tilemapView.setTilemapTexture(getTexture(TextureIdentifiers::Scenery));
 	tilemapView.setInformationText(getFont(FontIdentifiers::Roboto));
@@ -69,7 +69,7 @@ void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcep
 {
 	if (keyEvent.code == sf::Keyboard::F2)
 	{
-		getTilemapView().setGridVisible(!getTilemapView().isGridVisible());
+		getScene().getTilemapView().setGridVisible(!getScene().getTilemapView().isGridVisible());
 	}
 }
 

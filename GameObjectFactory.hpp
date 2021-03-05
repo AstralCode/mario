@@ -8,15 +8,15 @@
 #include "SpritesetContainer.hpp"
 
 class ResourceContainer;
-class Animation;
+class GraphicsScene;
 class GameObject;
-class GameObjectCreator;
 class GameObjectState;
+class Animation;
 
 class GameObjectFactory final
 {
 public:
-	GameObjectFactory(ResourceContainer& resources, SpritesetContainer& spritesets, GameObjectCreator& gameObjectCreator) noexcept;
+	GameObjectFactory(ResourceContainer& resources, SpritesetContainer& spritesets, GraphicsScene& scene) noexcept;
 
 	GameObject* createMario() noexcept;
 	GameObject* createGoomba() noexcept;
@@ -35,7 +35,7 @@ private:
 
 	ResourceContainer& mResources;
 	SpritesetContainer& mSpritesets;
-	GameObjectCreator& mGameObjectCreator;
+	GraphicsScene& mScene;
 };
 
 template <typename TGameObjectState>

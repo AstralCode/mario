@@ -1,9 +1,9 @@
 #include "GameContextData.hpp"
 
-GameContextData::GameContextData(ResourceContainer& resources, SpritesetContainer& spritesets, GameObjectCreator& gameObjectCreator) noexcept :
+GameContextData::GameContextData(ResourceContainer& resources, SpritesetContainer& spritesets, GraphicsScene& scene) noexcept :
 	mResources{resources},
 	mSpritesets{spritesets},
-	mGameObjectCreator{gameObjectCreator}
+	mScene{scene}
 {
 
 }
@@ -18,7 +18,7 @@ SpritesetContainer& GameContextData::getSpritesets() noexcept
 	return mSpritesets;
 }
 
-GameObjectCreator& GameContextData::getGameObjectCreator() noexcept
+GraphicsScene& GameContextData::getScene() noexcept
 {
-	return mGameObjectCreator;
+	return mScene;
 }

@@ -44,11 +44,6 @@ void GameState::onEscapePressed() noexcept
 
 }
 
-TilemapView& GameState::getTilemapView() noexcept
-{
-	return mContextData.getTilemapView();
-}
-
 ResourceContainer& GameState::getResources() noexcept
 {
 	return mContextData.getResources();
@@ -59,9 +54,9 @@ SpritesetContainer& GameState::getSpritesets() noexcept
 	return mContextData.getSpritesets();
 }
 
-GameObjectCreator& GameState::getGameObjectCreator() noexcept
+GraphicsScene& GameState::getScene() noexcept
 {
-	return mContextData.getGameObjectCreator();
+	return mContextData.getScene();
 }
 
 const sf::Font& GameState::getFont(const FontIdentifiers identifier) noexcept

@@ -63,6 +63,7 @@ private:
 	void drawItems(sf::RenderTarget& target, sf::RenderStates states) const noexcept;
 
 	virtual void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept;
+	virtual void receiveEventsSelf(const sf::Event& event) noexcept;
 
 	sf::Transformable mTransform;
 

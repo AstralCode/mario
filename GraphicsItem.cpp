@@ -82,6 +82,12 @@ void GraphicsItem::clean() noexcept
 
 void GraphicsItem::receiveEvents(const sf::Event& event) noexcept
 {
+	receiveEventsSelf(event);
+
+	for (auto& item : mItems)
+	{
+		item->receiveEvents(event);
+	}
 }
 
 FloatArea GraphicsItem::getArea() const noexcept
@@ -172,6 +178,11 @@ void GraphicsItem::drawItems(sf::RenderTarget& target, sf::RenderStates states) 
 }
 
 void GraphicsItem::drawSelf(sf::RenderTarget&, sf::RenderStates) const noexcept
+{
+
+}
+
+void GraphicsItem::receiveEventsSelf(const sf::Event&) noexcept
 {
 
 }
