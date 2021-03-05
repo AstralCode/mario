@@ -80,6 +80,10 @@ void GraphicsItem::clean() noexcept
 	}
 }
 
+void GraphicsItem::receiveEvents(const sf::Event& event) noexcept
+{
+}
+
 FloatArea GraphicsItem::getArea() const noexcept
 {
 	return {};

@@ -2,8 +2,6 @@
 
 #include <memory>
 
-#include "SFML/Window/Event.hpp"
-
 #include "Animation.hpp"
 #include "SpritesetContainer.hpp"
 

@@ -5,6 +5,7 @@
 
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/Graphics/Transformable.hpp"
+#include "SFML/Window/Event.hpp"
 
 #include "Area.hpp"
 
@@ -35,6 +36,8 @@ public:
 	void addItem(std::unique_ptr<GraphicsItem> item) noexcept;
 
 	void clean() noexcept;
+	
+	void receiveEvents(const sf::Event& event) noexcept;
 
 	virtual FloatArea getArea() const noexcept;
 

@@ -41,8 +41,6 @@ private:
 	ResourceContainer mResources;
 	SpritesetContainer mSpritesets;
 
-	TilemapView mTilemapView;
-
 	GameObjectManager mGameObjectManager;
 	GameContextData mContextData;
 	GameStateManager mGameStateManager;

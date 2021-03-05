@@ -50,8 +50,6 @@ public:
 
 	void onObjectCollision(GameObject& object) noexcept;
 
-	void receiveEvents(const sf::Event& event) noexcept;
-
 	void update(const sf::Time& frameTime) noexcept;
 
 	GameObjectIdentifiers getIdentifier() const noexcept;
