@@ -23,7 +23,7 @@ int GameEngine::run() noexcept
 	initializeFramerateText();
 	initializeSpritesets();
 
-	executeMainLoop();
+	execute();
 
 	return 0;
 }
@@ -174,7 +174,7 @@ void GameEngine::initializeGameState() noexcept
 	mGameStateManager.pushState(GameStateIdentifiers::Initial);
 }
 
-void GameEngine::executeMainLoop() noexcept
+void GameEngine::execute() noexcept
 {
 	const auto frameTime = sf::seconds(1.0f / 60u);
 	const auto framerateTextUpdateTime = sf::seconds(1.0f);

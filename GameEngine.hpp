@@ -34,7 +34,7 @@ private:
 	void initializeSpritesets() noexcept;
 	void initializeGameState() noexcept;
 
-	void executeMainLoop() noexcept;
+	void execute() noexcept;
 
 	sf::RenderWindow mRenderWindow;
 
