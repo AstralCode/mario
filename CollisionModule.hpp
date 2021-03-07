@@ -6,8 +6,8 @@
 
 #include "CollisionHandler.hpp"
 
-class GraphicsItem;
 class TilemapView;
+class GameObjectContainer;
 
 class CollisionModule final
 {
@@ -17,17 +17,17 @@ public:
 	template <typename TCollisionHandler>
 	void addHandler() noexcept;
 
-	void detectCollisions(const std::vector<GameObject*> objects) noexcept;
+	void detectCollisions(const GameObjectContainer& objects) noexcept;
 
 private:
-	using TilemapColliders = std::tuple<GameObject*, TileIndex>;
-	using ObjectColliders = std::tuple<GameObject*, GameObject*>;
+	using TilemapColliders = std::vector<std::tuple<GameObject*, TileIndex>>;
+	using ObjectColliders = std::vector<std::tuple<GameObject*, GameObject*>>;
 
-	void executeTilemapCollisionHandlers(const std::vector<TilemapColliders>& colliders) const noexcept;
-	void executeObjectCollisionHandlers(const std::vector<ObjectColliders>& colliders) const noexcept;
+	void executeTilemapCollisionHandlers(const TilemapColliders& colliders) const noexcept;
+	void executeObjectCollisionHandlers(const ObjectColliders& colliders) const noexcept;
 
-	std::vector<TilemapColliders> checkTilemapCollisions(const std::vector<GameObject*> objects) const noexcept;
-	std::vector<ObjectColliders> checkObjectCollisions(const std::vector<GameObject*> objects) const noexcept;
+	TilemapColliders checkTilemapCollisions(const GameObjectContainer& objects) const noexcept;
+	ObjectColliders checkObjectCollisions(const GameObjectContainer& objects) const noexcept;
 
 	std::vector<std::unique_ptr<CollisionHandler>> mCollisionHandlers;
 

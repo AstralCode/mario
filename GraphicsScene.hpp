@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GameObject.hpp"
 #include "TilemapView.hpp"
+#include "GameObjectContainer.hpp"
 #include "PhysicsModule.hpp"
 #include "CollisionModule.hpp"
 
@@ -24,8 +24,10 @@ private:
 
 	TilemapView mTilemapView;
 
-	GraphicsItem mGameObjectLayer;
-	std::vector<GameObject*> mGameObjects;
+	GraphicsItem mRoot;
+	GraphicsItem& mGameObjectLayer;
+
+	GameObjectContainer mGameObjectContainer;
 
 	PhysicsModule mPhysicsModule;
 	CollisionModule mCollisionModule;

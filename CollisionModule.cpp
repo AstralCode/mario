@@ -1,6 +1,7 @@
 #include "CollisionModule.hpp"
 
 #include "TilemapView.hpp"
+#include "GameObjectContainer.hpp"
 
 CollisionModule::CollisionModule(TilemapView& tilemapView) noexcept :
 	mTilemapView{tilemapView}
@@ -8,13 +9,13 @@ CollisionModule::CollisionModule(TilemapView& tilemapView) noexcept :
 
 }
 
-void CollisionModule::detectCollisions(const std::vector<GameObject*> objects) noexcept
+void CollisionModule::detectCollisions(const GameObjectContainer& objects) noexcept
 {
 	executeTilemapCollisionHandlers(checkTilemapCollisions(objects));
 	executeObjectCollisionHandlers(checkObjectCollisions(objects));
 }
 
-void CollisionModule::executeTilemapCollisionHandlers(const std::vector<TilemapColliders>& colliders) const noexcept
+void CollisionModule::executeTilemapCollisionHandlers(const TilemapColliders& colliders) const noexcept
 {
 	for (auto& [object, tileIndex] : colliders)
 	{
@@ -28,7 +29,7 @@ void CollisionModule::executeTilemapCollisionHandlers(const std::vector<TilemapC
 	}
 }
 
-void CollisionModule::executeObjectCollisionHandlers(const std::vector<ObjectColliders>& colliders) const noexcept
+void CollisionModule::executeObjectCollisionHandlers(const ObjectColliders& colliders) const noexcept
 {
 	for (auto& [target, object] : colliders)
 	{
@@ -42,9 +43,9 @@ void CollisionModule::executeObjectCollisionHandlers(const std::vector<ObjectCol
 	}
 }
 
-std::vector<CollisionModule::TilemapColliders> CollisionModule::checkTilemapCollisions(const std::vector<GameObject*> objects) const noexcept
+CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const GameObjectContainer& objects) const noexcept
 {
-	std::vector<TilemapColliders> colliders{};
+	TilemapColliders colliders{};
 
 	for (auto object : objects)
 	{
@@ -106,9 +107,9 @@ std::vector<CollisionModule::TilemapColliders> CollisionModule::checkTilemapColl
 	return colliders;
 }
 
-std::vector<CollisionModule::ObjectColliders> CollisionModule::checkObjectCollisions(const std::vector<GameObject*> objects) const noexcept
+CollisionModule::ObjectColliders CollisionModule::checkObjectCollisions(const GameObjectContainer& objects) const noexcept
 {
-	std::vector<ObjectColliders> colliders{};
+	ObjectColliders colliders{};
 
 	for (auto objectsIterator = objects.cbegin(); objectsIterator != objects.cend(); objectsIterator++)
 	{
