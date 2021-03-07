@@ -39,5 +39,5 @@ inline void CollisionModule::addHandler() noexcept
 {
 	static_assert(std::is_base_of_v<CollisionHandler, TCollisionHandler>, "TCollisionHandler must derived from CollisionHandler");
 
-	mCollisionHandlers.push_back(std::make_unique<TCollisionHandler>(mScene));
+	mCollisionHandlers.push_back(std::make_unique<TCollisionHandler>(mTilemapView));
 }
