@@ -1,6 +1,6 @@
 #include "EnemyCollisionHandler.hpp"
 
-#include "GraphicsScene.hpp"
+#include "TilemapView.hpp"
 
 EnemyCollisionHandler::EnemyCollisionHandler(TilemapView& tilemapView) noexcept :
 	CollisionHandler{tilemapView}
