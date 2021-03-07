@@ -51,8 +51,8 @@ CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const 
 		const auto objectPosition = object->getGlobalPosition();
 		const auto objectArea = object->getArea();
 
-		auto tileRowCount = 2;
-		auto tileColumnCount = 2;
+		auto tileRowCount{2};
+		auto tileColumnCount{2};
 
 		auto objectTileIndex = mTilemapView.getTileIndex(objectArea.getTopLeft());
 		if (objectTileIndex.row > 0)
