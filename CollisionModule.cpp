@@ -46,8 +46,8 @@ CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const 
 {
 	TilemapColliders colliders{};
 	
-		const auto tilemapRowCount = mTilemapView.getRowCount();
-		const auto tilemapColumnCount = mTilemapView.getColumnCount();
+	const auto tilemapRowCount = mTilemapView.getRowCount();
+	const auto tilemapColumnCount = mTilemapView.getColumnCount();
 
 	for (auto object : objects)
 	{
