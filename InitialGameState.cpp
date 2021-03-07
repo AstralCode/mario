@@ -4,8 +4,8 @@
 #include "GameStateChanger.hpp"
 #include "RectangleShape.hpp"
 
-InitialGameState::InitialGameState(GameContextData& contextData, GameStateChanger& gameStateChanger) noexcept :
-	GameState{contextData, gameStateChanger},
+InitialGameState::InitialGameState(GameContextData& contextData) noexcept :
+	GameState{contextData},
 	mGameObjectFactory{contextData.getResources(), contextData.getSpritesets(), contextData.getScene()}
 {
 
@@ -75,5 +75,5 @@ void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcep
 
 void InitialGameState::onEscapePressed() noexcept
 {
-	mGameStateChanger.clearStatesRequest();
+	getStateChanger().clearStatesRequest();
 }

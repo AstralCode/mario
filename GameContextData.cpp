@@ -1,9 +1,10 @@
 #include "GameContextData.hpp"
 
-GameContextData::GameContextData(ResourceContainer& resources, SpritesetContainer& spritesets, GraphicsScene& scene) noexcept :
+GameContextData::GameContextData(ResourceContainer& resources, SpritesetContainer& spritesets, GraphicsScene& scene, GameStateChanger& stateChanger) noexcept :
 	mResources{resources},
 	mSpritesets{spritesets},
-	mScene{scene}
+	mScene{scene},
+	mStateChanger{stateChanger}
 {
 
 }
@@ -21,4 +22,9 @@ SpritesetContainer& GameContextData::getSpritesets() noexcept
 GraphicsScene& GameContextData::getScene() noexcept
 {
 	return mScene;
+}
+
+GameStateChanger& GameContextData::getStateChanger() noexcept
+{
+	return mStateChanger;
 }

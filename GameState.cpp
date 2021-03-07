@@ -2,9 +2,8 @@
 
 #include "GameContextData.hpp"
 
-GameState::GameState(GameContextData& contextData, GameStateChanger& gameStateChanger) noexcept :
-	mContextData{contextData},
-	mGameStateChanger{gameStateChanger}
+GameState::GameState(GameContextData& contextData) noexcept :
+	mContextData{contextData}
 {
 
 }
@@ -57,6 +56,11 @@ SpritesetContainer& GameState::getSpritesets() noexcept
 GraphicsScene& GameState::getScene() noexcept
 {
 	return mContextData.getScene();
+}
+
+GameStateChanger& GameState::getStateChanger() noexcept
+{
+	return mContextData.getStateChanger();
 }
 
 const sf::Font& GameState::getFont(const FontIdentifiers identifier) noexcept

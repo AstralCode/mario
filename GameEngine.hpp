@@ -8,7 +8,6 @@
 #include "SpritesetContainer.hpp"
 #include "GraphicsScene.hpp"
 #include "GameObjectFactory.hpp"
-#include "GameContextData.hpp"
 #include "GameStateManager.hpp"
 
 class GameEngine final
@@ -41,7 +40,6 @@ private:
 	ResourceContainer mResources;
 	SpritesetContainer mSpritesets;
 	GraphicsScene mScene;
-	GameContextData mContextData;
 	GameStateManager mGameStateManager;
 
 	sf::Text mFramerateText;

@@ -6,7 +6,7 @@
 class InitialGameState final : public GameState
 {
 public:
-	InitialGameState(GameContextData& contextData, GameStateChanger& gameStateChanger) noexcept;
+	InitialGameState(GameContextData& contextData) noexcept;
 
 	void onEnter() noexcept override;
 	void onLeave() noexcept override;

@@ -13,7 +13,7 @@ class GameStateChanger;
 class GameState : public EventReceiver
 {
 public:
-	GameState(GameContextData& contextData, GameStateChanger& gameStateChanger) noexcept;
+	GameState(GameContextData& contextData) noexcept;
 	virtual ~GameState() = default;
 
 	virtual void onEnter() noexcept = 0;
@@ -35,11 +35,11 @@ public:
 	ResourceContainer& getResources() noexcept;
 	SpritesetContainer& getSpritesets() noexcept;
 	GraphicsScene& getScene() noexcept;
+	GameStateChanger& getStateChanger() noexcept;
 
 protected:
 	const sf::Font& getFont(const FontIdentifiers identifier) noexcept;
 	const sf::Texture& getTexture(const TextureIdentifiers identifier) noexcept;
 
 	GameContextData& mContextData;
-	GameStateChanger& mGameStateChanger;
 };

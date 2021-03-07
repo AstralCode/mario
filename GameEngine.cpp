@@ -8,8 +8,7 @@
 
 GameEngine::GameEngine() noexcept :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
-	mContextData{mResources, mSpritesets, mScene},
-	mGameStateManager{mContextData},
+	mGameStateManager{mResources, mSpritesets, mScene},
 	mFramerate{0u},
 	mFramerateTextVisible{false}
 {
