@@ -45,39 +45,37 @@ void CollisionModule::executeObjectCollisionHandlers(const ObjectColliders& coll
 CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const GameObjectContainer& objects) const noexcept
 {
 	TilemapColliders colliders{};
+	
+		const auto tilemapRowCount = mTilemapView.getRowCount();
+		const auto tilemapColumnCount = mTilemapView.getColumnCount();
 
 	for (auto object : objects)
 	{
-		const auto objectPosition = object->getGlobalPosition();
 		const auto objectArea = object->getArea();
 
-		auto tileRowCount{2};
-		auto tileColumnCount{2};
+		TileIndex tileCount{2, 2};
 
 		auto objectTileIndex = mTilemapView.getTileIndex(objectArea.getTopLeft());
 		if (objectTileIndex.row > 0)
 		{
 			objectTileIndex.row -= 1;
-			tileRowCount += 1;
+			tileCount.row += 1;
 		}
 
 		if (objectTileIndex.column > 0)
 		{
 			objectTileIndex.column -= 1;
-			tileColumnCount += 1;
+			tileCount.column += 1;
 		}
 
-		const auto tilemapRowCount = mTilemapView.getRowCount();
-		const auto tilemapColumnCount = mTilemapView.getColumnCount();
-
-		for (auto rowIndex{0}; rowIndex < tileRowCount; rowIndex++)
+		for (auto rowIndex{0}; rowIndex < tileCount.row; rowIndex++)
 		{
 			TileIndex collideTileIndex{};
 
 			collideTileIndex.row = objectTileIndex.row + rowIndex;
 			if (collideTileIndex.row < tilemapRowCount)
 			{
-				for (auto columnIndex{0}; columnIndex < tileColumnCount; columnIndex++)
+				for (auto columnIndex{0}; columnIndex < tileCount.column; columnIndex++)
 				{
 					collideTileIndex.column = objectTileIndex.column + columnIndex;
 					if (collideTileIndex.column < tilemapColumnCount)
@@ -89,8 +87,8 @@ CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const 
 							{
 								if (tileAttributes.value().isSet(TileAttributes::Collider))
 								{
-									const auto collideTileArea = mTilemapView.getTileArea(collideTileIndex);
-									if (objectArea.isIntersects(collideTileArea))
+									const auto tileArea = mTilemapView.getTileArea(collideTileIndex);
+									if (objectArea.isIntersects(tileArea))
 									{
 										colliders.emplace_back(object, collideTileIndex);
 									}
