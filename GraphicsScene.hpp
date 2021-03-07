@@ -5,6 +5,8 @@
 #include "PhysicsModule.hpp"
 #include "CollisionModule.hpp"
 
+class ResourceContainer;
+
 class GraphicsScene final : public sf::Drawable
 {
 public:

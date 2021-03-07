@@ -7,7 +7,7 @@
 
 GraphicsScene::GraphicsScene() noexcept :
 	mGameObjectLayer{*mRoot.addItem<GraphicsItem>()},
-	mCollisionModule{mTilemapView},
+	mCollisionModule{*this},
 	mGameObjectContainer{mGameObjectLayer}
 {
 	mCollisionModule.addHandler<MarioCollisionHandler>();

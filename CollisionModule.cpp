@@ -1,10 +1,9 @@
 #include "CollisionModule.hpp"
 
-#include "TilemapView.hpp"
-#include "GameObjectContainer.hpp"
+#include "GraphicsScene.hpp"
 
-CollisionModule::CollisionModule(TilemapView& tilemapView) noexcept :
-	mTilemapView{tilemapView}
+CollisionModule::CollisionModule(GraphicsScene& scene) noexcept :
+	mScene{scene}
 {
 
 }
@@ -55,7 +54,7 @@ CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const 
 		auto tileRowCount = 2;
 		auto tileColumnCount = 2;
 
-		auto objectTileIndex = mTilemapView.getTileIndex(objectArea.getTopLeft());
+		auto objectTileIndex = mScene.getTilemapView().getTileIndex(objectArea.getTopLeft());
 		if (objectTileIndex.row > 0)
 		{
 			objectTileIndex.row -= 1;
@@ -68,8 +67,8 @@ CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const 
 			tileColumnCount += 1;
 		}
 
-		const auto tilemapRowCount = mTilemapView.getRowCount();
-		const auto tilemapColumnCount = mTilemapView.getColumnCount();
+		const auto tilemapRowCount = mScene.getTilemapView().getRowCount();
+		const auto tilemapColumnCount = mScene.getTilemapView().getColumnCount();
 
 		for (auto rowIndex{0}; rowIndex < tileRowCount; rowIndex++)
 		{
@@ -85,12 +84,12 @@ CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const 
 					{
 						if (objectTileIndex.row != collideTileIndex.row || objectTileIndex.column != collideTileIndex.column)
 						{
-							const auto tileAttributes = mTilemapView.getAttributes(collideTileIndex);
+							const auto tileAttributes = mScene.getTilemapView().getAttributes(collideTileIndex);
 							if (tileAttributes.has_value())
 							{
 								if (tileAttributes.value().isSet(TileAttributes::Collider))
 								{
-									const auto collideTileArea = mTilemapView.getTileArea(collideTileIndex);
+									const auto collideTileArea = mScene.getTilemapView().getTileArea(collideTileIndex);
 									if (objectArea.isIntersects(collideTileArea))
 									{
 										colliders.emplace_back(object, collideTileIndex);

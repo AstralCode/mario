@@ -1,12 +1,13 @@
 #pragma once
 
-#include "TilemapView.hpp"
 #include "GameObject.hpp"
+
+class GraphicsScene;
 
 class CollisionHandler
 {
 public:
-	CollisionHandler(TilemapView& tilemapView) noexcept;
+	CollisionHandler(GraphicsScene& scene) noexcept;
 	virtual ~CollisionHandler() = default;
 
 	void setTarget(const GameObjectIdentifiers identifier) noexcept;
@@ -20,12 +21,12 @@ public:
 
 	const GameObjectIdentifierFlags& getTargets() const noexcept;
 
-	TilemapView& getTilemapView() noexcept;
+	GraphicsScene& getGraphicsScene() noexcept;
 
 	bool isSetTarget(const GameObjectIdentifiers identifier) const noexcept;
 
 private:
-	TilemapView& mTilemapView;
+	GraphicsScene& mScene;
 
 	GameObjectIdentifierFlags mTargets;
 };

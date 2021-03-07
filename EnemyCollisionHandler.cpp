@@ -1,14 +1,16 @@
 #include "EnemyCollisionHandler.hpp"
 
-EnemyCollisionHandler::EnemyCollisionHandler(TilemapView& tilemapView) noexcept :
-	CollisionHandler{tilemapView}
+#include "GraphicsScene.hpp"
+
+EnemyCollisionHandler::EnemyCollisionHandler(GraphicsScene& scene) noexcept :
+	CollisionHandler{scene}
 {
 	setTargets({GameObjectIdentifiers::Goomba});
 }
 
 void EnemyCollisionHandler::onTileCollision(GameObject* target, const TileIndex& tileIndex) noexcept
 {
-    auto& tilemapView = getTilemapView();
+    auto& tilemapView = getGraphicsScene().getTilemapView();
 
     const auto targetArea = target->getArea();
 

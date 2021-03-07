@@ -1,7 +1,7 @@
 #include "CollisionHandler.hpp"
 
-CollisionHandler::CollisionHandler(TilemapView& tilemapView) noexcept :
-	mTilemapView{tilemapView}
+CollisionHandler::CollisionHandler(GraphicsScene& scene) noexcept :
+	mScene{scene}
 {
 
 }
@@ -31,9 +31,9 @@ const GameObjectIdentifierFlags& CollisionHandler::getTargets() const noexcept
 	return mTargets;
 }
 
-TilemapView& CollisionHandler::getTilemapView() noexcept
+GraphicsScene& CollisionHandler::getGraphicsScene() noexcept
 {
-	return mTilemapView;
+	return mScene;
 }
 
 bool CollisionHandler::isSetTarget(const GameObjectIdentifiers identifier) const noexcept
