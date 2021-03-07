@@ -33,7 +33,6 @@ private:
 	TilemapView& mTilemapView;
 };
 
-
 template <typename TCollisionHandler>
 inline void CollisionModule::addHandler() noexcept
 {
