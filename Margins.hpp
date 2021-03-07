@@ -4,7 +4,7 @@ template <typename T>
 class Margins final
 {
 public:
-	Margins() = default;
+	Margins();
 	Margins(const T left, const T top, const T right, const T bottom) noexcept;
 
 	void set(const T left, const T top, const T right, const T bottom) noexcept;
@@ -25,6 +25,16 @@ private:
 	T mRight;
 	T mBottom;
 };
+
+template <typename T>
+inline Margins<T>::Margins() :
+	mLeft{0},
+	mTop{0},
+	mRight{0},
+	mBottom{0}
+{
+
+}
 
 template <typename T>
 inline Margins<T>::Margins(const T left, const T top, const T right, const T bottom) noexcept
