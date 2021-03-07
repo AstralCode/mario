@@ -2,12 +2,12 @@
 
 #include "GameObject.hpp"
 
-class GraphicsScene;
+class TilemapView;
 
 class CollisionHandler
 {
 public:
-	CollisionHandler(GraphicsScene& scene) noexcept;
+	CollisionHandler(TilemapView& tilemapView) noexcept;
 	virtual ~CollisionHandler() = default;
 
 	void setTarget(const GameObjectIdentifiers identifier) noexcept;
@@ -21,12 +21,11 @@ public:
 
 	const GameObjectIdentifierFlags& getTargets() const noexcept;
 
-	GraphicsScene& getGraphicsScene() noexcept;
-
 	bool isSetTarget(const GameObjectIdentifiers identifier) const noexcept;
 
-private:
-	GraphicsScene& mScene;
+protected:
+	TilemapView& mTilemapView;
 
+private:
 	GameObjectIdentifierFlags mTargets;
 };

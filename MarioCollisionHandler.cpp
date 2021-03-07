@@ -2,18 +2,16 @@
 
 #include "GraphicsScene.hpp"
 
-MarioCollisionHandler::MarioCollisionHandler(GraphicsScene& scene) noexcept :
-    CollisionHandler{scene}
+MarioCollisionHandler::MarioCollisionHandler(TilemapView& tilemapView) noexcept :
+    CollisionHandler{tilemapView}
 {
     setTarget(GameObjectIdentifiers::Mario);
 }
 
 void MarioCollisionHandler::onTileCollision(GameObject* target, const TileIndex& tileIndex) noexcept
 {
-    auto& tilemapView = getGraphicsScene().getTilemapView();
-
     const auto targetArea = target->getArea();
-    const auto tileArea = tilemapView.getTileArea(tileIndex);
+    const auto tileArea = mTilemapView.getTileArea(tileIndex);
 
     if (target->getVelocity().getX() > 0.0f)
     {

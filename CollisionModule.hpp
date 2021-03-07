@@ -6,13 +6,12 @@
 
 #include "CollisionHandler.hpp"
 
-class TilemapView;
 class GameObjectContainer;
 
 class CollisionModule final
 {
 public:
-	CollisionModule(GraphicsScene& scene) noexcept;
+	CollisionModule(TilemapView& tilemapView) noexcept;
 
 	template <typename TCollisionHandler>
 	void addHandler() noexcept;
@@ -31,7 +30,7 @@ private:
 
 	std::vector<std::unique_ptr<CollisionHandler>> mCollisionHandlers;
 
-	GraphicsScene& mScene;
+	TilemapView& mTilemapView;
 };
 
 
