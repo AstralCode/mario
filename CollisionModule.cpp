@@ -51,46 +51,32 @@ CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const 
 
 	for (auto object : objects)
 	{
-		const auto objectArea = object->getArea();
+		const auto objectTileIndex = mTilemapView.getTileIndex(object->getGlobalPosition());
 
-		TileIndex tileCount{2, 2};
+		TileIndex tileIndex{};
 
-		auto objectTileIndex = mTilemapView.getTileIndex(objectArea.getTopLeft());
-		if (objectTileIndex.row > 0)
+		for (auto rowIndex{0}; rowIndex < 3; rowIndex++)
 		{
-			objectTileIndex.row -= 1;
-			tileCount.row += 1;
-		}
-
-		if (objectTileIndex.column > 0)
-		{
-			objectTileIndex.column -= 1;
-			tileCount.column += 1;
-		}
-
-		for (auto rowIndex{0}; rowIndex < tileCount.row; rowIndex++)
-		{
-			TileIndex collideTileIndex{};
-
-			collideTileIndex.row = objectTileIndex.row + rowIndex;
-			if (collideTileIndex.row < tilemapRowCount)
+			tileIndex.row = objectTileIndex.row + (-1 + rowIndex);
+			if (tileIndex.row >= 0 && tileIndex.row < tilemapRowCount)
 			{
-				for (auto columnIndex{0}; columnIndex < tileCount.column; columnIndex++)
+				for (auto columnIndex{0}; columnIndex < 3; columnIndex++)
 				{
-					collideTileIndex.column = objectTileIndex.column + columnIndex;
-					if (collideTileIndex.column < tilemapColumnCount)
+					tileIndex.column = objectTileIndex.column + (-1 + columnIndex);
+					if (tileIndex.column >= 0 && tileIndex.column < tilemapColumnCount)
 					{
-						if (objectTileIndex.row != collideTileIndex.row || objectTileIndex.column != collideTileIndex.column)
+						if (objectTileIndex != tileIndex)
 						{
-							const auto tileAttributes = mTilemapView.getAttributes(collideTileIndex);
+							const auto tileAttributes = mTilemapView.getAttributes(tileIndex);
 							if (tileAttributes.has_value())
 							{
 								if (tileAttributes.value().isSet(TileAttributes::Collider))
 								{
-									const auto tileArea = mTilemapView.getTileArea(collideTileIndex);
+									const auto objectArea = object->getArea();
+									const auto tileArea = mTilemapView.getTileArea(tileIndex);
 									if (objectArea.isIntersects(tileArea))
 									{
-										colliders.emplace_back(object, collideTileIndex);
+										colliders.emplace_back(object, tileIndex);
 									}
 								}
 							}
@@ -124,4 +110,19 @@ CollisionModule::ObjectColliders CollisionModule::checkObjectCollisions(const Ga
 	}
 
 	return colliders;
+}
+
+CollisionSide CollisionModule::checkCollisionSide(const GameObject* objectAlpha, const GameObject* objectBeta) const noexcept
+{
+	CollisionSide side{CollisionSide::Top};
+
+	TileIndex tileObjectA = mTilemapView.getTileIndex(objectAlpha->getGlobalPosition());
+	TileIndex tileObjectB = mTilemapView.getTileIndex(objectBeta->getGlobalPosition());
+
+	if (tileObjectA.row < tileObjectB.row)
+	{
+
+	}
+
+	return side;
 }

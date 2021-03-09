@@ -10,6 +10,16 @@ struct TileIndex
 
 	ValueType row = 0;
 	ValueType column = 0;
+
+	friend bool operator==(const TileIndex& tileA, const TileIndex& tileB)
+	{
+		return (tileA.row == tileB.row && tileA.column == tileB.column);
+	}
+
+	friend bool operator!=(const TileIndex& tileA, const TileIndex& tileB)
+	{
+		return !(tileA == tileB);
+	}
 };
 
 enum class TileAttributes

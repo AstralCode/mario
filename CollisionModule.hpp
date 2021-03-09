@@ -28,6 +28,8 @@ private:
 	TilemapColliders checkTilemapCollisions(const GameObjectContainer& objects) const noexcept;
 	ObjectColliders checkObjectCollisions(const GameObjectContainer& objects) const noexcept;
 
+	CollisionSide checkCollisionSide(const GameObject* objectAlpha, const GameObject* objectBeta) const noexcept;
+
 	std::vector<std::unique_ptr<CollisionHandler>> mCollisionHandlers;
 
 	TilemapView& mTilemapView;

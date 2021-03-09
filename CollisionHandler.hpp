@@ -4,6 +4,14 @@
 
 class TilemapView;
 
+enum class CollisionSide
+{
+	Left,
+	Top,
+	Right,
+	Bottom
+};
+
 class CollisionHandler
 {
 public:
