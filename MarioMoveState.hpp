@@ -13,5 +13,5 @@ public:
 	void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
 
 private:
-	void updateSelf(GameObject& object, const sf::Time& frameTime) noexcept override;
+	void updateSelf(GameObject& object, const sf::Time& fixedFrameTime) noexcept override;
 };

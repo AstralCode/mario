@@ -40,16 +40,15 @@ void GameObjectState::onCollision(GameObject&) noexcept
 
 }
 
-void GameObjectState::update(GameObject& object, const sf::Time& frameTime) noexcept
+void GameObjectState::update(GameObject& object, const sf::Time& fixedFrameTime) noexcept
 {
     if (mAnimation)
     {
-        mAnimation->update(frameTime);
-
+        mAnimation->update(fixedFrameTime);
         object.setTextureArea(mAnimation->getCurrentSpriteArea());
     }
 
-    updateSelf(object, frameTime);
+    updateSelf(object, fixedFrameTime);
 }
 
 void GameObjectState::onKeyPressed(GameObject&, const sf::Event::KeyEvent&) noexcept
@@ -91,7 +90,7 @@ void GameObjectState::onMouseOver(GameObject&, const sf::Event::MouseMoveEvent&)
 
 }
 
-const SpriteArea& GameObjectState::getSpriteArea(const std::string& spritesetRegionidentifier) const noexcept
+const IntArea& GameObjectState::getSpriteArea(const std::string& spritesetRegionidentifier) const noexcept
 {
     return mSpriteset.getRegion(spritesetRegionidentifier).getSpriteArea(0);
 }

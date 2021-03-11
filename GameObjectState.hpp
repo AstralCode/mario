@@ -24,7 +24,7 @@ public:
 
 	virtual void onCollision(GameObject& object) noexcept;
 
-	void update(GameObject& object, const sf::Time& frameTime) noexcept;
+	void update(GameObject& object, const sf::Time& fixedFrameTime) noexcept;
 
 	virtual void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept;
 	virtual void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept;
@@ -35,7 +35,7 @@ public:
 	virtual void onMouseLeave(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent) noexcept;
 	virtual void onMouseOver(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent) noexcept;
 
-	const SpriteArea& getSpriteArea(const std::string& spritesetRegionidentifier) const noexcept;
+	const IntArea& getSpriteArea(const std::string& spritesetRegionidentifier) const noexcept;
 
 	bool isDestroyed() const noexcept;
 
@@ -46,7 +46,7 @@ protected:
 	std::unique_ptr<TGameObjectState> createState() const noexcept;
 
 private:
-	virtual void updateSelf(GameObject& object, const sf::Time& frameTime) noexcept;
+	virtual void updateSelf(GameObject& object, const sf::Time& fixedFrameTime) noexcept;
 
 	const Spriteset& mSpriteset;
 

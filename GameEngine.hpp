@@ -21,7 +21,7 @@ public:
 
 protected:
 	void processEvents() noexcept;
-	void processLogic(const sf::Time& frameTime) noexcept;
+	void processLogic(const sf::Time& fixedFrameTime) noexcept;
 	void processRender() noexcept;
 
 private:

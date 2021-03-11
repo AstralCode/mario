@@ -143,6 +143,24 @@ TileIndex TilemapView::getTileIndex(const FloatPoint& position) const noexcept
 	return mGrid.getTileIndex(position);
 }
 
+std::vector<TileIndex> TilemapView::getOverlapTileIndexes(const FloatArea& area) const noexcept
+{
+	std::vector<TileIndex> tileIndexes{};
+
+	const auto tileLeftTop = getTileIndex(area.getTopLeft());
+	const auto tileBottomRight = getTileIndex(area.getBottomRight());
+
+	for (auto row{tileLeftTop.row}; row <= tileBottomRight.row; row++)
+	{
+		for (auto column{tileLeftTop.column}; column <= tileBottomRight.column; column++)
+		{
+			tileIndexes.push_back(TileIndex{row, column});
+		}
+	}
+
+	return tileIndexes;
+}
+
 const FloatSize& TilemapView::getTileSize() const noexcept
 {
 	return mGrid.getTileSize();
@@ -166,6 +184,11 @@ FloatPoint TilemapView::getTilePosition(const TileIndex& index) const noexcept
 FloatArea TilemapView::getTileArea(const TileIndex& index) const noexcept
 {
 	return mGrid.getTileArea(index);
+}
+
+FloatArea TilemapView::getTileArea(const FloatPoint& position) const noexcept
+{
+	return mGrid.getTileArea(position);
 }
 
 const sf::Text& TilemapView::getText() const noexcept

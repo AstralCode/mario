@@ -53,7 +53,7 @@ void Animation::stop() noexcept
 	mAlternate = false;
 }
 
-void Animation::update(const sf::Time& frameTime) noexcept
+void Animation::update(const sf::Time& fixedFrameTime) noexcept
 {
 	if (mPlaying)
 	{
@@ -61,7 +61,7 @@ void Animation::update(const sf::Time& frameTime) noexcept
 		{
 			const auto animationFrameTime = calculateAnimationFrameTime();
 
-			mElapsedUpdateTime += frameTime;
+			mElapsedUpdateTime += fixedFrameTime;
 
 			while (mElapsedUpdateTime >= animationFrameTime)
 			{
@@ -86,12 +86,12 @@ void Animation::update(const sf::Time& frameTime) noexcept
 		}
 		else
 		{
-			mElapsedDelayTime += frameTime;
+			mElapsedDelayTime += fixedFrameTime;
 		}
 	}
 }
 
-const SpriteArea& Animation::getCurrentSpriteArea() const noexcept
+const IntArea& Animation::getCurrentSpriteArea() const noexcept
 {
 	return mSpritesetRegion.getSpriteArea(mCurrentSpriteIndex);
 }

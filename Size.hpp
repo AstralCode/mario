@@ -15,6 +15,9 @@ public:
 	void setWidth(const T width) noexcept;
 	void setHeight(const T height) noexcept;
 
+	template <typename U>
+	Size<U> cast() const noexcept;
+
 	T& getWidth() noexcept;
 	T& getHeight() noexcept;
 
@@ -59,6 +62,13 @@ template <typename T>
 inline void Size<T>::setHeight(const T height) noexcept
 {
 	mHeight = height;
+}
+
+template<typename T>
+template<typename U>
+inline Size<U> Size<T>::cast() const noexcept
+{
+	return Size<U>{static_cast<U>(mWidth), static_cast<U>(mHeight)};
 }
 
 template <typename T>

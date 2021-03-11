@@ -2,16 +2,18 @@
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
+#include "StandardCollisionHandler.hpp"
 #include "MarioCollisionHandler.hpp"
-#include "EnemyCollisionHandler.hpp"
+#include "CreaturesCollisionHandler.hpp"
 
 GraphicsScene::GraphicsScene() noexcept :
 	mGameObjectLayer{*mRoot.addItem<GraphicsItem>()},
 	mCollisionModule{mTilemapView},
 	mGameObjectContainer{mGameObjectLayer}
 {
+	mCollisionModule.addHandler<StandardCollisionHandler>();
 	mCollisionModule.addHandler<MarioCollisionHandler>();
-	mCollisionModule.addHandler<EnemyCollisionHandler>();
+	mCollisionModule.addHandler<CreaturesCollisionHandler>();
 }
 
 GameObject* GraphicsScene::createGameObject(const GameObjectIdentifiers identifier) noexcept
@@ -25,12 +27,12 @@ void GraphicsScene::receiveEvents(const sf::Event& event) noexcept
 	mRoot.receiveEvents(event);
 }
 
-void GraphicsScene::update(const sf::Time& frameTime) noexcept
+void GraphicsScene::update(const sf::Time& fixedFrameTime) noexcept
 {
 	for (auto& object : mGameObjectContainer)
 	{
-		object->update(frameTime);
-		mPhysicsModule.update(*object, frameTime);
+		object->update(fixedFrameTime);
+		mPhysicsModule.update(*object, fixedFrameTime);
 	}
 
 	mCollisionModule.detectCollisions(mGameObjectContainer);

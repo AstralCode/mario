@@ -12,7 +12,7 @@ MarioMoveState::MarioMoveState(const Spriteset& spriteset) noexcept :
 void MarioMoveState::onSet(GameObject&) noexcept
 {
     auto animation = createAnimation(SpritesetRegionIdentifiers::Mario::Move);
-    animation->setDuration(sf::seconds(0.25f));
+    animation->setDuration(sf::seconds(1.0f));
     animation->setRepeating(true);
 
     setAnimation(std::move(animation));

@@ -46,41 +46,21 @@ CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const 
 {
 	TilemapColliders colliders{};
 	
-	const auto tilemapRowCount = mTilemapView.getRowCount();
-	const auto tilemapColumnCount = mTilemapView.getColumnCount();
-
 	for (auto object : objects)
 	{
-		const auto objectTileIndex = mTilemapView.getTileIndex(object->getGlobalPosition());
-
-		TileIndex tileIndex{};
-
-		for (auto rowIndex{0}; rowIndex < 3; rowIndex++)
+		const auto tileIndexes = mTilemapView.getOverlapTileIndexes(object->getArea());
+		for (const auto& tileIndex : tileIndexes)
 		{
-			tileIndex.row = objectTileIndex.row + (-1 + rowIndex);
-			if (tileIndex.row >= 0 && tileIndex.row < tilemapRowCount)
+			const auto tileAttributes = mTilemapView.getAttributes(tileIndex);
+			if (tileAttributes.has_value())
 			{
-				for (auto columnIndex{0}; columnIndex < 3; columnIndex++)
+				if (tileAttributes.value().isSet(TileAttributes::Collider))
 				{
-					tileIndex.column = objectTileIndex.column + (-1 + columnIndex);
-					if (tileIndex.column >= 0 && tileIndex.column < tilemapColumnCount)
+					const auto objectArea = object->getArea();
+					const auto tileArea = mTilemapView.getTileArea(tileIndex);
+					if (objectArea.isIntersects(tileArea))
 					{
-						if (objectTileIndex != tileIndex)
-						{
-							const auto tileAttributes = mTilemapView.getAttributes(tileIndex);
-							if (tileAttributes.has_value())
-							{
-								if (tileAttributes.value().isSet(TileAttributes::Collider))
-								{
-									const auto objectArea = object->getArea();
-									const auto tileArea = mTilemapView.getTileArea(tileIndex);
-									if (objectArea.isIntersects(tileArea))
-									{
-										colliders.emplace_back(object, tileIndex);
-									}
-								}
-							}
-						}
+						colliders.emplace_back(object, tileIndex);
 					}
 				}
 			}
@@ -98,9 +78,9 @@ CollisionModule::ObjectColliders CollisionModule::checkObjectCollisions(const Ga
 	{
 		auto& object = *objectsIterator;
 
-		for (auto nextObjectIterator = std::next(objectsIterator, 1u); nextObjectIterator != objects.cend() && !object->isDestroyed(); nextObjectIterator++)
+		for (auto nextObjectsIterator = std::next(objectsIterator, 1u); nextObjectsIterator != objects.cend() && !object->isDestroyed(); nextObjectsIterator++)
 		{
-			auto& nextObject = *nextObjectIterator;
+			auto& nextObject = *nextObjectsIterator;
 
 			if (object->isIntersectsItem(*nextObject))
 			{

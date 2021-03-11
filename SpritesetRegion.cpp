@@ -5,7 +5,7 @@ SpritesetRegion::SpritesetRegion(const IntSize& gridSize, const TileIndex& gridT
     calculateSpriteAreas(gridSize, gridTileIndex, spritesetAreas);
 }
 
-const SpriteArea& SpritesetRegion::getSpriteArea(const int number) const noexcept
+const IntArea& SpritesetRegion::getSpriteArea(const int number) const noexcept
 {
     return mSpriteAreas[number];
 }
@@ -32,12 +32,12 @@ void SpritesetRegion::calculateSpriteAreas(const IntSize& gridSize, const TileIn
             spriteAreaOffset.setY(spritesetArea.getGridSize().getHeight() * spritesetArea.getGridTileIndex().column);
 
             IntArea spriteArea{};
-            spriteArea.setX(regionOffset.getX() + spriteAreaOffset.getX() + spritesetArea.getSpriteArea().getArea().getX());
-            spriteArea.setY(regionOffset.getY() + spriteAreaOffset.getY() + spritesetArea.getSpriteArea().getArea().getY());
-            spriteArea.setWidth(spritesetArea.getSpriteArea().getArea().getWidth());
-            spriteArea.setHeight(spritesetArea.getSpriteArea().getArea().getHeight());
+            spriteArea.setX(regionOffset.getX() + spriteAreaOffset.getX() + spritesetArea.getSpriteArea().getX());
+            spriteArea.setY(regionOffset.getY() + spriteAreaOffset.getY() + spritesetArea.getSpriteArea().getY());
+            spriteArea.setWidth(spritesetArea.getSpriteArea().getWidth());
+            spriteArea.setHeight(spritesetArea.getSpriteArea().getHeight());
 
-            mSpriteAreas.push_back(SpriteArea{spriteArea, spritesetArea.getSpriteArea().getOrigin()});
+            mSpriteAreas.push_back(spriteArea);
         }
     }
 }

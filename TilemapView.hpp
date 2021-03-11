@@ -46,13 +46,17 @@ public:
 	TileIndex getTileIndex(const IntPoint& position) const noexcept;
 	TileIndex getTileIndex(const FloatPoint& position) const noexcept;
 
+	std::vector<TileIndex> getOverlapTileIndexes(const FloatArea& area) const noexcept;
+
 	const FloatSize& getTileSize() const noexcept;
 
 	const int getRowCount() const noexcept;
 	const int getColumnCount() const noexcept;
 
 	FloatPoint getTilePosition(const TileIndex& index) const noexcept;
+
 	FloatArea getTileArea(const TileIndex& index) const noexcept;
+	FloatArea getTileArea(const FloatPoint& position) const noexcept;
 
 	const sf::Text& getText() const noexcept;
 

@@ -4,7 +4,7 @@
 
 #include "SFML/System/Time.hpp"
 
-#include "SpriteArea.hpp"
+#include "Area.hpp"
 
 class SpritesetRegion;
 
@@ -37,9 +37,9 @@ public:
 	void pause() noexcept;
 	void stop() noexcept;
 
-	void update(const sf::Time& frameTime) noexcept;
+	void update(const sf::Time& fixedFrameTime) noexcept;
 
-	const SpriteArea& getCurrentSpriteArea() const noexcept;
+	const IntArea& getCurrentSpriteArea() const noexcept;
 
 	int getSpriteCount() const noexcept;
 

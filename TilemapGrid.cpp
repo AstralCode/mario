@@ -86,6 +86,11 @@ FloatArea TilemapGrid::getTileArea(const TileIndex& index) const noexcept
 	return {position, mTileSize};
 }
 
+FloatArea TilemapGrid::getTileArea(const FloatPoint& position) const noexcept
+{
+	return getTileArea(getTileIndex(position));
+}
+
 FloatArea TilemapGrid::getArea() const noexcept
 {
 	FloatArea area{};

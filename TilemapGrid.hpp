@@ -31,6 +31,8 @@ public:
 	FloatPoint getTilePosition(const TileIndex& index) const noexcept;
 
 	FloatArea getTileArea(const TileIndex& index) const noexcept;
+	FloatArea getTileArea(const FloatPoint& position) const noexcept;
+
 	FloatArea getArea() const noexcept;
 
 	bool isVisible() const noexcept;

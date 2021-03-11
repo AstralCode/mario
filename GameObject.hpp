@@ -22,7 +22,7 @@ public:
 	void setState(std::unique_ptr<GameObjectState> state) noexcept;
 
 	void setTexture(const sf::Texture& texture) noexcept;
-	void setTextureArea(const SpriteArea& area) noexcept;
+	void setTextureArea(const IntArea& area) noexcept;
 
 	void setMaxAcceleration(const FloatPoint& acceleration) noexcept;
 	void setMaxVelocity(const FloatPoint& velocity) noexcept;
@@ -50,7 +50,7 @@ public:
 
 	void onObjectCollision(GameObject& object) noexcept;
 
-	void update(const sf::Time& frameTime) noexcept;
+	void update(const sf::Time& fixedFrameTime) noexcept;
 
 	GameObjectIdentifiers getIdentifier() const noexcept;
 
@@ -65,6 +65,10 @@ public:
 
 	bool hasDirection(const Directions direction) const noexcept;
 	bool hasIdentifier(const GameObjectIdentifiers identifier) const noexcept;
+
+	bool isMoving() const noexcept;
+	bool isMovingLeft() const noexcept;
+	bool isMovingRight() const noexcept;
 
 	bool isAreaBoundsVisible() const noexcept;
 

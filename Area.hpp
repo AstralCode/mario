@@ -27,6 +27,9 @@ public:
 	void setWidth(const T width) noexcept;
 	void setHeight(const T height) noexcept;
 
+	template <typename U>
+	Area<U> cast() const noexcept;
+
 	T getTop() const noexcept;
 	T getLeft() const noexcept;
 	T getRight() const noexcept;
@@ -131,6 +134,13 @@ inline void Area<T>::setHeight(const T height) noexcept
 }
 
 template <typename T>
+template <typename U>
+inline Area<U> Area<T>::cast() const noexcept
+{
+	return Area<U>{static_cast<U>(mRectangle.left), static_cast<U>(mRectangle.top), static_cast<U>(mRectangle.width), static_cast<U>(mRectangle.height)};
+}
+
+template <typename T>
 inline T Area<T>::getTop() const noexcept
 {
 	return mRectangle.top;
@@ -145,13 +155,13 @@ inline T Area<T>::getLeft() const noexcept
 template <typename T>
 inline T Area<T>::getRight() const noexcept
 {
-	return mRectangle.left + mRectangle.width;
+	return mRectangle.left + mRectangle.width - 1;
 }
 
 template <typename T>
 inline T Area<T>::getBottom() const noexcept
 {
-	return mRectangle.top + mRectangle.height;
+	return mRectangle.top + mRectangle.height - 1;
 }
 
 template <typename T>
@@ -163,19 +173,19 @@ inline Point<T> Area<T>::getTopLeft() const noexcept
 template <typename T>
 inline Point<T> Area<T>::getTopRight() const noexcept
 {
-	return {mRectangle.left + mRectangle.width, mRectangle.top};
+	return {getRight(), mRectangle.top};
 }
 
 template <typename T>
 inline Point<T> Area<T>::getBottomLeft() const noexcept
 {
-	return {mRectangle.left, mRectangle.top + mRectangle.height};
+	return {mRectangle.left, getBottom()};
 }
 
 template <typename T>
 inline Point<T> Area<T>::getBottomRight() const noexcept
 {
-	return {mRectangle.left + mRectangle.width, mRectangle.top + mRectangle.height};
+	return {getRight(), getBottom()};
 }
 
 template <typename T>

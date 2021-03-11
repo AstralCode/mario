@@ -9,12 +9,12 @@ class SpritesetRegion final
 public:
 	SpritesetRegion(const IntSize& gridSize, const TileIndex& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept;
 
-	const SpriteArea& getSpriteArea(const int number) const noexcept;
+	const IntArea& getSpriteArea(const int number) const noexcept;
 
 	int getSpriteCount() const noexcept;
 
 private:
 	void calculateSpriteAreas(const IntSize& gridSize, const TileIndex& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept;
 
-	std::vector<SpriteArea> mSpriteAreas;
+	std::vector<IntArea> mSpriteAreas;
 };

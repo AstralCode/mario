@@ -13,7 +13,7 @@ GameObject::GameObject(const GameObjectIdentifiers identifier) noexcept :
 	mAreaBoundsVisible{false},
 	mMouseOver{false}
 {
-
+	
 }
 
 void GameObject::setState(std::unique_ptr<GameObjectState> state) noexcept
@@ -32,11 +32,9 @@ void GameObject::setTexture(const sf::Texture& texture) noexcept
 	mSprite->setTexture(texture);
 }
 
-void GameObject::setTextureArea(const SpriteArea& area) noexcept
+void GameObject::setTextureArea(const IntArea& area) noexcept
 {
-	mSprite->setTextureArea(area.getArea());
-
-	setOrigin(area.getOrigin());
+	mSprite->setTextureArea(area);
 }
 
 void GameObject::setMaxAcceleration(const FloatPoint& acceleration) noexcept
@@ -165,9 +163,9 @@ void GameObject::onObjectCollision(GameObject& object) noexcept
 	mState->onCollision(object);
 }
 
-void GameObject::update(const sf::Time& frameTime) noexcept
+void GameObject::update(const sf::Time& fixedFrameTime) noexcept
 {
-	mState->update(*this, frameTime);
+	mState->update(*this, fixedFrameTime);
 
 	if (mState->isDestroyed())
 	{
@@ -198,6 +196,21 @@ GameObject::Directions GameObject::getDirection() const noexcept
 bool GameObject::hasIdentifier(const GameObjectIdentifiers identifier) const noexcept
 {
 	return mIdentifier == identifier;
+}
+
+bool GameObject::isMoving() const noexcept
+{
+	return std::abs(mVelocity.getX()) > 0.0f;
+}
+
+bool GameObject::isMovingLeft() const noexcept
+{
+	return mVelocity.getX() < 0.0f;
+}
+
+bool GameObject::isMovingRight() const noexcept
+{
+	return mVelocity.getX() > 0.0f;
 }
 
 bool GameObject::hasDirection(const Directions direction) const noexcept
