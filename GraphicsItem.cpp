@@ -10,7 +10,7 @@ GraphicsItem::GraphicsItem() noexcept :
 	mVisible{true},
 	mRemoved{false}
 {
-
+	
 }
 
 void GraphicsItem::setPosition(const float x, const float y) noexcept
@@ -90,9 +90,17 @@ void GraphicsItem::receiveEvents(const sf::Event& event) noexcept
 	}
 }
 
-FloatArea GraphicsItem::getArea() const noexcept
+FloatArea GraphicsItem::getLocalArea() const noexcept
 {
 	return {};
+}
+
+FloatArea GraphicsItem::getArea() const noexcept
+{
+	const auto position = getGlobalPosition();
+	const auto size = getLocalArea().getSize();
+
+	return {position, size};
 }
 
 sf::Transform GraphicsItem::getLocalTransform() const noexcept

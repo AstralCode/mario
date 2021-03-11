@@ -23,10 +23,10 @@ public:
 	const sf::Texture* getTexture() const noexcept;
 	IntArea getTextureArea() const noexcept;
 
-	FloatArea getArea() const noexcept override;
-
 	bool isFlippedHorizontally() const noexcept;
 	bool isFlippedVertically() const noexcept;
+
+	FloatArea getLocalArea() const noexcept override;
 
 private:
 	void updateArea() noexcept;

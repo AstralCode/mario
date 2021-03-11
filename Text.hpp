@@ -15,7 +15,7 @@ public:
 	const sf::String& getString() const noexcept;
 	unsigned int getCharacterSize() const noexcept;
 
-	FloatArea getArea() const noexcept override;
+	FloatArea getLocalArea() const noexcept override;
 
 private:
 	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;

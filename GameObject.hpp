@@ -52,9 +52,9 @@ public:
 
 	void update(const sf::Time& fixedFrameTime) noexcept;
 
-	GameObjectIdentifiers getIdentifier() const noexcept;
+	FloatArea getLocalArea() const noexcept override;
 
-	FloatArea getArea() const noexcept override;
+	GameObjectIdentifiers getIdentifier() const noexcept;
 
 	const FloatPoint& getMaxAcceleration() const noexcept;
 	const FloatPoint& getAcceleration() const noexcept;

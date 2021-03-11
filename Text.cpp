@@ -32,9 +32,9 @@ unsigned int Text::getCharacterSize() const noexcept
 	return mText.getCharacterSize();
 }
 
-FloatArea Text::getArea() const noexcept
+FloatArea Text::getLocalArea() const noexcept
 {
-	return getGlobalTransform().transformRect(mText.getLocalBounds());
+	return mText.getLocalBounds();
 }
 
 void Text::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept

@@ -173,6 +173,11 @@ void GameObject::update(const sf::Time& fixedFrameTime) noexcept
 	}
 }
 
+FloatArea GameObject::getLocalArea() const noexcept
+{
+	return mSprite->getLocalArea();
+}
+
 GameObjectIdentifiers GameObject::getIdentifier() const noexcept
 {
 	return mIdentifier;
@@ -315,9 +320,4 @@ void GameObject::drawAreaBounds(sf::RenderTarget& target) const noexcept
 	areaBounds.setOutlineThickness(1.0f);
 
 	target.draw(areaBounds);
-}
-
-FloatArea GameObject::getArea() const noexcept
-{
-	return mSprite->getArea();
 }

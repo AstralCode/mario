@@ -54,11 +54,6 @@ IntArea Sprite::getTextureArea() const noexcept
 	return mSprite.getTextureRect();
 }
 
-FloatArea Sprite::getArea() const noexcept
-{
-	return getGlobalTransform().transformRect(mSprite.getLocalBounds());
-}
-
 bool Sprite::isFlippedHorizontally() const noexcept
 {
 	return mHorizontalFlipped;
@@ -105,6 +100,11 @@ void Sprite::updateAreaVertically(sf::IntRect& area) noexcept
 		area.top = mDefaultArea.top;
 		area.height = mDefaultArea.height;
 	}
+}
+
+FloatArea Sprite::getLocalArea() const noexcept
+{
+	return mSprite.getLocalBounds();
 }
 
 void Sprite::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept

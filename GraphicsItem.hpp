@@ -39,7 +39,8 @@ public:
 	
 	void receiveEvents(const sf::Event& event) noexcept;
 
-	virtual FloatArea getArea() const noexcept;
+	virtual FloatArea getLocalArea() const noexcept;
+	FloatArea getArea() const noexcept;
 
 	sf::Transform getLocalTransform() const noexcept;
 	sf::Transform getGlobalTransform() const noexcept;

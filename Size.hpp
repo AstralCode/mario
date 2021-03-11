@@ -6,7 +6,7 @@ template <typename T>
 class Size final
 {
 public:
-	Size() = default;
+	Size() noexcept;
 	Size(const T width, const T height) noexcept;
 	Size(const sf::Vector2<T>& size) noexcept;
 
@@ -28,6 +28,14 @@ private:
 	T mWidth;
 	T mHeight;
 };
+
+template <typename T>
+inline Size<T>::Size() noexcept :
+	mWidth{0},
+	mHeight{0}
+{
+
+}
 
 template <typename T>
 inline Size<T>::Size(const T width, const T height) noexcept :

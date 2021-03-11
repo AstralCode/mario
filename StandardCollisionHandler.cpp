@@ -10,37 +10,40 @@ StandardCollisionHandler::StandardCollisionHandler(TilemapView& tilemapView) noe
 
 void StandardCollisionHandler::onTileCollision(GameObject* object, const TileIndex& tileIndex) noexcept
 {
-    auto offsetPosition = std::ceil(object->getArea().getWidth());
-    auto colliderPositionX{0.0f};
+    const auto objectArea = object->getArea();
+    const auto tileArea = mTilemapView.getTileArea(tileIndex);
 
-    if (object->getArea().getCenter().getX() < mTilemapView.getTileArea(tileIndex).getCenter().getX())
+    auto offsetPosition = objectArea.getWidth();
+
+    if (objectArea.getCenter().getX() < tileArea.getCenter().getX())
     {
         offsetPosition = -offsetPosition;
-        colliderPositionX = mTilemapView.getTileArea(tileIndex).getLeft();
     }
     else
     {
         offsetPosition = +offsetPosition;
-        colliderPositionX = mTilemapView.getTileArea(tileIndex).getRight();
     }
 
+    const auto colliderPositionX = tileArea.getLeft();
     object->setPositionX(colliderPositionX + offsetPosition);
 }
 
 void StandardCollisionHandler::onObjectCollision(GameObject* objectA, GameObject* objectB) noexcept
 {
-    auto offsetPosition = std::ceil(objectA->getArea().getWidth());
-    auto colliderPositionX{0.0f};
+    const auto objectAArea = objectA->getArea();
+    const auto objectBArea = objectB->getArea();
+
+    auto offsetPosition = objectAArea.getWidth();
 
     if (objectA->isMovingRight())
     {
         offsetPosition = -offsetPosition;
-        colliderPositionX = objectB->getArea().getLeft();
     }
     else
     {
-        colliderPositionX = objectB->getArea().getRight();
+        offsetPosition = +offsetPosition;
     }
 
+    const auto colliderPositionX = objectBArea.getLeft();
     objectA->setPositionX(colliderPositionX + offsetPosition);
 }

@@ -27,12 +27,12 @@ FloatSize RectangleShape::getSize() const noexcept
 	return mRectangleShape.getSize();
 }
 
-FloatArea RectangleShape::getArea() const noexcept
-{
-	return getGlobalTransform().transformRect(mRectangleShape.getLocalBounds());
-}
-
 void RectangleShape::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept
 {
 	target.draw(mRectangleShape, states);
+}
+
+FloatArea RectangleShape::getLocalArea() const noexcept
+{
+	return mRectangleShape.getLocalBounds();
 }

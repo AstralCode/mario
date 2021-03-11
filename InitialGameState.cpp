@@ -14,8 +14,8 @@ InitialGameState::InitialGameState(GameContextData& contextData) noexcept :
 void InitialGameState::onEnter() noexcept
 {
 	auto tilemap = std::make_unique<Tilemap>(15, 20);
-	tilemap->getRow(0)  = Tilemap::Row{  0,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
-	tilemap->getRow(1)  = Tilemap::Row{  0,   0,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
+	tilemap->getRow(0)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
+	tilemap->getRow(1)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(2)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  50,  51,   0,   0,   0,   0 };
 	tilemap->getRow(3)	= Tilemap::Row{  0,   0,   0,   0,   0,   0,  50,  51,   0,   0,   0,   0,   0,   0,  64,  65,   0,   0,   0,   0 };
 	tilemap->getRow(4)	= Tilemap::Row{  0,   0,   0,   0,   0,   0,  64,  65,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
@@ -50,9 +50,13 @@ void InitialGameState::onEnter() noexcept
 	tilemapView.setBackgroundColor({97, 133, 246});
 	tilemapView.build({32, 32});
 
-	mGameObjectFactory.createMario()->setPosition(tilemapView.getTilePosition({1, 1}));
+	mGameObjectFactory.createMario()->setPosition(tilemapView.getTilePosition({12, 3}));
+
+	//mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12,  9}));
 	//mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12, 11}));
 	//mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12, 13}));
+	//mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12, 15}));
+	//mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12, 16}));
 }
 
 void InitialGameState::onLeave() noexcept

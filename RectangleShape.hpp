@@ -15,10 +15,10 @@ public:
 
 	FloatSize getSize() const noexcept;
 
-	FloatArea getArea() const noexcept override;
-
 private:
 	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;
+
+	FloatArea getLocalArea() const noexcept override;
 
 	sf::RectangleShape mRectangleShape;
 };
