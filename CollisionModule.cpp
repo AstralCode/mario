@@ -91,18 +91,3 @@ CollisionModule::ObjectColliders CollisionModule::checkObjectCollisions(const Ga
 
 	return colliders;
 }
-
-CollisionSide CollisionModule::checkCollisionSide(const GameObject* objectAlpha, const GameObject* objectBeta) const noexcept
-{
-	CollisionSide side{CollisionSide::Top};
-
-	TileIndex tileObjectA = mTilemapView.getTileIndex(objectAlpha->getPosition());
-	TileIndex tileObjectB = mTilemapView.getTileIndex(objectBeta->getPosition());
-
-	if (tileObjectA.row < tileObjectB.row)
-	{
-
-	}
-
-	return side;
-}
