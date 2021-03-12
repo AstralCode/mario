@@ -27,11 +27,11 @@ void SpritesetRegion::calculateSpriteAreas(const IntSize& gridSize, const TileIn
         {
             auto& spritesetArea = spritesetAreas[j][i];
 
-            SpriteArea spriteAreaOffset{};
+            IntArea spriteAreaOffset{};
             spriteAreaOffset.setX(spritesetArea.getGridSize().getWidth() * spritesetArea.getGridTileIndex().row);
             spriteAreaOffset.setY(spritesetArea.getGridSize().getHeight() * spritesetArea.getGridTileIndex().column);
 
-            IntArea spriteArea{};
+            SpriteArea spriteArea{};
             spriteArea.setX(regionOffset.getX() + spriteAreaOffset.getX() + spritesetArea.getSpriteArea().getX());
             spriteArea.setY(regionOffset.getY() + spriteAreaOffset.getY() + spritesetArea.getSpriteArea().getY());
             spriteArea.setWidth(spritesetArea.getSpriteArea().getWidth());
