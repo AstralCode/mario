@@ -13,19 +13,33 @@ void StandardCollisionHandler::onTileCollision(GameObject* object, const TileInd
     const auto objectArea = object->getArea();
     const auto tileArea = mTilemapView.getTileArea(tileIndex);
 
-    auto offsetPosition = objectArea.getWidth();
+    const auto objectPosition = objectArea.getCenter();
+    const auto tilePosition = tileArea.getCenter();
 
-    if (objectArea.getCenter().getX() < tileArea.getCenter().getX())
+    auto colliderPosition = object->getPosition();
+
+    if (objectPosition.getX() < tilePosition.getX() &&
+        objectPosition.getY() > tileArea.getTop() )
     {
-        offsetPosition = -offsetPosition;
+        colliderPosition.setX(tileArea.getLeft() - objectArea.getWidth());
     }
-    else
+    else if (objectPosition.getY() > tileArea.getTop() &&
+             objectPosition.getY() < tileArea.getBottom())
     {
-        offsetPosition = +offsetPosition;
+        colliderPosition.setX(tileArea.getRight() + 1.0f);
     }
 
-    const auto colliderPositionX = tileArea.getLeft();
-    object->setPositionX(colliderPositionX + offsetPosition);
+    if (objectPosition.getY() < tilePosition.getY() &&
+        objectPosition.getY() < tileArea.getTop())
+    {
+        colliderPosition.setY(tileArea.getTop() - objectArea.getHeight());
+    }
+    else if(objectPosition.getY() > tileArea.getBottom())
+    {
+        colliderPosition.setY(tileArea.getBottom() - 1.0f);
+    }
+
+    object->setPosition(colliderPosition);
 }
 
 void StandardCollisionHandler::onObjectCollision(GameObject* objectA, GameObject* objectB) noexcept

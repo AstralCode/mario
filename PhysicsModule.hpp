@@ -13,6 +13,7 @@ public:
 	void update(GameObject& object, const sf::Time& fixedFrameTime) const noexcept;
 
 	static constexpr float getFriction() noexcept;
+	static constexpr float getGravity() noexcept;
 
 private:
 	void updateMovement(GameObject& object, const sf::Time& fixedFrameTime) const noexcept;
@@ -23,4 +24,5 @@ private:
 	void applyFriction(GameObject& object, const sf::Time& fixedFrameTime) const noexcept;
 
 	static constexpr const float mFriction = 0.005f;
+	static constexpr const float mGravity = 32.0f;
 };

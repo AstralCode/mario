@@ -96,8 +96,8 @@ CollisionSide CollisionModule::checkCollisionSide(const GameObject* objectAlpha,
 {
 	CollisionSide side{CollisionSide::Top};
 
-	TileIndex tileObjectA = mTilemapView.getTileIndex(objectAlpha->getGlobalPosition());
-	TileIndex tileObjectB = mTilemapView.getTileIndex(objectBeta->getGlobalPosition());
+	TileIndex tileObjectA = mTilemapView.getTileIndex(objectAlpha->getPosition());
+	TileIndex tileObjectB = mTilemapView.getTileIndex(objectBeta->getPosition());
 
 	if (tileObjectA.row < tileObjectB.row)
 	{

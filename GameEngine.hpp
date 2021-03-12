@@ -33,7 +33,9 @@ private:
 	void initializeSpritesets() noexcept;
 	void initializeGameState() noexcept;
 
-	void execute() noexcept;
+	void executeMainLoop() noexcept;
+
+	void updateFramerateText(sf::Time& elapsedUpdateTime) noexcept;
 
 	sf::RenderWindow mRenderWindow;
 

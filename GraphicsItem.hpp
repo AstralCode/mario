@@ -46,7 +46,7 @@ public:
 	sf::Transform getGlobalTransform() const noexcept;
 
 	FloatPoint getLocalPosition() const noexcept;
-	FloatPoint getGlobalPosition() const noexcept;
+	FloatPoint getPosition() const noexcept;
 
 	bool isContainsPoint(const FloatPoint& point) const noexcept;
 	bool isIntersectsItem(const GraphicsItem& item) const noexcept;

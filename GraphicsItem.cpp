@@ -97,7 +97,7 @@ FloatArea GraphicsItem::getLocalArea() const noexcept
 
 FloatArea GraphicsItem::getArea() const noexcept
 {
-	const auto position = getGlobalPosition();
+	const auto position = getPosition();
 	const auto size = getLocalArea().getSize();
 
 	return {position, size};
@@ -125,7 +125,7 @@ FloatPoint GraphicsItem::getLocalPosition() const noexcept
 	return mTransform.getPosition();
 }
 
-FloatPoint GraphicsItem::getGlobalPosition() const noexcept
+FloatPoint GraphicsItem::getPosition() const noexcept
 {
 	return getGlobalTransform() * sf::Vector2f{};
 }

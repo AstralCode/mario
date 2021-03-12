@@ -22,7 +22,7 @@ int GameEngine::run() noexcept
 	initializeFramerateText();
 	initializeSpritesets();
 
-	execute();
+	executeMainLoop();
 
 	return 0;
 }
@@ -173,10 +173,9 @@ void GameEngine::initializeGameState() noexcept
 	mGameStateManager.pushState(GameStateIdentifiers::Initial);
 }
 
-void GameEngine::execute() noexcept
+void GameEngine::executeMainLoop() noexcept
 {
 	const auto fixedFrameTime = sf::seconds(1.0f / 60u);
-	const auto framerateTextUpdateTime = sf::seconds(1.0f);
 	const auto threadSleepTime = sf::milliseconds(10);
 
 	sf::Clock clock{};
@@ -221,13 +220,7 @@ void GameEngine::execute() noexcept
 			processRender();
 		}
 
-		if (const auto displayText = std::to_string(mFramerate); elapsedFramerateTextUpdateTime > framerateTextUpdateTime)
-		{
-			mFramerateText.setString("FPS: " + displayText);
-
-			elapsedFramerateTextUpdateTime = sf::Time::Zero;
-			mFramerate = 0u;
-		}
+		updateFramerateText(elapsedFramerateTextUpdateTime);
 
 		if (!renderFrame)
 		{
@@ -236,4 +229,17 @@ void GameEngine::execute() noexcept
 	}
 
 	mRenderWindow.close();
+}
+
+void GameEngine::updateFramerateText(sf::Time& elapsedUpdateTime) noexcept
+{
+	const auto updateTime = sf::seconds(1.0f);
+
+	if (const auto text = std::to_string(mFramerate); elapsedUpdateTime > updateTime)
+	{
+		mFramerateText.setString("FPS: " + text);
+
+		elapsedUpdateTime = sf::Time::Zero;
+		mFramerate = 0u;
+	}
 }

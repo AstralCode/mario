@@ -39,6 +39,8 @@ public:
 	void setAreaBoundsColor(const sf::Color& color) noexcept;
 
 	void accelerateVelocity(const FloatPoint& acceleration) noexcept;
+	void accelerateVelocityX(const float acceleration) noexcept;
+	void accelerateVelocityY(const float acceleration) noexcept;
 
 	void setDirection(const Directions direction) noexcept;
 	void turnAround() noexcept;

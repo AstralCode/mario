@@ -53,16 +53,15 @@ void GameObject::setAcceleration(const FloatPoint& acceleration) noexcept
 	{
 	case Directions::Right:
 		mAcceleration.setX(std::min(+acceleration.getX(), +mMaxAcceleration.getX()));
-		mAcceleration.setY(std::min(+acceleration.getY(), +mMaxAcceleration.getY()));
 		break;
 	case Directions::Left:
 		mAcceleration.setX(std::max(-acceleration.getX(), -mMaxAcceleration.getX()));
-		mAcceleration.setY(std::max(-acceleration.getY(), -mMaxAcceleration.getY()));
 		break;
 	default:
 		break;
 	}
-	mAcceleration = acceleration;
+
+	mAcceleration.setY(std::max(acceleration.getY(), mMaxAcceleration.getY()));
 }
 
 void GameObject::setAccelerationX(const float value) noexcept
@@ -115,6 +114,16 @@ void GameObject::setAreaBoundsColor(const sf::Color& color) noexcept
 void GameObject::accelerateVelocity(const FloatPoint& acceleration) noexcept
 {
 	setVelocity({mVelocity.getX() + acceleration.getX(), mVelocity.getY() + acceleration.getY()});
+}
+
+void GameObject::accelerateVelocityX(const float acceleration) noexcept
+{
+	accelerateVelocity({acceleration, 0.0f});
+}
+
+void GameObject::accelerateVelocityY(const float acceleration) noexcept
+{
+	accelerateVelocity({0.0f, acceleration});
 }
 
 void GameObject::setDirection(const Directions direction) noexcept
