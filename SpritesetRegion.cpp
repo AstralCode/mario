@@ -21,13 +21,13 @@ void SpritesetRegion::calculateSpriteAreas(const IntSize& gridSize, const TileIn
     regionOffset.setX(gridSize.getWidth() * gridTileIndex.row);
     regionOffset.setY(gridSize.getHeight() * gridTileIndex.column);
 
-    for (int j{0}; j < static_cast<int>(spritesetAreas.size()); j++)
+    for (std::size_t j{0u}; j < spritesetAreas.size(); j++)
     {
-        for (int i{0}; i < static_cast<int>(spritesetAreas[j].size()); i++)
+        for (std::size_t i{0u}; i < spritesetAreas[j].size(); i++)
         {
             auto& spritesetArea = spritesetAreas[j][i];
 
-            IntPoint spriteAreaOffset{};
+            SpriteArea spriteAreaOffset{};
             spriteAreaOffset.setX(spritesetArea.getGridSize().getWidth() * spritesetArea.getGridTileIndex().row);
             spriteAreaOffset.setY(spritesetArea.getGridSize().getHeight() * spritesetArea.getGridTileIndex().column);
 

@@ -5,18 +5,19 @@
 
 using GridSize = IntSize;
 using GridTileIndex = TileIndex;
+using SpriteArea = IntArea;
 
 class SpritesetArea final
 {
 public:
-	SpritesetArea(const GridSize& gridSize, const GridTileIndex& gridTileIndex, const IntArea& spriteArea) noexcept;
+	SpritesetArea(const GridSize& gridSize, const GridTileIndex& gridTileIndex, const SpriteArea& spriteArea) noexcept;
 
 	const GridSize& getGridSize() const noexcept;
 	const GridTileIndex& getGridTileIndex() const noexcept;
-	const IntArea& getSpriteArea() const noexcept;
+	const SpriteArea& getSpriteArea() const noexcept;
 
 private:
 	GridSize mGridSize;
 	GridTileIndex mGridTileIndex;
-	IntArea mSpriteArea;
+	SpriteArea mSpriteArea;
 };

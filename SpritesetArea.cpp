@@ -18,7 +18,7 @@ const GridTileIndex& SpritesetArea::getGridTileIndex() const noexcept
     return mGridTileIndex;
 }
 
-const IntArea& SpritesetArea::getSpriteArea() const noexcept
+const SpriteArea& SpritesetArea::getSpriteArea() const noexcept
 {
     return mSpriteArea;
 }

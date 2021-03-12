@@ -117,53 +117,53 @@ void GameEngine::initializeSpritesets() noexcept
 {
 	auto& marioSpriteset = mSpritesets.create(SpritesetIdentifiers::Mario);
 	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Stand, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, IntArea{0, 0, 24, 32}}
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 24, 32}}
 	}}});
 
 	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Move, SpritesetRegion{GridSize{32, 32}, GridTileIndex{1, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, IntArea{0, 0, 26, 32}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, IntArea{0, 0, 26, 32}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, IntArea{0, 0, 24, 32}}
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 26, 32}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{0, 0, 26, 32}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{0, 0, 24, 32}}
 	}}});
 
 	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Slide, SpritesetRegion{GridSize{32, 32}, GridTileIndex{8, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, IntArea{0, 0, 24, 32}}
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 24, 32}}
 	}}});
 
 	auto& enemySpriteset = mSpritesets.create(SpritesetIdentifiers::Enemy);
 	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Move, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, IntArea{0, 0, 32, 32}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, IntArea{0, 0, 32, 32}}
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 32, 32}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{0, 0, 32, 32}}
 	}}});
 
 	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Dead, {GridSize{32, 32}, {2, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, IntArea{0, 16, 32, 16}}
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 16, 32, 16}}
 	}}});
 
 	auto& blocksSpriteset = mSpritesets.create(SpritesetIdentifiers::Blocks);
 	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::QuestionMarkBox, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, IntArea{0, 0, 32, 32}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, IntArea{0, 0, 32, 32}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, IntArea{0, 0, 32, 32}}
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 32, 32}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{0, 0, 32, 32}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{0, 0, 32, 32}}
 	}}});
 
 	blocksSpriteset.addRegion(SpritesetRegionIdentifiers::Blocks::WaterQuestionMarkBox, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 1}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, IntArea{0, 0, 32, 32}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, IntArea{0, 0, 32, 32}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, IntArea{0, 0, 32, 32}}
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 32, 32}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{0, 0, 32, 32}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{0, 0, 32, 32}}
 	}}});
 
 	auto& itemSpriteset = mSpritesets.create(SpritesetIdentifiers::Items);
 	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::Coin, SpritesetRegion{GridSize{32, 32}, GridTileIndex{4, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, IntArea{6, 2, 20, 28}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, IntArea{6, 2, 20, 28}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, IntArea{6, 2, 20, 28}}
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{6, 2, 20, 28}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{6, 2, 20, 28}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{6, 2, 20, 28}}
 	}}});
 
 	itemSpriteset.addRegion(SpritesetRegionIdentifiers::Items::ScoreCoin, SpritesetRegion{GridSize{32, 32}, GridTileIndex{9, 3}, {{
-		SpritesetArea{GridSize{11, 16}, GridTileIndex{0, 0}, IntArea{0, 0, 10, 16}},
-		SpritesetArea{GridSize{11, 16}, GridTileIndex{1, 0}, IntArea{0, 0, 10, 16}},
-		SpritesetArea{GridSize{11, 16}, GridTileIndex{2, 0}, IntArea{0, 0, 10, 16}}
+		SpritesetArea{GridSize{11, 16}, GridTileIndex{0, 0}, SpriteArea{0, 0, 10, 16}},
+		SpritesetArea{GridSize{11, 16}, GridTileIndex{1, 0}, SpriteArea{0, 0, 10, 16}},
+		SpritesetArea{GridSize{11, 16}, GridTileIndex{2, 0}, SpriteArea{0, 0, 10, 16}}
 	}}});
 }
 
