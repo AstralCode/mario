@@ -9,7 +9,7 @@ template <typename T>
 class Area final
 {
 public:
-	Area() noexcept;
+	Area() noexcept = default;
 	Area(const T x, const T y, const T width, const T height) noexcept;
 	Area(const Point<T>& point, const Size<T>& size) noexcept;
 	Area(const sf::Rect<T>& rectangle) noexcept;
@@ -62,13 +62,6 @@ private:
 };
 
 template <typename T>
-inline Area<T>::Area() noexcept :
-	mRectangle{0, 0, 0, 0}
-{
-
-}
-
-template <typename T>
 inline Area<T>::Area(const T x, const T y, const T width, const T height) noexcept :
 	mRectangle{x, y, width, height}
 {
@@ -96,7 +89,7 @@ inline void Area<T>::set(const sf::Rect<T>& rectangle)
 }
 
 template <typename T>
-inline void Area<T>::setPosition( const T x, const T y ) noexcept
+inline void Area<T>::setPosition(const T x, const T y) noexcept
 {
 	mRectangle.left = x;
 	mRectangle.top = y;

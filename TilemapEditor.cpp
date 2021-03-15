@@ -7,23 +7,23 @@
 TilemapEditor::TilemapEditor(const ResourceContainer& resources) noexcept :
 	mResources{resources}
 {
-	mTilemapGrid.setTileSize(32.0f, 32.0f);
+	mTilemapGrid.setTileSize(32, 32);
 	mTilemapGrid.setTileCount(20, 15);
 	mTilemapGrid.build();
 }
 
-void TilemapEditor::initialize(const sf::Texture& texture) noexcept
+void TilemapEditor::initialize(const sf::Texture&) noexcept
 {
 	TileIdentifier tileIdentifier{0};
 
 	auto tilemapPalette = std::make_unique<Tilemap>(4, 14);
-	for (auto rowIndex{0}; rowIndex < tilemapPalette->getRowCount(); rowIndex++)
+	for (auto row{0}; row < tilemapPalette->getRowCount(); row++)
 	{
-		auto& tilemapRow = tilemapPalette->getRow(rowIndex);
+		auto& tilemapRow = tilemapPalette->getRow(row);
 
-		for (auto columnIndex{0}; columnIndex < tilemapPalette->getColumnCount(); columnIndex++)
+		for (auto column{0}; column < tilemapPalette->getColumnCount(); column++)
 		{
-			tilemapRow[columnIndex] = ++tileIdentifier;
+			tilemapRow[column] = ++tileIdentifier;
 		}
 	}
 
@@ -36,7 +36,7 @@ void TilemapEditor::initialize(const sf::Texture& texture) noexcept
 	mTilemapPaletteView.build({32, 32});
 }
 
-void TilemapEditor::newTilemap(const int rowCount, const int columnCount) noexcept
+void TilemapEditor::newTilemap(const int, const int) noexcept
 {
 
 }
