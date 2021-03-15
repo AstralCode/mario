@@ -69,8 +69,8 @@ TileIndex TilemapGrid::getTileIndex(const FloatPoint& position) const noexcept
 TileIndex TilemapGrid::getTileIndex(const IntPoint& position) const noexcept
 {
 	TileIndex index{};
-	index.column = position.getX() / static_cast<unsigned int>(mTileSize.getWidth());
-	index.row = position.getY() / static_cast<unsigned int>(mTileSize.getHeight());
+	index.column = position.getX() / static_cast<int>(mTileSize.getWidth());
+	index.row = position.getY() / static_cast<int>(mTileSize.getHeight());
 
 	return index;
 }

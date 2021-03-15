@@ -56,8 +56,9 @@ CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const 
 			{
 				if (tileAttributes.value().isSet(TileAttributes::Collider))
 				{
-					const auto tileArea = mTilemapView.getTileArea(tileIndex);
 					const auto objectArea = object->getArea();
+					const auto tileArea = mTilemapView.getTileArea(tileIndex);
+
 					if (objectArea.isIntersects(tileArea))
 					{
 						colliders.emplace_back(object, tileIndex);

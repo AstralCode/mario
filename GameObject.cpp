@@ -158,7 +158,7 @@ void GameObject::destroy() noexcept
 void GameObject::moveLeft() noexcept
 {
 	setDirection(Directions::Left);
-	setAcceleration(-getMaxAcceleration());
+	setAcceleration(getMaxAcceleration());
 }
 
 void GameObject::moveRight() noexcept

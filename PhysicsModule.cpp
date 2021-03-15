@@ -7,7 +7,7 @@
 void PhysicsModule::update(GameObject& object, const sf::Time& fixedFrameTime) const noexcept
 {
     updateMovement(object, fixedFrameTime);
-    applyFriction(object, fixedFrameTime);
+    updatePosition(object, fixedFrameTime);
 }
 
 constexpr float PhysicsModule::getFriction() noexcept
@@ -23,8 +23,16 @@ constexpr float PhysicsModule::getGravity() noexcept
 void PhysicsModule::updateMovement(GameObject& object, const sf::Time& fixedFrameTime) const noexcept
 {
     applyAcceleration(object, fixedFrameTime);
+    applyFriction(object, fixedFrameTime);
+}
 
-    updatePosition(object, fixedFrameTime);
+void PhysicsModule::updatePosition(GameObject& object, const sf::Time& fixedFrameTime) const noexcept
+{
+    FloatPoint offset{};
+    offset.setX(object.getVelocity().getX() * fixedFrameTime.asSeconds());
+    offset.setY(object.getVelocity().getY() * fixedFrameTime.asSeconds());
+
+    object.move(offset);
 }
 
 void PhysicsModule::applyAcceleration(GameObject& object, const sf::Time& fixedFrameTime) const noexcept
@@ -36,15 +44,6 @@ void PhysicsModule::applyAcceleration(GameObject& object, const sf::Time& fixedF
     acceleration.setY(acceleration.getY() + getGravity() * fixedFrameTime.asSeconds());
 
     object.accelerateVelocity(acceleration);
-}
-
-void PhysicsModule::updatePosition(GameObject& object, const sf::Time& fixedFrameTime) const noexcept
-{
-    FloatPoint offset{};
-    offset.setX(object.getVelocity().getX() * fixedFrameTime.asSeconds());
-    offset.setY(object.getVelocity().getY() * fixedFrameTime.asSeconds());
-
-    object.move(offset);
 }
 
 void PhysicsModule::applyFriction(GameObject& object, const sf::Time& fixedFrameTime) const noexcept

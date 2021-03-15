@@ -8,7 +8,7 @@ CreaturesCollisionHandler::CreaturesCollisionHandler(TilemapView& tilemapView) n
 	setTargets({GameObjectIdentifiers::Goomba});
 }
 
-void CreaturesCollisionHandler::onTileCollision(GameObject* object, const TileIndex& tileIndex) noexcept
+void CreaturesCollisionHandler::onTileCollision(GameObject* object, const TileIndex&) noexcept
 {
     object->turnAround();
 }

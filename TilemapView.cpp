@@ -150,11 +150,11 @@ std::vector<TileIndex> TilemapView::getOverlapTileIndexes(const FloatArea& area)
 	const auto tileLeftTop = getTileIndex(area.getTopLeft());
 	const auto tileBottomRight = getTileIndex(area.getBottomRight());
 
-	for (auto row{tileLeftTop.row}; row <= tileBottomRight.row; row++)
+	for (TileIndex tileIndex{tileLeftTop.row, 0.0f}; tileIndex.row <= tileBottomRight.row; tileIndex.row++)
 	{
-		for (auto column{tileLeftTop.column}; column <= tileBottomRight.column; column++)
+		for (tileIndex.column = tileLeftTop.column; tileIndex.column <= tileBottomRight.column; tileIndex.column++)
 		{
-			tileIndexes.push_back(TileIndex{row, column});
+			tileIndexes.push_back(tileIndex);
 		}
 	}
 
