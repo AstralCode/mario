@@ -141,13 +141,13 @@ void GameObject::turnAround() noexcept
 	if (mDirection == Directions::Right)
 	{
 		moveLeft();
-		setVelocity(-getVelocity());
 	}
 	else
 	{
 		moveRight();
-		setVelocity(-getVelocity());
 	}
+
+	setVelocity(-getVelocity());
 }
 
 void GameObject::destroy() noexcept

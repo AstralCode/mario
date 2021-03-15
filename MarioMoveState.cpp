@@ -30,7 +30,7 @@ void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent&
     }
     else if (keyEvent.code == sf::Keyboard::W)
     {
-        object.setAccelerationY(object.getMaxAcceleration().getY());
+        object.setAccelerationY(-object.getMaxAcceleration().getY());
     }
 }
 
