@@ -21,7 +21,7 @@ void StandardCollisionHandler::onTileCollision(GameObject* object, const TileInd
     if (objectPosition.getX() < tilePosition.getX() &&
         objectPosition.getY() > tileArea.getTop() )
     {
-        colliderPosition.setX(tileArea.getLeft() - objectArea.getWidth() - 1.0f);
+        colliderPosition.setX(tileArea.getLeft() - objectArea.getWidth());
     }
     else if (objectPosition.getY() > tileArea.getTop() &&
              objectPosition.getY() < tileArea.getBottom())
