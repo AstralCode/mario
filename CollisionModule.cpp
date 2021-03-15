@@ -10,8 +10,11 @@ CollisionModule::CollisionModule(TilemapView& tilemapView) noexcept :
 
 void CollisionModule::detectCollisions(const GameObjectContainer& objects) noexcept
 {
-	executeTilemapCollisionHandlers(checkTilemapCollisions(objects));
-	executeObjectCollisionHandlers(checkObjectCollisions(objects));
+	const auto tileColliders = checkTilemapCollisions(objects);
+	const auto objectColliders = checkObjectCollisions(objects);
+
+	executeTilemapCollisionHandlers(tileColliders);
+	executeObjectCollisionHandlers(objectColliders);
 }
 
 void CollisionModule::executeTilemapCollisionHandlers(const TilemapColliders& colliders) const noexcept
