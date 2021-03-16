@@ -4,10 +4,10 @@
 #include "Spriteset.hpp"
 #include "SpritesetRegions.hpp"
 
-class MarioStandState final : public GameObjectState
+class CreatureMoveState final : public GameObjectState
 {
 public:
-	MarioStandState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept;
+	CreatureMoveState(const Spriteset<Enemy>& spriteset) noexcept;
 
 	void onSet(GameObject& object) noexcept override;
 	void update(GameObject& object, const sf::Time& fixedFrameTime) noexcept override;

@@ -1,16 +1,41 @@
 #include "SpritesetContainer.hpp"
 
-Spriteset& SpritesetContainer::create(const std::string& identifier) noexcept
+Spriteset<MarioSpritesetRegions>& SpritesetContainer::getMarioSpriteset() noexcept
 {
-	auto spriteset = std::make_unique<Spriteset>();
-	auto spritesetPointer = spriteset.get();
-
-	mSpritesets.emplace(identifier, std::move(spriteset));
-
-	return *spritesetPointer;
+	return mMarioSpriteset;
 }
 
-const Spriteset& SpritesetContainer::getSpriteset(const std::string& identifier) const
+const Spriteset<MarioSpritesetRegions>& SpritesetContainer::getMarioSpriteset() const noexcept
 {
-	return *mSpritesets.at(identifier);
+	return mMarioSpriteset;
+}
+
+Spriteset<GoombaSpritesetRegions>& SpritesetContainer::getGoombaSpriteset() noexcept
+{
+	return mGoombaSpriteset;
+}
+
+const Spriteset<GoombaSpritesetRegions>& SpritesetContainer::getGoombaSpriteset() const noexcept
+{
+	return mGoombaSpriteset;
+}
+
+Spriteset<ItemSpritesetRegions>& SpritesetContainer::getItemSpriteset() noexcept
+{
+	return mItemSpriteset;
+}
+
+const Spriteset<ItemSpritesetRegions>& SpritesetContainer::getItemSpriteset() const noexcept
+{
+	return mItemSpriteset;
+}
+
+Spriteset<BlockSpritesetRegions>& SpritesetContainer::getBlockSpriteset() noexcept
+{
+	return mBlockSpriteset;
+}
+
+const Spriteset<BlockSpritesetRegions>& SpritesetContainer::getBlockSpriteset() const noexcept
+{
+	return mBlockSpriteset;
 }

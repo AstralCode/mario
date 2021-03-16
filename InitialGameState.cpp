@@ -45,8 +45,8 @@ void InitialGameState::onEnter() noexcept
 
 	auto& tilemapView = getScene().getTilemapView();
 	tilemapView.setTilemap(std::move(tilemap));
-	tilemapView.setTilemapTexture(getTexture(TextureIdentifiers::Scenery));
-	tilemapView.setInformationText(getFont(FontIdentifiers::Roboto));
+	tilemapView.setTilemapTexture(getTexture(Textures::Scenery));
+	tilemapView.setInformationText(getFont(Fonts::Roboto));
 	tilemapView.setBackgroundColor({97, 133, 246});
 	tilemapView.build({32, 32});
 

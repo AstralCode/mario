@@ -4,21 +4,26 @@
 #include "MarioStandState.hpp"
 #include "MarioMoveState.hpp"
 
-MarioJumpState::MarioJumpState(const Spriteset& spriteset) noexcept :
-    GameObjectState{spriteset}
+MarioJumpState::MarioJumpState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
+    mSpriteset{spriteset}
 {
 
 }
 
 void MarioJumpState::onSet(GameObject& object) noexcept
 {
-    object.setTextureArea(getSpriteArea(SpritesetRegionIdentifiers::Mario::Jump));
-    object.setAccelerationY(object.getMaxAcceleration().getY());
+    object.setTextureArea(mSpriteset.getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0));
+    object.setAccelerationY(Constants::GameObjects::Mario::MaxVelocityY);
+}
+
+void MarioJumpState::update(GameObject&, const sf::Time&) noexcept
+{
+
 }
 
 void MarioJumpState::onTileTopCollision(GameObject& object, const TileIndex& tileIndex) noexcept
 {
-    object.setState(createState<MarioStandState>());
+    object.setState(std::make_unique<MarioStandState>());
 }
 
 void MarioJumpState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
@@ -44,9 +49,4 @@ void MarioJumpState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent&
 bool MarioJumpState::isJumping() const noexcept
 {
     return true;
-}
-
-void MarioJumpState::updateSelf(GameObject&, const sf::Time&) noexcept
-{
-
 }

@@ -25,7 +25,7 @@ public:
 	void setTexture(const sf::Texture& texture) noexcept;
 	void setTextureArea(const IntArea& area) noexcept;
 
-	void setMaxVelocity( const FloatPoint& velocity ) noexcept;
+	void setMaxVelocity(const FloatPoint& velocity) noexcept;
 
 	void setAcceleration(const FloatPoint& acceleration) noexcept;
 	void setAccelerationX(const float value) noexcept;

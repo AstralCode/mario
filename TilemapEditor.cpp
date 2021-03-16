@@ -30,7 +30,7 @@ void TilemapEditor::initialize(const sf::Texture&) noexcept
 	const auto positionY = mTilemapGrid.getTilePosition({11, 0}).getY() - 4.0f;
 
 	mTilemapPaletteView.setTilemap(std::move(tilemapPalette));
-	mTilemapPaletteView.setTilemapTexture(mResources.getTexture(TextureIdentifiers::Scenery));
+	mTilemapPaletteView.setTilemapTexture(mResources.getTexture(Textures::Scenery));
 	mTilemapPaletteView.setPosition(4.0f, positionY);
 	mTilemapPaletteView.setMargins(0.0f, 0.0f, 0.0f, 0.0f);
 	mTilemapPaletteView.build({32, 32});

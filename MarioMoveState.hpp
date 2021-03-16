@@ -1,17 +1,23 @@
 #pragma once
 
 #include "GameObjectState.hpp"
+#include "Spriteset.hpp"
+#include "SpritesetRegions.hpp"
+#include "Animation.hpp"
 
 class MarioMoveState final : public GameObjectState
 {
 public:
-	MarioMoveState(const Spriteset& spriteset) noexcept;
+	MarioMoveState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept;
 
 	void onSet(GameObject& object) noexcept override;
+	void update(GameObject& object, const sf::Time& fixedFrameTime) noexcept override;
 
 	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
 	void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
 
 private:
-	void updateSelf(GameObject& object, const sf::Time& fixedFrameTime) noexcept override;
+	const Spriteset<MarioSpritesetRegions>& mSpriteset;
+
+	Animation mAnimation;
 };

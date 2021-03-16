@@ -3,14 +3,26 @@
 #include <memory>
 
 #include "Spriteset.hpp"
-#include "SpritesetIdentifiers.hpp"
+#include "SpritesetRegions.hpp"
 
 class SpritesetContainer final
 {
 public:
-	Spriteset& create(const std::string& identifier) noexcept;
-	const Spriteset& getSpriteset(const std::string& identifier) const;
+	Spriteset<MarioSpritesetRegions>& getMarioSpriteset() noexcept;
+	const Spriteset<MarioSpritesetRegions>& getMarioSpriteset() const noexcept;
+
+	Spriteset<GoombaSpritesetRegions>& getGoombaSpriteset() noexcept;
+	const Spriteset<GoombaSpritesetRegions>& getGoombaSpriteset() const noexcept;
+
+	Spriteset<ItemSpritesetRegions>& getItemSpriteset() noexcept;
+	const Spriteset<ItemSpritesetRegions>& getItemSpriteset() const noexcept;
+
+	Spriteset<BlockSpritesetRegions>& getBlockSpriteset() noexcept;
+	const Spriteset<BlockSpritesetRegions>& getBlockSpriteset() const noexcept;
 
 private:
-	std::map<std::string, std::unique_ptr<Spriteset>> mSpritesets;
+	Spriteset<MarioSpritesetRegions> mMarioSpriteset;
+	Spriteset<GoombaSpritesetRegions> mGoombaSpriteset;
+	Spriteset<ItemSpritesetRegions> mItemSpriteset;
+	Spriteset<BlockSpritesetRegions> mBlockSpriteset;
 };

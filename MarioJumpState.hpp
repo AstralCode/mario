@@ -1,13 +1,16 @@
 #pragma once
 
 #include "GameObjectState.hpp"
+#include "Spriteset.hpp"
+#include "SpritesetRegions.hpp"
 
 class MarioJumpState final : public GameObjectState
 {
 public:
-	MarioJumpState(const Spriteset& spriteset) noexcept;
+	MarioJumpState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept;
 
 	void onSet(GameObject& object) noexcept override;
+	void update(GameObject& object, const sf::Time& fixedFrameTime) noexcept override;
 
 	void onTileTopCollision(GameObject& object, const TileIndex& tileIndex) noexcept override;
 
@@ -17,5 +20,5 @@ public:
 	bool isJumping() const noexcept override;
 
 private:
-	void updateSelf(GameObject& object, const sf::Time& fixedFrameTime) noexcept override;
+	const Spriteset<MarioSpritesetRegions>& mSpriteset;
 };

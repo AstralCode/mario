@@ -3,19 +3,39 @@
 #include "GameObject.hpp"
 #include "MarioStandState.hpp"
 
-MarioMoveState::MarioMoveState(const Spriteset& spriteset) noexcept :
-    GameObjectState{spriteset}
+MarioMoveState::MarioMoveState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
+    mSpriteset{spriteset},
+    mAnimation{spriteset.getRegion(MarioSpritesetRegions::Move)}
 {
 
 }
 
 void MarioMoveState::onSet(GameObject&) noexcept
 {
-    auto animation = createAnimation(SpritesetRegionIdentifiers::Mario::Move);
-    animation->setDuration(sf::seconds(0.25f));
-    animation->setRepeating(true);
+    mAnimation.setDuration(sf::seconds(Constants::GameObjects::Mario::MoveAnimationDuration));
+    mAnimation.setRepeating(true);
+}
 
-    setAnimation(std::move(animation));
+void MarioMoveState::update(GameObject& object, const sf::Time& fixedFrameTime) noexcept
+{
+    mAnimation.update(fixedFrameTime);
+
+    if (std::abs(object.getAcceleration().getX()) > 32.0f)
+    {
+        const bool sliding =
+            object.hasDirection(GameObject::Directions::Left) && object.getVelocity().getX() > 0.0f ||
+            object.hasDirection(GameObject::Directions::Right) && object.getVelocity().getX() < 0.0f;
+
+        if (sliding)
+        {
+            object.setTextureArea(mSpriteset.getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0));
+        }
+
+    }
+    else if (std::abs(object.getVelocity().getX()) < 1.0f)
+    {
+        object.setState(std::make_unique<MarioStandState>(mSpriteset));
+    }
 }
 
 void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
@@ -50,25 +70,5 @@ void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent
         {
             object.moveLeft();
         }
-    }
-}
-
-void MarioMoveState::updateSelf(GameObject& object, const sf::Time&) noexcept
-{
-    if (std::abs(object.getAcceleration().getX()) > 32.0f)
-    {
-        const bool sliding =
-            object.hasDirection(GameObject::Directions::Left) && object.getVelocity().getX() > 0.0f ||
-            object.hasDirection(GameObject::Directions::Right) && object.getVelocity().getX() < 0.0f;
-
-        if (sliding)
-        {
-            object.setTextureArea(getSpriteArea(SpritesetRegionIdentifiers::Mario::Slide));
-        }
-
-    }
-    else if (std::abs(object.getVelocity().getX()) < 1.0f)
-    {
-        object.setState(createState<MarioStandState>());
     }
 }

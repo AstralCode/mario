@@ -38,8 +38,8 @@ public:
 	GameStateChanger& getStateChanger() noexcept;
 
 protected:
-	const sf::Font& getFont(const FontIdentifiers identifier) noexcept;
-	const sf::Texture& getTexture(const TextureIdentifiers identifier) noexcept;
+	const sf::Font& getFont(const Fonts identifier) noexcept;
+	const sf::Texture& getTexture(const Textures identifier) noexcept;
 
 	GameContextData& mContextData;
 };

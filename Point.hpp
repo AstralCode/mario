@@ -8,7 +8,7 @@ template <typename T>
 class Point final
 {
 public:
-	Point() noexcept = default;
+	Point() noexcept;
 	Point(const T x, const T y) noexcept;
 	Point(const sf::Vector2<T>& point) noexcept;
 
@@ -36,6 +36,13 @@ public:
 private:
 	sf::Vector2<T> mPoint;
 };
+
+template <typename T>
+inline Point<T>::Point() noexcept :
+	mPoint{}
+{
+
+}
 
 template <typename T>
 inline Point<T>::Point(const T x, const T y) noexcept :

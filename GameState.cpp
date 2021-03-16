@@ -63,12 +63,12 @@ GameStateChanger& GameState::getStateChanger() noexcept
 	return mContextData.getStateChanger();
 }
 
-const sf::Font& GameState::getFont(const FontIdentifiers identifier) noexcept
+const sf::Font& GameState::getFont(const Fonts identifier) noexcept
 {
 	return getResources().getFont(identifier);
 }
 
-const sf::Texture& GameState::getTexture(const TextureIdentifiers identifier) noexcept
+const sf::Texture& GameState::getTexture(const Textures identifier) noexcept
 {
 	return getResources().getTexture(identifier);
 }
