@@ -50,7 +50,7 @@ void InitialGameState::onEnter() noexcept
 	tilemapView.setBackgroundColor({97, 133, 246});
 	tilemapView.build({32, 32});
 
-	mGameObjectFactory.createMario()->setPosition(tilemapView.getTilePosition({10, 3}));
+	mGameObjectFactory.createMario()->setPosition(tilemapView.getTilePosition({12, 3}));
 
 	//mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12,  9}));
 	//mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12, 13}));

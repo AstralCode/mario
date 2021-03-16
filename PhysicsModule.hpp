@@ -22,6 +22,6 @@ private:
 	void applyAcceleration(GameObject& object, const sf::Time& fixedFrameTime) const noexcept;
 	void applyFriction(GameObject& object, const sf::Time& fixedFrameTime) const noexcept;
 
-	static constexpr const float mFriction = 0.005f;
-	static constexpr const float mGravity = 64.0f;
+	static constexpr const auto mFriction = 0.005f;
+	static constexpr const auto mGravity = 32.0f * 5.0f;
 };

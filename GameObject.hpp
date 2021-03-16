@@ -2,6 +2,7 @@
 
 #include "SFML/Graphics/Color.hpp"
 
+#include "Constants.hpp"
 #include "GraphicsItem.hpp"
 #include "GameObjectIdentifiers.hpp"
 #include "GameObjectState.hpp"
@@ -24,8 +25,7 @@ public:
 	void setTexture(const sf::Texture& texture) noexcept;
 	void setTextureArea(const IntArea& area) noexcept;
 
-	void setMaxAcceleration(const FloatPoint& acceleration) noexcept;
-	void setMaxVelocity(const FloatPoint& velocity) noexcept;
+	void setMaxVelocity( const FloatPoint& velocity ) noexcept;
 
 	void setAcceleration(const FloatPoint& acceleration) noexcept;
 	void setAccelerationX(const float value) noexcept;
@@ -34,7 +34,7 @@ public:
 	void setVelocity(const FloatPoint& velocity) noexcept;
 	void setVelocityX(const float value) noexcept;
 	void setVelocityY(const float value) noexcept;
-	
+
 	void setAreaBoundsVisible(const bool visible) noexcept;
 	void setAreaBoundsColor(const sf::Color& color) noexcept;
 
@@ -63,7 +63,6 @@ public:
 
 	GameObjectIdentifiers getIdentifier() const noexcept;
 
-	const FloatPoint& getMaxAcceleration() const noexcept;
 	const FloatPoint& getAcceleration() const noexcept;
 	const FloatPoint& getMaxVelocity() const noexcept;
 	const FloatPoint& getVelocity() const noexcept;
@@ -96,7 +95,6 @@ private:
 
 	std::unique_ptr<GameObjectState> mState;
 
-	FloatPoint mMaxAcceleration;
 	FloatPoint mAcceleration;
 	FloatPoint mVelocity;
 	FloatPoint mMaxVelocity;

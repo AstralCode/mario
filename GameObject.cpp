@@ -37,11 +37,6 @@ void GameObject::setTextureArea(const IntArea& area) noexcept
 	mSprite->setTextureArea(area);
 }
 
-void GameObject::setMaxAcceleration(const FloatPoint& acceleration) noexcept
-{
-	mMaxAcceleration = acceleration;
-}
-
 void GameObject::setMaxVelocity(const FloatPoint& velocity) noexcept
 {
 	mMaxVelocity = velocity;
@@ -52,10 +47,10 @@ void GameObject::setAcceleration(const FloatPoint& acceleration) noexcept
 	switch (mDirection)
 	{
 	case Directions::Right:
-		mAcceleration.setX(std::min(+acceleration.getX(), +mMaxAcceleration.getX()));
+		mAcceleration.setX(+acceleration.getX());
 		break;
 	case Directions::Left:
-		mAcceleration.setX(std::max(-acceleration.getX(), -mMaxAcceleration.getX()));
+		mAcceleration.setX(-acceleration.getX());
 		break;
 	default:
 		break;
@@ -63,11 +58,11 @@ void GameObject::setAcceleration(const FloatPoint& acceleration) noexcept
 
 	if (isJumping())
 	{
-		mAcceleration.setY(std::max(-acceleration.getY(), -mMaxAcceleration.getY()));
+		mAcceleration.setY(-acceleration.getY());
 	}
 	else
 	{
-		mAcceleration.setY(std::min(+acceleration.getY(), +mMaxAcceleration.getY()));
+		mAcceleration.setY(+acceleration.getY());
 	}
 }
 
@@ -262,11 +257,6 @@ bool GameObject::isJumping() const noexcept
 bool GameObject::hasDirection(const Directions direction) const noexcept
 {
 	return mDirection == direction;
-}
-
-const FloatPoint& GameObject::getMaxAcceleration() const noexcept
-{
-	return mMaxAcceleration;
 }
 
 const FloatPoint& GameObject::getAcceleration() const noexcept

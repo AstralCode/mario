@@ -41,8 +41,6 @@ void PhysicsModule::applyAcceleration(GameObject& object, const sf::Time& fixedF
     acceleration.setX(object.getAcceleration().getX() * fixedFrameTime.asSeconds());
     acceleration.setY(object.getAcceleration().getY() * fixedFrameTime.asSeconds());
 
-    acceleration.setY(acceleration.getY() + getGravity() * fixedFrameTime.asSeconds());
-
     object.accelerateVelocity(acceleration);
 }
 
