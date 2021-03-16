@@ -176,22 +176,22 @@ void GameObject::moveRight() noexcept
 
 void GameObject::onTileTopCollision(const TileIndex& tileIndex) noexcept
 {
-	mState->onTileTopCollision(tileIndex);
+	mState->onTileTopCollision(*this, tileIndex);
 }
 
 void GameObject::onTileBottomCollision(const TileIndex& tileIndex) noexcept
 {
-	mState->onTileBottomCollision(tileIndex);
+	mState->onTileBottomCollision(*this, tileIndex);
 }
 
 void GameObject::onTileLeftCollision(const TileIndex& tileIndex) noexcept
 {
-	mState->onTileLeftCollision(tileIndex);
+	mState->onTileLeftCollision(*this, tileIndex);
 }
 
 void GameObject::onTileRightCollision(const TileIndex& tileIndex) noexcept
 {
-	mState->onTileRightCollision(tileIndex);
+	mState->onTileRightCollision(*this, tileIndex);
 }
 
 void GameObject::onObjectCollision(GameObject& object) noexcept

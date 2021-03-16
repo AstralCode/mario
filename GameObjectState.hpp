@@ -22,10 +22,10 @@ public:
 
 	void destroy() noexcept;
 
-	virtual void onTileTopCollision(const TileIndex& tileIndex) noexcept;
-	virtual void onTileBottomCollision(const TileIndex& tileIndex) noexcept;
-	virtual void onTileLeftCollision(const TileIndex& tileIndex) noexcept;
-	virtual void onTileRightCollision(const TileIndex& tileIndex) noexcept;
+	virtual void onTileTopCollision(GameObject& object, const TileIndex& tileIndex) noexcept;
+	virtual void onTileBottomCollision(GameObject& object, const TileIndex& tileIndex) noexcept;
+	virtual void onTileLeftCollision(GameObject& object, const TileIndex& tileIndex) noexcept;
+	virtual void onTileRightCollision(GameObject& object, const TileIndex& tileIndex) noexcept;
 
 	virtual void onObjectCollision(GameObject& object) noexcept;
 

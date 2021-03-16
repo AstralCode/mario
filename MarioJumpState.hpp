@@ -9,6 +9,8 @@ public:
 
 	void onSet(GameObject& object) noexcept override;
 
+	void onTileTopCollision(GameObject& object, const TileIndex& tileIndex) noexcept override;
+
 	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
 	void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
 

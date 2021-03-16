@@ -16,6 +16,11 @@ void MarioJumpState::onSet(GameObject& object) noexcept
     object.setAccelerationY(object.getMaxAcceleration().getY());
 }
 
+void MarioJumpState::onTileTopCollision(GameObject& object, const TileIndex& tileIndex) noexcept
+{
+    object.setState(createState<MarioStandState>());
+}
+
 void MarioJumpState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
     if (keyEvent.code == sf::Keyboard::W)
@@ -41,10 +46,7 @@ bool MarioJumpState::isJumping() const noexcept
     return true;
 }
 
-void MarioJumpState::updateSelf(GameObject& object, const sf::Time&) noexcept
+void MarioJumpState::updateSelf(GameObject&, const sf::Time&) noexcept
 {
-    if (std::abs(object.getVelocity().getY()) < 1.0f)
-    {
-        object.setState(createState<MarioStandState>());
-    }
+
 }

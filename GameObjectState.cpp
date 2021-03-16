@@ -35,22 +35,22 @@ void GameObjectState::destroy() noexcept
     mRemoved = true;
 }
 
-void GameObjectState::onTileTopCollision(const TileIndex&) noexcept
+void GameObjectState::onTileTopCollision(GameObject&, const TileIndex&) noexcept
 {
 
 }
 
-void GameObjectState::onTileBottomCollision(const TileIndex&) noexcept
+void GameObjectState::onTileBottomCollision(GameObject&, const TileIndex&) noexcept
 {
 
 }
 
-void GameObjectState::onTileLeftCollision(const TileIndex&) noexcept
+void GameObjectState::onTileLeftCollision(GameObject&, const TileIndex&) noexcept
 {
 
 }
 
-void GameObjectState::onTileRightCollision(const TileIndex&) noexcept
+void GameObjectState::onTileRightCollision(GameObject&, const TileIndex&) noexcept
 {
 
 }
