@@ -5,26 +5,29 @@
 
 MarioMoveState::MarioMoveState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
     mSpriteset{spriteset},
-    mAnimation{spriteset.getRegion(MarioSpritesetRegions::Move)}
+    mMoveAnimation{spriteset.getRegion(MarioSpritesetRegions::Move)}
 {
 
 }
 
-void MarioMoveState::onSet(GameObject&) noexcept
+void MarioMoveState::onSet(GameObject& object) noexcept
 {
-    mAnimation.setDuration(sf::seconds(Constants::GameObjects::Mario::MoveAnimationDuration));
-    mAnimation.setRepeating(true);
+    object.setTextureArea(mMoveAnimation.getCurrentSpriteArea());
+
+    mMoveAnimation.setDuration(sf::seconds(Constants::GameObjects::Mario::MoveAnimationDuration));
+    mMoveAnimation.setRepeating(true);
+    mMoveAnimation.play();
 }
 
 void MarioMoveState::update(GameObject& object, const sf::Time& fixedFrameTime) noexcept
 {
-    mAnimation.update(fixedFrameTime);
+    mMoveAnimation.update(fixedFrameTime);
 
     if (std::abs(object.getAcceleration().getX()) > 32.0f)
     {
         const bool sliding =
-            object.hasDirection(GameObject::Directions::Left) && object.getVelocity().getX() > 0.0f ||
-            object.hasDirection(GameObject::Directions::Right) && object.getVelocity().getX() < 0.0f;
+            object.hasDirection(GameObjectDirections::Left) && object.getVelocity().getX() > 0.0f ||
+            object.hasDirection(GameObjectDirections::Right) && object.getVelocity().getX() < 0.0f;
 
         if (sliding)
         {
@@ -38,15 +41,20 @@ void MarioMoveState::update(GameObject& object, const sf::Time& fixedFrameTime) 
     }
 }
 
+void MarioMoveState::setDirection(GameObject& object, const GameObjectDirections direction) noexcept
+{
+    object.setDirection(direction);
+}
+
 void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
     if (keyEvent.code == sf::Keyboard::Q)
     {
-        object.moveLeft();
+        object.setDirection(GameObjectDirections::Left);
     }
     else if (keyEvent.code == sf::Keyboard::E)
     {
-        object.moveRight();
+        object.setDirection(GameObjectDirections::Right);
     }
 }
 
@@ -61,14 +69,14 @@ void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
         {
-            object.moveRight();
+            object.setDirection(GameObjectDirections::Right);
         }
     }
     else if (keyEvent.code == sf::Keyboard::E)
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
         {
-            object.moveLeft();
+            object.setDirection(GameObjectDirections::Left);
         }
     }
 }

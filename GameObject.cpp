@@ -8,7 +8,7 @@
 GameObject::GameObject(const GameObjectIdentifiers identifier) noexcept :
 	mIdentifier{identifier},
 	mSprite{addItem<Sprite>()},
-	mDirection{Directions::Right},
+	mDirection{GameObjectDirections::Right},
 	mAreaBoundsColor{sf::Color::Red},
 	mAreaBoundsVisible{false},
 	mMouseOver{false}
@@ -18,11 +18,6 @@ GameObject::GameObject(const GameObjectIdentifiers identifier) noexcept :
 
 void GameObject::setState(std::unique_ptr<GameObjectState> state) noexcept
 {
-	if (mState)
-	{
-		mState->onUnset(*this);
-	}
-
 	mState = std::move(state);
 	mState->onSet(*this);
 }
@@ -46,10 +41,10 @@ void GameObject::setAcceleration(const FloatPoint& acceleration) noexcept
 {
 	switch (mDirection)
 	{
-	case Directions::Right:
+	case GameObjectDirections::Right:
 		mAcceleration.setX(+acceleration.getX());
 		break;
-	case Directions::Left:
+	case GameObjectDirections::Left:
 		mAcceleration.setX(-acceleration.getX());
 		break;
 	default:
@@ -80,11 +75,11 @@ void GameObject::setVelocity(const FloatPoint& velocity) noexcept
 {
 	switch (mDirection)
 	{
-	case Directions::Right:
+	case GameObjectDirections::Right:
 		mVelocity.setX(std::min(velocity.getX(), +mMaxVelocity.getX()));
 		mVelocity.setY(std::min(velocity.getY(), +mMaxVelocity.getY()));
 		break;
-	case Directions::Left:
+	case GameObjectDirections::Left:
 		mVelocity.setX(std::max(velocity.getX(), -mMaxVelocity.getX()));
 		mVelocity.setY(std::max(velocity.getY(), -mMaxVelocity.getY()));
 		break;
@@ -128,7 +123,7 @@ void GameObject::accelerateVelocityY(const float acceleration) noexcept
 	accelerateVelocity({0.0f, acceleration});
 }
 
-void GameObject::setDirection(const Directions direction) noexcept
+void GameObject::setDirection(const GameObjectDirections direction) noexcept
 {
 	if (direction != mDirection)
 	{
@@ -140,13 +135,13 @@ void GameObject::setDirection(const Directions direction) noexcept
 
 void GameObject::turnAround() noexcept
 {
-	if (mDirection == Directions::Right)
+	if (mDirection == GameObjectDirections::Right)
 	{
-		moveLeft();
+		setDirection(GameObjectDirections::Left);
 	}
 	else
 	{
-		moveRight();
+		setDirection(GameObjectDirections::Right);
 	}
 
 	setVelocity(-getVelocity());
@@ -155,18 +150,6 @@ void GameObject::turnAround() noexcept
 void GameObject::destroy() noexcept
 {
 	mState->destroy();
-}
-
-void GameObject::moveLeft() noexcept
-{
-	setDirection(Directions::Left);
-	setAccelerationX(getMaxAcceleration().getX());
-}
-
-void GameObject::moveRight() noexcept
-{
-	setDirection(Directions::Right);
-	setAccelerationX(getMaxAcceleration().getX());
 }
 
 void GameObject::onTileTopCollision(const TileIndex& tileIndex) noexcept
@@ -224,7 +207,7 @@ const FloatPoint& GameObject::getVelocity() const noexcept
 	return mVelocity;
 }
 
-GameObject::Directions GameObject::getDirection() const noexcept
+GameObjectDirections GameObject::getDirection() const noexcept
 {
 	return mDirection;
 }
@@ -254,7 +237,7 @@ bool GameObject::isJumping() const noexcept
 	return mState->isJumping();
 }
 
-bool GameObject::hasDirection(const Directions direction) const noexcept
+bool GameObject::hasDirection(const GameObjectDirections direction) const noexcept
 {
 	return mDirection == direction;
 }

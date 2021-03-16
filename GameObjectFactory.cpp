@@ -3,6 +3,7 @@
 #include "ResourceContainer.hpp"
 #include "GraphicsScene.hpp"
 #include "MarioStandState.hpp"
+#include "CreatureMoveState.hpp"
 
 GameObjectFactory::GameObjectFactory(ResourceContainer& resources, SpritesetContainer& spritesets, GraphicsScene& scene) noexcept :
 	mResources{resources},
@@ -25,18 +26,11 @@ GameObject* GameObjectFactory::createMario() noexcept
 
 GameObject* GameObjectFactory::createGoomba() noexcept
 {
-	auto animation = std::make_unique<Animation>SpritesetIdentifiers::Enemy, SpritesetRegionIdentifiers::Goomba::Move);
-	animation->setDuration(sf::seconds(Constants::GameObjects::Goomba::MoveAnimationDuration));
-	animation->setDirection(Animation::Directions::Normal);
-	animation->setRepeating(true);
-
-	auto state = createObjectState<GameObjectState>(SpritesetIdentifiers::Enemy);
-	state->setAnimation(std::move(animation));
+	auto state = std::make_unique<CreatureMoveState>(mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move),
+													 mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Dead));
 
 	auto object = createObject(GameObjectIdentifiers::Goomba, Textures::Enemies);
 	object->setState(std::move(state));
-    object->setMaxVelocity({32.0f * 8.0f, 32.0f * 8.0f});
-	object->setAccelerationX(object->getMaxAcceleration().getX());
 
 	return object;
 }

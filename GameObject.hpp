@@ -6,18 +6,13 @@
 #include "GraphicsItem.hpp"
 #include "GameObjectIdentifiers.hpp"
 #include "GameObjectState.hpp"
+#include "GameObjectDirections.hpp"
 
 class Sprite;
 
 class GameObject final : public GraphicsItem
 {
 public:
-	enum class Directions
-	{
-		Left,
-		Right
-	};
-
 	GameObject(const GameObjectIdentifiers identifier) noexcept;
 
 	void setState(std::unique_ptr<GameObjectState> state) noexcept;
@@ -42,13 +37,10 @@ public:
 	void accelerateVelocityX(const float acceleration) noexcept;
 	void accelerateVelocityY(const float acceleration) noexcept;
 
-	void setDirection(const Directions direction) noexcept;
+	void setDirection(const GameObjectDirections direction) noexcept;
 	void turnAround() noexcept;
 
 	void destroy() noexcept;
-
-	void moveLeft() noexcept;
-	void moveRight() noexcept;
 
 	void onTileTopCollision(const TileIndex& tileIndex) noexcept;
 	void onTileBottomCollision(const TileIndex& tileIndex) noexcept;
@@ -67,9 +59,9 @@ public:
 	const FloatPoint& getMaxVelocity() const noexcept;
 	const FloatPoint& getVelocity() const noexcept;
 
-	Directions getDirection() const noexcept;
+	GameObjectDirections getDirection() const noexcept;
 
-	bool hasDirection(const Directions direction) const noexcept;
+	bool hasDirection(const GameObjectDirections direction) const noexcept;
 	bool hasIdentifier(const GameObjectIdentifiers identifier) const noexcept;
 
 	bool isMoving() const noexcept;
@@ -99,7 +91,7 @@ private:
 	FloatPoint mVelocity;
 	FloatPoint mMaxVelocity;
 
-	Directions mDirection;
+	GameObjectDirections mDirection;
 
 	sf::Color mAreaBoundsColor;
 

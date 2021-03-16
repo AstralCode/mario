@@ -1,19 +1,18 @@
 #pragma once
 
 #include "GameObjectState.hpp"
-#include "Spriteset.hpp"
-#include "SpritesetRegions.hpp"
+#include "Animation.hpp"
 
 class CreatureMoveState final : public GameObjectState
 {
 public:
-	CreatureMoveState(const Spriteset<Enemy>& spriteset) noexcept;
+	CreatureMoveState(const SpritesetRegion& moveSpritesetRegion, const SpritesetRegion& deadSpritesetRegion) noexcept;
 
 	void onSet(GameObject& object) noexcept override;
 	void update(GameObject& object, const sf::Time& fixedFrameTime) noexcept override;
 
-	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
-
 private:
-	const Spriteset<MarioSpritesetRegions>& mSpriteset;
+	const SpritesetRegion& mDeadSpritesetRegion;
+
+	Animation mMoveAnimation;
 };

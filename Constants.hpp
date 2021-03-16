@@ -25,7 +25,7 @@ constexpr const auto MaxVelocityX = 32.0f * 20.0f;
 constexpr const auto MaxVelocityY = 32.0f * 20.0f;
 constexpr const auto MoveAnimationDuration = 0.25f;
 }
-namespace Goomba
+namespace Creature
 {
 constexpr const auto MaxVelocityX = 32.0f * 8.0f;
 constexpr const auto MaxVelocityY = 32.0f * 8.0f;
