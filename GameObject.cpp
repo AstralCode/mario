@@ -61,7 +61,14 @@ void GameObject::setAcceleration(const FloatPoint& acceleration) noexcept
 		break;
 	}
 
-	mAcceleration.setY(std::max(acceleration.getY(), mMaxAcceleration.getY()));
+	if (isJumping())
+	{
+		mAcceleration.setY(std::max(-acceleration.getY(), -mMaxAcceleration.getY()));
+	}
+	else
+	{
+		mAcceleration.setY(std::min(+acceleration.getY(), +mMaxAcceleration.getY()));
+	}
 }
 
 void GameObject::setAccelerationX(const float value) noexcept
@@ -158,18 +165,38 @@ void GameObject::destroy() noexcept
 void GameObject::moveLeft() noexcept
 {
 	setDirection(Directions::Left);
-	setAcceleration(getMaxAcceleration());
+	setAccelerationX(getMaxAcceleration().getX());
 }
 
 void GameObject::moveRight() noexcept
 {
 	setDirection(Directions::Right);
-	setAcceleration(getMaxAcceleration());
+	setAccelerationX(getMaxAcceleration().getX());
+}
+
+void GameObject::onTileTopCollision(const TileIndex& tileIndex) noexcept
+{
+	mState->onTileTopCollision(tileIndex);
+}
+
+void GameObject::onTileBottomCollision(const TileIndex& tileIndex) noexcept
+{
+	mState->onTileBottomCollision(tileIndex);
+}
+
+void GameObject::onTileLeftCollision(const TileIndex& tileIndex) noexcept
+{
+	mState->onTileLeftCollision(tileIndex);
+}
+
+void GameObject::onTileRightCollision(const TileIndex& tileIndex) noexcept
+{
+	mState->onTileRightCollision(tileIndex);
 }
 
 void GameObject::onObjectCollision(GameObject& object) noexcept
 {
-	mState->onCollision(object);
+	mState->onObjectCollision(object);
 }
 
 void GameObject::update(const sf::Time& fixedFrameTime) noexcept
@@ -225,6 +252,11 @@ bool GameObject::isMovingLeft() const noexcept
 bool GameObject::isMovingRight() const noexcept
 {
 	return mVelocity.getX() > 0.0f;
+}
+
+bool GameObject::isJumping() const noexcept
+{
+	return mState->isJumping();
 }
 
 bool GameObject::hasDirection(const Directions direction) const noexcept

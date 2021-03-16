@@ -130,6 +130,10 @@ void GameEngine::initializeSpritesets() noexcept
 		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 24, 32}}
 	}}});
 
+	marioSpriteset.addRegion(SpritesetRegionIdentifiers::Mario::Jump, SpritesetRegion{GridSize{32, 32}, GridTileIndex{4, 0}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 24, 32}}
+	}}});
+
 	auto& enemySpriteset = mSpritesets.create(SpritesetIdentifiers::Enemy);
 	enemySpriteset.addRegion(SpritesetRegionIdentifiers::Goomba::Move, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
 		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 32, 32}},

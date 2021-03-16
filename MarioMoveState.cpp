@@ -28,10 +28,6 @@ void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent&
     {
         object.moveRight();
     }
-    else if (keyEvent.code == sf::Keyboard::W)
-    {
-        object.setAccelerationY(-object.getMaxAcceleration().getY());
-    }
 }
 
 void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept

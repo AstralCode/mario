@@ -17,6 +17,7 @@ namespace SpritesetRegionIdentifiers
 		constexpr const auto Stand = "stand";
 		constexpr const auto Move = "move";
 		constexpr const auto Slide = "slide";
+		constexpr const auto Jump = "jump";
 	}
 
 	namespace Goomba

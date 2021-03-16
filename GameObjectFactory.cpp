@@ -17,8 +17,8 @@ GameObject* GameObjectFactory::createMario() noexcept
 	auto state = createObjectState<MarioStandState>(SpritesetIdentifiers::Mario);
 
 	auto object = createObject(GameObjectIdentifiers::Mario, TextureIdentifiers::Mario);
-	object->setMaxAcceleration({32.0f * 24.0f, 32.0f * 8.0f});
-	object->setMaxVelocity({32.0f * 20.0f, 32.0f * 8.0f});
+	object->setMaxAcceleration({32.0f * 24.0f, 32.0f * 24.0f});
+	object->setMaxVelocity({32.0f * 20.0f, 32.0f * 20.0f});
 	object->setState(std::move(state));
 
 	return object;

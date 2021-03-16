@@ -35,7 +35,27 @@ void GameObjectState::destroy() noexcept
     mRemoved = true;
 }
 
-void GameObjectState::onCollision(GameObject&) noexcept
+void GameObjectState::onTileTopCollision(const TileIndex&) noexcept
+{
+
+}
+
+void GameObjectState::onTileBottomCollision(const TileIndex&) noexcept
+{
+
+}
+
+void GameObjectState::onTileLeftCollision(const TileIndex&) noexcept
+{
+
+}
+
+void GameObjectState::onTileRightCollision(const TileIndex&) noexcept
+{
+
+}
+
+void GameObjectState::onObjectCollision(GameObject&) noexcept
 {
 
 }
@@ -93,6 +113,11 @@ void GameObjectState::onMouseOver(GameObject&, const sf::Event::MouseMoveEvent&)
 const IntArea& GameObjectState::getSpriteArea(const std::string& spritesetRegionidentifier) const noexcept
 {
     return mSpriteset.getRegion(spritesetRegionidentifier).getSpriteArea(0);
+}
+
+bool GameObjectState::isJumping() const noexcept
+{
+    return false;
 }
 
 bool GameObjectState::isDestroyed() const noexcept

@@ -2,6 +2,7 @@
 
 #include "GameObject.hpp"
 #include "MarioMoveState.hpp"
+#include "MarioJumpState.hpp"
 
 MarioStandState::MarioStandState(const Spriteset& spriteset) noexcept :
     GameObjectState{spriteset}
@@ -27,6 +28,10 @@ void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent
     {
         object.moveRight();
         object.setState(createState<MarioMoveState>());
+    }
+    else if (keyEvent.code == sf::Keyboard::W)
+    {
+        object.setState(createState<MarioJumpState>());
     }
 }
 

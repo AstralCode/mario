@@ -22,7 +22,12 @@ public:
 
 	void destroy() noexcept;
 
-	virtual void onCollision(GameObject& object) noexcept;
+	virtual void onTileTopCollision(const TileIndex& tileIndex) noexcept;
+	virtual void onTileBottomCollision(const TileIndex& tileIndex) noexcept;
+	virtual void onTileLeftCollision(const TileIndex& tileIndex) noexcept;
+	virtual void onTileRightCollision(const TileIndex& tileIndex) noexcept;
+
+	virtual void onObjectCollision(GameObject& object) noexcept;
 
 	void update(GameObject& object, const sf::Time& fixedFrameTime) noexcept;
 
@@ -36,6 +41,8 @@ public:
 	virtual void onMouseOver(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent) noexcept;
 
 	const IntArea& getSpriteArea(const std::string& spritesetRegionidentifier) const noexcept;
+
+	virtual bool isJumping() const noexcept;
 
 	bool isDestroyed() const noexcept;
 

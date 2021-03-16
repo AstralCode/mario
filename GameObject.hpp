@@ -50,6 +50,11 @@ public:
 	void moveLeft() noexcept;
 	void moveRight() noexcept;
 
+	void onTileTopCollision(const TileIndex& tileIndex) noexcept;
+	void onTileBottomCollision(const TileIndex& tileIndex) noexcept;
+	void onTileLeftCollision(const TileIndex& tileIndex) noexcept;
+	void onTileRightCollision(const TileIndex& tileIndex) noexcept;
+
 	void onObjectCollision(GameObject& object) noexcept;
 
 	void update(const sf::Time& fixedFrameTime) noexcept;
@@ -71,6 +76,8 @@ public:
 	bool isMoving() const noexcept;
 	bool isMovingLeft() const noexcept;
 	bool isMovingRight() const noexcept;
+
+	bool isJumping() const noexcept;
 
 	bool isAreaBoundsVisible() const noexcept;
 
