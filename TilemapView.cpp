@@ -247,15 +247,21 @@ void TilemapView::onMouseClick(const IntPoint& position, const sf::Mouse::Button
 	{
 		const auto tile = getTile(position);
 
-		auto information =
-			"TileIndex: " + std::to_string(tile.index.row) + ", " + std::to_string(tile.index.column) + "\n" +
-			"TileId: " + std::to_string(tile.identifier);
+		std::string information{};
+		information.append("TileIndex: [" + std::to_string(tile.index.row) + ", " + std::to_string(tile.index.column) + "]\n");
+		information.append("TileId: " + std::to_string(tile.identifier) + "\n");
+		information.append("TilePos: (" + std::to_string(tile.area.getLeft()) + ", " + std::to_string(tile.area.getTop()) + ")");
 
-		if (tile.attributes.isSet(Tile::Attributes::Collider))
+		if (!tile.attributes.isEmpty())
 		{
 			information.append("\n");
 			information.append("Attributes:");
-			information.append("\n\tCollider");
+		}
+
+		if (tile.attributes.isSet(Tile::Attributes::Collider))
+		{
+			information.append("\n\t\t");
+			information.append("Collider");
 		}
 
 		mInformationText.setString(information);

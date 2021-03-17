@@ -11,7 +11,7 @@ GameEngine::GameEngine() noexcept :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
 	mGameStateManager{mResources, mSpritesets, mScene},
 	mFramerate{0u},
-	mFramerateTextVisible{false}
+	mFramerateTextVisible{true}
 {
 	mRenderWindow.setKeyRepeatEnabled(false);
 }
