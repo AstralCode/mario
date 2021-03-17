@@ -7,7 +7,6 @@ struct Tile
 {
 	enum class Attributes
 	{
-		None,
 		Collider
 	};
 
@@ -26,7 +25,7 @@ struct Tile
 
 	Index index{};
 	Identifier identifier{0u};
-	AttributeFlags attributes{Attributes::None};
+	AttributeFlags attributes{};
 	FloatArea area{};
 };
 

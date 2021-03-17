@@ -26,7 +26,7 @@ Tile::Identifier Tilemap::getTileIdentifier(const Tile::Index& index) const noex
 
 Tile::AttributeFlags Tilemap::getTileAttributes(const Tile::Identifier identifier) const noexcept
 {
-	Tile::AttributeFlags attributes{Tile::Attributes::None};
+	Tile::AttributeFlags attributes{};
 
 	const auto tileAttributesIterator = mTileAttributes.find(identifier);
 	if (tileAttributesIterator != mTileAttributes.end())

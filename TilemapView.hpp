@@ -40,6 +40,8 @@ public:
 
 	const sf::Text& getText() const noexcept;
 
+	FloatArea getArea() const noexcept;
+
 	bool isGridVisible() const noexcept;
 
 private:

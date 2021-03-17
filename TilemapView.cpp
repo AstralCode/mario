@@ -109,7 +109,7 @@ void TilemapView::build() noexcept
 
 Tile TilemapView::getTile(const IntPoint& position) const noexcept
 {
-	auto& tileSize = getTileSize();
+	const auto tileSize = getTileSize().cast<int>();
 
 	Tile::Index tileIndex{};
 	tileIndex.column = position.getX() / tileSize.getWidth();
@@ -182,6 +182,16 @@ const FloatSize& TilemapView::getTileSize() const noexcept
 const sf::Text& TilemapView::getText() const noexcept
 {
 	return mInformationText;
+}
+
+FloatArea TilemapView::getArea() const noexcept
+{
+	FloatArea area{};
+	area.setPosition(mTransform.getTransform() * sf::Vector2f{});
+	area.setWidth(getColumnCount() * getTileSize().getWidth());
+	area.setHeight(getRowCount() * getTileSize().getHeight());
+
+	return area;
 }
 
 bool TilemapView::isGridVisible() const noexcept
@@ -285,7 +295,7 @@ sf::Vector2u TilemapView::calculateTextureTilePosition(const Tile::Identifier ti
 
 unsigned int TilemapView::calculateTextureTileIdentifierCount() const noexcept
 {
-	auto& tileSize = mTilemap->getTileSize();
+	const auto tileSize = mTilemap->getTileSize().cast<int>();
 
 	return (mTilemapTexture->getSize().x / tileSize.getWidth()) * (mTilemapTexture->getSize().y / tileSize.getHeight());
 }
@@ -300,10 +310,5 @@ sf::Vertex* TilemapView::getTileSpriteVerticles(const Tile::Index& tileIndex) no
 
 bool TilemapView::isContainsPoint(const IntPoint& point) const noexcept
 {
-	const auto viewPosition = mTransform.getTransform() * sf::Vector2f{};
-
-	IntArea viewArea{};
-	viewArea.setPosition(IntPoint());
-
-	return false;
+	return getArea().isContainsPoint(point.cast<float>());
 }

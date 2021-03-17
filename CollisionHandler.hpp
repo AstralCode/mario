@@ -1,9 +1,9 @@
 #pragma once
 
 #include "GameObjectIdentifiers.hpp"
+#include "Tile.hpp"
 
 class GameObject;
-class Tile;
 
 class CollisionHandler
 {

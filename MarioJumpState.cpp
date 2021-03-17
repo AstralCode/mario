@@ -23,7 +23,7 @@ void MarioJumpState::update(GameObject&, const sf::Time&) noexcept
 
 void MarioJumpState::onTileTopCollision(GameObject& object, const Tile&) noexcept
 {
-    object.setState(std::make_unique<MarioStandState>());
+    object.setState(std::make_unique<MarioStandState>(mSpriteset));
 }
 
 void MarioJumpState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
