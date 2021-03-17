@@ -13,7 +13,7 @@ InitialGameState::InitialGameState(GameContextData& contextData) noexcept :
 
 void InitialGameState::onEnter() noexcept
 {
-	auto tilemap = std::make_unique<Tilemap>(15, 20);
+	auto tilemap = std::make_unique<Tilemap>(15, 20, IntSize{32, 32});
 	tilemap->getRow(0)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(1)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(2)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  50,  51,   0,   0,   0,   0 };
@@ -30,25 +30,25 @@ void InitialGameState::onEnter() noexcept
 	tilemap->getRow(13) = Tilemap::Row{  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 };
 	tilemap->getRow(14) = Tilemap::Row{  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 };
 
-	const std::map<TileIdentifier, TileAttributeFlags> tileAttributes =
+	const Tilemap::TileAttributes tileAttributes =
 	{
-		{1, {{TileAttributes::Collider}}},
-		{2, {{TileAttributes::Collider}}},
-		{3, {{TileAttributes::Collider}}},
-		{5, {{TileAttributes::Collider}}},
-		{6, {{TileAttributes::Collider}}},
-		{7, {{TileAttributes::Collider}}},
-		{47, {{TileAttributes::Collider}}}
+		{1, {{Tile::Attributes::Collider}}},
+		{2, {{Tile::Attributes::Collider}}},
+		{3, {{Tile::Attributes::Collider}}},
+		{5, {{Tile::Attributes::Collider}}},
+		{6, {{Tile::Attributes::Collider}}},
+		{7, {{Tile::Attributes::Collider}}},
+		{47, {{Tile::Attributes::Collider}}}
 	};
 
-	tilemap->setAttributes(tileAttributes);
+	tilemap->setTileAttributes(tileAttributes);
 
 	auto& tilemapView = getScene().getTilemapView();
 	tilemapView.setTilemap(std::move(tilemap));
 	tilemapView.setTilemapTexture(getTexture(Textures::Scenery));
 	tilemapView.setInformationText(getFont(Fonts::Roboto));
 	tilemapView.setBackgroundColor({97, 133, 246});
-	tilemapView.build({32, 32});
+	tilemapView.build();
 
 	mGameObjectFactory.createMario()->setPosition(tilemapView.getTilePosition({12, 3}));
 

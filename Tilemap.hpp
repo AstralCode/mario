@@ -2,24 +2,24 @@
 
 #include <map>
 #include <vector>
-#include <optional>
 
 #include "Tile.hpp"
 
 class Tilemap final
 {
 public:
-	using Row = std::vector<TileIdentifier>;
+	using Row = std::vector<Tile::Identifier>;
+	using TileAttributes = std::map<Tile::Identifier, Tile::AttributeFlags>;
 
-	Tilemap(const int rowCount, const int columnCount) noexcept;
+	Tilemap(const int rowCount, const int columnCount, const FloatSize& tileSize) noexcept;
 
-	void setIdentifier(const TileIndex& index, const TileIdentifier identifier) noexcept;
-	void setAttributes(const std::map<TileIdentifier, TileAttributeFlags>& attributes) noexcept;
+	void setTileIdentifier(const Tile::Index& index, const Tile::Identifier identifier) noexcept;
+	void setTileAttributes(const TileAttributes& attributes) noexcept;
 
-	TileIdentifier getIdentifier(const TileIndex& index) const noexcept;
+	Tile::Identifier getTileIdentifier(const Tile::Index& index) const noexcept;
 
-	std::optional<TileAttributeFlags> getAttributes(const TileIdentifier identifier) const noexcept;
-	std::optional<TileAttributeFlags> getAttributes(const TileIndex& index) const noexcept;
+	Tile::AttributeFlags getTileAttributes(const Tile::Identifier identifier) const noexcept;
+	Tile::AttributeFlags getTileAttributes(const Tile::Index& index) const noexcept;
 
 	Row& getRow(const int index) noexcept;
 	Row getRow(const int index) const noexcept;
@@ -27,10 +27,14 @@ public:
 	const int getRowCount() const noexcept;
 	const int getColumnCount() const noexcept;
 
-private:
-	int mRowCount;
-	int mColumnCount;
+	const FloatSize& getTileSize() const noexcept;
 
-	std::map<TileIdentifier, TileAttributeFlags> mTileAttributes;
+private:
+	int mTileRowCount;
+	int mTileColumnCount;
+
+	FloatSize mTileSize;
+
 	std::vector<Row> mTileIdentifiers;
+	TileAttributes mTileAttributes;
 };

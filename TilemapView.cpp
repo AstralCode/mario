@@ -3,17 +3,14 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/Graphics/Texture.hpp"
 
-#include "Area.hpp"
-
 TilemapView::TilemapView() noexcept :
 	mTilemapTexture{nullptr},
-	mBackgroundColor{sf::Color::Transparent}
+	mBackgroundColor{sf::Color::Transparent},
+	mBackgroundVerticlesArray{sf::PrimitiveType::Quads},
+	mTileVerticlesArray{sf::PrimitiveType::Quads}
 {
 	mInformationText.setPosition(6.0f, 40.0f);
 	mInformationText.setCharacterSize(12u);
-
-	mBackgroundVerticlesArray.setPrimitiveType(sf::PrimitiveType::Quads);
-	mTileVerticlesArray.setPrimitiveType(sf::PrimitiveType::Quads);
 }
 
 void TilemapView::setPosition(const float x, const float y) noexcept
@@ -26,16 +23,6 @@ void TilemapView::setPosition(const FloatPoint& position) noexcept
 	mTransform.setPosition(position.getVector());
 }
 
-void TilemapView::setMargins(const float left, const float top, const float right, const float bottom) noexcept
-{
-	mMargins.set(left, top, right, bottom);
-}
-
-void TilemapView::setMargins(const FloatMargins& margins) noexcept
-{
-	mMargins = margins;
-}
-
 void TilemapView::setTilemap(std::unique_ptr<Tilemap> tilemap) noexcept
 {
 	mTilemap = std::move(tilemap);
@@ -44,12 +31,6 @@ void TilemapView::setTilemap(std::unique_ptr<Tilemap> tilemap) noexcept
 void TilemapView::setTilemapTexture(const sf::Texture& texture) noexcept
 {
 	mTilemapTexture = &texture;
-}
-
-void TilemapView::setInformationText(const sf::Font& font, const unsigned int characterSize) noexcept
-{
-	mInformationText.setFont(font);
-	mInformationText.setCharacterSize(characterSize);
 }
 
 void TilemapView::setBackgroundColor(const sf::Color& color) noexcept
@@ -62,13 +43,19 @@ void TilemapView::setGridVisible(const bool visible) noexcept
 	mGrid.setVisible(visible);
 }
 
+void TilemapView::setInformationText(const sf::Font& font, const unsigned int characterSize) noexcept
+{
+	mInformationText.setFont(font);
+	mInformationText.setCharacterSize(characterSize);
+}
+
 void TilemapView::receiveEvents(const sf::Event& event) noexcept
 {
 	switch (event.type)
 	{
 	case sf::Event::MouseButtonPressed:
 	{
-		if (isContainsPoint({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)}))
+		if (isContainsPoint({event.mouseButton.x, event.mouseButton.y}))
 		{
 			onMouseClick({event.mouseButton.x, event.mouseButton.y}, event.mouseButton.button);
 		}
@@ -77,7 +64,7 @@ void TilemapView::receiveEvents(const sf::Event& event) noexcept
 
 	case sf::Event::MouseMoved:
 	{
-		if (isContainsPoint({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)}))
+		if (isContainsPoint({event.mouseButton.x, event.mouseButton.y}))
 		{
 			onMouseMoved({event.mouseButton.x, event.mouseButton.y});
 		}
@@ -89,106 +76,107 @@ void TilemapView::receiveEvents(const sf::Event& event) noexcept
 	}
 }
 
-void TilemapView::build(const FloatSize& tileSize) noexcept
+void TilemapView::build() noexcept
 {
-	const auto rowCount = calculateTileRowCount();
-	const auto columnCount = calculateTileColumnCount();
+	const auto rowCount = mTilemap->getRowCount();
+	const auto columnCount = mTilemap->getColumnCount();
 
-	mGrid.setTileSize(tileSize);
-	mGrid.setTileCount(rowCount, columnCount);
-	mGrid.build();
+	auto& tileSize = getTileSize();
 
 	mBackgroundVerticlesArray.clear();
 	mBackgroundVerticlesArray.resize(4u);
-	mBackgroundVerticlesArray[0u] = sf::Vertex{sf::Vector2f{0.0f, 0.0f}, mBackgroundColor};
-	mBackgroundVerticlesArray[1u] = sf::Vertex{sf::Vector2f{tileSize.getWidth() * columnCount, 0.0f}, mBackgroundColor};
-	mBackgroundVerticlesArray[2u] = sf::Vertex{sf::Vector2f{tileSize.getWidth() * columnCount, tileSize.getHeight() * rowCount}, mBackgroundColor};
-	mBackgroundVerticlesArray[3u] = sf::Vertex{sf::Vector2f{0.0f, tileSize.getHeight() * rowCount}, mBackgroundColor};
+	mBackgroundVerticlesArray[0] = sf::Vertex{sf::Vector2f{0.0f, 0.0f}, mBackgroundColor};
+	mBackgroundVerticlesArray[1] = sf::Vertex{sf::Vector2f{tileSize.getWidth() * columnCount, 0.0f}, mBackgroundColor};
+	mBackgroundVerticlesArray[2] = sf::Vertex{sf::Vector2f{tileSize.getWidth() * columnCount, tileSize.getHeight() * rowCount}, mBackgroundColor};
+	mBackgroundVerticlesArray[3] = sf::Vertex{sf::Vector2f{0.0f, tileSize.getHeight() * rowCount}, mBackgroundColor};
 
 	mTileVerticlesArray.clear();
 	mTileVerticlesArray.resize(static_cast<std::size_t>(rowCount) * static_cast<std::size_t>(columnCount) * 4u);
 
-	for (TileIndex tileIndex{}; tileIndex.row < rowCount; tileIndex.row++)
+	for (Tile::Index tileIndex{}; tileIndex.row < rowCount; tileIndex.row++)
 	{
 		for (tileIndex.column = 0; tileIndex.column < columnCount; tileIndex.column++)
 		{
-			const auto tileIdentifier = getIdentifier(tileIndex);
+			const auto tileIdentifier = mTilemap->getTileIdentifier(tileIndex);
 			setTileSprite(tileIdentifier, tileIndex);
 		}
 	}
+
+	mGrid.setTileCount(rowCount, columnCount);
+	mGrid.setTileSize(tileSize);
+	mGrid.build();
 }
 
-TileIdentifier TilemapView::getIdentifier(const TileIndex& index) const noexcept
+Tile TilemapView::getTile(const IntPoint& position) const noexcept
 {
-	return mTilemap->getIdentifier(index);
+	auto& tileSize = getTileSize();
+
+	Tile::Index tileIndex{};
+	tileIndex.column = position.getX() / tileSize.getWidth();
+	tileIndex.row = position.getY() / tileSize.getHeight();
+
+	return getTile(tileIndex);
 }
 
-std::optional<TileAttributeFlags> TilemapView::getAttributes(const TileIdentifier identifier) const noexcept
+Tile TilemapView::getTile(const FloatPoint& position) const noexcept
 {
-	return mTilemap->getAttributes(identifier);
+	IntPoint fixedPosition{};
+	fixedPosition.setX(static_cast<int>(std::ceil(position.getX())));
+	fixedPosition.setY(static_cast<int>(std::ceil(position.getY())));
+
+	return getTile(fixedPosition);
 }
 
-std::optional<TileAttributeFlags> TilemapView::getAttributes(const TileIndex& index) const noexcept
+Tile TilemapView::getTile(const Tile::Index& index) const noexcept
 {
-	return mTilemap->getAttributes(index);
+	Tile tile{};
+	tile.index = index;
+	tile.identifier = mTilemap->getTileIdentifier(tile.index);
+	tile.attributes = mTilemap->getTileAttributes(tile.index);
+	tile.area.setPosition(getTilePosition(index));
+	tile.area.setSize(getTileSize());
+
+	return tile;
 }
 
-TileIndex TilemapView::getTileIndex(const IntPoint& position) const noexcept
+std::vector<Tile> TilemapView::getOverlapTiles(const FloatArea& area) const noexcept
 {
-	return mGrid.getTileIndex(position);
-}
+	std::vector<Tile> tiles{};
 
-TileIndex TilemapView::getTileIndex(const FloatPoint& position) const noexcept
-{
-	return mGrid.getTileIndex(position);
-}
+	const auto tileLeft = getTile(area.getTopLeft());
+	const auto tileRight = getTile(area.getBottomRight());
 
-std::vector<TileIndex> TilemapView::getOverlapTileIndexes(const FloatArea& area) const noexcept
-{
-	std::vector<TileIndex> tileIndexes{};
-
-	const auto tileLeftTop = getTileIndex(area.getTopLeft());
-	const auto tileBottomRight = getTileIndex(area.getBottomRight());
-
-	for (TileIndex tileIndex{tileLeftTop.row, 0}; tileIndex.row <= tileBottomRight.row; tileIndex.row++)
+	for (Tile::Index tileIndex{tileLeft.index.row, 0}; tileIndex.row <= tileRight.index.row; tileIndex.row++)
 	{
-		for (tileIndex.column = tileLeftTop.column; tileIndex.column <= tileBottomRight.column; tileIndex.column++)
+		for (tileIndex.column = tileLeft.index.column; tileIndex.column <= tileRight.index.column; tileIndex.column++)
 		{
-			tileIndexes.push_back(tileIndex);
+			tiles.push_back(getTile(tileIndex));
 		}
 	}
 
-	return tileIndexes;
-}
-
-const FloatSize& TilemapView::getTileSize() const noexcept
-{
-	return mGrid.getTileSize();
+	return tiles;
 }
 
 const int TilemapView::getRowCount() const noexcept
 {
-	return mGrid.getRowCount();
+	return mTilemap->getRowCount();
 }
 
 const int TilemapView::getColumnCount() const noexcept
 {
-	return mGrid.getColumnCount();
+	return mTilemap->getColumnCount();
 }
 
-FloatPoint TilemapView::getTilePosition(const TileIndex& index) const noexcept
+FloatPoint TilemapView::getTilePosition(const Tile::Index& index) const noexcept
 {
-	return mGrid.getTilePosition(index);
+	auto& tileSize = mTilemap->getTileSize();
+
+	return {tileSize.getWidth() * index.column, tileSize.getHeight() * index.row};
 }
 
-FloatArea TilemapView::getTileArea(const TileIndex& index) const noexcept
+const FloatSize& TilemapView::getTileSize() const noexcept
 {
-	return mGrid.getTileArea(index);
-}
-
-FloatArea TilemapView::getTileArea(const FloatPoint& position) const noexcept
-{
-	return mGrid.getTileArea(position);
+	return mTilemap->getTileSize();
 }
 
 const sf::Text& TilemapView::getText() const noexcept
@@ -201,22 +189,63 @@ bool TilemapView::isGridVisible() const noexcept
 	return mGrid.isVisible();
 }
 
+void TilemapView::setTileSprite(const Tile::Identifier tileIdentifier, const Tile::Index& tileIndex) noexcept
+{
+	sf::Vertex* tileSpriteVerticles = getTileSpriteVerticles(tileIndex);
+
+	if (tileIdentifier > 0)
+	{
+		auto& tileSize = getTileSize();
+
+		tileSpriteVerticles[0].position = sf::Vector2f{tileIndex.column * tileSize.getWidth(), tileIndex.row * tileSize.getHeight()};
+		tileSpriteVerticles[1].position = sf::Vector2f{(tileIndex.column + 1) * tileSize.getWidth(), tileIndex.row * tileSize.getHeight()};
+		tileSpriteVerticles[2].position = sf::Vector2f{(tileIndex.column + 1) * tileSize.getWidth(), (tileIndex.row + 1) * tileSize.getHeight()};
+		tileSpriteVerticles[3].position = sf::Vector2f{tileIndex.column * tileSize.getWidth(), (tileIndex.row + 1) * tileSize.getHeight()};
+
+		const auto textureTilePosition = calculateTextureTilePosition(tileIdentifier);
+
+		tileSpriteVerticles[0].texCoords = sf::Vector2f{textureTilePosition.x * tileSize.getWidth(), textureTilePosition.y * tileSize.getHeight()};
+		tileSpriteVerticles[1].texCoords = sf::Vector2f{(textureTilePosition.x + 1) * tileSize.getWidth(), textureTilePosition.y * tileSize.getHeight()};
+		tileSpriteVerticles[2].texCoords = sf::Vector2f{(textureTilePosition.x + 1) * tileSize.getWidth(), (textureTilePosition.y + 1) * tileSize.getHeight()};
+		tileSpriteVerticles[3].texCoords = sf::Vector2f{textureTilePosition.x * tileSize.getWidth(), (textureTilePosition.y + 1) * tileSize.getHeight()};
+	}
+	else
+	{
+		tileSpriteVerticles[0] = {};
+		tileSpriteVerticles[1] = {};
+		tileSpriteVerticles[2] = {};
+		tileSpriteVerticles[3] = {};
+	}
+
+	mTilemap->setTileIdentifier(tileIndex, tileIdentifier);
+}
+
+void TilemapView::clearTileSprite(const Tile::Index& tileIndex) noexcept
+{
+	sf::Vertex* tileVerticles = getTileSpriteVerticles(tileIndex);
+	tileVerticles[0] = {};
+	tileVerticles[1] = {};
+	tileVerticles[2] = {};
+	tileVerticles[3] = {};
+
+	mTilemap->setTileIdentifier(tileIndex, 0);
+}
+
 void TilemapView::onMouseClick(const IntPoint& position, const sf::Mouse::Button button) noexcept
 {
 	if (button == sf::Mouse::Button::Left)
 	{
-		const auto tileIndex = getTileIndex(position);
-		const auto tileIdentifier = getIdentifier(tileIndex);
-		const auto tileAttributes = getAttributes(tileIndex);
+		const auto tile = getTile(position.cast<float>());
 
 		auto information =
-			"TileIndex: " + std::to_string(tileIndex.row) + ", " + std::to_string(tileIndex.column) + "\n" +
-			"TileId: " + std::to_string(tileIdentifier);
+			"TileIndex: " + std::to_string(tile.index.row) + ", " + std::to_string(tile.index.column) + "\n" +
+			"TileId: " + std::to_string(tile.identifier);
 
-		if (tileAttributes.has_value())
+		if (tile.attributes.isSet(Tile::Attributes::Collider))
 		{
 			information.append("\n");
-			information.append("\tSolid: " + std::to_string(tileAttributes->isSet(TileAttributes::Collider)));
+			information.append("Attributes:");
+			information.append("\n\tCollider");
 		}
 
 		mInformationText.setString(information);
@@ -228,111 +257,53 @@ void TilemapView::onMouseMoved(const IntPoint&) noexcept
 
 }
 
-sf::Vector2u TilemapView::calculateTextureTilePosition(const TileIdentifier tileIdentifier, const FloatSize& tileSize) const noexcept
+void TilemapView::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.transform.combine(mTransform.getTransform());
+	target.draw(mBackgroundVerticlesArray, states);
+	target.draw(mGrid);
+
+	states.texture = mTilemapTexture;
+	target.draw(mTileVerticlesArray, states);
+	target.draw(mInformationText);
+}
+
+sf::Vector2u TilemapView::calculateTextureTilePosition(const Tile::Identifier tileIdentifier) const noexcept
 {
 	sf::Vector2u position{};
 
-	if (tileIdentifier > 1u)
+	if (tileIdentifier > 1)
 	{
-		position.x = (tileIdentifier - 1u) % static_cast<int>(mTilemapTexture->getSize().x / tileSize.getWidth());
-		position.y = (tileIdentifier - 1u) / static_cast<int>(mTilemapTexture->getSize().x / tileSize.getWidth());
+		auto tileSize = mTilemap->getTileSize().cast<int>();
+
+		position.x = (tileIdentifier - 1) % (mTilemapTexture->getSize().x / tileSize.getWidth());
+		position.y = (tileIdentifier - 1) / (mTilemapTexture->getSize().x / tileSize.getWidth());
 	}
 
 	return position;
 }
 
-unsigned int TilemapView::calculateTextureTileIdentifierCount(const FloatSize& tileSize) const noexcept
+unsigned int TilemapView::calculateTextureTileIdentifierCount() const noexcept
 {
-	return (mTilemapTexture->getSize().x / static_cast<unsigned int>(tileSize.getWidth())) * (mTilemapTexture->getSize().y / static_cast<unsigned int>(tileSize.getHeight()));
+	auto& tileSize = mTilemap->getTileSize();
+
+	return (mTilemapTexture->getSize().x / tileSize.getWidth()) * (mTilemapTexture->getSize().y / tileSize.getHeight());
 }
 
-int TilemapView::calculateTileRowCount() const noexcept
+sf::Vertex* TilemapView::getTileSpriteVerticles(const Tile::Index& tileIndex) noexcept
 {
-	return mTilemap->getRowCount();
-}
-
-int TilemapView::calculateTileColumnCount() const noexcept
-{
-	return mTilemap->getColumnCount();
-}
-
-void TilemapView::setTileSprite(const TileIdentifier tileIdentifier, const TileIndex& tileIndex) noexcept
-{
-	sf::Vertex* tileVerticles = getTileVerticles(tileIndex);
-
-	if (tileIdentifier > 0u)
-	{
-		auto& tileSize = mGrid.getTileSize();
-
-		tileVerticles[0u].position = sf::Vector2f{tileIndex.column * tileSize.getWidth(), tileIndex.row * tileSize.getHeight()};
-		tileVerticles[1u].position = sf::Vector2f{(tileIndex.column + 1u) * tileSize.getWidth(), tileIndex.row * tileSize.getHeight()};
-		tileVerticles[2u].position = sf::Vector2f{(tileIndex.column + 1u) * tileSize.getWidth(), (tileIndex.row + 1u) * tileSize.getHeight()};
-		tileVerticles[3u].position = sf::Vector2f{tileIndex.column * tileSize.getWidth(), (tileIndex.row + 1u) * tileSize.getHeight()};
-
-		tileVerticles[0u].position.x += mMargins.getRight() + mMargins.getLeft();
-		tileVerticles[0u].position.y += mMargins.getBottom() + mMargins.getTop();
-
-		tileVerticles[1u].position.x += mMargins.getRight() + mMargins.getLeft();
-		tileVerticles[1u].position.y += mMargins.getBottom() + mMargins.getTop();
-
-		tileVerticles[2u].position.x += mMargins.getRight() + mMargins.getLeft();
-		tileVerticles[2u].position.y += mMargins.getBottom() + mMargins.getTop();
-
-		tileVerticles[3u].position.x += mMargins.getRight() + mMargins.getLeft();
-		tileVerticles[3u].position.y += mMargins.getBottom() + mMargins.getTop();
-
-		const auto textureTilePosition = calculateTextureTilePosition(tileIdentifier, tileSize);
-
-		tileVerticles[0u].texCoords = sf::Vector2f{textureTilePosition.x * tileSize.getWidth(), textureTilePosition.y * tileSize.getHeight()};
-		tileVerticles[1u].texCoords = sf::Vector2f{(textureTilePosition.x + 1u) * tileSize.getWidth(), textureTilePosition.y * tileSize.getHeight()};
-		tileVerticles[2u].texCoords = sf::Vector2f{(textureTilePosition.x + 1u) * tileSize.getWidth(), (textureTilePosition.y + 1u) * tileSize.getHeight()};
-		tileVerticles[3u].texCoords = sf::Vector2f{textureTilePosition.x * tileSize.getWidth(), (textureTilePosition.y + 1u) * tileSize.getHeight()};
-	}
-	else
-	{
-		tileVerticles[0u] = {};
-		tileVerticles[1u] = {};
-		tileVerticles[2u] = {};
-		tileVerticles[3u] = {};
-	}
-
-	mTilemap->setIdentifier(tileIndex, tileIdentifier);
-}
-
-void TilemapView::clearTileSprite(const TileIndex& tileIndex) noexcept
-{
-	sf::Vertex* tileVerticles = getTileVerticles(tileIndex);
-
-	tileVerticles[0u] = {};
-	tileVerticles[1u] = {};
-	tileVerticles[2u] = {};
-	tileVerticles[3u] = {};
-
-	mTilemap->setIdentifier(tileIndex, 0);
-}
-
-sf::Vertex* TilemapView::getTileVerticles(const TileIndex& tileIndex) noexcept
-{
-	const auto tileColumnCount = calculateTileColumnCount();
-	const auto verticlesArrayIndex = (tileIndex.row * tileColumnCount + tileIndex.column) * 4u;
+	const auto tileColumnCount = mTilemap->getColumnCount();
+	const auto verticlesArrayIndex = (tileIndex.row * tileColumnCount + tileIndex.column) * 4;
 
 	return &mTileVerticlesArray[static_cast<std::size_t>(verticlesArrayIndex)];
 }
 
-void TilemapView::draw(sf::RenderTarget& target, sf::RenderStates states) const
+bool TilemapView::isContainsPoint(const IntPoint& point) const noexcept
 {
-	states.transform.combine(mTransform.getTransform());
+	const auto viewPosition = mTransform.getTransform() * sf::Vector2f{};
 
-	target.draw(mBackgroundVerticlesArray, states);
+	IntArea viewArea{};
+	viewArea.setPosition(IntPoint());
 
-	states.texture = mTilemapTexture;
-	target.draw(mTileVerticlesArray, states);
-
-	target.draw(mInformationText);
-	target.draw(mGrid);
-}
-
-bool TilemapView::isContainsPoint(const FloatPoint& point) const noexcept
-{
-	return mGrid.getArea().isContainsPoint(point);
+	return false;
 }

@@ -1,30 +1,36 @@
 #pragma once
 
 #include "Flags.hpp"
+#include "Area.hpp"
 
-using TileIdentifier = unsigned short;
-
-struct TileIndex
+struct Tile
 {
-	using ValueType = int;
-
-	ValueType row = 0;
-	ValueType column = 0;
-
-	friend bool operator==(const TileIndex& tileA, const TileIndex& tileB)
+	enum class Attributes
 	{
-		return (tileA.row == tileB.row && tileA.column == tileB.column);
-	}
+		None,
+		Collider
+	};
 
-	friend bool operator!=(const TileIndex& tileA, const TileIndex& tileB)
+	struct Index
 	{
-		return !(tileA == tileB);
-	}
+		using Type = int;
+
+		Type row{0};
+		Type column{0};
+
+		constexpr bool operator==(const Index& index) const noexcept;
+	};
+
+	using Identifier = unsigned char;
+	using AttributeFlags = Flags<Attributes, 1u>;
+
+	Index index{};
+	Identifier identifier{0u};
+	AttributeFlags attributes{Attributes::None};
+	FloatArea area{};
 };
 
-enum class TileAttributes
+inline constexpr bool Tile::Index::operator==(const Index& index) const noexcept
 {
-	Collider
-};
-
-using TileAttributeFlags = Flags<TileAttributes, 1u>;
+	return (row == index.row && column == index.column);
+}

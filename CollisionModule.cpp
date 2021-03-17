@@ -23,7 +23,7 @@ void CollisionModule::executeTilemapCollisionHandlers(const TilemapColliders& co
 	{
 		for (auto& collisionHandler : mCollisionHandlers)
 		{
-			if (collisionHandler->isSetTarget(object->getIdentifier()))
+			if (collisionHandler->isSetTarget(object->getTileIdentifier()))
 			{
 				collisionHandler->onTileCollision(object, tileIndex);
 			}
@@ -37,7 +37,7 @@ void CollisionModule::executeObjectCollisionHandlers(const ObjectColliders& coll
 	{
 		for (auto& collisionHandler : mCollisionHandlers)
 		{
-			if (collisionHandler->isSetTarget(target->getIdentifier()))
+			if (collisionHandler->isSetTarget(target->getTileIdentifier()))
 			{
 				collisionHandler->onObjectCollision(target, object);
 			}
@@ -54,7 +54,7 @@ CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const 
 		const auto tileIndexes = mTilemapView.getOverlapTileIndexes(object->getArea());
 		for (const auto& tileIndex : tileIndexes)
 		{
-			const auto tileAttributes = mTilemapView.getAttributes(tileIndex);
+			const auto tileAttributes = mTilemapView.getTileAttributes(tileIndex);
 			if (tileAttributes.has_value())
 			{
 				if (tileAttributes.value().isSet(TileAttributes::Collider))

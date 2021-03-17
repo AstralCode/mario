@@ -9,7 +9,7 @@ template <typename T>
 class Area final
 {
 public:
-	Area() noexcept = default;
+	Area() noexcept;
 	Area(const T x, const T y, const T width, const T height) noexcept;
 	Area(const Point<T>& point, const Size<T>& size) noexcept;
 	Area(const sf::Rect<T>& rectangle) noexcept;
@@ -60,6 +60,13 @@ public:
 private:
 	sf::Rect<T> mRectangle;
 };
+
+template <typename T>
+inline Area<T>::Area() noexcept :
+	mRectangle{}
+{
+
+}
 
 template <typename T>
 inline Area<T>::Area(const T x, const T y, const T width, const T height) noexcept :
