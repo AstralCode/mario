@@ -1,5 +1,7 @@
 #include "StandardCollisionHandler.hpp"
 
+#include "GameObject.hpp"
+
 StandardCollisionHandler::StandardCollisionHandler() noexcept
 {
     setTargets({GameObjectIdentifiers::Mario, GameObjectIdentifiers::Goomba});

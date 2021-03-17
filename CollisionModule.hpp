@@ -3,6 +3,7 @@
 #include <tuple>
 
 #include "CollisionHandler.hpp"
+#include "GameObject.hpp"
 
 class TilemapView;
 class GameObjectContainer;
@@ -10,12 +11,10 @@ class GameObjectContainer;
 class CollisionModule final
 {
 public:
-	CollisionModule(TilemapView& tilemapView) noexcept;
-
 	template <typename TCollisionHandler>
 	void addHandler() noexcept;
 
-	void detectCollisions(const GameObjectContainer& objects) noexcept;
+	void detectCollisions(const GameObjectContainer& objects, TilemapView& tilemapView) noexcept;
 
 private:
 	using TileColliders = std::vector<std::tuple<GameObject*, Tile>>;
@@ -24,12 +23,10 @@ private:
 	void executeTileCollisionHandlers(const TileColliders& colliders) const noexcept;
 	void executeObjectCollisionHandlers(const ObjectColliders& colliders) const noexcept;
 
-	TileColliders checkTileCollisions(const GameObjectContainer& objects) const noexcept;
+	TileColliders checkTileCollisions(const GameObjectContainer& objects, TilemapView& tilemapView) const noexcept;
 	ObjectColliders checkObjectCollisions(const GameObjectContainer& objects) const noexcept;
 
 	std::vector<std::unique_ptr<CollisionHandler>> mCollisionHandlers;
-
-	TilemapView& mTilemapView;
 };
 
 template <typename TCollisionHandler>

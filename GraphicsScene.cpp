@@ -4,16 +4,15 @@
 
 #include "StandardCollisionHandler.hpp"
 #include "MarioCollisionHandler.hpp"
-#include "CreaturesCollisionHandler.hpp"
+#include "CreatureCollisionHandler.hpp"
 
 GraphicsScene::GraphicsScene() noexcept :
 	mGameObjectLayer{*mRoot.addItem<GraphicsItem>()},
-	mCollisionModule{mTilemapView},
 	mGameObjectContainer{mGameObjectLayer}
 {
 	mCollisionModule.addHandler<StandardCollisionHandler>();
 	mCollisionModule.addHandler<MarioCollisionHandler>();
-	mCollisionModule.addHandler<CreaturesCollisionHandler>();
+	mCollisionModule.addHandler<CreatureCollisionHandler>();
 }
 
 GameObject* GraphicsScene::createGameObject(const GameObjectIdentifiers identifier) noexcept
@@ -35,7 +34,7 @@ void GraphicsScene::update(const sf::Time& fixedFrameTime) noexcept
 		mPhysicsModule.update(*object, fixedFrameTime);
 	}
 
-	mCollisionModule.detectCollisions(mGameObjectContainer);
+	mCollisionModule.detectCollisions(mGameObjectContainer, mTilemapView);
 
 	mGameObjectContainer.clean();
 	mRoot.clean();

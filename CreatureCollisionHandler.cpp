@@ -1,5 +1,7 @@
 #include "CreatureCollisionHandler.hpp"
 
+#include "GameObject.hpp"
+
 CreatureCollisionHandler::CreatureCollisionHandler() noexcept
 {
 	setTargets({GameObjectIdentifiers::Goomba});

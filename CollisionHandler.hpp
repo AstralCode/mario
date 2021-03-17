@@ -1,6 +1,9 @@
 #pragma once
 
-#include "GameObject.hpp"
+#include "GameObjectIdentifiers.hpp"
+
+class GameObject;
+class Tile;
 
 class CollisionHandler
 {

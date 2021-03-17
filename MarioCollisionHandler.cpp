@@ -1,5 +1,7 @@
 #include "MarioCollisionHandler.hpp"
 
+#include "GameObject.hpp"
+
 MarioCollisionHandler::MarioCollisionHandler() noexcept
 {
     setTarget(GameObjectIdentifiers::Mario);

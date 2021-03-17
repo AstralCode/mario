@@ -3,15 +3,9 @@
 #include "TilemapView.hpp"
 #include "GameObjectContainer.hpp"
 
-CollisionModule::CollisionModule(TilemapView& tilemapView) noexcept :
-	mTilemapView{tilemapView}
+void CollisionModule::detectCollisions(const GameObjectContainer& objects, TilemapView& tilemapView) noexcept
 {
-
-}
-
-void CollisionModule::detectCollisions(const GameObjectContainer& objects) noexcept
-{
-	const auto tileColliders = checkTileCollisions(objects);
+	const auto tileColliders = checkTileCollisions(objects, tilemapView);
 	const auto objectColliders = checkObjectCollisions(objects);
 
 	executeTileCollisionHandlers(tileColliders);
@@ -46,7 +40,7 @@ void CollisionModule::executeObjectCollisionHandlers(const ObjectColliders& coll
 	}
 }
 
-CollisionModule::TileColliders CollisionModule::checkTileCollisions(const GameObjectContainer& objects) const noexcept
+CollisionModule::TileColliders CollisionModule::checkTileCollisions(const GameObjectContainer& objects, TilemapView& tilemapView) const noexcept
 {
 	TileColliders colliders{};
 	
@@ -54,7 +48,7 @@ CollisionModule::TileColliders CollisionModule::checkTileCollisions(const GameOb
 	{
 		const auto objectArea = object->getArea();
 
-		const auto tiles = mTilemapView.getOverlapTiles(objectArea);
+		const auto tiles = tilemapView.getOverlapTiles(objectArea);
 		for (const auto& tile : tiles)
 		{
 			if (tile.attributes.isSet(Tile::Attributes::Collider))
