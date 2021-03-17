@@ -18,13 +18,13 @@ public:
 	void detectCollisions(const GameObjectContainer& objects) noexcept;
 
 private:
-	using TilemapColliders = std::vector<std::tuple<GameObject*, Tile>>;
+	using TileColliders = std::vector<std::tuple<GameObject*, Tile>>;
 	using ObjectColliders = std::vector<std::tuple<GameObject*, GameObject*>>;
 
-	void executeTilemapCollisionHandlers(const TilemapColliders& colliders) const noexcept;
+	void executeTileCollisionHandlers(const TileColliders& colliders) const noexcept;
 	void executeObjectCollisionHandlers(const ObjectColliders& colliders) const noexcept;
 
-	TilemapColliders checkTilemapCollisions(const GameObjectContainer& objects) const noexcept;
+	TileColliders checkTileCollisions(const GameObjectContainer& objects) const noexcept;
 	ObjectColliders checkObjectCollisions(const GameObjectContainer& objects) const noexcept;
 
 	std::vector<std::unique_ptr<CollisionHandler>> mCollisionHandlers;

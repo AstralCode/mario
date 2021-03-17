@@ -11,14 +11,14 @@ CollisionModule::CollisionModule(TilemapView& tilemapView) noexcept :
 
 void CollisionModule::detectCollisions(const GameObjectContainer& objects) noexcept
 {
-	const auto tileColliders = checkTilemapCollisions(objects);
+	const auto tileColliders = checkTileCollisions(objects);
 	const auto objectColliders = checkObjectCollisions(objects);
 
-	executeTilemapCollisionHandlers(tileColliders);
+	executeTileCollisionHandlers(tileColliders);
 	executeObjectCollisionHandlers(objectColliders);
 }
 
-void CollisionModule::executeTilemapCollisionHandlers(const TilemapColliders& colliders) const noexcept
+void CollisionModule::executeTileCollisionHandlers(const TileColliders& colliders) const noexcept
 {
 	for (auto& [object, tileIndex] : colliders)
 	{
@@ -46,9 +46,9 @@ void CollisionModule::executeObjectCollisionHandlers(const ObjectColliders& coll
 	}
 }
 
-CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const GameObjectContainer& objects) const noexcept
+CollisionModule::TileColliders CollisionModule::checkTileCollisions(const GameObjectContainer& objects) const noexcept
 {
-	TilemapColliders colliders{};
+	TileColliders colliders{};
 	
 	for (auto object : objects)
 	{
