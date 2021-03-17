@@ -27,9 +27,6 @@ public:
 	void setWidth(const T width) noexcept;
 	void setHeight(const T height) noexcept;
 
-	template <typename U>
-	Area<U> cast() const noexcept;
-
 	T getTop() const noexcept;
 	T getLeft() const noexcept;
 	T getRight() const noexcept;
@@ -138,13 +135,6 @@ template <typename T>
 inline void Area<T>::setHeight(const T height) noexcept
 {
 	mRectangle.height = height;
-}
-
-template <typename T>
-template <typename U>
-inline Area<U> Area<T>::cast() const noexcept
-{
-	return Area<U>{static_cast<U>(mRectangle.left), static_cast<U>(mRectangle.top), static_cast<U>(mRectangle.width), static_cast<U>(mRectangle.height)};
 }
 
 template <typename T>

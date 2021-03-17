@@ -109,11 +109,11 @@ void TilemapView::build() noexcept
 
 Tile TilemapView::getTile(const IntPoint& position) const noexcept
 {
-	const auto tileSize = getTileSize().cast<int>();
+	auto& tileSize = getTileSize();
 
 	Tile::Index tileIndex{};
-	tileIndex.column = position.getX() / tileSize.getWidth();
-	tileIndex.row = position.getY() / tileSize.getHeight();
+	tileIndex.column = position.getX() / static_cast<int>(tileSize.getWidth());
+	tileIndex.row = position.getY() / static_cast<int>(tileSize.getHeight());
 
 	return getTile(tileIndex);
 }
@@ -245,7 +245,7 @@ void TilemapView::onMouseClick(const IntPoint& position, const sf::Mouse::Button
 {
 	if (button == sf::Mouse::Button::Left)
 	{
-		const auto tile = getTile(position.cast<float>());
+		const auto tile = getTile(position);
 
 		auto information =
 			"TileIndex: " + std::to_string(tile.index.row) + ", " + std::to_string(tile.index.column) + "\n" +
@@ -284,10 +284,10 @@ sf::Vector2u TilemapView::calculateTextureTilePosition(const Tile::Identifier ti
 
 	if (tileIdentifier > 1)
 	{
-		auto tileSize = mTilemap->getTileSize().cast<int>();
+		auto& tileSize = mTilemap->getTileSize();
 
-		position.x = (tileIdentifier - 1) % (mTilemapTexture->getSize().x / tileSize.getWidth());
-		position.y = (tileIdentifier - 1) / (mTilemapTexture->getSize().x / tileSize.getWidth());
+		position.x = (tileIdentifier - 1) % static_cast<int>(mTilemapTexture->getSize().x / tileSize.getWidth());
+		position.y = (tileIdentifier - 1) / static_cast<int>(mTilemapTexture->getSize().x / tileSize.getWidth());
 	}
 
 	return position;
@@ -295,9 +295,9 @@ sf::Vector2u TilemapView::calculateTextureTilePosition(const Tile::Identifier ti
 
 unsigned int TilemapView::calculateTextureTileIdentifierCount() const noexcept
 {
-	const auto tileSize = mTilemap->getTileSize().cast<int>();
+	auto& tileSize = mTilemap->getTileSize();
 
-	return (mTilemapTexture->getSize().x / tileSize.getWidth()) * (mTilemapTexture->getSize().y / tileSize.getHeight());
+	return (mTilemapTexture->getSize().x / static_cast<int>(tileSize.getWidth())) * (mTilemapTexture->getSize().y / static_cast<int>(tileSize.getHeight()));
 }
 
 sf::Vertex* TilemapView::getTileSpriteVerticles(const Tile::Index& tileIndex) noexcept
@@ -310,5 +310,5 @@ sf::Vertex* TilemapView::getTileSpriteVerticles(const Tile::Index& tileIndex) no
 
 bool TilemapView::isContainsPoint(const IntPoint& point) const noexcept
 {
-	return getArea().isContainsPoint(point.cast<float>());
+	return getArea().isContainsPoint(static_cast<float>(point.getX()), static_cast<float>(point.getY()));
 }
