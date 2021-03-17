@@ -1,11 +1,5 @@
 #include "CollisionHandler.hpp"
 
-CollisionHandler::CollisionHandler(TilemapView& tilemapView) noexcept :
-	mTilemapView{tilemapView}
-{
-
-}
-
 void CollisionHandler::setTarget(const GameObjectIdentifiers identifier) noexcept
 {
 	mTargets.set(identifier);

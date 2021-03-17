@@ -5,6 +5,7 @@
 
 #include "GameObjectIdentifiers.hpp"
 #include "SpritesetContainer.hpp"
+#include "Resources.hpp"
 
 class ResourceContainer;
 class GraphicsScene;

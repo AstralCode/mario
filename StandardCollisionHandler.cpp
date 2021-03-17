@@ -1,46 +1,42 @@
 #include "StandardCollisionHandler.hpp"
 
-#include "TilemapView.hpp"
-
-StandardCollisionHandler::StandardCollisionHandler(TilemapView& tilemapView) noexcept :
-    CollisionHandler{tilemapView}
+StandardCollisionHandler::StandardCollisionHandler() noexcept
 {
     setTargets({GameObjectIdentifiers::Mario, GameObjectIdentifiers::Goomba});
 }
 
-void StandardCollisionHandler::onTileCollision(GameObject* object, const TileIndex& tileIndex) noexcept
+void StandardCollisionHandler::onTileCollision(GameObject* object, const Tile& tile) noexcept
 {
     const auto objectArea = object->getArea();
-    const auto tileArea = mTilemapView.getTileArea(tileIndex);
 
     const auto objectPosition = objectArea.getCenter();
-    const auto tilePosition = tileArea.getCenter();
+    const auto tilePosition = tile.area.getCenter();
 
     auto colliderPosition = object->getPosition();
 
     if (objectPosition.getX() < tilePosition.getX() &&
-        objectPosition.getY() > tileArea.getTop() )
+        objectPosition.getY() > tile.area.getTop())
     {
-        colliderPosition.setX(tileArea.getLeft() - objectArea.getWidth());
-        object->onTileLeftCollision(tileIndex);
+        colliderPosition.setX(tile.area.getLeft() - objectArea.getWidth());
+        object->onTileLeftCollision(tile);
     }
-    else if (objectPosition.getY() > tileArea.getTop() &&
-             objectPosition.getY() < tileArea.getBottom())
+    else if (objectPosition.getY() > tile.area.getTop() &&
+             objectPosition.getY() < tile.area.getBottom())
     {
-        colliderPosition.setX(tileArea.getRight() + 1.0f);
-        object->onTileRightCollision(tileIndex);
+        colliderPosition.setX(tile.area.getRight() + 1.0f);
+        object->onTileRightCollision(tile);
     }
 
     if (objectPosition.getY() < tilePosition.getY() &&
-        objectPosition.getY() < tileArea.getTop())
+        objectPosition.getY() < tile.area.getTop())
     {
-        colliderPosition.setY(tileArea.getTop() - objectArea.getHeight());
-        object->onTileTopCollision(tileIndex);
+        colliderPosition.setY( tile.area.getTop() - objectArea.getHeight());
+        object->onTileTopCollision(tile);
     }
-    else if(objectPosition.getY() > tileArea.getBottom())
+    else if(objectPosition.getY() > tile.area.getBottom())
     {
-        colliderPosition.setY(tileArea.getBottom() - 1.0f);
-        object->onTileBottomCollision(tileIndex);
+        colliderPosition.setY(tile.area.getBottom() - 1.0f);
+        object->onTileBottomCollision(tile);
     }
 
     object->setPosition(colliderPosition);

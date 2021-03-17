@@ -7,22 +7,22 @@ void GameObjectState::destroy() noexcept
     mRemoved = true;
 }
 
-void GameObjectState::onTileTopCollision(GameObject&, const TileIndex&) noexcept
+void GameObjectState::onTileTopCollision(GameObject&, const Tile&) noexcept
 {
 
 }
 
-void GameObjectState::onTileBottomCollision(GameObject&, const TileIndex&) noexcept
+void GameObjectState::onTileBottomCollision(GameObject&, const Tile&) noexcept
 {
 
 }
 
-void GameObjectState::onTileLeftCollision(GameObject&, const TileIndex&) noexcept
+void GameObjectState::onTileLeftCollision(GameObject&, const Tile&) noexcept
 {
 
 }
 
-void GameObjectState::onTileRightCollision(GameObject&, const TileIndex&) noexcept
+void GameObjectState::onTileRightCollision(GameObject&, const Tile&) noexcept
 {
 
 }

@@ -1,14 +1,11 @@
 #include "CreatureCollisionHandler.hpp"
 
-#include "TilemapView.hpp"
-
-CreatureCollisionHandler::CreatureCollisionHandler(TilemapView& tilemapView) noexcept :
-	CollisionHandler{tilemapView}
+CreatureCollisionHandler::CreatureCollisionHandler() noexcept
 {
 	setTargets({GameObjectIdentifiers::Goomba});
 }
 
-void CreatureCollisionHandler::onTileCollision(GameObject* object, const TileIndex&) noexcept
+void CreatureCollisionHandler::onTileCollision(GameObject* object, const Tile&) noexcept
 {
     object->turnAround();
 }

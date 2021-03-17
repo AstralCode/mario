@@ -26,12 +26,12 @@ void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent
 {
     if (keyEvent.code == sf::Keyboard::Q)
     {
-        object.setDirection(GameObject::Directions::Left);
+        object.setDirection(GameObjectDirections::Left);
         object.setState(std::make_unique<MarioMoveState>(mSpriteset));
     }
     else if (keyEvent.code == sf::Keyboard::E)
     {
-        object.setDirection(GameObject::Directions::Right);
+        object.setDirection(GameObjectDirections::Right);
         object.setState(std::make_unique<MarioMoveState>(mSpriteset));
     }
     else if (keyEvent.code == sf::Keyboard::W)

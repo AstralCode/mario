@@ -1,6 +1,6 @@
 #include "SpritesetRegion.hpp"
 
-SpritesetRegion::SpritesetRegion(const IntSize& gridSize, const TileIndex& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
+SpritesetRegion::SpritesetRegion(const IntSize& gridSize, const GridTileIndex& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
 {
     calculateSpriteAreas(gridSize, gridTileIndex, spritesetAreas);
 }
@@ -15,7 +15,7 @@ int SpritesetRegion::getSpriteCount() const noexcept
     return static_cast<int>(mSpriteAreas.size());
 }
 
-void SpritesetRegion::calculateSpriteAreas(const IntSize& gridSize, const TileIndex& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
+void SpritesetRegion::calculateSpriteAreas(const IntSize& gridSize, const GridTileIndex& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
 {
     IntPoint regionOffset{};
     regionOffset.setX(gridSize.getWidth() * gridTileIndex.row);

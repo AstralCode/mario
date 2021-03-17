@@ -29,6 +29,5 @@ public:
 
 private:
 	GraphicsItem& mSceneRoot;
-
 	Container mGameObjects;
 };

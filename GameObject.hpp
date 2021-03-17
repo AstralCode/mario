@@ -42,10 +42,10 @@ public:
 
 	void destroy() noexcept;
 
-	void onTileTopCollision(const TileIndex& tileIndex) noexcept;
-	void onTileBottomCollision(const TileIndex& tileIndex) noexcept;
-	void onTileLeftCollision(const TileIndex& tileIndex) noexcept;
-	void onTileRightCollision(const TileIndex& tileIndex) noexcept;
+	void onTileTopCollision(const Tile& tile) noexcept;
+	void onTileBottomCollision(const Tile& tile) noexcept;
+	void onTileLeftCollision(const Tile& tile) noexcept;
+	void onTileRightCollision(const Tile& tile) noexcept;
 
 	void onObjectCollision(GameObject& object) noexcept;
 

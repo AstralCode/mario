@@ -1,6 +1,7 @@
 #include "CollisionModule.hpp"
 
-#include "GraphicsScene.hpp"
+#include "TilemapView.hpp"
+#include "GameObjectContainer.hpp"
 
 CollisionModule::CollisionModule(TilemapView& tilemapView) noexcept :
 	mTilemapView{tilemapView}
@@ -23,7 +24,7 @@ void CollisionModule::executeTilemapCollisionHandlers(const TilemapColliders& co
 	{
 		for (auto& collisionHandler : mCollisionHandlers)
 		{
-			if (collisionHandler->isSetTarget(object->getTileIdentifier()))
+			if (collisionHandler->isSetTarget(object->getIdentifier()))
 			{
 				collisionHandler->onTileCollision(object, tileIndex);
 			}
@@ -37,7 +38,7 @@ void CollisionModule::executeObjectCollisionHandlers(const ObjectColliders& coll
 	{
 		for (auto& collisionHandler : mCollisionHandlers)
 		{
-			if (collisionHandler->isSetTarget(target->getTileIdentifier()))
+			if (collisionHandler->isSetTarget(target->getIdentifier()))
 			{
 				collisionHandler->onObjectCollision(target, object);
 			}
@@ -51,21 +52,16 @@ CollisionModule::TilemapColliders CollisionModule::checkTilemapCollisions(const 
 	
 	for (auto object : objects)
 	{
-		const auto tileIndexes = mTilemapView.getOverlapTileIndexes(object->getArea());
-		for (const auto& tileIndex : tileIndexes)
-		{
-			const auto tileAttributes = mTilemapView.getTileAttributes(tileIndex);
-			if (tileAttributes.has_value())
-			{
-				if (tileAttributes.value().isSet(TileAttributes::Collider))
-				{
-					const auto objectArea = object->getArea();
-					const auto tileArea = mTilemapView.getTileArea(tileIndex);
+		const auto objectArea = object->getArea();
 
-					if (objectArea.isIntersects(tileArea))
-					{
-						colliders.emplace_back(object, tileIndex);
-					}
+		const auto tiles = mTilemapView.getOverlapTiles(objectArea);
+		for (const auto& tile : tiles)
+		{
+			if (tile.attributes.isSet(Tile::Attributes::Collider))
+			{
+				if (objectArea.isIntersects(tile.area))
+				{
+					colliders.emplace_back(object, tile);
 				}
 			}
 		}

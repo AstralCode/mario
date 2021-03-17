@@ -152,24 +152,24 @@ void GameObject::destroy() noexcept
 	mState->destroy();
 }
 
-void GameObject::onTileTopCollision(const TileIndex& tileIndex) noexcept
+void GameObject::onTileTopCollision(const Tile& tile) noexcept
 {
-	mState->onTileTopCollision(*this, tileIndex);
+	mState->onTileTopCollision(*this, tile);
 }
 
-void GameObject::onTileBottomCollision(const TileIndex& tileIndex) noexcept
+void GameObject::onTileBottomCollision(const Tile& tile) noexcept
 {
-	mState->onTileBottomCollision(*this, tileIndex);
+	mState->onTileBottomCollision(*this, tile);
 }
 
-void GameObject::onTileLeftCollision(const TileIndex& tileIndex) noexcept
+void GameObject::onTileLeftCollision(const Tile& tile) noexcept
 {
-	mState->onTileLeftCollision(*this, tileIndex);
+	mState->onTileLeftCollision(*this, tile);
 }
 
-void GameObject::onTileRightCollision(const TileIndex& tileIndex) noexcept
+void GameObject::onTileRightCollision(const Tile& tile) noexcept
 {
-	mState->onTileRightCollision(*this, tileIndex);
+	mState->onTileRightCollision(*this, tile);
 }
 
 void GameObject::onObjectCollision(GameObject& object) noexcept

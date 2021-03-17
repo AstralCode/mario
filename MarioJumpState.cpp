@@ -21,7 +21,7 @@ void MarioJumpState::update(GameObject&, const sf::Time&) noexcept
 
 }
 
-void MarioJumpState::onTileTopCollision(GameObject& object, const TileIndex& tileIndex) noexcept
+void MarioJumpState::onTileTopCollision(GameObject& object, const Tile&) noexcept
 {
     object.setState(std::make_unique<MarioStandState>());
 }
@@ -38,11 +38,11 @@ void MarioJumpState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent&
 {
     if (keyEvent.code == sf::Keyboard::Q)
     {
-        object.moveLeft();
+        object.setDirection(GameObjectDirections::Left);
     }
     else if (keyEvent.code == sf::Keyboard::E)
     {
-        object.moveRight();
+        object.setDirection(GameObjectDirections::Right);
     }
 }
 

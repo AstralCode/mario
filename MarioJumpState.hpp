@@ -12,7 +12,7 @@ public:
 	void onSet(GameObject& object) noexcept override;
 	void update(GameObject& object, const sf::Time& fixedFrameTime) noexcept override;
 
-	void onTileTopCollision(GameObject& object, const TileIndex& tileIndex) noexcept override;
+	void onTileTopCollision(GameObject& object, const Tile& tile) noexcept override;
 
 	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
 	void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;

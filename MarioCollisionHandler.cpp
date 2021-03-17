@@ -1,14 +1,11 @@
 #include "MarioCollisionHandler.hpp"
 
-#include "TilemapView.hpp"
-
-MarioCollisionHandler::MarioCollisionHandler(TilemapView& tilemapView) noexcept :
-    CollisionHandler{tilemapView}
+MarioCollisionHandler::MarioCollisionHandler() noexcept
 {
     setTarget(GameObjectIdentifiers::Mario);
 }
 
-void MarioCollisionHandler::onTileCollision(GameObject*, const TileIndex&) noexcept
+void MarioCollisionHandler::onTileCollision(GameObject*, const Tile&) noexcept
 {
 
 }

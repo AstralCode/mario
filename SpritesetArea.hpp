@@ -4,7 +4,7 @@
 #include "Tile.hpp"
 
 using GridSize = IntSize;
-using GridTileIndex = TileIndex;
+using GridTileIndex = Tile::Index;
 using SpriteArea = IntArea;
 
 class SpritesetArea final

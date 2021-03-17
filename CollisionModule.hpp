@@ -1,11 +1,10 @@
 #pragma once
 
 #include <tuple>
-#include <vector>
-#include <memory>
 
 #include "CollisionHandler.hpp"
 
+class TilemapView;
 class GameObjectContainer;
 
 class CollisionModule final
@@ -19,7 +18,7 @@ public:
 	void detectCollisions(const GameObjectContainer& objects) noexcept;
 
 private:
-	using TilemapColliders = std::vector<std::tuple<GameObject*, TileIndex>>;
+	using TilemapColliders = std::vector<std::tuple<GameObject*, Tile>>;
 	using ObjectColliders = std::vector<std::tuple<GameObject*, GameObject*>>;
 
 	void executeTilemapCollisionHandlers(const TilemapColliders& colliders) const noexcept;
@@ -38,5 +37,5 @@ inline void CollisionModule::addHandler() noexcept
 {
 	static_assert(std::is_base_of_v<CollisionHandler, TCollisionHandler>, "TCollisionHandler must derived from CollisionHandler");
 
-	mCollisionHandlers.push_back(std::make_unique<TCollisionHandler>(mTilemapView));
+	mCollisionHandlers.push_back(std::make_unique<TCollisionHandler>());
 }
