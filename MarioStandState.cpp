@@ -13,8 +13,8 @@ MarioStandState::MarioStandState(const Spriteset<MarioSpritesetRegions>& sprites
 void MarioStandState::onSet(GameObject& object) noexcept
 {
     object.setTextureArea(mSpriteset.getRegion(MarioSpritesetRegions::Stand).getSpriteArea(0));
-    object.setAcceleration({});
-    object.setVelocity({});
+    object.setAccelerationX(0.0f);
+    object.setVelocityX(0.0f);
 }
 
 void MarioStandState::update(GameObject&, const sf::Time&) noexcept

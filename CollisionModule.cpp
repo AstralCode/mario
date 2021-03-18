@@ -14,29 +14,59 @@ void CollisionModule::detectCollisions(const GameObjectContainer& objects, Tilem
 
 void CollisionModule::executeTileCollisionHandlers(const TileColliders& colliders) const noexcept
 {
-	for (auto& [object, tileIndex] : colliders)
+	for (auto& [object, tile] : colliders)
 	{
-		for (auto& collisionHandler : mCollisionHandlers)
+		const auto objectArea = object->getArea();
+
+		const auto objectCenterPosition = objectArea.getCenter();
+		const auto tilePosition = tile.area.getCenter();
+
+		auto objectPosition = object->getPosition();
+
+		if (objectCenterPosition.getX() < tilePosition.getX() &&
+			objectCenterPosition.getY() > tile.area.getTop())
 		{
-			if (collisionHandler->isSetTarget(object->getIdentifier()))
-			{
-				collisionHandler->onTileCollision(object, tileIndex);
-			}
+			objectPosition.setX(tile.area.getLeft() - objectArea.getWidth());
+			object->onTileLeftCollision(tile);
 		}
+		else if (objectCenterPosition.getY() > tile.area.getTop() &&
+					objectCenterPosition.getY() < tile.area.getBottom())
+		{
+			objectPosition.setX(tile.area.getRight() + 1.0f);
+			object->onTileRightCollision(tile);
+		}
+
+		if (objectCenterPosition.getY() < tilePosition.getY() &&
+			objectCenterPosition.getY() < tile.area.getTop())
+		{
+			objectPosition.setY( tile.area.getTop() - objectArea.getHeight());
+			object->onTileTopCollision(tile);
+		}
+		else if(objectCenterPosition.getY() > tile.area.getBottom())
+		{
+			objectPosition.setY(tile.area.getBottom() - 1.0f);
+			object->onTileBottomCollision(tile);
+		}
+
+		object->setPosition(objectPosition);
 	}
 }
 
 void CollisionModule::executeObjectCollisionHandlers(const ObjectColliders& colliders) const noexcept
 {
-	for (auto& [target, object] : colliders)
+	for (auto& [objectA, objectB] : colliders)
 	{
-		for (auto& collisionHandler : mCollisionHandlers)
+		auto offsetPosition = objectA->getArea().getWidth();
+
+		if (objectA->isMovingRight())
 		{
-			if (collisionHandler->isSetTarget(target->getIdentifier()))
-			{
-				collisionHandler->onObjectCollision(target, object);
-			}
+			offsetPosition = -offsetPosition;
 		}
+
+		const auto positionX = objectB->getArea().getLeft();
+		objectA->setPositionX(positionX + offsetPosition);
+
+		objectA->onObjectCollision(*objectB);
 	}
 }
 

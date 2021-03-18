@@ -1,13 +1,26 @@
 #include "PhysicsModule.hpp"
 
-#include "SFML/System/Time.hpp"
-
 #include "GameObject.hpp"
 
 void PhysicsModule::update(GameObject& object, const sf::Time& fixedFrameTime) const noexcept
 {
-    updateMovement(object, fixedFrameTime);
-    updatePosition(object, fixedFrameTime);
+	auto accelerateX = calculateAccelerate(object.getAcceleration().getX(), fixedFrameTime);
+	accelerateX *= object.hasDirection(GameObjectDirections::Left) ? -1.0f : +1.0f;
+	auto accelerateY = calculateAccelerate(object.getAcceleration().getY(), fixedFrameTime);
+
+	auto velocityX = calculateVelocity(object.getVelocity().getX(), accelerateX);
+	velocityX *= getFriction();
+	auto velocityY = calculateVelocity(object.getVelocity().getY(), accelerateY);
+	velocityY *= getFriction();
+	velocityY += calculateGravity(fixedFrameTime);
+
+	const auto positionX = calculatePosition(velocityX, fixedFrameTime);
+	object.setVelocityX(velocityX);
+	object.move(positionX, 0.0f);
+
+	const auto positionY = calculatePosition(velocityY, fixedFrameTime);
+	object.setVelocityY(velocityY);
+	object.move(0.0f, positionY);
 }
 
 constexpr float PhysicsModule::getFriction() noexcept
@@ -20,37 +33,22 @@ constexpr float PhysicsModule::getGravity() noexcept
     return mGravity;
 }
 
-void PhysicsModule::updateMovement(GameObject& object, const sf::Time& fixedFrameTime) const noexcept
+inline float PhysicsModule::calculateAccelerate(const float accelerate, const sf::Time& fixedFrameTime) const noexcept
 {
-    applyAcceleration(object, fixedFrameTime);
-    applyFriction(object, fixedFrameTime);
+	return accelerate * fixedFrameTime.asSeconds();
 }
 
-void PhysicsModule::updatePosition(GameObject& object, const sf::Time& fixedFrameTime) const noexcept
+inline float PhysicsModule::calculateVelocity(const float velocity, const float accelerate) const noexcept
 {
-    FloatPoint offset{};
-    offset.setX(object.getVelocity().getX() * fixedFrameTime.asSeconds());
-    offset.setY(object.getVelocity().getY() * fixedFrameTime.asSeconds());
-
-    object.move(offset);
+	return velocity + accelerate;
 }
 
-void PhysicsModule::applyAcceleration(GameObject& object, const sf::Time& fixedFrameTime) const noexcept
+inline float PhysicsModule::calculatePosition(const float velocity, const sf::Time& fixedFrameTime) const noexcept
 {
-    FloatPoint acceleration{};
-    acceleration.setX(object.getAcceleration().getX() * fixedFrameTime.asSeconds());
-    acceleration.setY(object.getAcceleration().getY() * fixedFrameTime.asSeconds());
-
-    object.accelerateVelocity(acceleration);
+	return velocity * fixedFrameTime.asSeconds();
 }
 
-void PhysicsModule::applyFriction(GameObject& object, const sf::Time& fixedFrameTime) const noexcept
+inline float PhysicsModule::calculateGravity(const sf::Time& fixedFrameTime) const noexcept
 {
-    const auto firiction = std::pow(getFriction(), fixedFrameTime.asSeconds());
-
-    FloatPoint velocity{};
-    velocity.setX(object.getVelocity().getX() * firiction);
-    velocity.setY(object.getVelocity().getY() * firiction);
-
-    object.setVelocity(velocity);
+	return mGravity * fixedFrameTime.asSeconds();
 }

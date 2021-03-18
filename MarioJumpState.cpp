@@ -13,7 +13,7 @@ MarioJumpState::MarioJumpState(const Spriteset<MarioSpritesetRegions>& spriteset
 void MarioJumpState::onSet(GameObject& object) noexcept
 {
     object.setTextureArea(mSpriteset.getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0));
-    object.setAccelerationY(Constants::GameObjects::Mario::MaxVelocityY);
+    object.setVelocityY(-Constants::GameObjects::Mario::MaxVelocityY);
 }
 
 void MarioJumpState::update(GameObject&, const sf::Time&) noexcept
@@ -38,10 +38,12 @@ void MarioJumpState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent&
 {
     if (keyEvent.code == sf::Keyboard::Q)
     {
+        object.setAccelerationX(Constants::GameObjects::Mario::AccelerationX);
         object.setDirection(GameObjectDirections::Left);
     }
     else if (keyEvent.code == sf::Keyboard::E)
     {
+        object.setAccelerationX(Constants::GameObjects::Mario::AccelerationX);
         object.setDirection(GameObjectDirections::Right);
     }
 }

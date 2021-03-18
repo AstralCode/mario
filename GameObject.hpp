@@ -19,26 +19,20 @@ public:
 
 	void setTexture(const sf::Texture& texture) noexcept;
 	void setTextureArea(const IntArea& area) noexcept;
-
-	void setMaxVelocity(const FloatPoint& velocity) noexcept;
-
-	void setAcceleration(const FloatPoint& acceleration) noexcept;
-	void setAccelerationX(const float value) noexcept;
-	void setAccelerationY(const float value) noexcept;
-
-	void setVelocity(const FloatPoint& velocity) noexcept;
-	void setVelocityX(const float value) noexcept;
-	void setVelocityY(const float value) noexcept;
-
+	
 	void setAreaBoundsVisible(const bool visible) noexcept;
 	void setAreaBoundsColor(const sf::Color& color) noexcept;
 
-	void accelerateVelocity(const FloatPoint& acceleration) noexcept;
-	void accelerateVelocityX(const float acceleration) noexcept;
-	void accelerateVelocityY(const float acceleration) noexcept;
+	void setAccelerationX(const float value) noexcept;
+	void setAccelerationY(const float value) noexcept;
+
+	void setVelocityX(const float value) noexcept;
+	void setVelocityY(const float value) noexcept;
+
+	void setMaxVelocityX(const float value) noexcept;
+	void setMaxVelocityY(const float value) noexcept;
 
 	void setDirection(const GameObjectDirections direction) noexcept;
-	void turnAround() noexcept;
 
 	void destroy() noexcept;
 
@@ -51,13 +45,13 @@ public:
 
 	void update(const sf::Time& fixedFrameTime) noexcept;
 
-	FloatArea getLocalArea() const noexcept override;
-
 	GameObjectIdentifiers getIdentifier() const noexcept;
 
 	const FloatPoint& getAcceleration() const noexcept;
 	const FloatPoint& getMaxVelocity() const noexcept;
 	const FloatPoint& getVelocity() const noexcept;
+
+	FloatArea getLocalArea() const noexcept override;
 
 	GameObjectDirections getDirection() const noexcept;
 

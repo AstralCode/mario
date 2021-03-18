@@ -18,7 +18,8 @@ GameObject* GameObjectFactory::createMario() noexcept
 	auto state = std::make_unique<MarioStandState>(mSpritesets.getMarioSpriteset());
 
 	auto object = createObject(GameObjectIdentifiers::Mario, Textures::Mario);
-	object->setMaxVelocity({Constants::GameObjects::Mario::MaxVelocityX, Constants::GameObjects::Mario::MaxVelocityY});
+	object->setMaxVelocityX(Constants::GameObjects::Mario::MaxVelocityX);
+	object->setMaxVelocityY(Constants::GameObjects::Mario::MaxVelocityY);
 	object->setState(std::move(state));
 
 	return object;
@@ -30,6 +31,8 @@ GameObject* GameObjectFactory::createGoomba() noexcept
 													 mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Dead));
 
 	auto object = createObject(GameObjectIdentifiers::Goomba, Textures::Enemies);
+	object->setMaxVelocityX(Constants::GameObjects::Creature::MaxVelocityX);
+	object->setMaxVelocityY(Constants::GameObjects::Creature::MaxVelocityY);
 	object->setState(std::move(state));
 
 	return object;

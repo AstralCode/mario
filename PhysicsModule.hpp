@@ -1,9 +1,6 @@
 #pragma once
 
-namespace sf
-{
-class Time;
-}
+#include "SFML/System/Time.hpp"
 
 class GameObject;
 
@@ -16,12 +13,11 @@ public:
 	static constexpr float getGravity() noexcept;
 
 private:
-	void updateMovement(GameObject& object, const sf::Time& fixedFrameTime) const noexcept;
-	void updatePosition(GameObject& object, const sf::Time& fixedFrameTime) const noexcept;
+	inline float calculateAccelerate(const float accelerate, const sf::Time& fixedFrameTime) const noexcept;
+	inline float calculateVelocity(const float velocity, const float accelerate) const noexcept;
+	inline float calculatePosition(const float velocity, const sf::Time& fixedFrameTime) const noexcept;
+	inline float calculateGravity(const sf::Time& fixedFrameTime) const noexcept;
 
-	void applyAcceleration(GameObject& object, const sf::Time& fixedFrameTime) const noexcept;
-	void applyFriction(GameObject& object, const sf::Time& fixedFrameTime) const noexcept;
-
-	static constexpr const auto mFriction = 0.005f;
+	static constexpr const auto mFriction = 0.95f;
 	static constexpr const auto mGravity = 32.0f * 5.0f;
 };

@@ -2,7 +2,6 @@
 
 #include <tuple>
 
-#include "CollisionHandler.hpp"
 #include "GameObject.hpp"
 
 class TilemapView;
@@ -11,9 +10,6 @@ class GameObjectContainer;
 class CollisionModule final
 {
 public:
-	template <typename TCollisionHandler>
-	void addHandler() noexcept;
-
 	void detectCollisions(const GameObjectContainer& objects, TilemapView& tilemapView) noexcept;
 
 private:
@@ -25,14 +21,4 @@ private:
 
 	TileColliders checkTileCollisions(const GameObjectContainer& objects, TilemapView& tilemapView) const noexcept;
 	ObjectColliders checkObjectCollisions(const GameObjectContainer& objects) const noexcept;
-
-	std::vector<std::unique_ptr<CollisionHandler>> mCollisionHandlers;
 };
-
-template <typename TCollisionHandler>
-inline void CollisionModule::addHandler() noexcept
-{
-	static_assert(std::is_base_of_v<CollisionHandler, TCollisionHandler>, "TCollisionHandler must derived from CollisionHandler");
-
-	mCollisionHandlers.push_back(std::make_unique<TCollisionHandler>());
-}

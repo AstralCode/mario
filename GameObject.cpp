@@ -32,72 +32,6 @@ void GameObject::setTextureArea(const IntArea& area) noexcept
 	mSprite->setTextureArea(area);
 }
 
-void GameObject::setMaxVelocity(const FloatPoint& velocity) noexcept
-{
-	mMaxVelocity = velocity;
-}
-
-void GameObject::setAcceleration(const FloatPoint& acceleration) noexcept
-{
-	switch (mDirection)
-	{
-	case GameObjectDirections::Right:
-		mAcceleration.setX(+acceleration.getX());
-		break;
-	case GameObjectDirections::Left:
-		mAcceleration.setX(-acceleration.getX());
-		break;
-	default:
-		break;
-	}
-
-	if (isJumping())
-	{
-		mAcceleration.setY(-acceleration.getY());
-	}
-	else
-	{
-		mAcceleration.setY(+acceleration.getY());
-	}
-}
-
-void GameObject::setAccelerationX(const float value) noexcept
-{
-	setAcceleration({value, mAcceleration.getY()});
-}
-
-void GameObject::setAccelerationY(const float value) noexcept
-{
-	setAcceleration({mAcceleration.getX(), value});
-}
-
-void GameObject::setVelocity(const FloatPoint& velocity) noexcept
-{
-	switch (mDirection)
-	{
-	case GameObjectDirections::Right:
-		mVelocity.setX(std::min(velocity.getX(), +mMaxVelocity.getX()));
-		mVelocity.setY(std::min(velocity.getY(), +mMaxVelocity.getY()));
-		break;
-	case GameObjectDirections::Left:
-		mVelocity.setX(std::max(velocity.getX(), -mMaxVelocity.getX()));
-		mVelocity.setY(std::max(velocity.getY(), -mMaxVelocity.getY()));
-		break;
-	default:
-		break;
-	}	
-}
-
-void GameObject::setVelocityX(const float value) noexcept
-{
-	setVelocity({value, mVelocity.getY()});
-}
-
-void GameObject::setVelocityY(const float value) noexcept
-{
-	setVelocity({mVelocity.getX(), value});
-}
-
 void GameObject::setAreaBoundsVisible(const bool visible) noexcept
 {
 	mAreaBoundsVisible = visible;
@@ -108,19 +42,41 @@ void GameObject::setAreaBoundsColor(const sf::Color& color) noexcept
 	mAreaBoundsColor = color;
 }
 
-void GameObject::accelerateVelocity(const FloatPoint& acceleration) noexcept
+void GameObject::setAccelerationX(const float value) noexcept
 {
-	setVelocity({mVelocity.getX() + acceleration.getX(), mVelocity.getY() + acceleration.getY()});
+	mAcceleration.setX(value);
 }
 
-void GameObject::accelerateVelocityX(const float acceleration) noexcept
+void GameObject::setAccelerationY(const float value) noexcept
 {
-	accelerateVelocity({acceleration, 0.0f});
+	mAcceleration.setY(value);
 }
 
-void GameObject::accelerateVelocityY(const float acceleration) noexcept
+void GameObject::setVelocityX(const float value) noexcept
 {
-	accelerateVelocity({0.0f, acceleration});
+	if (hasDirection(GameObjectDirections::Right))
+	{
+		mVelocity.setX(std::min(value, +mMaxVelocity.getX()));
+	}
+	else
+	{
+		mVelocity.setX(std::max(value, -mMaxVelocity.getX()));
+	}
+}
+
+void GameObject::setVelocityY(const float value) noexcept
+{
+	mVelocity.setY(std::min(value, mMaxVelocity.getY()));
+}
+
+void GameObject::setMaxVelocityX(const float value) noexcept
+{
+	mMaxVelocity.setX(value);
+}
+
+void GameObject::setMaxVelocityY(const float value) noexcept
+{
+	mMaxVelocity.setY(value);
 }
 
 void GameObject::setDirection(const GameObjectDirections direction) noexcept
@@ -128,23 +84,8 @@ void GameObject::setDirection(const GameObjectDirections direction) noexcept
 	if (direction != mDirection)
 	{
 		mDirection = direction;
-
 		mSprite->flip(Sprite::Orientations::Horizontal);
 	}
-}
-
-void GameObject::turnAround() noexcept
-{
-	if (mDirection == GameObjectDirections::Right)
-	{
-		setDirection(GameObjectDirections::Left);
-	}
-	else
-	{
-		setDirection(GameObjectDirections::Right);
-	}
-
-	setVelocity(-getVelocity());
 }
 
 void GameObject::destroy() noexcept
@@ -174,7 +115,7 @@ void GameObject::onTileRightCollision(const Tile& tile) noexcept
 
 void GameObject::onObjectCollision(GameObject& object) noexcept
 {
-	mState->onObjectCollision(object);
+	mState->onObjectCollision(*this, object);
 }
 
 void GameObject::update(const sf::Time& fixedFrameTime) noexcept
@@ -185,11 +126,6 @@ void GameObject::update(const sf::Time& fixedFrameTime) noexcept
 	{
 		remove();
 	}
-}
-
-FloatArea GameObject::getLocalArea() const noexcept
-{
-	return mSprite->getLocalArea();
 }
 
 GameObjectIdentifiers GameObject::getIdentifier() const noexcept
@@ -205,6 +141,11 @@ const FloatPoint& GameObject::getMaxVelocity() const noexcept
 const FloatPoint& GameObject::getVelocity() const noexcept
 {
 	return mVelocity;
+}
+
+FloatArea GameObject::getLocalArea() const noexcept
+{
+	return mSprite->getLocalArea();
 }
 
 GameObjectDirections GameObject::getDirection() const noexcept

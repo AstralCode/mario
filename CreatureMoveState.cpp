@@ -11,16 +11,61 @@ CreatureMoveState::CreatureMoveState(const SpritesetRegion& moveSpritesetRegion,
 
 void CreatureMoveState::onSet(GameObject& object) noexcept
 {
-    object.setMaxVelocity({Constants::GameObjects::Creature::MaxVelocityX, Constants::GameObjects::Creature::MaxVelocityY});
-    object.setAccelerationX(Constants::GameObjects::Creature::MaxVelocityX);
     object.setTextureArea(mMoveAnimation.getCurrentSpriteArea());
+    object.setAccelerationX(Constants::GameObjects::Creature::AccelerationX);
 
     mMoveAnimation.setDuration(sf::seconds(Constants::GameObjects::Creature::MoveAnimationDuration));
     mMoveAnimation.setRepeating(true);
     mMoveAnimation.play();
 }
 
-void CreatureMoveState::update(GameObject&, const sf::Time& fixedFrameTime) noexcept
+void CreatureMoveState::update(GameObject& object, const sf::Time& fixedFrameTime) noexcept
 {
     mMoveAnimation.update(fixedFrameTime);
+    object.setTextureArea(mMoveAnimation.getCurrentSpriteArea());
+}
+
+void CreatureMoveState::onTileLeftCollision(GameObject& object, const Tile&) noexcept
+{
+    if (object.hasDirection(GameObjectDirections::Right))
+    {
+        object.setDirection(GameObjectDirections::Left);
+    }
+    else
+    {
+        object.setDirection(GameObjectDirections::Right);
+    }
+
+    object.setVelocityX(-object.getVelocity().getX());
+}
+
+void CreatureMoveState::onTileRightCollision(GameObject& object, const Tile&) noexcept
+{
+    if (object.hasDirection(GameObjectDirections::Right))
+    {
+        object.setDirection(GameObjectDirections::Left);
+    }
+    else
+    {
+        object.setDirection(GameObjectDirections::Right);
+    }
+
+    object.setVelocityX(-object.getVelocity().getX());
+}
+
+void CreatureMoveState::onObjectCollision(GameObject& objectA, GameObject& objectB) noexcept
+{
+    if (objectA.hasDirection(GameObjectDirections::Right))
+    {
+        objectA.setDirection(GameObjectDirections::Left);
+        objectB.setDirection(GameObjectDirections::Right);
+    }
+    else
+    {
+        objectA.setDirection(GameObjectDirections::Right);
+        objectB.setDirection(GameObjectDirections::Left);
+    }
+
+    objectA.setVelocityX(-objectA.getVelocity().getX());
+    objectB.setVelocityX(-objectB.getVelocity().getX());
 }

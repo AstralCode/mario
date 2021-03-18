@@ -23,7 +23,7 @@ public:
 	virtual void onTileLeftCollision(GameObject& object, const Tile& tile) noexcept;
 	virtual void onTileRightCollision(GameObject& object, const Tile& tile) noexcept;
 
-	virtual void onObjectCollision(GameObject& object) noexcept;
+	virtual void onObjectCollision(GameObject& objectA, GameObject& objectB) noexcept;
 
 	virtual void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept;
 	virtual void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept;

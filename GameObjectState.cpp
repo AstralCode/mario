@@ -27,7 +27,7 @@ void GameObjectState::onTileRightCollision(GameObject&, const Tile&) noexcept
 
 }
 
-void GameObjectState::onObjectCollision(GameObject&) noexcept
+void GameObjectState::onObjectCollision(GameObject&, GameObject&) noexcept
 {
 
 }

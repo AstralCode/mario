@@ -2,17 +2,11 @@
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
-#include "StandardCollisionHandler.hpp"
-#include "MarioCollisionHandler.hpp"
-#include "CreatureCollisionHandler.hpp"
-
 GraphicsScene::GraphicsScene() noexcept :
 	mGameObjectLayer{*mRoot.addItem<GraphicsItem>()},
 	mGameObjectContainer{mGameObjectLayer}
 {
-	mCollisionModule.addHandler<StandardCollisionHandler>();
-	mCollisionModule.addHandler<MarioCollisionHandler>();
-	mCollisionModule.addHandler<CreatureCollisionHandler>();
+
 }
 
 GameObject* GraphicsScene::createGameObject(const GameObjectIdentifiers identifier) noexcept
