@@ -63,11 +63,11 @@ void GameEngine::processEvents() noexcept
 	mGameStateManager.executeRequests();
 }
 
-void GameEngine::processLogic(const sf::Time& fixedFrameTime) noexcept
+void GameEngine::processLogic(const sf::Time& dt) noexcept
 {
-	mScene.update(fixedFrameTime);
+	mScene.update(dt);
 
-	mGameStateManager.processLogic(fixedFrameTime);
+	mGameStateManager.processLogic(dt);
 	mGameStateManager.executeRequests();
 }
 
@@ -180,7 +180,7 @@ void GameEngine::initializeGameState() noexcept
 
 void GameEngine::executeMainLoop() noexcept
 {
-	const auto fixedFrameTime = sf::seconds(1.0f / 60u);
+	const auto dt = sf::seconds(1.0f / 60u);
 	const auto threadSleepTime = sf::milliseconds(10);
 
 	sf::Clock clock{};
@@ -199,7 +199,7 @@ void GameEngine::executeMainLoop() noexcept
 		elapsedFrameUpdateTime += deltaTime;
 		elapsedFramerateTextUpdateTime += deltaTime;
 
-		while (elapsedFrameUpdateTime > fixedFrameTime)
+		while (elapsedFrameUpdateTime > dt)
 		{
 			processEvents();
 
@@ -208,7 +208,7 @@ void GameEngine::executeMainLoop() noexcept
 				break;
 			}
 
-			processLogic(fixedFrameTime);
+			processLogic(dt);
 
 			if (!mGameStateManager.hasActiveStates())
 			{
@@ -217,7 +217,7 @@ void GameEngine::executeMainLoop() noexcept
 
 			renderFrame = true;
 
-			elapsedFrameUpdateTime -= fixedFrameTime;
+			elapsedFrameUpdateTime -= dt;
 		}
 
 		if (renderFrame)

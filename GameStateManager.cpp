@@ -102,9 +102,9 @@ void GameStateManager::processEvents(const sf::Event& event) noexcept
 	}
 }
 
-void GameStateManager::processLogic(const sf::Time& fixedFrameTime) noexcept
+void GameStateManager::processLogic(const sf::Time& dt) noexcept
 {
-	getActiveState()->processLogic(fixedFrameTime);
+	getActiveState()->processLogic(dt);
 }
 
 std::size_t GameStateManager::getActiveStateCount() const noexcept

@@ -118,9 +118,9 @@ void GameObject::onObjectCollision(GameObject& object) noexcept
 	mState->onObjectCollision(*this, object);
 }
 
-void GameObject::update(const sf::Time& fixedFrameTime) noexcept
+void GameObject::update(const sf::Time& dt) noexcept
 {
-	mState->update(*this, fixedFrameTime);
+	mState->update(*this, dt);
 
 	if (mState->isDestroyed())
 	{

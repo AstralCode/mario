@@ -16,7 +16,7 @@ public:
 
 	void receiveEvents(const sf::Event& event) noexcept;
 
-	void update(const sf::Time& fixedFrameTime) noexcept;
+	void update(const sf::Time& dt) noexcept;
 
 	TilemapView& getTilemapView() noexcept;
 	const TilemapView& getTilemapView() const noexcept;

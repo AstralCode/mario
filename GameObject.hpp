@@ -43,7 +43,7 @@ public:
 
 	void onObjectCollision(GameObject& object) noexcept;
 
-	void update(const sf::Time& fixedFrameTime) noexcept;
+	void update(const sf::Time& dt) noexcept;
 
 	GameObjectIdentifiers getIdentifier() const noexcept;
 

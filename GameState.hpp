@@ -19,7 +19,7 @@ public:
 	virtual void onEnter() noexcept = 0;
 	virtual void onLeave() noexcept = 0;
 
-	virtual void processLogic(const sf::Time& fixedFrameTime) noexcept = 0;
+	virtual void processLogic(const sf::Time& dt) noexcept = 0;
 
 	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcept override;
 	void onKeyReleased(const sf::Event::KeyEvent& keyEvent) noexcept override;

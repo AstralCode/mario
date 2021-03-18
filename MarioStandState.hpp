@@ -10,7 +10,7 @@ public:
 	MarioStandState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept;
 
 	void onSet(GameObject& object) noexcept override;
-	void update(GameObject& object, const sf::Time& fixedFrameTime) noexcept override;
+	void update(GameObject& object, const sf::Time& dt) noexcept override;
 
 	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
 

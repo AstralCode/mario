@@ -37,7 +37,7 @@ public:
 	void pause() noexcept;
 	void stop() noexcept;
 
-	void update(const sf::Time& fixedFrameTime) noexcept;
+	void update(const sf::Time& dt) noexcept;
 
 	const IntArea& getCurrentSpriteArea() const noexcept;
 

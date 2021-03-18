@@ -53,7 +53,7 @@ void Animation::stop() noexcept
 	mAlternate = false;
 }
 
-void Animation::update(const sf::Time& fixedFrameTime) noexcept
+void Animation::update(const sf::Time& dt) noexcept
 {
 	if (mPlaying)
 	{
@@ -61,7 +61,7 @@ void Animation::update(const sf::Time& fixedFrameTime) noexcept
 		{
 			const auto animationFrameTime = calculateAnimationFrameTime();
 
-			mElapsedUpdateTime += fixedFrameTime;
+			mElapsedUpdateTime += dt;
 
 			while (mElapsedUpdateTime >= animationFrameTime)
 			{
@@ -86,7 +86,7 @@ void Animation::update(const sf::Time& fixedFrameTime) noexcept
 		}
 		else
 		{
-			mElapsedDelayTime += fixedFrameTime;
+			mElapsedDelayTime += dt;
 		}
 	}
 }

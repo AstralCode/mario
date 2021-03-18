@@ -10,7 +10,7 @@ public:
 	MarioJumpState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept;
 
 	void onSet(GameObject& object) noexcept override;
-	void update(GameObject& object, const sf::Time& fixedFrameTime) noexcept override;
+	void update(GameObject& object, const sf::Time& dt) noexcept override;
 
 	void onTileTopCollision(GameObject& object, const Tile& tile) noexcept override;
 	void onTileBottomCollision(GameObject& object, const Tile& tile) noexcept override;

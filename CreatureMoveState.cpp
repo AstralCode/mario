@@ -19,9 +19,9 @@ void CreatureMoveState::onSet(GameObject& object) noexcept
     mMoveAnimation.play();
 }
 
-void CreatureMoveState::update(GameObject& object, const sf::Time& fixedFrameTime) noexcept
+void CreatureMoveState::update(GameObject& object, const sf::Time& dt) noexcept
 {
-    mMoveAnimation.update(fixedFrameTime);
+    mMoveAnimation.update(dt);
     object.setTextureArea(mMoveAnimation.getCurrentSpriteArea());
 }
 

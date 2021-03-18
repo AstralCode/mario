@@ -14,7 +14,7 @@ public:
 	virtual ~GameObjectState() = default;
 
 	virtual void onSet(GameObject& object) noexcept = 0;
-	virtual void update(GameObject& object, const sf::Time& fixedFrameTime) noexcept = 0;
+	virtual void update(GameObject& object, const sf::Time& dt) noexcept = 0;
 
 	void destroy() noexcept;
 

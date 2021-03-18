@@ -27,9 +27,9 @@ void MarioMoveState::onSet(GameObject& object) noexcept
     mMoveAnimation.play();
 }
 
-void MarioMoveState::update(GameObject& object, const sf::Time& fixedFrameTime) noexcept
+void MarioMoveState::update(GameObject& object, const sf::Time& dt) noexcept
 {
-    mMoveAnimation.update(fixedFrameTime);
+    mMoveAnimation.update(dt);
     object.setTextureArea(mMoveAnimation.getCurrentSpriteArea());
 
     if (object.getAcceleration().getX() == 0.0f && std::fabs(object.getVelocity().getX()) < 12.0f)

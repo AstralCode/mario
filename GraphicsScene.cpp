@@ -20,12 +20,12 @@ void GraphicsScene::receiveEvents(const sf::Event& event) noexcept
 	mRoot.receiveEvents(event);
 }
 
-void GraphicsScene::update(const sf::Time& fixedFrameTime) noexcept
+void GraphicsScene::update(const sf::Time& dt) noexcept
 {
 	for (auto& object : mGameObjectContainer)
 	{
-		object->update(fixedFrameTime);
-		mPhysicsModule.update(*object, fixedFrameTime);
+		object->update(dt);
+		mPhysicsModule.update(*object, dt);
 	}
 
 	mCollisionModule.detectCollisions(mGameObjectContainer, mTilemapView);

@@ -30,7 +30,7 @@ public:
 	void executeRequests() noexcept;
 
 	void processEvents(const sf::Event& event) noexcept;
-	void processLogic(const sf::Time& fixedFrameTime) noexcept;
+	void processLogic(const sf::Time& dt) noexcept;
 
 	std::size_t getActiveStateCount() const noexcept;
 

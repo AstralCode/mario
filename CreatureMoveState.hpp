@@ -9,7 +9,7 @@ public:
 	CreatureMoveState(const SpritesetRegion& moveSpritesetRegion, const SpritesetRegion& deadSpritesetRegion) noexcept;
 
 	void onSet(GameObject& object) noexcept override;
-	void update(GameObject& object, const sf::Time& fixedFrameTime) noexcept override;
+	void update(GameObject& object, const sf::Time& dt) noexcept override;
 
 	void onTileLeftCollision(GameObject& object, const Tile& tile) noexcept override;
 	void onTileRightCollision(GameObject& object, const Tile& tile) noexcept override;
