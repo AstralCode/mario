@@ -130,11 +130,15 @@ Tile TilemapView::getTile(const FloatPoint& position) const noexcept
 Tile TilemapView::getTile(const Tile::Index& index) const noexcept
 {
 	Tile tile{};
-	tile.index = index;
-	tile.identifier = mTilemap->getTileIdentifier(tile.index);
-	tile.attributes = mTilemap->getTileAttributes(tile.index);
-	tile.area.setPosition(getTilePosition(index));
-	tile.area.setSize(getTileSize());
+
+	if (index.column >= 0 && index.row >= 0 && index.column < getColumnCount() && index.row < getRowCount())
+	{
+		tile.index = index;
+		tile.identifier = mTilemap->getTileIdentifier(tile.index);
+		tile.attributes = mTilemap->getTileAttributes(tile.index);
+		tile.area.setPosition(getTilePosition(index));
+		tile.area.setSize(getTileSize());
+	}
 
 	return tile;
 }

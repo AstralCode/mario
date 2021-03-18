@@ -12,6 +12,7 @@ void PhysicsModule::update(GameObject& object, const sf::Time& fixedFrameTime) c
 	velocityX *= getFriction();
 	auto velocityY = calculateVelocity(object.getVelocity().getY(), accelerateY);
 	velocityY *= getFriction();
+
 	velocityY += calculateGravity(fixedFrameTime);
 
 	const auto positionX = calculatePosition(velocityX, fixedFrameTime);

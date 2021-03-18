@@ -32,7 +32,6 @@ GameObject* GameObjectFactory::createGoomba() noexcept
 
 	auto object = createObject(GameObjectIdentifiers::Goomba, Textures::Enemies);
 	object->setMaxVelocityX(Constants::GameObjects::Creature::MaxVelocityX);
-	object->setMaxVelocityY(Constants::GameObjects::Creature::MaxVelocityY);
 	object->setState(std::move(state));
 
 	return object;

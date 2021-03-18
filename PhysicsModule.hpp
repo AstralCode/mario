@@ -2,6 +2,8 @@
 
 #include "SFML/System/Time.hpp"
 
+#include "Constants.hpp"
+
 class GameObject;
 
 class PhysicsModule final
@@ -18,6 +20,6 @@ private:
 	inline float calculatePosition(const float velocity, const sf::Time& fixedFrameTime) const noexcept;
 	inline float calculateGravity(const sf::Time& fixedFrameTime) const noexcept;
 
-	static constexpr const auto mFriction = 0.95f;
-	static constexpr const auto mGravity = 32.0f * 5.0f;
+	static constexpr const auto mFriction = Constants::World::Friction;
+	static constexpr const auto mGravity = Constants::World::Gravity;
 };

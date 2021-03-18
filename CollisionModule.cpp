@@ -23,29 +23,35 @@ void CollisionModule::executeTileCollisionHandlers(const TileColliders& collider
 
 		auto objectPosition = object->getPosition();
 
-		if (objectCenterPosition.getX() < tilePosition.getX() &&
-			objectCenterPosition.getY() > tile.area.getTop())
+		const auto isTopCollision = objectCenterPosition.getY() < tilePosition.getY() &&
+									objectCenterPosition.getY() < tile.area.getTop();
+		const auto isBottomCollision = objectCenterPosition.getY() > tile.area.getBottom();
+
+		if (isTopCollision)
+		{
+			objectPosition.setY(tile.area.getTop() - objectArea.getHeight());
+			object->onTileTopCollision(tile);
+		}
+		else if(isBottomCollision)
+		{
+			objectPosition.setY(tile.area.getBottom() - 1.0f);
+			object->onTileBottomCollision(tile);
+		}
+		
+		const auto isLeftCollision = objectCenterPosition.getX() < tilePosition.getX() &&
+									 objectCenterPosition.getY() > tile.area.getTop();
+		const auto isRightCollision = objectCenterPosition.getY() > tile.area.getTop() &&
+									  objectCenterPosition.getY() < tile.area.getBottom();
+
+		if (isLeftCollision && !isBottomCollision)
 		{
 			objectPosition.setX(tile.area.getLeft() - objectArea.getWidth());
 			object->onTileLeftCollision(tile);
 		}
-		else if (objectCenterPosition.getY() > tile.area.getTop() &&
-					objectCenterPosition.getY() < tile.area.getBottom())
+		else if (isRightCollision && !isBottomCollision)
 		{
 			objectPosition.setX(tile.area.getRight() + 1.0f);
 			object->onTileRightCollision(tile);
-		}
-
-		if (objectCenterPosition.getY() < tilePosition.getY() &&
-			objectCenterPosition.getY() < tile.area.getTop())
-		{
-			objectPosition.setY( tile.area.getTop() - objectArea.getHeight());
-			object->onTileTopCollision(tile);
-		}
-		else if(objectCenterPosition.getY() > tile.area.getBottom())
-		{
-			objectPosition.setY(tile.area.getBottom() - 1.0f);
-			object->onTileBottomCollision(tile);
 		}
 
 		object->setPosition(objectPosition);

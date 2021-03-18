@@ -23,25 +23,29 @@ void MarioJumpState::update(GameObject&, const sf::Time&) noexcept
 
 void MarioJumpState::onTileTopCollision(GameObject& object, const Tile&) noexcept
 {
-    object.setState(std::make_unique<MarioStandState>(mSpriteset));
+    if (std::fabs(object.getVelocity().getX()) > 12.0f)
+    {
+        object.setState(std::make_unique<MarioMoveState>(mSpriteset));
+    }
+    else
+    {
+        object.setState(std::make_unique<MarioStandState>(mSpriteset));
+    }
 }
 
-void MarioJumpState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
+void MarioJumpState::onTileBottomCollision(GameObject& object, const Tile&) noexcept
 {
-    if (keyEvent.code == sf::Keyboard::W)
-    {
-        object.setAccelerationY(0.0f);
-    }
+    object.setVelocityY(object.getVelocity().getY() + Constants::GameObjects::Mario::MaxVelocityY * 0.2f);
 }
 
 void MarioJumpState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
-    if (keyEvent.code == sf::Keyboard::Q)
+    if (keyEvent.code == Constants::GameObjects::Mario::Left)
     {
         object.setAccelerationX(Constants::GameObjects::Mario::AccelerationX);
         object.setDirection(GameObjectDirections::Left);
     }
-    else if (keyEvent.code == sf::Keyboard::E)
+    else if (keyEvent.code == Constants::GameObjects::Mario::Right)
     {
         object.setAccelerationX(Constants::GameObjects::Mario::AccelerationX);
         object.setDirection(GameObjectDirections::Right);

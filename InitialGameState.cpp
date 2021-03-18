@@ -13,7 +13,7 @@ InitialGameState::InitialGameState(GameContextData& contextData) noexcept :
 
 void InitialGameState::onEnter() noexcept
 {
-	auto tilemap = std::make_unique<Tilemap>(15, 20, FloatSize{Constants::Tilemap::TileSize, Constants::Tilemap::TileSize});
+	auto tilemap = std::make_unique<Tilemap>(15, 20, FloatSize{Constants::World::TileSize, Constants::World::TileSize});
 	tilemap->getRow(0)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(1)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(2)  = Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  50,  51,   0,   0,   0,   0 };
