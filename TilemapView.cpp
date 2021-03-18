@@ -9,7 +9,7 @@ TilemapView::TilemapView() noexcept :
 	mBackgroundVerticlesArray{sf::PrimitiveType::Quads},
 	mTileVerticlesArray{sf::PrimitiveType::Quads}
 {
-	mInformationText.setPosition(6.0f, 40.0f);
+	mInformationText.setPosition(4.0f, 20.0f);
 	mInformationText.setCharacterSize(12u);
 }
 
