@@ -3,23 +3,23 @@
 #include "GameObjectState.hpp"
 #include "Spriteset.hpp"
 #include "SpritesetRegions.hpp"
-#include "Animation.hpp"
 
-class MarioMoveState final : public GameObjectState
+class SpritesetRegion;
+
+class MarioFallState final : public GameObjectState
 {
 public:
-	MarioMoveState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept;
+	MarioFallState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept;
 
 	void onSet(GameObject& object) noexcept override;
 	void update(GameObject& object, const sf::Time& dt) noexcept override;
 
-	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
-	void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
+	void onTileTopCollision(GameObject& object, const Tile& tile) noexcept override;
 
-	void onFalling(GameObject& object) noexcept override;
+	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
+
+	bool isFalling() const noexcept;
 
 private:
 	const Spriteset<MarioSpritesetRegions>& mSpriteset;
-
-	Animation mMoveAnimation;
 };

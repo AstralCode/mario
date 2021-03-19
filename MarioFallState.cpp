@@ -1,31 +1,26 @@
-#include "MarioJumpState.hpp"
+#include "MarioFallState.hpp"
 
 #include "GameObject.hpp"
 #include "MarioStandState.hpp"
 #include "MarioMoveState.hpp"
-#include "MarioFallState.hpp"
 
-MarioJumpState::MarioJumpState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
+MarioFallState::MarioFallState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
     mSpriteset{spriteset}
 {
 
 }
 
-void MarioJumpState::onSet(GameObject& object) noexcept
+void MarioFallState::onSet(GameObject& object) noexcept
 {
     object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0));
-    object.setVelocityY(-Constants::World::Mario::MaxVelocityY);
 }
 
-void MarioJumpState::update(GameObject& object, const sf::Time&) noexcept
+void MarioFallState::update(GameObject&, const sf::Time&) noexcept
 {
-    if (object.getVelocity().getX() > 0.0f)
-    {
-        object.setState<MarioFallState>(mSpriteset);
-    }
+
 }
 
-void MarioJumpState::onTileTopCollision(GameObject& object, const Tile&) noexcept
+void MarioFallState::onTileTopCollision(GameObject& object, const Tile& tile) noexcept
 {
     if (std::fabs(object.getVelocity().getX()) > Constants::World::Mario::MinVelocityX)
     {
@@ -37,12 +32,7 @@ void MarioJumpState::onTileTopCollision(GameObject& object, const Tile&) noexcep
     }
 }
 
-void MarioJumpState::onTileBottomCollision(GameObject& object, const Tile&) noexcept
-{
-    object.setVelocityY(object.getVelocity().getY() + Constants::World::Mario::MaxVelocityY * 0.2f);
-}
-
-void MarioJumpState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
+void MarioFallState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
     if (keyEvent.code == Constants::World::Mario::Left)
     {
@@ -56,7 +46,7 @@ void MarioJumpState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent&
     }
 }
 
-bool MarioJumpState::isJumping() const noexcept
+bool MarioFallState::isFalling() const noexcept
 {
     return true;
 }

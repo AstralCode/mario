@@ -18,6 +18,8 @@ public:
 
 	void onObjectCollision(GameObject& objectA, GameObject& objectB) noexcept override;
 
+	bool isFalling() const noexcept;
+
 private:
 	const SpritesetRegion& mMoveSpritesetRegion;
 };

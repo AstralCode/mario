@@ -23,10 +23,10 @@ void InitialGameState::onEnter() noexcept
 	tilemap->getRow(6)	= Tilemap::Row{ 51,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(7)	= Tilemap::Row{ 65,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(8)	= Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
-	tilemap->getRow(9)	= Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   5,   6,   7,   0 };
-	tilemap->getRow(10) = Tilemap::Row{  0,   0,  10,   0,   0,   0,   0,   5,   6,   7,   0,   0,   0,   0,   0,   0,   0,  47,   0,   0 };
-	tilemap->getRow(11) = Tilemap::Row{  0,  23,  24,  25,   0,   0,   0,   0,  47,   0,   0,   0,   0,   0,   0,   0,   0,  47,   0,   0 };
-	tilemap->getRow(12) = Tilemap::Row{ 23,  24,  39,  39,  25,  36,  37,  38,  47,   0,   0,  36,  37,  37,  37,  38,   0,  47,   0,   0 };
+	tilemap->getRow(9)	= Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   5,   6,   7,   0,   0,   0,   0,   0 };
+	tilemap->getRow(10) = Tilemap::Row{  0,   0,  10,   0,   0,   0,   0,   5,   6,   7,   0,   0,   0,  47,   0,   0,   0,   0,   0,   0 };
+	tilemap->getRow(11) = Tilemap::Row{  0,  23,  24,  25,   0,   0,   0,   0,  47,   0,   0,   0,   0,  47,   0,   0,   0,   0,   0,   0 };
+	tilemap->getRow(12) = Tilemap::Row{ 23,  24,  39,  39,  25,  36,  37,  38,  47,  36,  37,  37,  38,  47,   0,  36,  37,  38,   0,  23 };
 	tilemap->getRow(13) = Tilemap::Row{  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 };
 	tilemap->getRow(14) = Tilemap::Row{  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 };
 

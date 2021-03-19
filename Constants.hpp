@@ -22,7 +22,7 @@ constexpr const auto Logo = "Resources/Textures/Logo.png";
 namespace World
 {
 constexpr const auto TileSize = 32.0f;
-constexpr const auto Friction = 0.91f;
+constexpr const auto Friction = 0.92f;
 constexpr const auto Gravity = 1800.0f;
 
 namespace Mario

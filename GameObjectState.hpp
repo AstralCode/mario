@@ -37,6 +37,7 @@ public:
 	virtual void onMouseOver(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent) noexcept;
 
 	virtual bool isJumping() const noexcept;
+	virtual bool isFalling() const noexcept;
 
 	bool isDestroyed() const noexcept;
 

@@ -81,6 +81,11 @@ bool GameObjectState::isJumping() const noexcept
     return false;
 }
 
+bool GameObjectState::isFalling() const noexcept
+{
+    return false;
+}
+
 bool GameObjectState::isDestroyed() const noexcept
 {
     return mRemoved;

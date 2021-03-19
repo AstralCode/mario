@@ -3,6 +3,7 @@
 #include "GameObject.hpp"
 #include "MarioStandState.hpp"
 #include "MarioJumpState.hpp"
+#include "MarioFallState.hpp"
 
 MarioMoveState::MarioMoveState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
     mSpriteset{spriteset},
@@ -64,7 +65,7 @@ void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent&
         object.setAccelerationX(Constants::World::Mario::AccelerationX);
         object.setDirection(GameObjectDirections::Right);
     }
-    else if (keyEvent.code == sf::Keyboard::W)
+    else if (keyEvent.code == Constants::World::Mario::Up)
     {
         object.setState<MarioJumpState>(mSpriteset);
     }
@@ -94,4 +95,9 @@ void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent
             object.setDirection(GameObjectDirections::Left);
         }
     }
+}
+
+void MarioMoveState::onFalling(GameObject& object) noexcept
+{
+    object.setState<MarioFallState>(mSpriteset);
 }
