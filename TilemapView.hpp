@@ -32,7 +32,7 @@ public:
 
 	std::vector<Tile> getOverlapTiles(const FloatArea& area) const noexcept;
 
-	FloatPoint getTilePosition( const Tile::Index& index ) const noexcept;
+	FloatPoint getTilePosition(const Tile::Index& index) const noexcept;
 	const FloatSize& getTileSize() const noexcept;
 
 	const sf::Text& getText() const noexcept;
