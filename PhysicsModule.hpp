@@ -20,6 +20,6 @@ private:
 	inline float calculatePosition(const float velocity, const sf::Time& dt) const noexcept;
 	inline float calculateGravity(const sf::Time& dt) const noexcept;
 
-	static constexpr const auto mFriction = Constants::World::Friction;
-	static constexpr const auto mGravity = Constants::World::Gravity;
+	static constexpr const auto mFriction = Constants::World::Physics::Friction;
+	static constexpr const auto mGravity = Constants::World::Physics::Gravity;
 };

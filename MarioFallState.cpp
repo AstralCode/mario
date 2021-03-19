@@ -22,7 +22,7 @@ void MarioFallState::update(GameObject&, const sf::Time&) noexcept
 
 void MarioFallState::onTileTopCollision(GameObject& object, const Tile& tile) noexcept
 {
-    if (std::fabs(object.getVelocity().getX()) > Constants::World::Mario::MinVelocityX)
+    if (std::fabs(object.getVelocity().getX()) > Constants::World::Mario::StopVelocityX)
     {
         object.setState<MarioMoveState>(mSpriteset);
     }

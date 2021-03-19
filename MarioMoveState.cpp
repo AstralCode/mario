@@ -36,18 +36,18 @@ void MarioMoveState::update(GameObject& object, const sf::Time& dt) noexcept
 
     if (object.getAcceleration().getX() > 0.0f)
     {
-        if (object.getVelocity().getX() > Constants::World::Mario::MinVelocityX &&
+        if (object.getVelocity().getX() > Constants::World::Mario::StopVelocityX &&
             object.hasDirection(GameObjectDirections::Left))
         {
             object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0));
         }
-        else if (object.getVelocity().getX() < Constants::World::Mario::MinVelocityX &&
+        else if (object.getVelocity().getX() < Constants::World::Mario::StopVelocityX &&
                  object.hasDirection(GameObjectDirections::Right))
         {
             object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0));
         }
     }
-    else if (std::fabs(object.getVelocity().getX()) < Constants::World::Mario::MinVelocityX)
+    else if (std::fabs(object.getVelocity().getX()) < Constants::World::Mario::StopVelocityX)
     {
         object.setState<MarioStandState>(mSpriteset);
     }
