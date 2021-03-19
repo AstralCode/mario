@@ -25,6 +25,8 @@ public:
 
 	virtual void onObjectCollision(GameObject& objectA, GameObject& objectB) noexcept;
 
+	virtual void onFalling(GameObject& object) noexcept;
+
 	virtual void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept;
 	virtual void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept;
 

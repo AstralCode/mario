@@ -12,7 +12,7 @@ MarioStandState::MarioStandState(const Spriteset<MarioSpritesetRegions>& sprites
 
 void MarioStandState::onSet(GameObject& object) noexcept
 {
-    object.setTextureArea(mSpriteset.getRegion(MarioSpritesetRegions::Stand).getSpriteArea(0));
+    object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Stand).getSpriteArea(0));
     object.setAccelerationX(0.0f);
 }
 
@@ -23,18 +23,18 @@ void MarioStandState::update(GameObject&, const sf::Time&) noexcept
 
 void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
-    if (keyEvent.code == Constants::GameObjects::Mario::Left)
+    if (keyEvent.code == Constants::World::Mario::Left)
     {
         object.setDirection(GameObjectDirections::Left);
-        object.setState(std::make_unique<MarioMoveState>(mSpriteset));
+        object.setState<MarioMoveState>(mSpriteset);
     }
-    else if (keyEvent.code == Constants::GameObjects::Mario::Right)
+    else if (keyEvent.code == Constants::World::Mario::Right)
     {
         object.setDirection(GameObjectDirections::Right);
-        object.setState(std::make_unique<MarioMoveState>(mSpriteset));
+        object.setState<MarioMoveState>(mSpriteset);
     }
-    else if (keyEvent.code == Constants::GameObjects::Mario::Up)
+    else if (keyEvent.code == Constants::World::Mario::Up)
     {
-        object.setState(std::make_unique<MarioJumpState>(mSpriteset));
+        object.setState<MarioJumpState>(mSpriteset);
     }
 }

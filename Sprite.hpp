@@ -16,7 +16,7 @@ public:
 	Sprite() noexcept;
 
 	void setTexture(const sf::Texture& texture) noexcept;
-	void setTextureArea(const IntArea& area) noexcept;
+	void setSpriteArea(const IntArea& area) noexcept;
 
 	void flip(const Orientations orientation) noexcept;
 

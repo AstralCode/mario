@@ -15,24 +15,19 @@ GameObjectFactory::GameObjectFactory(ResourceContainer& resources, SpritesetCont
 
 GameObject* GameObjectFactory::createMario() noexcept
 {
-	auto state = std::make_unique<MarioStandState>(mSpritesets.getMarioSpriteset());
-
 	auto object = createObject(GameObjectIdentifiers::Mario, Textures::Mario);
-	object->setMaxVelocityX(Constants::GameObjects::Mario::MaxVelocityX);
-	object->setMaxVelocityY(Constants::GameObjects::Mario::MaxVelocityY);
-	object->setState(std::move(state));
+	object->setMaxVelocityX(Constants::World::Mario::MaxVelocityX);
+	object->setMaxVelocityY(Constants::World::Mario::MaxVelocityY);
+	object->setState<MarioStandState>(mSpritesets.getMarioSpriteset());
 
 	return object;
 }
 
 GameObject* GameObjectFactory::createGoomba() noexcept
 {
-	auto state = std::make_unique<CreatureMoveState>(mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move),
-													 mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Dead));
-
 	auto object = createObject(GameObjectIdentifiers::Goomba, Textures::Enemies);
-	object->setMaxVelocityX(Constants::GameObjects::Creature::MaxVelocityX);
-	object->setState(std::move(state));
+	object->setMaxVelocityX(Constants::World::Creature::MaxVelocityX);
+	object->setState<CreatureMoveState>(mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move));
 
 	return object;
 }

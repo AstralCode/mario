@@ -16,20 +16,14 @@ GameObject::GameObject(const GameObjectIdentifiers identifier) noexcept :
 	
 }
 
-void GameObject::setState(std::unique_ptr<GameObjectState> state) noexcept
-{
-	mState = std::move(state);
-	mState->onSet(*this);
-}
-
 void GameObject::setTexture(const sf::Texture& texture) noexcept
 {
 	mSprite->setTexture(texture);
 }
 
-void GameObject::setTextureArea(const IntArea& area) noexcept
+void GameObject::setSpriteArea(const IntArea& area) noexcept
 {
-	mSprite->setTextureArea(area);
+	mSprite->setSpriteArea(area);
 }
 
 void GameObject::setAreaBoundsVisible(const bool visible) noexcept
@@ -116,6 +110,11 @@ void GameObject::onTileRightCollision(const Tile& tile) noexcept
 void GameObject::onObjectCollision(GameObject& object) noexcept
 {
 	mState->onObjectCollision(*this, object);
+}
+
+void GameObject::onFalling() noexcept
+{
+
 }
 
 void GameObject::update(const sf::Time& dt) noexcept

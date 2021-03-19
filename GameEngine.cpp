@@ -95,16 +95,16 @@ void GameEngine::loadResources()
 
 void GameEngine::loadFonts()
 {
-	mResources.addFont(Fonts::Roboto, ResourceLoader::loadFont(Constants::ResourcePaths::Fonts::Roboto));
+	mResources.addFont(Fonts::Roboto, ResourceLoader::loadFont(Constants::Resources::Fonts::Roboto));
 }
 
 void GameEngine::loadTextures()
 {
-	mResources.addTexture(Textures::Enemies, ResourceLoader::loadTexture(Constants::ResourcePaths::Textures::Enemies));
-	mResources.addTexture(Textures::Items, ResourceLoader::loadTexture(Constants::ResourcePaths::Textures::Items));
-	mResources.addTexture(Textures::Mario, ResourceLoader::loadTexture(Constants::ResourcePaths::Textures::Mario));
-	mResources.addTexture(Textures::Scenery, ResourceLoader::loadTexture(Constants::ResourcePaths::Textures::Scenery));
-	mResources.addTexture(Textures::Logo, ResourceLoader::loadTexture(Constants::ResourcePaths::Textures::Logo));
+	mResources.addTexture(Textures::Enemies, ResourceLoader::loadTexture(Constants::Resources::Textures::Enemies));
+	mResources.addTexture(Textures::Items, ResourceLoader::loadTexture(Constants::Resources::Textures::Items));
+	mResources.addTexture(Textures::Mario, ResourceLoader::loadTexture(Constants::Resources::Textures::Mario));
+	mResources.addTexture(Textures::Scenery, ResourceLoader::loadTexture(Constants::Resources::Textures::Scenery));
+	mResources.addTexture(Textures::Logo, ResourceLoader::loadTexture(Constants::Resources::Textures::Logo));
 }
 
 void GameEngine::initializeFramerateText() noexcept

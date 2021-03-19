@@ -39,6 +39,8 @@ public:
 
 	void update(const sf::Time& dt) noexcept;
 
+	const SpritesetRegion& getSpritesetRegion() const noexcept;
+
 	const IntArea& getCurrentSpriteArea() const noexcept;
 
 	int getSpriteCount() const noexcept;

@@ -12,8 +12,8 @@ MarioJumpState::MarioJumpState(const Spriteset<MarioSpritesetRegions>& spriteset
 
 void MarioJumpState::onSet(GameObject& object) noexcept
 {
-    object.setTextureArea(mSpriteset.getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0));
-    object.setVelocityY(-Constants::GameObjects::Mario::MaxVelocityY);
+    object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0));
+    object.setVelocityY(-Constants::World::Mario::MaxVelocityY);
 }
 
 void MarioJumpState::update(GameObject&, const sf::Time&) noexcept
@@ -23,31 +23,31 @@ void MarioJumpState::update(GameObject&, const sf::Time&) noexcept
 
 void MarioJumpState::onTileTopCollision(GameObject& object, const Tile&) noexcept
 {
-    if (std::fabs(object.getVelocity().getX()) > 12.0f)
+    if (std::fabs(object.getVelocity().getX()) > Constants::World::Mario::MinVelocityX)
     {
-        object.setState(std::make_unique<MarioMoveState>(mSpriteset));
+        object.setState<MarioMoveState>(mSpriteset);
     }
     else
     {
-        object.setState(std::make_unique<MarioStandState>(mSpriteset));
+        object.setState<MarioStandState>(mSpriteset);
     }
 }
 
 void MarioJumpState::onTileBottomCollision(GameObject& object, const Tile&) noexcept
 {
-    object.setVelocityY(object.getVelocity().getY() + Constants::GameObjects::Mario::MaxVelocityY * 0.2f);
+    object.setVelocityY(object.getVelocity().getY() + Constants::World::Mario::MaxVelocityY * 0.2f);
 }
 
 void MarioJumpState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
-    if (keyEvent.code == Constants::GameObjects::Mario::Left)
+    if (keyEvent.code == Constants::World::Mario::Left)
     {
-        object.setAccelerationX(Constants::GameObjects::Mario::AccelerationX);
+        object.setAccelerationX(Constants::World::Mario::AccelerationX);
         object.setDirection(GameObjectDirections::Left);
     }
-    else if (keyEvent.code == Constants::GameObjects::Mario::Right)
+    else if (keyEvent.code == Constants::World::Mario::Right)
     {
-        object.setAccelerationX(Constants::GameObjects::Mario::AccelerationX);
+        object.setAccelerationX(Constants::World::Mario::AccelerationX);
         object.setDirection(GameObjectDirections::Right);
     }
 }

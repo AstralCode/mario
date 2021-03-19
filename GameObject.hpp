@@ -15,10 +15,11 @@ class GameObject final : public GraphicsItem
 public:
 	GameObject(const GameObjectIdentifiers identifier) noexcept;
 
-	void setState(std::unique_ptr<GameObjectState> state) noexcept;
+	template <typename TState, typename... TArgs>
+	void setState(TArgs&&... args) noexcept;
 
 	void setTexture(const sf::Texture& texture) noexcept;
-	void setTextureArea(const IntArea& area) noexcept;
+	void setSpriteArea(const IntArea& area) noexcept;
 	
 	void setAreaBoundsVisible(const bool visible) noexcept;
 	void setAreaBoundsColor(const sf::Color& color) noexcept;
@@ -42,6 +43,8 @@ public:
 	void onTileRightCollision(const Tile& tile) noexcept;
 
 	void onObjectCollision(GameObject& object) noexcept;
+
+	virtual void onFalling() noexcept;
 
 	void update(const sf::Time& dt) noexcept;
 
@@ -92,3 +95,10 @@ private:
 	bool mAreaBoundsVisible;
 	bool mMouseOver;
 };
+
+template <typename TState, typename ...TArgs>
+inline void GameObject::setState(TArgs&& ...args) noexcept
+{
+	mState = std::move(std::make_unique<TState>(std::forward<TArgs&&>(args)...));
+	mState->onSet(*this);
+}

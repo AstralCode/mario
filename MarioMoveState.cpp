@@ -13,16 +13,16 @@ MarioMoveState::MarioMoveState(const Spriteset<MarioSpritesetRegions>& spriteset
 
 void MarioMoveState::onSet(GameObject& object) noexcept
 {
-    object.setTextureArea(mMoveAnimation.getCurrentSpriteArea());
+    object.setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
     object.setAccelerationX(0.0f);
 
-    if (sf::Keyboard::isKeyPressed(Constants::GameObjects::Mario::Left) ||
-        sf::Keyboard::isKeyPressed(Constants::GameObjects::Mario::Right))
+    if (sf::Keyboard::isKeyPressed(Constants::World::Mario::Left) ||
+        sf::Keyboard::isKeyPressed(Constants::World::Mario::Right))
     {
-        object.setAccelerationX(Constants::GameObjects::Mario::AccelerationX);
+        object.setAccelerationX(Constants::World::Mario::AccelerationX);
     }
 
-    mMoveAnimation.setDuration(sf::seconds(Constants::GameObjects::Mario::MoveAnimationDuration));
+    mMoveAnimation.setDuration(sf::seconds(Constants::World::Mario::MoveAnimationDuration));
     mMoveAnimation.setRepeating(true);
     mMoveAnimation.play();
 }
@@ -30,53 +30,67 @@ void MarioMoveState::onSet(GameObject& object) noexcept
 void MarioMoveState::update(GameObject& object, const sf::Time& dt) noexcept
 {
     mMoveAnimation.update(dt);
-    object.setTextureArea(mMoveAnimation.getCurrentSpriteArea());
 
-    if (object.getAcceleration().getX() == 0.0f && std::fabs(object.getVelocity().getX()) < 12.0f)
+    object.setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
+
+    if (object.getAcceleration().getX() > 0.0f)
     {
-        object.setState(std::make_unique<MarioStandState>(mSpriteset));
+        if (object.getVelocity().getX() > Constants::World::Mario::MinVelocityX &&
+            object.hasDirection(GameObjectDirections::Left))
+        {
+            object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0));
+        }
+        else if (object.getVelocity().getX() < Constants::World::Mario::MinVelocityX &&
+                 object.hasDirection(GameObjectDirections::Right))
+        {
+            object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0));
+        }
+    }
+    else if (std::fabs(object.getVelocity().getX()) < Constants::World::Mario::MinVelocityX)
+    {
+        object.setState<MarioStandState>(mSpriteset);
     }
 }
 
 void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
-    if (keyEvent.code == Constants::GameObjects::Mario::Left)
+    if (keyEvent.code == Constants::World::Mario::Left)
     {
-        object.setAccelerationX(Constants::GameObjects::Mario::AccelerationX);
+        object.setAccelerationX(Constants::World::Mario::AccelerationX);
         object.setDirection(GameObjectDirections::Left);
     }
-    else if (keyEvent.code == Constants::GameObjects::Mario::Right)
+    else if (keyEvent.code == Constants::World::Mario::Right)
     {
-        object.setAccelerationX(Constants::GameObjects::Mario::AccelerationX);
+        object.setAccelerationX(Constants::World::Mario::AccelerationX);
         object.setDirection(GameObjectDirections::Right);
     }
     else if (keyEvent.code == sf::Keyboard::W)
     {
-        object.setState(std::make_unique<MarioJumpState>(mSpriteset));
+        object.setState<MarioJumpState>(mSpriteset);
     }
 }
 
 void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
-    if (keyEvent.code == Constants::GameObjects::Mario::Left ||
-        keyEvent.code == Constants::GameObjects::Mario::Right)
+    if (keyEvent.code == Constants::World::Mario::Left ||
+        keyEvent.code == Constants::World::Mario::Right)
     {
         object.setAccelerationX(0.0f);
     }
 
-    if (keyEvent.code == Constants::GameObjects::Mario::Left)
+    if (keyEvent.code == Constants::World::Mario::Left)
     {
-        if (sf::Keyboard::isKeyPressed(Constants::GameObjects::Mario::Right))
+        if (sf::Keyboard::isKeyPressed(Constants::World::Mario::Right))
         {
-            object.setAccelerationX(Constants::GameObjects::Mario::AccelerationX);
+            object.setAccelerationX(Constants::World::Mario::AccelerationX);
             object.setDirection(GameObjectDirections::Right);
         }
     }
-    else if (keyEvent.code == Constants::GameObjects::Mario::Right)
+    else if (keyEvent.code == Constants::World::Mario::Right)
     {
-        if (sf::Keyboard::isKeyPressed(Constants::GameObjects::Mario::Left))
+        if (sf::Keyboard::isKeyPressed(Constants::World::Mario::Left))
         {
-            object.setAccelerationX(Constants::GameObjects::Mario::AccelerationX);
+            object.setAccelerationX(Constants::World::Mario::AccelerationX);
             object.setDirection(GameObjectDirections::Left);
         }
     }

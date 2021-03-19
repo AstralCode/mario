@@ -54,7 +54,7 @@ void InitialGameState::onEnter() noexcept
 
 	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12,  9}));
 	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12, 13}));
-	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12, 16}));
+	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({6, 18}));
 }
 
 void InitialGameState::onLeave() noexcept

@@ -32,6 +32,11 @@ void GameObjectState::onObjectCollision(GameObject&, GameObject&) noexcept
 
 }
 
+void GameObjectState::onFalling(GameObject& object) noexcept
+{
+
+}
+
 void GameObjectState::onKeyPressed(GameObject&, const sf::Event::KeyEvent&) noexcept
 {
 

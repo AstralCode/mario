@@ -82,6 +82,8 @@ CollisionModule::TileColliders CollisionModule::checkTileCollisions(const GameOb
 	
 	for (auto object : objects)
 	{
+		bool falling{true};
+
 		const auto objectArea = object->getArea();
 
 		const auto tiles = tilemapView.getOverlapTiles(objectArea);
@@ -89,11 +91,18 @@ CollisionModule::TileColliders CollisionModule::checkTileCollisions(const GameOb
 		{
 			if (tile.attributes.isSet(Tile::Attributes::Collider))
 			{
+				falling = false;
+
 				if (objectArea.isIntersects(tile.area))
 				{
 					colliders.emplace_back(object, tile);
 				}
 			}
+		}
+
+		if (falling)
+		{
+			object->onFalling();
 		}
 	}
 

@@ -91,6 +91,11 @@ void Animation::update(const sf::Time& dt) noexcept
 	}
 }
 
+const SpritesetRegion& Animation::getSpritesetRegion() const noexcept
+{
+	return mSpritesetRegion;
+}
+
 const IntArea& Animation::getCurrentSpriteArea() const noexcept
 {
 	return mSpritesetRegion.getSpriteArea(mCurrentSpriteIndex);

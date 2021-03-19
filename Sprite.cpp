@@ -17,7 +17,7 @@ void Sprite::setTexture(const sf::Texture& texture) noexcept
 	updateArea();
 }
 
-void Sprite::setTextureArea(const IntArea& area) noexcept
+void Sprite::setSpriteArea(const IntArea& area) noexcept
 {
 	mSprite.setTextureRect(area.getRectangle());
 	mDefaultArea = area.getRectangle();

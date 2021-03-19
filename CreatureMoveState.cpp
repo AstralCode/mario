@@ -1,20 +1,20 @@
 #include "CreatureMoveState.hpp"
 
 #include "GameObject.hpp"
+#include "CreatureFallState.hpp"
 
-CreatureMoveState::CreatureMoveState(const SpritesetRegion& moveSpritesetRegion, const SpritesetRegion& deadSpritesetRegion) noexcept :
-    mMoveAnimation{moveSpritesetRegion},
-    mDeadSpritesetRegion{deadSpritesetRegion}
+CreatureMoveState::CreatureMoveState(const SpritesetRegion& moveSpritesetRegion) noexcept :
+    mMoveAnimation{moveSpritesetRegion}
 {
 
 }
 
 void CreatureMoveState::onSet(GameObject& object) noexcept
 {
-    object.setTextureArea(mMoveAnimation.getCurrentSpriteArea());
-    object.setAccelerationX(Constants::GameObjects::Creature::AccelerationX);
+    object.setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
+    object.setAccelerationX(Constants::World::Creature::AccelerationX);
 
-    mMoveAnimation.setDuration(sf::seconds(Constants::GameObjects::Creature::MoveAnimationDuration));
+    mMoveAnimation.setDuration(sf::seconds(Constants::World::Creature::MoveAnimationDuration));
     mMoveAnimation.setRepeating(true);
     mMoveAnimation.play();
 }
@@ -22,7 +22,12 @@ void CreatureMoveState::onSet(GameObject& object) noexcept
 void CreatureMoveState::update(GameObject& object, const sf::Time& dt) noexcept
 {
     mMoveAnimation.update(dt);
-    object.setTextureArea(mMoveAnimation.getCurrentSpriteArea());
+    object.setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
+}
+
+void CreatureMoveState::onFalling(GameObject& object) noexcept
+{
+    object.setState<CreatureFallState>(mMoveAnimation.getSpritesetRegion());
 }
 
 void CreatureMoveState::onTileLeftCollision(GameObject& object, const Tile&) noexcept
