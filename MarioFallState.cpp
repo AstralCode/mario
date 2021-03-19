@@ -50,3 +50,8 @@ bool MarioFallState::isFalling() const noexcept
 {
     return true;
 }
+
+bool MarioFallState::isJumping() const noexcept
+{
+    return false;
+}

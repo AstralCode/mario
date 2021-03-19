@@ -38,3 +38,13 @@ void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent
         object.setState<MarioJumpState>(mSpriteset);
     }
 }
+
+bool MarioStandState::isJumping() const noexcept
+{
+    return false;
+}
+
+bool MarioStandState::isFalling() const noexcept
+{
+    return false;
+}

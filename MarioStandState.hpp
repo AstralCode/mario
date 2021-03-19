@@ -14,6 +14,9 @@ public:
 
 	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
 
+	bool isJumping() const noexcept override;
+	bool isFalling() const noexcept override;
+
 private:
 	const Spriteset<MarioSpritesetRegions>& mSpriteset;
 };

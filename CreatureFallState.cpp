@@ -70,6 +70,11 @@ void CreatureFallState::onObjectCollision(GameObject& objectA, GameObject& objec
     objectB.setVelocityX(-objectB.getVelocity().getX());
 }
 
+bool CreatureFallState::isJumping() const noexcept
+{
+    return false;
+}
+
 bool CreatureFallState::isFalling() const noexcept
 {
     return true;

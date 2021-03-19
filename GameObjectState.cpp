@@ -76,16 +76,6 @@ void GameObjectState::onMouseOver(GameObject&, const sf::Event::MouseMoveEvent&)
 
 }
 
-bool GameObjectState::isJumping() const noexcept
-{
-    return false;
-}
-
-bool GameObjectState::isFalling() const noexcept
-{
-    return false;
-}
-
 bool GameObjectState::isDestroyed() const noexcept
 {
     return mRemoved;

@@ -24,20 +24,17 @@ public:
 	virtual void onTileRightCollision(GameObject& object, const Tile& tile) noexcept;
 
 	virtual void onObjectCollision(GameObject& objectA, GameObject& objectB) noexcept;
-
 	virtual void onFalling(GameObject& object) noexcept;
 
 	virtual void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept;
 	virtual void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept;
-
 	virtual void onMouseClick(GameObject& object, const sf::Event::MouseButtonEvent& mouseButtonEvent) noexcept;
-
 	virtual void onMouseEnter(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent) noexcept;
 	virtual void onMouseLeave(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent) noexcept;
 	virtual void onMouseOver(GameObject& object, const sf::Event::MouseMoveEvent& mouseMoveEvent) noexcept;
 
-	virtual bool isJumping() const noexcept;
-	virtual bool isFalling() const noexcept;
+	virtual bool isJumping() const noexcept = 0;
+	virtual bool isFalling() const noexcept = 0;
 
 	bool isDestroyed() const noexcept;
 

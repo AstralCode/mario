@@ -17,8 +17,9 @@ public:
 	void onTileTopCollision(GameObject& object, const Tile& tile) noexcept override;
 
 	void onObjectCollision(GameObject& objectA, GameObject& objectB) noexcept override;
-
-	bool isFalling() const noexcept;
+	
+	bool isJumping() const noexcept override;
+	bool isFalling() const noexcept override;
 
 private:
 	const SpritesetRegion& mMoveSpritesetRegion;

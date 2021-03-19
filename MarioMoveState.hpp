@@ -18,6 +18,9 @@ public:
 
 	void onFalling(GameObject& object) noexcept override;
 
+	bool isJumping() const noexcept override;
+	bool isFalling() const noexcept override;
+
 private:
 	const Spriteset<MarioSpritesetRegions>& mSpriteset;
 

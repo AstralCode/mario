@@ -26,11 +26,6 @@ void CreatureMoveState::update(GameObject& object, const sf::Time& dt) noexcept
     object.setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
 }
 
-void CreatureMoveState::onFalling(GameObject& object) noexcept
-{
-    object.setState<CreatureFallState>(mMoveAnimation.getSpritesetRegion());
-}
-
 void CreatureMoveState::onTileLeftCollision(GameObject& object, const Tile&) noexcept
 {
     if (object.hasDirection(GameObjectDirections::Right))
@@ -74,4 +69,19 @@ void CreatureMoveState::onObjectCollision(GameObject& objectA, GameObject& objec
 
     objectA.setVelocityX(-objectA.getVelocity().getX());
     objectB.setVelocityX(-objectB.getVelocity().getX());
+}
+
+void CreatureMoveState::onFalling(GameObject& object) noexcept
+{
+    object.setState<CreatureFallState>(mMoveAnimation.getSpritesetRegion());
+}
+
+bool CreatureMoveState::isJumping() const noexcept
+{
+    return false;
+}
+
+bool CreatureMoveState::isFalling() const noexcept
+{
+    return false;
 }

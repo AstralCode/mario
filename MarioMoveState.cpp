@@ -101,3 +101,13 @@ void MarioMoveState::onFalling(GameObject& object) noexcept
 {
     object.setState<MarioFallState>(mSpriteset);
 }
+
+bool MarioMoveState::isJumping() const noexcept
+{
+    return false;
+}
+
+bool MarioMoveState::isFalling() const noexcept
+{
+    return false;
+}
