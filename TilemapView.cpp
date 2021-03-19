@@ -161,16 +161,6 @@ std::vector<Tile> TilemapView::getOverlapTiles(const FloatArea& area) const noex
 	return tiles;
 }
 
-const int TilemapView::getRowCount() const noexcept
-{
-	return mTilemap->getRowCount();
-}
-
-const int TilemapView::getColumnCount() const noexcept
-{
-	return mTilemap->getColumnCount();
-}
-
 FloatPoint TilemapView::getTilePosition(const Tile::Index& index) const noexcept
 {
 	auto& tileSize = mTilemap->getTileSize();
@@ -196,6 +186,16 @@ FloatArea TilemapView::getArea() const noexcept
 	area.setHeight(getRowCount() * getTileSize().getHeight());
 
 	return area;
+}
+
+const int TilemapView::getRowCount() const noexcept
+{
+	return mTilemap->getRowCount();
+}
+
+const int TilemapView::getColumnCount() const noexcept
+{
+	return mTilemap->getColumnCount();
 }
 
 bool TilemapView::isGridVisible() const noexcept

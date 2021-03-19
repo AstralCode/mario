@@ -32,15 +32,15 @@ public:
 
 	std::vector<Tile> getOverlapTiles(const FloatArea& area) const noexcept;
 
-	const int getRowCount() const noexcept;
-	const int getColumnCount() const noexcept;
-
 	FloatPoint getTilePosition( const Tile::Index& index ) const noexcept;
 	const FloatSize& getTileSize() const noexcept;
 
 	const sf::Text& getText() const noexcept;
 
 	FloatArea getArea() const noexcept;
+
+	const int getRowCount() const noexcept;
+	const int getColumnCount() const noexcept;
 
 	bool isGridVisible() const noexcept;
 
