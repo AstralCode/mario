@@ -12,9 +12,10 @@ CreatureFallState::CreatureFallState(const SpritesetRegion& moveSpritesetRegion)
 void CreatureFallState::onSet(GameObject& object) noexcept
 {
     object.setAccelerationX(0.0f);
+    object.setAccelerationY(1500.0f);
 }
 
-void CreatureFallState::update(GameObject&, const sf::Time& dt) noexcept
+void CreatureFallState::update(GameObject&, const sf::Time&) noexcept
 {
 
 }

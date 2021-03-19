@@ -114,7 +114,7 @@ void GameObject::onObjectCollision(GameObject& object) noexcept
 
 void GameObject::onFalling() noexcept
 {
-
+	mState->onFalling(*this);
 }
 
 void GameObject::update(const sf::Time& dt) noexcept
@@ -155,21 +155,6 @@ GameObjectDirections GameObject::getDirection() const noexcept
 bool GameObject::hasIdentifier(const GameObjectIdentifiers identifier) const noexcept
 {
 	return mIdentifier == identifier;
-}
-
-bool GameObject::isMoving() const noexcept
-{
-	return std::abs(mVelocity.getX()) > 0.0f;
-}
-
-bool GameObject::isMovingLeft() const noexcept
-{
-	return mVelocity.getX() < 0.0f;
-}
-
-bool GameObject::isMovingRight() const noexcept
-{
-	return mVelocity.getX() > 0.0f;
 }
 
 bool GameObject::isJumping() const noexcept

@@ -61,10 +61,6 @@ public:
 	bool hasDirection(const GameObjectDirections direction) const noexcept;
 	bool hasIdentifier(const GameObjectIdentifiers identifier) const noexcept;
 
-	bool isMoving() const noexcept;
-	bool isMovingLeft() const noexcept;
-	bool isMovingRight() const noexcept;
-
 	bool isJumping() const noexcept;
 
 	bool isAreaBoundsVisible() const noexcept;

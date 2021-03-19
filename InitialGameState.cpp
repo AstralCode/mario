@@ -52,9 +52,9 @@ void InitialGameState::onEnter() noexcept
 
 	mGameObjectFactory.createMario()->setPosition(tilemapView.getTilePosition({12, 1}));
 
-	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12,  9}));
-	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12, 13}));
-	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({6, 18}));
+//	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12,  9}));
+//	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12, 13}));
+	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({6, 9}));
 }
 
 void InitialGameState::onLeave() noexcept

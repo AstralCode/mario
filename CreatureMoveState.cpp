@@ -13,6 +13,7 @@ void CreatureMoveState::onSet(GameObject& object) noexcept
 {
     object.setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
     object.setAccelerationX(Constants::World::Creature::AccelerationX);
+    object.setAccelerationY(0.0f);
 
     mMoveAnimation.setDuration(sf::seconds(Constants::World::Creature::MoveAnimationDuration));
     mMoveAnimation.setRepeating(true);

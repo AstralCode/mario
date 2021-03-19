@@ -10,6 +10,15 @@ class GameObjectContainer;
 class CollisionModule final
 {
 public:
+	enum class Side
+	{
+		Top,
+		Left,
+		Right,
+		Bottom,
+		None
+	};
+
 	void detectCollisions(const GameObjectContainer& objects, TilemapView& tilemapView) noexcept;
 
 private:
@@ -21,4 +30,6 @@ private:
 
 	TileColliders checkTileCollisions(const GameObjectContainer& objects, TilemapView& tilemapView) const noexcept;
 	ObjectColliders checkObjectCollisions(const GameObjectContainer& objects) const noexcept;
+
+	Side checkCollisionSide(const FloatArea& areaA, const FloatArea& areaB) const noexcept;
 };
