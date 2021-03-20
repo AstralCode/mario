@@ -4,12 +4,12 @@
 
 #include "Constants.hpp"
 
-class GameObject;
+class Entity;
 
 class PhysicsModule final
 {
 public:
-	void update(GameObject& object, const sf::Time& dt) const noexcept;
+	void update(Entity& entity, const sf::Time& dt) const noexcept;
 
 	static constexpr float getFriction() noexcept;
 	static constexpr float getGravity() noexcept;

@@ -6,8 +6,7 @@
 
 #include "ResourceContainer.hpp"
 #include "SpritesetContainer.hpp"
-#include "GraphicsScene.hpp"
-#include "GameObjectFactory.hpp"
+#include "World.hpp"
 #include "GameStateManager.hpp"
 
 class GameEngine final
@@ -41,11 +40,11 @@ private:
 
 	ResourceContainer mResources;
 	SpritesetContainer mSpritesets;
-	GraphicsScene mScene;
+	World mWorld;
 	GameStateManager mGameStateManager;
 
 	sf::Text mFramerateText;
 	unsigned int mFramerate;
 
-	bool mFramerateTextVisible;
+	bool mIsFramerateTextVisible;
 };

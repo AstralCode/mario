@@ -7,8 +7,9 @@
 
 GraphicsItem::GraphicsItem() noexcept :
 	mParentItem{nullptr},
-	mVisible{true},
-	mRemoved{false}
+	mIsVisible{true},
+	mIsRemoved{false},
+	mIsMouseOver{false}
 {
 	
 }
@@ -55,12 +56,12 @@ void GraphicsItem::setOrigin(const FloatPoint& origin)
 
 void GraphicsItem::setVisible(const bool visible) noexcept
 {
-	mVisible = visible;
+	mIsVisible = visible;
 }
 
 void GraphicsItem::remove() noexcept
 {
-	mRemoved = true;
+	mIsRemoved = true;
 }
 
 void GraphicsItem::addItem(std::unique_ptr<GraphicsItem> item) noexcept
@@ -82,7 +83,56 @@ void GraphicsItem::clean() noexcept
 
 void GraphicsItem::receiveEvents(const sf::Event& event) noexcept
 {
-	receiveEventsSelf(event);
+	switch (event.type)
+	{
+	case sf::Event::KeyPressed:
+		onKeyPressed(event.key);
+		break;
+
+	case sf::Event::KeyReleased:
+		onKeyReleased(event.key);
+		break;
+
+	case sf::Event::MouseButtonPressed:
+		if (isContainsPoint({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)}))
+		{
+			onMouseClick(event.mouseButton);
+		}
+		break;
+
+	case sf::Event::MouseMoved:
+	{
+		const bool isMouseOver = isContainsPoint({static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)});
+
+		if (isMouseOver)
+		{
+			if (mIsMouseOver)
+			{
+				onMouseOver(event.mouseMove);
+			}
+			else
+			{
+				onMouseEnter(event.mouseMove);
+				onMouseOver(event.mouseMove);
+
+				mIsMouseOver = true;
+			}
+		}
+		else
+		{
+			if (mIsMouseOver)
+			{
+				onMouseLeave(event.mouseMove);
+
+				mIsMouseOver = false;
+			}
+		}
+		break;
+	}
+
+	default:
+		break;
+	}
 
 	for (auto& item : mItems)
 	{
@@ -142,12 +192,43 @@ bool GraphicsItem::isIntersectsItem(const GraphicsItem& item) const noexcept
 
 bool GraphicsItem::isVisible() const noexcept
 {
-	return mVisible;
+	return mIsVisible;
 }
 
 bool GraphicsItem::isRemoved() const noexcept
 {
-	return mRemoved;
+	return mIsRemoved;
+}
+
+
+void GraphicsItem::onKeyPressed(const sf::Event::KeyEvent&) noexcept
+{
+
+}
+
+void GraphicsItem::onKeyReleased(const sf::Event::KeyEvent&) noexcept
+{
+
+}
+
+void GraphicsItem::onMouseClick(const sf::Event::MouseButtonEvent&) noexcept
+{
+
+}
+
+void GraphicsItem::onMouseOver(const sf::Event::MouseMoveEvent&) noexcept
+{
+
+}
+
+void GraphicsItem::onMouseEnter(const sf::Event::MouseMoveEvent&) noexcept
+{
+
+}
+
+void GraphicsItem::onMouseLeave(const sf::Event::MouseMoveEvent&) noexcept
+{
+
 }
 
 void GraphicsItem::setParent(GraphicsItem* item) noexcept
@@ -168,7 +249,7 @@ void GraphicsItem::cleanItems() noexcept
 
 void GraphicsItem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	if (mVisible)
+	if (mIsVisible)
 	{
 		states.transform.combine(mTransform.getTransform());
 
@@ -186,11 +267,6 @@ void GraphicsItem::drawItems(sf::RenderTarget& target, sf::RenderStates states) 
 }
 
 void GraphicsItem::drawSelf(sf::RenderTarget&, sf::RenderStates) const noexcept
-{
-
-}
-
-void GraphicsItem::receiveEventsSelf(const sf::Event&) noexcept
 {
 
 }

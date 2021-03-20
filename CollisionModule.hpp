@@ -2,15 +2,18 @@
 
 #include <tuple>
 
-#include "GameObject.hpp"
+#include "Entity.hpp"
 
 class TilemapView;
-class GameObjectContainer;
+class EntityContainer;
 
 class CollisionModule final
 {
 public:
-	enum class Side
+	void detectCollisions(const EntityContainer& entities, TilemapView& tilemapView) noexcept;
+
+private:
+	enum class CollisionSide
 	{
 		Top,
 		Left,
@@ -19,17 +22,14 @@ public:
 		None
 	};
 
-	void detectCollisions(const GameObjectContainer& objects, TilemapView& tilemapView) noexcept;
-
-private:
-	using TileColliders = std::vector<std::tuple<GameObject*, Tile>>;
-	using ObjectColliders = std::vector<std::tuple<GameObject*, GameObject*>>;
+	using TileColliders = std::vector<std::tuple<Entity*, Tile>>;
+	using EntityColliders = std::vector<std::tuple<Entity*, Entity*>>;
 
 	void executeTileCollisionHandlers(const TileColliders& colliders) const noexcept;
-	void executeObjectCollisionHandlers(const ObjectColliders& colliders) const noexcept;
+	void executeEntityCollisionHandlers(const EntityColliders& colliders) const noexcept;
 
-	TileColliders checkTileCollisions(const GameObjectContainer& objects, TilemapView& tilemapView) const noexcept;
-	ObjectColliders checkObjectCollisions(const GameObjectContainer& objects) const noexcept;
+	TileColliders checkTileCollisions(const EntityContainer& entities, TilemapView& tilemapView) const noexcept;
+	EntityColliders checkEntityCollisions(const EntityContainer& entities) const noexcept;
 
-	Side checkCollisionSide(const FloatArea& areaA, const FloatArea& areaB) const noexcept;
+	CollisionSide checkCollisionSide(const FloatArea& areaA, const FloatArea& areaB) const noexcept;
 };

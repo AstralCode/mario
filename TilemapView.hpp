@@ -20,7 +20,7 @@ public:
 	void setBackgroundColor(const sf::Color& color) noexcept;
 	
 	void setGridVisible(const bool visible) noexcept;
-	void setInformationText( const sf::Font& font, const unsigned int characterSize = 12u ) noexcept;
+	void setInformationText(const sf::Font& font, const unsigned int characterSize = 12u) noexcept;
 
 	void receiveEvents(const sf::Event& event) noexcept;
 

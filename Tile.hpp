@@ -10,6 +10,14 @@ struct Tile
 		Collider
 	};
 
+	enum class Sides
+	{
+		Top,
+		Bottom,
+		Left,
+		Right
+	};
+
 	struct Index
 	{
 		using Type = int;

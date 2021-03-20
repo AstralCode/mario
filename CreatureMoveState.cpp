@@ -1,79 +1,65 @@
 #include "CreatureMoveState.hpp"
 
-#include "GameObject.hpp"
 #include "CreatureFallState.hpp"
 
-CreatureMoveState::CreatureMoveState(const SpritesetRegion& moveSpritesetRegion) noexcept :
-    mMoveAnimation{moveSpritesetRegion}
+void CreatureMoveState::onSet(Creature& entity) noexcept
 {
+    auto& animation = entity.getMoveAnimation();
 
+    entity.setSpriteArea(animation.getCurrentSpriteArea());
+    entity.setAccelerationX(Constants::World::Creature::AccelerationX);
+    entity.setAccelerationY(0.0f);
+
+    animation.setDuration(sf::seconds(Constants::World::Creature::MoveAnimationDuration));
+    animation.setRepeating(true);
+    animation.play();
 }
 
-void CreatureMoveState::onSet(GameObject& object) noexcept
+void CreatureMoveState::update(Creature& entity, const sf::Time& dt) noexcept
 {
-    object.setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
-    object.setAccelerationX(Constants::World::Creature::AccelerationX);
-    object.setAccelerationY(0.0f);
+    auto& animation = entity.getMoveAnimation();
+    animation.update(dt);
 
-    mMoveAnimation.setDuration(sf::seconds(Constants::World::Creature::MoveAnimationDuration));
-    mMoveAnimation.setRepeating(true);
-    mMoveAnimation.play();
+    entity.setSpriteArea(animation.getCurrentSpriteArea());
 }
 
-void CreatureMoveState::update(GameObject& object, const sf::Time& dt) noexcept
+void CreatureMoveState::tileCollision(Creature& entity, const Tile& tile, const Tile::Sides side) noexcept
 {
-    mMoveAnimation.update(dt);
-    object.setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
-}
-
-void CreatureMoveState::onTileLeftCollision(GameObject& object, const Tile&) noexcept
-{
-    if (object.hasDirection(GameObjectDirections::Right))
+    if (side == Tile::Sides::Left || side == Tile::Sides::Right)
     {
-        object.setDirection(GameObjectDirections::Left);
+        if (entity.hasDirection(Entity::Direction::Right))
+        {
+            entity.setDirection(Entity::Direction::Left);
+        }
+        else
+        {
+            entity.setDirection(Entity::Direction::Right);
+        }
+
+        entity.setVelocityX(-entity.getVelocity().getX());
+    }
+}
+
+void CreatureMoveState::entityCollision(Creature& entity, Creature& collider) noexcept
+{
+    if (entity.hasDirection(Entity::Direction::Right))
+    {
+        entity.setDirection(Entity::Direction::Left);
+        collider.setDirection(Entity::Direction::Right);
     }
     else
     {
-        object.setDirection(GameObjectDirections::Right);
+        entity.setDirection(Entity::Direction::Right);
+        collider.setDirection(Entity::Direction::Left);
     }
 
-    object.setVelocityX(-object.getVelocity().getX());
+    entity.setVelocityX(-entity.getVelocity().getX());
+    collider.setVelocityX(-collider.getVelocity().getX());
 }
 
-void CreatureMoveState::onTileRightCollision(GameObject& object, const Tile&) noexcept
+void CreatureMoveState::falling() noexcept
 {
-    if (object.hasDirection(GameObjectDirections::Right))
-    {
-        object.setDirection(GameObjectDirections::Left);
-    }
-    else
-    {
-        object.setDirection(GameObjectDirections::Right);
-    }
-
-    object.setVelocityX(-object.getVelocity().getX());
-}
-
-void CreatureMoveState::onObjectCollision(GameObject& objectA, GameObject& objectB) noexcept
-{
-    if (objectA.hasDirection(GameObjectDirections::Right))
-    {
-        objectA.setDirection(GameObjectDirections::Left);
-        objectB.setDirection(GameObjectDirections::Right);
-    }
-    else
-    {
-        objectA.setDirection(GameObjectDirections::Right);
-        objectB.setDirection(GameObjectDirections::Left);
-    }
-
-    objectA.setVelocityX(-objectA.getVelocity().getX());
-    objectB.setVelocityX(-objectB.getVelocity().getX());
-}
-
-void CreatureMoveState::onFalling(GameObject& object) noexcept
-{
-    object.setState<CreatureFallState>(mMoveAnimation.getSpritesetRegion());
+    // object.setState<CreatureFallState>(mMoveAnimation.getSpritesetRegion());
 }
 
 bool CreatureMoveState::isJumping() const noexcept

@@ -2,11 +2,12 @@
 
 #include "GameContextData.hpp"
 #include "GameStateChanger.hpp"
-#include "RectangleShape.hpp"
+#include "World.hpp"
 
-InitialGameState::InitialGameState(GameContextData& contextData) noexcept :
-	GameState{contextData},
-	mGameObjectFactory{contextData.getResources(), contextData.getSpritesets(), contextData.getScene()}
+InitialGameState::InitialGameState(GameContextData& contextData, GameStateChanger& stateChanger) noexcept :
+	GameState{contextData, stateChanger},
+	mResources{contextData.getResources()},
+	mWorld{contextData.getWorld()}
 {
 
 }
@@ -43,18 +44,18 @@ void InitialGameState::onEnter() noexcept
 
 	tilemap->setTileAttributes(tileAttributes);
 
-	auto& tilemapView = getScene().getTilemapView();
+	auto& tilemapView = getContextData().getWorld().getTilemapView();
 	tilemapView.setTilemap(std::move(tilemap));
-	tilemapView.setTilemapTexture(getTexture(Textures::Scenery));
-	tilemapView.setInformationText(getFont(Fonts::Roboto));
+	tilemapView.setTilemapTexture(mResources.getTexture(Textures::Scenery));
+	tilemapView.setInformationText(mResources.getFont(Fonts::Roboto));
 	tilemapView.setBackgroundColor({97, 133, 246});
 	tilemapView.build();
 
-	mGameObjectFactory.createMario()->setPosition(tilemapView.getTilePosition({12, 1}));
+//	mGameObjectFactory.createMario()->setPosition(tilemapView.getTilePosition({12, 1}));
 
 //	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12,  9}));
 //	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12, 13}));
-	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({6, 9}));
+//	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({6, 9}));
 }
 
 void InitialGameState::onLeave() noexcept
@@ -71,7 +72,7 @@ void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcep
 {
 	if (keyEvent.code == sf::Keyboard::F2)
 	{
-		getScene().getTilemapView().setGridVisible(!getScene().getTilemapView().isGridVisible());
+		mWorld.getTilemapView().setGridVisible(!mWorld.getTilemapView().isGridVisible());
 	}
 }
 

@@ -1,9 +1,8 @@
 #include "GameState.hpp"
 
-#include "GameContextData.hpp"
-
-GameState::GameState(GameContextData& contextData) noexcept :
-	mContextData{contextData}
+GameState::GameState(GameContextData& contextData, GameStateChanger& stateChanger) noexcept :
+	mContextData{contextData},
+	mStateChanger{stateChanger}
 {
 
 }
@@ -43,32 +42,12 @@ void GameState::onEscapePressed() noexcept
 
 }
 
-ResourceContainer& GameState::getResources() noexcept
+GameContextData& GameState::getContextData() noexcept
 {
-	return mContextData.getResources();
-}
-
-SpritesetContainer& GameState::getSpritesets() noexcept
-{
-	return mContextData.getSpritesets();
-}
-
-GraphicsScene& GameState::getScene() noexcept
-{
-	return mContextData.getScene();
+	return mContextData;
 }
 
 GameStateChanger& GameState::getStateChanger() noexcept
 {
-	return mContextData.getStateChanger();
-}
-
-const sf::Font& GameState::getFont(const Fonts identifier) noexcept
-{
-	return getResources().getFont(identifier);
-}
-
-const sf::Texture& GameState::getTexture(const Textures identifier) noexcept
-{
-	return getResources().getTexture(identifier);
+	return mStateChanger;
 }

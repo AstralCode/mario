@@ -35,5 +35,5 @@ private:
 
 	sf::VertexArray mGridVertexArray;
 
-	bool mGridVisible;
+	bool mIsGridVisible;
 };

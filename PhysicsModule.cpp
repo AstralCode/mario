@@ -1,27 +1,27 @@
 #include "PhysicsModule.hpp"
 
-#include "GameObject.hpp"
+#include "Entity.hpp"
 
-void PhysicsModule::update(GameObject& object, const sf::Time& dt) const noexcept
+void PhysicsModule::update(Entity& entity, const sf::Time& dt) const noexcept
 {
-	auto accelerateX = calculateAccelerate(object.getAcceleration().getX(), dt);
-	accelerateX *= object.hasDirection(GameObjectDirections::Left) ? -1.0f : +1.0f;
-	auto accelerateY = calculateAccelerate(object.getAcceleration().getY(), dt);
+	auto accelerateX = calculateAccelerate(entity.getAcceleration().getX(), dt);
+	accelerateX *= entity.hasDirection(Entity::Direction::Left) ? -1.0f : +1.0f;
+	auto accelerateY = calculateAccelerate(entity.getAcceleration().getY(), dt);
 
-	auto velocityX = calculateVelocity(object.getVelocity().getX(), accelerateX);
+	auto velocityX = calculateVelocity(entity.getVelocity().getX(), accelerateX);
 	velocityX *= getFriction();
-	auto velocityY = calculateVelocity(object.getVelocity().getY(), accelerateY);
+	auto velocityY = calculateVelocity(entity.getVelocity().getY(), accelerateY);
 	velocityY *= getFriction();
 
 	velocityY += calculateGravity(dt);
 
 	const auto positionX = calculatePosition(velocityX, dt);
-	object.setVelocityX(velocityX);
-	object.move(positionX, 0.0f);
+	entity.setVelocityX(velocityX);
+	entity.move(positionX, 0.0f);
 
 	const auto positionY = calculatePosition(velocityY, dt);
-	object.setVelocityY(velocityY);
-	object.move(0.0f, positionY);
+	entity.setVelocityY(velocityY);
+	entity.move(0.0f, positionY);
 }
 
 constexpr float PhysicsModule::getFriction() noexcept

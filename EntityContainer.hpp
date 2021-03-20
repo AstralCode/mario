@@ -2,19 +2,20 @@
 
 #include <vector>
 
-#include "GameObject.hpp"
+#include "Entity.hpp"
 
-class GameObjectContainer final
+class EntityContainer final
 {
-	using Container = std::vector<GameObject*>;
+	using Container = std::vector<Entity*>;
 
 public:
 	using Iterator = Container::iterator;
 	using ConstIterator = Container::const_iterator;
 
-	GameObjectContainer(GraphicsItem& sceneRoot) noexcept;
+	EntityContainer(GraphicsItem& sceneRoot) noexcept;
 
-	GameObject* create(const GameObjectIdentifiers identifier) noexcept;
+	template <typename T>
+	Entity* create() noexcept;
 
 	void clean() noexcept;
 
@@ -31,3 +32,12 @@ private:
 	GraphicsItem& mSceneRoot;
 	Container mGameObjects;
 };
+
+template<typename T>
+inline Entity* EntityContainer::create() noexcept
+{
+	auto object = mSceneRoot.addItem<Entity>();
+	mGameObjects.push_back(object);
+
+	return object;
+}

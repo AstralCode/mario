@@ -2,18 +2,17 @@
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
-#include "EventReceiver.hpp"
 #include "ResourceContainer.hpp"
 #include "SpritesetContainer.hpp"
-#include "GraphicsScene.hpp"
+#include "World.hpp"
 
 class GameContextData;
 class GameStateChanger;
 
-class GameState : public EventReceiver
+class GameState
 {
 public:
-	GameState(GameContextData& contextData) noexcept;
+	GameState(GameContextData& contextData, GameStateChanger& stateChanger) noexcept;
 	virtual ~GameState() = default;
 
 	virtual void onEnter() noexcept = 0;
@@ -21,25 +20,21 @@ public:
 
 	virtual void processLogic(const sf::Time& dt) noexcept = 0;
 
-	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcept override;
-	void onKeyReleased(const sf::Event::KeyEvent& keyEvent) noexcept override;
+	virtual void onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcept;
+	virtual void onKeyReleased(const sf::Event::KeyEvent& keyEvent) noexcept;
 
-	void onMouseButtonPressed(const sf::Event::MouseButtonEvent& mouseButtonEvent) noexcept override;
-	void onMouseButtonReleased(const sf::Event::MouseButtonEvent& mouseButtonEvent) noexcept override;
-	void onMouseMoved(const sf::Event::MouseMoveEvent& mouseMoveEvent) noexcept override;
+	virtual void onMouseButtonPressed(const sf::Event::MouseButtonEvent& mouseButtonEvent) noexcept;
+	virtual void onMouseButtonReleased(const sf::Event::MouseButtonEvent& mouseButtonEvent) noexcept;
+	virtual void onMouseMoved(const sf::Event::MouseMoveEvent& mouseMoveEvent) noexcept;
 
-	void onClosed() noexcept override;
+	virtual void onClosed() noexcept;
 
-	void onEscapePressed() noexcept override;
+	virtual void onEscapePressed() noexcept;
 
-	ResourceContainer& getResources() noexcept;
-	SpritesetContainer& getSpritesets() noexcept;
-	GraphicsScene& getScene() noexcept;
+	GameContextData& getContextData() noexcept;
 	GameStateChanger& getStateChanger() noexcept;
 
 protected:
-	const sf::Font& getFont(const Fonts identifier) noexcept;
-	const sf::Texture& getTexture(const Textures identifier) noexcept;
-
 	GameContextData& mContextData;
+	GameStateChanger& mStateChanger;
 };

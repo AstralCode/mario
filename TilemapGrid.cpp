@@ -7,7 +7,7 @@ TilemapGrid::TilemapGrid() noexcept :
 	mTileColumnCount{0},
 	mGridColor{sf::Color::White},
 	mGridVertexArray{sf::PrimitiveType::Lines},
-	mGridVisible{false}
+	mIsGridVisible{false}
 {
 
 }
@@ -30,7 +30,7 @@ void TilemapGrid::setGridColor(const sf::Color& color) noexcept
 
 void TilemapGrid::setVisible(const bool visible) noexcept
 {
-	mGridVisible = visible;
+	mIsGridVisible = visible;
 }
 
 void TilemapGrid::build() noexcept
@@ -43,7 +43,7 @@ void TilemapGrid::build() noexcept
 
 bool TilemapGrid::isVisible() const noexcept
 {
-	return mGridVisible;
+	return mIsGridVisible;
 }
 
 void TilemapGrid::buildHorizontalLines() noexcept

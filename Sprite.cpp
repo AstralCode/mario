@@ -3,8 +3,8 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 Sprite::Sprite() noexcept :
-	mHorizontalFlipped{false},
-	mVerticalFlipped{false}
+	mIsHorizontalFlipped{false},
+	mIsVerticalFlipped{false}
 {
 
 }
@@ -30,11 +30,11 @@ void Sprite::flip(const Orientations orientation) noexcept
 	switch (orientation)
 	{
 	case Orientations::Horizontal:
-		mHorizontalFlipped = !mHorizontalFlipped;
+		mIsHorizontalFlipped = !mIsHorizontalFlipped;
 		break;
 
 	case Orientations::Vertical:
-		mVerticalFlipped = !mVerticalFlipped;
+		mIsVerticalFlipped = !mIsVerticalFlipped;
 		break;
 
 	default:
@@ -56,12 +56,12 @@ IntArea Sprite::getTextureArea() const noexcept
 
 bool Sprite::isFlippedHorizontally() const noexcept
 {
-	return mHorizontalFlipped;
+	return mIsHorizontalFlipped;
 }
 
 bool Sprite::isFlippedVertically() const noexcept
 {
-	return mVerticalFlipped;
+	return mIsVerticalFlipped;
 }
 
 void Sprite::updateArea() noexcept

@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
-#include <deque>
 #include <queue>
+#include <deque>
 #include <functional>
 #include <unordered_map>
 
@@ -14,7 +14,7 @@
 class GameStateManager final : public GameStateChanger
 {
 public:
-	GameStateManager(ResourceContainer& resources, SpritesetContainer& spritesets, GraphicsScene& scene) noexcept;
+	GameStateManager(ResourceContainer& resources, SpritesetContainer& spritesets, World& world) noexcept;
 
 	template<typename TGameState>
 	void registerState(const GameStateIdentifiers identifier) noexcept;
@@ -51,5 +51,5 @@ inline void GameStateManager::registerState(const GameStateIdentifiers identifie
 {
 	static_assert(std::is_base_of_v<GameState, TGameState>, "TGameState must derived from GameState");
 
-	mStates.emplace(identifier, std::make_unique<TGameState>(mContextData));
+	mStates.emplace(identifier, std::make_unique<TGameState>(mContextData, *this));
 }

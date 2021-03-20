@@ -9,9 +9,9 @@
 
 GameEngine::GameEngine() noexcept :
 	mRenderWindow{{640u, 480u}, "Mario", sf::Style::Titlebar | sf::Style::Close},
-	mGameStateManager{mResources, mSpritesets, mScene},
+	mGameStateManager{mResources, mSpritesets, mWorld},
 	mFramerate{0u},
-	mFramerateTextVisible{true}
+	mIsFramerateTextVisible{true}
 {
 	mRenderWindow.setKeyRepeatEnabled(false);
 }
@@ -39,7 +39,7 @@ void GameEngine::processEvents() noexcept
 
 	while (mRenderWindow.pollEvent(event))
 	{
-		mScene.receiveEvents(event);
+		mWorld.receiveEvents(event);
 		mGameStateManager.processEvents(event);
 
 		switch (event.type)
@@ -47,7 +47,7 @@ void GameEngine::processEvents() noexcept
 		case sf::Event::KeyPressed:
 			if (event.key.code == sf::Keyboard::F1)
 			{
-				mFramerateTextVisible = !mFramerateTextVisible;
+				mIsFramerateTextVisible = !mIsFramerateTextVisible;
 			}
 			break;
 
@@ -65,7 +65,7 @@ void GameEngine::processEvents() noexcept
 
 void GameEngine::processLogic(const sf::Time& dt) noexcept
 {
-	mScene.update(dt);
+	mWorld.update(dt);
 
 	mGameStateManager.processLogic(dt);
 	mGameStateManager.executeRequests();
@@ -76,9 +76,9 @@ void GameEngine::processRender() noexcept
 	mFramerate++;
 
 	mRenderWindow.clear();
-	mRenderWindow.draw(mScene);
+	mRenderWindow.draw(mWorld);
 
-	if (mFramerateTextVisible)
+	if (mIsFramerateTextVisible)
 	{
 		mRenderWindow.setView(mRenderWindow.getDefaultView());
 		mRenderWindow.draw(mFramerateText);
@@ -192,7 +192,7 @@ void GameEngine::executeMainLoop() noexcept
 
 	while (isRunning())
 	{
-		bool renderFrame{false};
+		bool isRenderFrame{false};
 
 		const auto deltaTime = clock.restart();
 
@@ -215,19 +215,19 @@ void GameEngine::executeMainLoop() noexcept
 				break;
 			}
 
-			renderFrame = true;
+			isRenderFrame = true;
 
 			elapsedFrameUpdateTime -= dt;
 		}
 
-		if (renderFrame)
+		if (isRenderFrame)
 		{
 			processRender();
 		}
 
 		updateFramerateText(elapsedFramerateTextUpdateTime);
 
-		if (!renderFrame)
+		if (!isRenderFrame)
 		{
 			sf::sleep(threadSleepTime);
 		}

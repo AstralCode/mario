@@ -54,6 +54,15 @@ public:
 	bool isVisible() const noexcept;
 	bool isRemoved() const noexcept;
 
+protected:
+	virtual void onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcept;
+	virtual void onKeyReleased(const sf::Event::KeyEvent& keyEvent) noexcept;
+
+	virtual void onMouseClick(const sf::Event::MouseButtonEvent& mouseEvent) noexcept;
+	virtual void onMouseOver(const sf::Event::MouseMoveEvent& mouseEvent) noexcept;
+	virtual void onMouseEnter(const sf::Event::MouseMoveEvent& mouseEvent) noexcept;
+	virtual void onMouseLeave(const sf::Event::MouseMoveEvent& mouseEvent) noexcept;
+
 private:
 	void setParent(GraphicsItem* item) noexcept;
 	GraphicsItem* getParent() const noexcept;
@@ -64,14 +73,14 @@ private:
 	void drawItems(sf::RenderTarget& target, sf::RenderStates states) const noexcept;
 
 	virtual void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept;
-	virtual void receiveEventsSelf(const sf::Event& event) noexcept;
 
 	sf::Transformable mTransform;
 
 	GraphicsItem* mParentItem;
 
-	bool mVisible;
-	bool mRemoved;
+	bool mIsVisible;
+	bool mIsRemoved;
+	bool mIsMouseOver;
 
 	std::vector<std::unique_ptr<GraphicsItem>> mItems;
 };

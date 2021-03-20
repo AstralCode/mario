@@ -38,6 +38,6 @@ private:
 	sf::Sprite mSprite;
 	sf::IntRect mDefaultArea;
 
-	bool mHorizontalFlipped;
-	bool mVerticalFlipped;
+	bool mIsHorizontalFlipped;
+	bool mIsVerticalFlipped;
 };

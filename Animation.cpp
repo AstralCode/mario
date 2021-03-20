@@ -6,10 +6,10 @@ Animation::Animation(const SpritesetRegion& spritesetRegion) noexcept :
 	mSpritesetRegion{spritesetRegion},
 	mDirection{Directions::Normal},
 	mCurrentSpriteIndex{getFirstSpriteIndex()},
-	mPlaying{false},
-	mReachEnd{true},
-	mAlternate{false},
-	mRepeating{false}
+	mIsPlaying{false},
+	mIsReachEnd{true},
+	mIsAlternate{false},
+	mIsRepeating{false}
 {
 
 }
@@ -31,31 +31,31 @@ void Animation::setDuration(const sf::Time& durationTime) noexcept
 
 void Animation::setRepeating(const bool repeat) noexcept
 {
-	mRepeating = repeat;
+	mIsRepeating = repeat;
 }
 
 void Animation::play() noexcept
 {
-	mPlaying = true;
+	mIsPlaying = true;
 }
 
 void Animation::pause() noexcept
 {
-	mPlaying = false;
+	mIsPlaying = false;
 }
 
 void Animation::stop() noexcept
 {
 	mElapsedUpdateTime = sf::Time::Zero;
 	mCurrentSpriteIndex = (mDirection == Directions::Normal || mDirection == Directions::Alternate) ? getFirstSpriteIndex() : getLastSpriteIndex();
-	mPlaying = false;
-	mReachEnd = true;
-	mAlternate = false;
+	mIsPlaying = false;
+	mIsReachEnd = true;
+	mIsAlternate = false;
 }
 
 void Animation::update(const sf::Time& dt) noexcept
 {
-	if (mPlaying)
+	if (mIsPlaying)
 	{
 		if (mElapsedDelayTime >= mDelayTime)
 		{
@@ -113,11 +113,11 @@ const sf::Time& Animation::getDurationTime() const noexcept
 
 Animation::Status Animation::getStatus() const noexcept
 {
-	if (mPlaying)
+	if (mIsPlaying)
 	{
 		return Animation::Status::Playing;
 	}
-	else if(!mReachEnd)
+	else if(!mIsReachEnd)
 	{
 		return Animation::Status::Pause;
 	}
@@ -133,7 +133,7 @@ void Animation::updateSpriteNormalDirection() noexcept
 	{
 		mCurrentSpriteIndex = getFirstSpriteIndex();
 
-		if (!mRepeating)
+		if (!mIsRepeating)
 		{
 			stop();
 		}
@@ -150,7 +150,7 @@ void Animation::updateSpriteReverseDirection() noexcept
 	{
 		mCurrentSpriteIndex = getLastSpriteIndex();
 
-		if (!mRepeating)
+		if (!mIsRepeating)
 		{
 			stop();
 		}
@@ -161,14 +161,14 @@ void Animation::updateSpriteReverseDirection() noexcept
 
 void Animation::updateSpriteAlternateDirection() noexcept
 {
-	if (!mAlternate)
+	if (!mIsAlternate)
 	{
 		++mCurrentSpriteIndex;
 
 		if (mCurrentSpriteIndex > getLastSpriteIndex())
 		{
 			mCurrentSpriteIndex = getLastSpriteIndex();
-			mAlternate = true;
+			mIsAlternate = true;
 		}
 	}
 	else
@@ -178,9 +178,9 @@ void Animation::updateSpriteAlternateDirection() noexcept
 		if (mCurrentSpriteIndex < getFirstSpriteIndex())
 		{
 			mCurrentSpriteIndex = getFirstSpriteIndex();
-			mAlternate = false;
+			mIsAlternate = false;
 
-			if (!mRepeating)
+			if (!mIsRepeating)
 			{
 				stop();
 			}
@@ -192,14 +192,14 @@ void Animation::updateSpriteAlternateDirection() noexcept
 
 void Animation::updateSpriteAlternateReverseDirection() noexcept
 {
-	if (!mAlternate)
+	if (!mIsAlternate)
 	{
 		--mCurrentSpriteIndex;
 
 		if (mCurrentSpriteIndex < getFirstSpriteIndex())
 		{
 			mCurrentSpriteIndex = getFirstSpriteIndex();
-			mAlternate = true;
+			mIsAlternate = true;
 		}
 	}
 	else
@@ -209,9 +209,9 @@ void Animation::updateSpriteAlternateReverseDirection() noexcept
 		if (mCurrentSpriteIndex > getLastSpriteIndex())
 		{
 			mCurrentSpriteIndex = getLastSpriteIndex();
-			mAlternate = false;
+			mIsAlternate = false;
 
-			if (!mRepeating)
+			if (!mIsRepeating)
 			{
 				stop();
 			}

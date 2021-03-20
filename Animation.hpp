@@ -72,8 +72,8 @@ private:
 
 	int mCurrentSpriteIndex;
 
-	bool mPlaying;
-	bool mReachEnd;
-	bool mAlternate;
-	bool mRepeating;
+	bool mIsPlaying;
+	bool mIsReachEnd;
+	bool mIsAlternate;
+	bool mIsRepeating;
 };

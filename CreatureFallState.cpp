@@ -1,73 +1,59 @@
 #include "CreatureFallState.hpp"
 
-#include "GameObject.hpp"
 #include "CreatureMoveState.hpp"
 
-CreatureFallState::CreatureFallState(const SpritesetRegion& moveSpritesetRegion) noexcept :
-    mMoveSpritesetRegion{moveSpritesetRegion}
+void CreatureFallState::onSet(Creature& entity) noexcept
+{
+    entity.setAccelerationX(0.0f);
+    entity.setAccelerationY(3500.0f);
+}
+
+void CreatureFallState::update(Creature&, const sf::Time&) noexcept
 {
 
 }
 
-void CreatureFallState::onSet(GameObject& object) noexcept
+void CreatureFallState::tileCollision(Creature& entity, const Tile&, const Tile::Sides side) noexcept
 {
-    object.setAccelerationX(0.0f);
-    object.setAccelerationY(3500.0f);
-}
-
-void CreatureFallState::update(GameObject&, const sf::Time&) noexcept
-{
-
-}
-
-void CreatureFallState::onTileLeftCollision(GameObject& object, const Tile&) noexcept
-{
-    if (object.hasDirection(GameObjectDirections::Right))
+    if (side == Tile::Sides::Top)
     {
-        object.setDirection(GameObjectDirections::Left);
+        //entity.setState<CreatureMoveState>();
+    }
+    else if (side == Tile::Sides::Left || side == Tile::Sides::Right)
+    {
+        if (entity.hasDirection(Entity::Direction::Right))
+        {
+            entity.setDirection(Entity::Direction::Left);
+        }
+        else
+        {
+            entity.setDirection(Entity::Direction::Right);
+        }
+
+        entity.setVelocityX(-entity.getVelocity().getX());
+    }
+}
+
+void CreatureFallState::entityCollision(Creature& entity, Creature& collider) noexcept
+{
+    if (entity.hasDirection(Entity::Direction::Right))
+    {
+        entity.setDirection(Entity::Direction::Left);
+        collider.setDirection(Entity::Direction::Right);
     }
     else
     {
-        object.setDirection(GameObjectDirections::Right);
+        entity.setDirection(Entity::Direction::Right);
+        collider.setDirection(Entity::Direction::Left);
     }
 
-    object.setVelocityX(-object.getVelocity().getX());
+    entity.setVelocityX(-entity.getVelocity().getX());
+    collider.setVelocityX(-collider.getVelocity().getX());
 }
 
-void CreatureFallState::onTileRightCollision(GameObject& object, const Tile&) noexcept
+void CreatureFallState::falling() noexcept
 {
-    if (object.hasDirection(GameObjectDirections::Right))
-    {
-        object.setDirection(GameObjectDirections::Left);
-    }
-    else
-    {
-        object.setDirection(GameObjectDirections::Right);
-    }
 
-    object.setVelocityX(-object.getVelocity().getX());
-}
-
-void CreatureFallState::onTileTopCollision(GameObject& object, const Tile&) noexcept
-{
-    object.setState<CreatureMoveState>(mMoveSpritesetRegion);
-}
-
-void CreatureFallState::onObjectCollision(GameObject& objectA, GameObject& objectB) noexcept
-{
-    if (objectA.hasDirection(GameObjectDirections::Right))
-    {
-        objectA.setDirection(GameObjectDirections::Left);
-        objectB.setDirection(GameObjectDirections::Right);
-    }
-    else
-    {
-        objectA.setDirection(GameObjectDirections::Right);
-        objectB.setDirection(GameObjectDirections::Left);
-    }
-
-    objectA.setVelocityX(-objectA.getVelocity().getX());
-    objectB.setVelocityX(-objectB.getVelocity().getX());
 }
 
 bool CreatureFallState::isJumping() const noexcept

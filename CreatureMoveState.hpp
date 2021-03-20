@@ -1,25 +1,20 @@
 #pragma once
 
-#include "GameObjectState.hpp"
-#include "Animation.hpp"
+#include "EntityState.hpp"
+#include "Creature.hpp"
 
-class CreatureMoveState final : public GameObjectState
+class CreatureMoveState final : public EntityState<Creature>
 {
 public:
-	CreatureMoveState(const SpritesetRegion& moveSpritesetRegion) noexcept;
+	void onSet(Creature& entity) noexcept;
 
-	void onSet(GameObject& object) noexcept override;
-	void update(GameObject& object, const sf::Time& dt) noexcept override;
+	void update(Creature& entity, const sf::Time& dt) noexcept;
 
-	void onTileLeftCollision(GameObject& object, const Tile& tile) noexcept override;
-	void onTileRightCollision(GameObject& object, const Tile& tile) noexcept override;
+	void tileCollision(Creature& entity, const Tile& tile, const Tile::Sides side) noexcept;
+	void entityCollision(Creature& entity, Creature& collider) noexcept;
 
-	void onObjectCollision(GameObject& objectA, GameObject& objectB) noexcept override;
-	void onFalling(GameObject& object) noexcept override;
+	void falling() noexcept;
 
-	bool isJumping() const noexcept override;
-	bool isFalling() const noexcept override;
-
-private:
-	Animation mMoveAnimation;
+	bool isJumping() const noexcept;
+	bool isFalling() const noexcept;
 };

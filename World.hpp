@@ -1,18 +1,16 @@
 #pragma once
 
 #include "TilemapView.hpp"
-#include "GameObjectContainer.hpp"
+#include "EntityContainer.hpp"
 #include "PhysicsModule.hpp"
 #include "CollisionModule.hpp"
 
 class ResourceContainer;
 
-class GraphicsScene final : public sf::Drawable
+class World final : public sf::Drawable
 {
 public:
-	GraphicsScene() noexcept;
-	
-	GameObject* createGameObject(const GameObjectIdentifiers identifier) noexcept;
+	World() noexcept;
 
 	void receiveEvents(const sf::Event& event) noexcept;
 
@@ -21,15 +19,17 @@ public:
 	TilemapView& getTilemapView() noexcept;
 	const TilemapView& getTilemapView() const noexcept;
 
+	EntityContainer& getEntities() noexcept;
+	const EntityContainer& getEntities() const noexcept;
+
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-	TilemapView mTilemapView;
-
 	GraphicsItem mRoot;
-	GraphicsItem& mGameObjectLayer;
+	GraphicsItem& mEntityLayer;
 
-	GameObjectContainer mGameObjectContainer;
+	TilemapView mTilemapView;
+	EntityContainer mEntities;
 
 	PhysicsModule mPhysicsModule;
 	CollisionModule mCollisionModule;

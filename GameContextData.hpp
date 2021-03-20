@@ -2,22 +2,19 @@
 
 class ResourceContainer;
 class SpritesetContainer;
-class GraphicsScene;
-class GameStateChanger;
+class World;
 
 class GameContextData final
 {
 public:
-	GameContextData(ResourceContainer& resources, SpritesetContainer& spritesets, GraphicsScene& scene, GameStateChanger& stateChanger) noexcept;
+	GameContextData(ResourceContainer& resources, SpritesetContainer& spritesets, World& world) noexcept;
 
 	ResourceContainer& getResources() noexcept;
 	SpritesetContainer& getSpritesets() noexcept;
-	GraphicsScene& getScene() noexcept;
-	GameStateChanger& getStateChanger() noexcept;
+	World& getWorld() noexcept;
 
 private:
 	ResourceContainer& mResources;
 	SpritesetContainer& mSpritesets;
-	GraphicsScene& mScene;
-	GameStateChanger& mStateChanger;
+	World& mWorld;
 };
