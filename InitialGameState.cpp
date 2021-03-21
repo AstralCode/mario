@@ -57,7 +57,6 @@ void InitialGameState::onEnter() noexcept
 	auto mario = mWorld.getEntities().create<Mario>(mResources.getTexture(Textures::Mario), mSpritesets.getMarioSpriteset());
 	mario->setPosition(tilemapView.getTilePosition({12, 1}));
 
-	mWorld.getEntities().create<Creature>(mResources.getTexture(Textures::Enemies), mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move))->setPosition(tilemapView.getTilePosition({6, 9}));
 	mWorld.getEntities().create<Creature>(mResources.getTexture(Textures::Enemies), mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move))->setPosition(tilemapView.getTilePosition({12,  9}));
 }
 
