@@ -5,7 +5,7 @@
 void PhysicsModule::update(Entity& entity, const sf::Time& dt) const noexcept
 {
 	auto accelerateX = calculateAccelerate(entity.getAcceleration().getX(), dt);
-	accelerateX *= entity.hasDirection(Entity::Direction::Left) ? -1.0f : +1.0f;
+	accelerateX *= entity.hasDirection(Entity::Directions::Left) ? -1.0f : +1.0f;
 	auto accelerateY = calculateAccelerate(entity.getAcceleration().getY(), dt);
 
 	auto velocityX = calculateVelocity(entity.getVelocity().getX(), accelerateX);

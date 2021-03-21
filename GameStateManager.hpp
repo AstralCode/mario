@@ -16,7 +16,7 @@ class GameStateManager final : public GameStateChanger
 public:
 	GameStateManager(ResourceContainer& resources, SpritesetContainer& spritesets, World& world) noexcept;
 
-	template<typename TGameState>
+	template <typename TGameState>
 	void registerState(const GameStateIdentifiers identifier) noexcept;
 
 	void pushState(const GameStateIdentifiers identifier) noexcept;
@@ -46,10 +46,10 @@ private:
 	std::deque<GameState*> mStateStack;
 };
 
-template<typename TGameState>
+template <typename TGameState>
 inline void GameStateManager::registerState(const GameStateIdentifiers identifier) noexcept
 {
-	static_assert(std::is_base_of_v<GameState, TGameState>, "TGameState must derived from GameState");
+	static_assert(std::is_base_of_v<GameState, TGameState>, "TGameState must derived from GameState class");
 
 	mStates.emplace(identifier, std::make_unique<TGameState>(mContextData, *this));
 }

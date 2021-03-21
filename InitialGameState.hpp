@@ -2,9 +2,6 @@
 
 #include "GameState.hpp"
 
-class ResourceContainer;
-class World;
-
 class InitialGameState final : public GameState
 {
 public:
@@ -20,5 +17,6 @@ private:
 	void onEscapePressed() noexcept override;
 
 	ResourceContainer& mResources;
+	SpritesetContainer& mSpritesets;
 	World& mWorld;
 };

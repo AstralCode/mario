@@ -11,36 +11,36 @@ EntityContainer::EntityContainer(GraphicsItem& sceneRoot) noexcept :
 
 void EntityContainer::clean() noexcept
 {
-	auto gameObjectsIterator = std::remove_if(mGameObjects.begin(), mGameObjects.end(), std::mem_fn(&Entity::isDestroyed));
-	mGameObjects.erase(gameObjectsIterator, mGameObjects.end());
+	auto entitiesIterator = std::remove_if(mEntities.begin(), mEntities.end(), std::mem_fn(&Entity::isDestroyed));
+	mEntities.erase(entitiesIterator, mEntities.end());
 }
 
 EntityContainer::Iterator EntityContainer::begin() noexcept
 {
-	return mGameObjects.begin();
+	return mEntities.begin();
 }
 
 EntityContainer::Iterator EntityContainer::end() noexcept
 {
-	return mGameObjects.end();
+	return mEntities.end();
 }
 
 EntityContainer::ConstIterator EntityContainer::begin() const noexcept
 {
-	return mGameObjects.begin();
+	return mEntities.begin();
 }
 
 EntityContainer::ConstIterator EntityContainer::end() const noexcept
 {
-	return mGameObjects.end();
+	return mEntities.end();
 }
 
 EntityContainer::ConstIterator EntityContainer::cbegin() const noexcept
 {
-	return mGameObjects.cbegin();
+	return mEntities.cbegin();
 }
 
 EntityContainer::ConstIterator EntityContainer::cend() const noexcept
 {
-	return mGameObjects.cend();
+	return mEntities.cend();
 }

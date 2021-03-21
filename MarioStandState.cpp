@@ -1,42 +1,52 @@
 #include "MarioStandState.hpp"
 
-#include "GameObject.hpp"
-#include "MarioMoveState.hpp"
-#include "MarioJumpState.hpp"
+void MarioStandState::onSet(Mario& entity) noexcept
+{
+    entity.setAccelerationX(0.0f);
+    entity.setStandSprite();
+}
 
-MarioStandState::MarioStandState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
-    mSpriteset{spriteset}
+void MarioStandState::update(Mario&, const sf::Time&) noexcept
 {
 
 }
 
-void MarioStandState::onSet(GameObject& object) noexcept
-{
-    object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Stand).getSpriteArea(0));
-    object.setAccelerationX(0.0f);
-}
-
-void MarioStandState::update(GameObject&, const sf::Time&) noexcept
+void MarioStandState::tileCollision(Mario&, const Tile&, const Tile::Sides) noexcept
 {
 
 }
 
-void MarioStandState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
+void MarioStandState::entityCollision(Mario&, Entity&) noexcept
+{
+
+}
+
+void MarioStandState::falling(Mario&) noexcept
+{
+
+}
+
+void MarioStandState::onKeyPressed(Mario& entity, const sf::Event::KeyEvent& keyEvent) noexcept
 {
     if (keyEvent.code == Constants::World::Mario::Left)
     {
-        object.setDirection(GameObjectDirections::Left);
-        object.setState<MarioMoveState>(mSpriteset);
+        entity.setDirection(Entity::Directions::Left);
+        entity.setState(Mario::States::Move);
     }
     else if (keyEvent.code == Constants::World::Mario::Right)
     {
-        object.setDirection(GameObjectDirections::Right);
-        object.setState<MarioMoveState>(mSpriteset);
+        entity.setDirection(Entity::Directions::Right);
+        entity.setState(Mario::States::Move);
     }
     else if (keyEvent.code == Constants::World::Mario::Up)
     {
-        object.setState<MarioJumpState>(mSpriteset);
+        entity.setState(Mario::States::Jump);
     }
+}
+
+void MarioStandState::onKeyReleased(Mario&, const sf::Event::KeyEvent&) noexcept
+{
+
 }
 
 bool MarioStandState::isJumping() const noexcept

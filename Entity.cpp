@@ -5,6 +5,16 @@
 
 #include "Sprite.hpp"
 
+Entity::Entity() noexcept :
+    mSprite{addItem<Sprite>()},
+    mDirection{Directions::Right},
+    mBoundsColor{sf::Color::Transparent},
+    mIsBoundsVisible{false},
+    mIsDestroyed{false}
+{
+
+}
+
 void Entity::setTexture(const sf::Texture& texture) noexcept
 {
     mSprite->setTexture(texture);
@@ -22,12 +32,17 @@ void Entity::setBoundsColor(const sf::Color& color) noexcept
 
 void Entity::setBoundsVisible(const bool visible) noexcept
 {
-    mIsBoundsVisible = true;
+    mIsBoundsVisible = visible;
 }
 
-void Entity::setDirection(const Direction direction) noexcept
+void Entity::setDirection(const Directions direction) noexcept
 {
-    mDirection = direction;
+    if (mDirection != direction)
+    {
+        mSprite->flip(Sprite::Orientations::Horizontal);
+
+        mDirection = direction;
+    }
 }
 
 void Entity::setAccelerationX(const float value) noexcept
@@ -50,7 +65,7 @@ void Entity::setVelocityY(const float value) noexcept
     mVelocity.setY(value);
 }
 
-const Entity::Direction& Entity::getDirection() const noexcept
+const Entity::Directions& Entity::getDirection() const noexcept
 {
     return mDirection;
 }
@@ -70,7 +85,7 @@ FloatArea Entity::getLocalArea() const noexcept
     return mSprite->getLocalArea();
 }
 
-bool Entity::hasDirection(const Direction direction) const noexcept
+bool Entity::hasDirection(const Directions direction) const noexcept
 {
     return mDirection == direction;
 }
@@ -90,7 +105,7 @@ bool Entity::isDestroyed() const noexcept
     return mIsDestroyed;
 }
 
-void Entity::drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept
+void Entity::drawSelf(sf::RenderTarget& target, sf::RenderStates) const noexcept
 {
     if (mIsBoundsVisible)
     {

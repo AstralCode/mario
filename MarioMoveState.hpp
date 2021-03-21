@@ -1,28 +1,25 @@
 #pragma once
 
-#include "GameObjectState.hpp"
-#include "Spriteset.hpp"
-#include "SpritesetRegions.hpp"
-#include "Animation.hpp"
+#include "EntityState.hpp"
+#include "Mario.hpp"
 
-class MarioMoveState final : public GameObjectState
+class SpritesetRegion;
+
+class MarioMoveState final : public EntityState<Mario>
 {
 public:
-	MarioMoveState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept;
+	void onSet(Mario& entity) noexcept override;
 
-	void onSet(GameObject& object) noexcept override;
-	void update(GameObject& object, const sf::Time& dt) noexcept override;
+	void update(Mario& entity, const sf::Time& dt) noexcept override;
 
-	void onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
-	void onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept override;
+	void tileCollision(Mario& entity, const Tile& tile, const Tile::Sides side) noexcept override;
+	void entityCollision(Mario& entity, Entity& collider) noexcept override;
 
-	void onFalling(GameObject& object) noexcept override;
+	void falling(Mario& entity) noexcept override;
+
+	void onKeyPressed(Mario& entity, const sf::Event::KeyEvent& keyEvent) noexcept override;
+	void onKeyReleased(Mario& entity, const sf::Event::KeyEvent& keyEvent) noexcept override;
 
 	bool isJumping() const noexcept override;
 	bool isFalling() const noexcept override;
-
-private:
-	const Spriteset<MarioSpritesetRegions>& mSpriteset;
-
-	Animation mMoveAnimation;
 };

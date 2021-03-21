@@ -3,10 +3,13 @@
 #include "GameContextData.hpp"
 #include "GameStateChanger.hpp"
 #include "World.hpp"
+#include "Mario.hpp"
+#include "Creature.hpp"
 
 InitialGameState::InitialGameState(GameContextData& contextData, GameStateChanger& stateChanger) noexcept :
 	GameState{contextData, stateChanger},
 	mResources{contextData.getResources()},
+	mSpritesets{contextData.getSpritesets()},
 	mWorld{contextData.getWorld()}
 {
 
@@ -25,8 +28,8 @@ void InitialGameState::onEnter() noexcept
 	tilemap->getRow(7)	= Tilemap::Row{ 65,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(8)	= Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(9)	= Tilemap::Row{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   5,   6,   7,   0,   0,   0,   0,   0 };
-	tilemap->getRow(10) = Tilemap::Row{  0,   0,  10,   0,   0,   0,   0,   5,   6,   7,   0,   0,   0,  47,   0,   0,   0,   0,   0,   0 };
-	tilemap->getRow(11) = Tilemap::Row{  0,  23,  24,  25,   0,   0,   0,   0,  47,   0,   0,   0,   0,  47,   0,   0,   0,   0,   0,   0 };
+	tilemap->getRow(10) = Tilemap::Row{  0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  47,   0,   0,   0,   0,   0,   0 };
+	tilemap->getRow(11) = Tilemap::Row{  0,  23,  24,  25,   0,   0,   0,   5,   6,   7,   0,   0,   0,  47,   0,   0,   0,   0,   0,   0 };
 	tilemap->getRow(12) = Tilemap::Row{ 23,  24,  39,  39,  25,  36,  37,  38,  47,  36,  37,  37,  38,  47,   0,  36,  37,  38,   0,  23 };
 	tilemap->getRow(13) = Tilemap::Row{  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 };
 	tilemap->getRow(14) = Tilemap::Row{  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 };
@@ -51,11 +54,11 @@ void InitialGameState::onEnter() noexcept
 	tilemapView.setBackgroundColor({97, 133, 246});
 	tilemapView.build();
 
-//	mGameObjectFactory.createMario()->setPosition(tilemapView.getTilePosition({12, 1}));
+	auto mario = mWorld.getEntities().create<Mario>(mResources.getTexture(Textures::Mario), mSpritesets.getMarioSpriteset());
+	mario->setPosition(tilemapView.getTilePosition({12, 1}));
 
-//	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12,  9}));
-//	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({12, 13}));
-//	mGameObjectFactory.createGoomba()->setPosition(tilemapView.getTilePosition({6, 9}));
+	mWorld.getEntities().create<Creature>(mResources.getTexture(Textures::Enemies), mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move))->setPosition(tilemapView.getTilePosition({6, 9}));
+	mWorld.getEntities().create<Creature>(mResources.getTexture(Textures::Enemies), mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move))->setPosition(tilemapView.getTilePosition({12,  9}));
 }
 
 void InitialGameState::onLeave() noexcept

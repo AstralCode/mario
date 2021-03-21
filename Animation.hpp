@@ -26,7 +26,7 @@ public:
 		AlternateReverse
 	};
 
-	Animation(const SpritesetRegion& spritesetRegion) noexcept;
+	Animation(const SpritesetRegion& region) noexcept;
 
 	void setDelay(const sf::Time& delay);
 	void setDirection(const Directions direction) noexcept;

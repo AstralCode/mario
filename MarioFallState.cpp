@@ -1,49 +1,54 @@
 #include "MarioFallState.hpp"
 
-#include "GameObject.hpp"
-#include "MarioStandState.hpp"
-#include "MarioMoveState.hpp"
+void MarioFallState::onSet(Mario& entity) noexcept
+{
+    entity.setJumpSprite();
+}
 
-MarioFallState::MarioFallState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
-    mSpriteset{spriteset}
+void MarioFallState::update(Mario&, const sf::Time&) noexcept
 {
 
 }
 
-void MarioFallState::onSet(GameObject& object) noexcept
+void MarioFallState::tileCollision(Mario& entity, const Tile&, const Tile::Sides) noexcept
 {
-    object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0));
-}
-
-void MarioFallState::update(GameObject&, const sf::Time&) noexcept
-{
-
-}
-
-void MarioFallState::onTileTopCollision(GameObject& object, const Tile& tile) noexcept
-{
-    if (std::fabs(object.getVelocity().getX()) > Constants::World::Mario::StopVelocityX)
+    if (std::fabs(entity.getVelocity().getX()) > Constants::World::Mario::StopVelocityX)
     {
-        object.setState<MarioMoveState>(mSpriteset);
+        entity.setState(Mario::States::Move);
     }
     else
     {
-        object.setState<MarioStandState>(mSpriteset);
+        entity.setState(Mario::States::Stand);
     }
 }
 
-void MarioFallState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
+void MarioFallState::entityCollision(Mario&, Entity&) noexcept
+{
+
+}
+
+void MarioFallState::falling(Mario&) noexcept
+{
+
+}
+
+void MarioFallState::onKeyPressed(Mario& entity, const sf::Event::KeyEvent& keyEvent) noexcept
 {
     if (keyEvent.code == Constants::World::Mario::Left)
     {
-        object.setAccelerationX(Constants::World::Mario::AccelerationX);
-        object.setDirection(GameObjectDirections::Left);
+        entity.setAccelerationX(Constants::World::Mario::AccelerationX);
+        entity.setDirection(Entity::Directions::Left);
     }
     else if (keyEvent.code == Constants::World::Mario::Right)
     {
-        object.setAccelerationX(Constants::World::Mario::AccelerationX);
-        object.setDirection(GameObjectDirections::Right);
+        entity.setAccelerationX(Constants::World::Mario::AccelerationX);
+        entity.setDirection(Entity::Directions::Right);
     }
+}
+
+void MarioFallState::onKeyReleased(Mario&, const sf::Event::KeyEvent&) noexcept
+{
+
 }
 
 bool MarioFallState::isFalling() const noexcept

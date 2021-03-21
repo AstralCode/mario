@@ -14,8 +14,8 @@ public:
 
 	EntityContainer(GraphicsItem& sceneRoot) noexcept;
 
-	template <typename T>
-	Entity* create() noexcept;
+	template <typename TEntity, typename... TArguments>
+	Entity* create(TArguments&&... args) noexcept;
 
 	void clean() noexcept;
 
@@ -30,14 +30,16 @@ public:
 
 private:
 	GraphicsItem& mSceneRoot;
-	Container mGameObjects;
+	Container mEntities;
 };
 
-template<typename T>
-inline Entity* EntityContainer::create() noexcept
+template<typename TEntity, typename... TArguments>
+inline Entity* EntityContainer::create(TArguments&&... arguments) noexcept
 {
-	auto object = mSceneRoot.addItem<Entity>();
-	mGameObjects.push_back(object);
+	static_assert(std::is_base_of_v<Entity, TEntity>, "TEntity must derived from Entity class");
 
-	return object;
+	auto entity = mSceneRoot.addItem<TEntity>(std::forward<TArguments&&>(arguments)...);
+	mEntities.push_back(entity);
+
+	return entity;
 }

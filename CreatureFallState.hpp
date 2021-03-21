@@ -6,15 +6,18 @@
 class CreatureFallState final : public EntityState<Creature>
 {
 public:
-	void onSet(Creature& entity) noexcept;
+	void onSet(Creature& entity) noexcept override;
 
-	void update(Creature& entity, const sf::Time& dt) noexcept;
+	void update(Creature& entity, const sf::Time& dt) noexcept override;
 
-	void tileCollision(Creature& entity, const Tile& tile, const Tile::Sides side) noexcept;
-	void entityCollision(Creature& entity, Creature& collider) noexcept;
+	void tileCollision(Creature& entity, const Tile& tile, const Tile::Sides side) noexcept override;
+	void entityCollision(Creature& entity, Entity& collider) noexcept override;
 
-	void falling() noexcept;
+	void falling(Creature& entity) noexcept override;
 
-	bool isJumping() const noexcept;
-	bool isFalling() const noexcept;
+	void onKeyPressed(Creature& entity, const sf::Event::KeyEvent& keyEvent) noexcept override;
+	void onKeyReleased(Creature& entity, const sf::Event::KeyEvent& keyEvent) noexcept override;
+
+	bool isJumping() const noexcept override;
+	bool isFalling() const noexcept override;
 };

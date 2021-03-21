@@ -28,13 +28,13 @@ namespace Constants
 		namespace Physics
 		{
 			constexpr const auto Friction = 0.92f;
-			constexpr const auto Gravity = 1800.0f;
+			constexpr const auto Gravity = 1200.0f;
 		}
 		namespace Mario
 		{
 			constexpr const auto AccelerationX = World::Tilemap::TileSize * 20.0f;
 			constexpr const auto MaxVelocityX = World::Tilemap::TileSize * 10.0f;
-			constexpr const auto MaxVelocityY = World::Tilemap::TileSize * 30.0f;
+			constexpr const auto MaxVelocityY = World::Tilemap::TileSize * 22.0f;
 			constexpr const auto StopVelocityX = 12.0f;
 			constexpr const auto MoveAnimationDuration = 0.25f;
 			constexpr const auto Up = sf::Keyboard::W;
@@ -44,8 +44,8 @@ namespace Constants
 		}
 		namespace Creature
 		{
-			constexpr const auto AccelerationX = World::Tilemap::TileSize * 10.0f;
-			constexpr const auto MaxVelocityX = World::Tilemap::TileSize * 1.5f;
+			constexpr const auto AccelerationX = World::Tilemap::TileSize * 5.0f;
+			constexpr const auto MaxVelocityX = World::Tilemap::TileSize * 5.0f;
 			constexpr const auto MoveAnimationDuration = 0.25f;
 		}
 		namespace Items

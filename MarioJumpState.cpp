@@ -1,59 +1,66 @@
 #include "MarioJumpState.hpp"
 
-#include "GameObject.hpp"
-#include "MarioStandState.hpp"
-#include "MarioMoveState.hpp"
-#include "MarioFallState.hpp"
-
-MarioJumpState::MarioJumpState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
-    mSpriteset{spriteset}
+void MarioJumpState::onSet(Mario& entity) noexcept
 {
-
+    entity.setVelocityY(-Constants::World::Mario::MaxVelocityY);
+    entity.setJumpSprite();
 }
 
-void MarioJumpState::onSet(GameObject& object) noexcept
+void MarioJumpState::update(Mario& entity, const sf::Time&) noexcept
 {
-    object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0));
-    object.setVelocityY(-Constants::World::Mario::MaxVelocityY);
-}
-
-void MarioJumpState::update(GameObject& object, const sf::Time&) noexcept
-{
-    if (object.getVelocity().getX() > 0.0f)
+    if (entity.getVelocity().getX() > 0.0f)
     {
-        object.setState<MarioFallState>(mSpriteset);
+        entity.setState(Mario::States::Fall);
     }
 }
 
-void MarioJumpState::onTileTopCollision(GameObject& object, const Tile&) noexcept
+void MarioJumpState::tileCollision(Mario& entity, const Tile&, const Tile::Sides side) noexcept
 {
-    if (std::fabs(object.getVelocity().getX()) > Constants::World::Mario::StopVelocityX)
+    if (side == Tile::Sides::Top)
     {
-        object.setState<MarioMoveState>(mSpriteset);
+        if (std::fabs(entity.getVelocity().getX()) > Constants::World::Mario::StopVelocityX)
+        {
+            entity.setState(Mario::States::Move);
+        }
+        else
+        {
+            entity.setState(Mario::States::Stand);
+        }
     }
-    else
+    else if (side == Tile::Sides::Bottom)
     {
-        object.setState<MarioStandState>(mSpriteset);
+        entity.setVelocityY(entity.getVelocity().getY() + Constants::World::Mario::MaxVelocityY * 0.2f);
     }
+
 }
 
-void MarioJumpState::onTileBottomCollision(GameObject& object, const Tile&) noexcept
+void MarioJumpState::entityCollision(Mario&, Entity&) noexcept
 {
-    object.setVelocityY(object.getVelocity().getY() + Constants::World::Mario::MaxVelocityY * 0.2f);
+
 }
 
-void MarioJumpState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
+void MarioJumpState::falling(Mario&) noexcept
+{
+
+}
+
+void MarioJumpState::onKeyPressed(Mario& object, const sf::Event::KeyEvent& keyEvent) noexcept
 {
     if (keyEvent.code == Constants::World::Mario::Left)
     {
         object.setAccelerationX(Constants::World::Mario::AccelerationX);
-        object.setDirection(GameObjectDirections::Left);
+        object.setDirection(Entity::Directions::Left);
     }
     else if (keyEvent.code == Constants::World::Mario::Right)
     {
         object.setAccelerationX(Constants::World::Mario::AccelerationX);
-        object.setDirection(GameObjectDirections::Right);
+        object.setDirection(Entity::Directions::Right);
     }
+}
+
+void MarioJumpState::onKeyReleased(Mario&, const sf::Event::KeyEvent&) noexcept
+{
+
 }
 
 bool MarioJumpState::isJumping() const noexcept

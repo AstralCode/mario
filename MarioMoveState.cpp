@@ -1,105 +1,99 @@
 #include "MarioMoveState.hpp"
 
-#include "GameObject.hpp"
-#include "MarioStandState.hpp"
-#include "MarioJumpState.hpp"
-#include "MarioFallState.hpp"
-
-MarioMoveState::MarioMoveState(const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
-    mSpriteset{spriteset},
-    mMoveAnimation{spriteset.getRegion(MarioSpritesetRegions::Move)}
+void MarioMoveState::onSet(Mario& entity) noexcept
 {
-
-}
-
-void MarioMoveState::onSet(GameObject& object) noexcept
-{
-    object.setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
-    object.setAccelerationX(0.0f);
+    entity.setAccelerationX(0.0f);
 
     if (sf::Keyboard::isKeyPressed(Constants::World::Mario::Left) ||
         sf::Keyboard::isKeyPressed(Constants::World::Mario::Right))
     {
-        object.setAccelerationX(Constants::World::Mario::AccelerationX);
+        entity.setAccelerationX(Constants::World::Mario::AccelerationX);
     }
 
-    mMoveAnimation.setDuration(sf::seconds(Constants::World::Mario::MoveAnimationDuration));
-    mMoveAnimation.setRepeating(true);
-    mMoveAnimation.play();
+    entity.setMoveAnimation();
 }
 
-void MarioMoveState::update(GameObject& object, const sf::Time& dt) noexcept
+void MarioMoveState::update(Mario& entity, const sf::Time& dt) noexcept
 {
-    mMoveAnimation.update(dt);
+    entity.updateMoveAnimation(dt);
 
-    object.setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
-
-    if (object.getAcceleration().getX() > 0.0f)
+    if (entity.getAcceleration().getX() > 0.0f)
     {
-        if (object.getVelocity().getX() > Constants::World::Mario::StopVelocityX &&
-            object.hasDirection(GameObjectDirections::Left))
+        if (entity.getVelocity().getX() > Constants::World::Mario::StopVelocityX)
         {
-            object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0));
+            if (entity.hasDirection(Entity::Directions::Left))
+            {
+                entity.setSlideSprite();
+            }
         }
-        else if (object.getVelocity().getX() < Constants::World::Mario::StopVelocityX &&
-                 object.hasDirection(GameObjectDirections::Right))
+        else if (entity.hasDirection(Entity::Directions::Right))
         {
-            object.setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0));
+            entity.setSlideSprite();
         }
     }
-    else if (std::fabs(object.getVelocity().getX()) < Constants::World::Mario::StopVelocityX)
+    else if (std::fabs(entity.getVelocity().getX()) < Constants::World::Mario::StopVelocityX)
     {
-        object.setState<MarioStandState>(mSpriteset);
+        entity.setState(Mario::States::Stand);
     }
 }
 
-void MarioMoveState::onKeyPressed(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
+void MarioMoveState::tileCollision(Mario&, const Tile&, const Tile::Sides) noexcept
+{
+
+}
+
+void MarioMoveState::entityCollision(Mario&, Entity&) noexcept
+{
+
+}
+
+void MarioMoveState::falling(Mario& entity) noexcept
+{
+    entity.setState(Mario::States::Fall);
+}
+
+void MarioMoveState::onKeyPressed(Mario& entity, const sf::Event::KeyEvent& keyEvent) noexcept
 {
     if (keyEvent.code == Constants::World::Mario::Left)
     {
-        object.setAccelerationX(Constants::World::Mario::AccelerationX);
-        object.setDirection(GameObjectDirections::Left);
+        entity.setAccelerationX(Constants::World::Mario::AccelerationX);
+        entity.setDirection(Entity::Directions::Left);
     }
     else if (keyEvent.code == Constants::World::Mario::Right)
     {
-        object.setAccelerationX(Constants::World::Mario::AccelerationX);
-        object.setDirection(GameObjectDirections::Right);
+        entity.setAccelerationX(Constants::World::Mario::AccelerationX);
+        entity.setDirection(Entity::Directions::Right);
     }
     else if (keyEvent.code == Constants::World::Mario::Up)
     {
-        object.setState<MarioJumpState>(mSpriteset);
+        entity.setState(Mario::States::Jump);
     }
 }
 
-void MarioMoveState::onKeyReleased(GameObject& object, const sf::Event::KeyEvent& keyEvent) noexcept
+void MarioMoveState::onKeyReleased(Mario& entity, const sf::Event::KeyEvent& keyEvent) noexcept
 {
     if (keyEvent.code == Constants::World::Mario::Left ||
         keyEvent.code == Constants::World::Mario::Right)
     {
-        object.setAccelerationX(0.0f);
+        entity.setAccelerationX(0.0f);
     }
 
     if (keyEvent.code == Constants::World::Mario::Left)
     {
         if (sf::Keyboard::isKeyPressed(Constants::World::Mario::Right))
         {
-            object.setAccelerationX(Constants::World::Mario::AccelerationX);
-            object.setDirection(GameObjectDirections::Right);
+            entity.setAccelerationX(Constants::World::Mario::AccelerationX);
+            entity.setDirection(Entity::Directions::Right);
         }
     }
     else if (keyEvent.code == Constants::World::Mario::Right)
     {
         if (sf::Keyboard::isKeyPressed(Constants::World::Mario::Left))
         {
-            object.setAccelerationX(Constants::World::Mario::AccelerationX);
-            object.setDirection(GameObjectDirections::Left);
+            entity.setAccelerationX(Constants::World::Mario::AccelerationX);
+            entity.setDirection(Entity::Directions::Left);
         }
     }
-}
-
-void MarioMoveState::onFalling(GameObject& object) noexcept
-{
-    object.setState<MarioFallState>(mSpriteset);
 }
 
 bool MarioMoveState::isJumping() const noexcept

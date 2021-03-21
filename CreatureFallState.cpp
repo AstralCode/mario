@@ -1,11 +1,8 @@
 #include "CreatureFallState.hpp"
 
-#include "CreatureMoveState.hpp"
-
 void CreatureFallState::onSet(Creature& entity) noexcept
 {
     entity.setAccelerationX(0.0f);
-    entity.setAccelerationY(3500.0f);
 }
 
 void CreatureFallState::update(Creature&, const sf::Time&) noexcept
@@ -17,41 +14,51 @@ void CreatureFallState::tileCollision(Creature& entity, const Tile&, const Tile:
 {
     if (side == Tile::Sides::Top)
     {
-        //entity.setState<CreatureMoveState>();
+        entity.setState(Creature::States::Move);
     }
     else if (side == Tile::Sides::Left || side == Tile::Sides::Right)
     {
-        if (entity.hasDirection(Entity::Direction::Right))
+        if (entity.hasDirection(Entity::Directions::Right))
         {
-            entity.setDirection(Entity::Direction::Left);
+            entity.setDirection(Entity::Directions::Left);
         }
         else
         {
-            entity.setDirection(Entity::Direction::Right);
+            entity.setDirection(Entity::Directions::Right);
         }
 
         entity.setVelocityX(-entity.getVelocity().getX());
     }
 }
 
-void CreatureFallState::entityCollision(Creature& entity, Creature& collider) noexcept
+void CreatureFallState::entityCollision(Creature& entity, Entity& collider) noexcept
 {
-    if (entity.hasDirection(Entity::Direction::Right))
+    if (entity.hasDirection(Entity::Directions::Right))
     {
-        entity.setDirection(Entity::Direction::Left);
-        collider.setDirection(Entity::Direction::Right);
+        entity.setDirection(Entity::Directions::Left);
+        collider.setDirection(Entity::Directions::Right);
     }
     else
     {
-        entity.setDirection(Entity::Direction::Right);
-        collider.setDirection(Entity::Direction::Left);
+        entity.setDirection(Entity::Directions::Right);
+        collider.setDirection(Entity::Directions::Left);
     }
 
     entity.setVelocityX(-entity.getVelocity().getX());
     collider.setVelocityX(-collider.getVelocity().getX());
 }
 
-void CreatureFallState::falling() noexcept
+void CreatureFallState::falling(Creature&) noexcept
+{
+
+}
+
+void CreatureFallState::onKeyPressed(Creature&, const sf::Event::KeyEvent&) noexcept
+{
+
+}
+
+void CreatureFallState::onKeyReleased(Creature&, const sf::Event::KeyEvent&) noexcept
 {
 
 }

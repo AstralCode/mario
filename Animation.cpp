@@ -2,8 +2,8 @@
 
 #include "SpritesetRegion.hpp"
 
-Animation::Animation(const SpritesetRegion& spritesetRegion) noexcept :
-	mSpritesetRegion{spritesetRegion},
+Animation::Animation(const SpritesetRegion& region) noexcept :
+	mSpritesetRegion{region},
 	mDirection{Directions::Normal},
 	mCurrentSpriteIndex{getFirstSpriteIndex()},
 	mIsPlaying{false},

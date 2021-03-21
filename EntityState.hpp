@@ -1,5 +1,8 @@
 #pragma once
 
+#include "SFML/System/Time.hpp"
+#include "SFML/Window/Event.hpp"
+
 #include "Tile.hpp"
 
 class Entity;
@@ -8,7 +11,7 @@ template <typename TEntity>
 class EntityState
 {
 public:
-	~EntityState() = default;
+	virtual ~EntityState() = default;
 
 	virtual void onSet(TEntity& entity) noexcept = 0;
 
@@ -17,7 +20,10 @@ public:
 	virtual void tileCollision(TEntity& entity, const Tile& tile, const Tile::Sides side) noexcept = 0;
 	virtual void entityCollision(TEntity& entity, Entity& collider) noexcept = 0;
 
-	virtual void falling() noexcept = 0;
+	virtual void falling(TEntity& entity) noexcept = 0;
+
+	virtual void onKeyPressed(TEntity& entity, const sf::Event::KeyEvent& keyEvent) noexcept = 0;
+	virtual void onKeyReleased(TEntity& object, const sf::Event::KeyEvent& keyEvent) noexcept = 0;
 
 	virtual bool isJumping() const noexcept = 0;
 	virtual bool isFalling() const noexcept = 0;

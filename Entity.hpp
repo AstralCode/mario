@@ -11,11 +11,12 @@ class Sprite;
 class Entity : public GraphicsItem
 {
 public:
-	enum class Direction
+	enum class Directions
 	{
 		Left, Right
 	};
 
+	Entity() noexcept;
 	virtual ~Entity() = default;
 
 	void setTexture(const sf::Texture& texture) noexcept;
@@ -24,7 +25,7 @@ public:
 	void setBoundsColor(const sf::Color& color) noexcept;
 	void setBoundsVisible(const bool visible) noexcept;
 
-	void setDirection(const Direction direction) noexcept;
+	void setDirection(const Directions direction) noexcept;
 
 	void setAccelerationX(const float value) noexcept;
 	void setAccelerationY(const float value) noexcept;
@@ -41,14 +42,14 @@ public:
 
 	virtual void falling() noexcept = 0;
 
-	const Direction& getDirection() const noexcept;
+	const Directions& getDirection() const noexcept;
 
 	const FloatPoint& getAcceleration() const noexcept;
 	const FloatPoint& getVelocity() const noexcept;
 
 	FloatArea getLocalArea() const noexcept override;
 
-	bool hasDirection(const Direction direction) const noexcept;
+	bool hasDirection(const Directions direction) const noexcept;
 
 	bool isBoundsVisible() const noexcept;
 
@@ -61,15 +62,15 @@ private:
 	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;
 	void drawAreaBounds(sf::RenderTarget& target) const noexcept;
 
-	Sprite* mSprite{addItem<Sprite>()};
+	Sprite* mSprite;
 
 	FloatPoint mAcceleration;
 	FloatPoint mVelocity;
 
-	Direction mDirection{Direction::Right};
+	Directions mDirection;
 
-	sf::Color mBoundsColor{sf::Color::Transparent};
+	sf::Color mBoundsColor;
 
-	bool mIsBoundsVisible{false};
-	bool mIsDestroyed{false};
+	bool mIsBoundsVisible;
+	bool mIsDestroyed;
 };
