@@ -1,8 +1,8 @@
 #include "GameState.hpp"
 
-GameState::GameState(GameContextData& contextData, GameStateChanger& stateChanger) noexcept :
-	mContextData{contextData},
-	mStateChanger{stateChanger}
+GameState::GameState(GameStateChanger& stateChanger, World& world) noexcept :
+	mStateChanger{stateChanger},
+	mWorld{world}
 {
 
 }
@@ -42,12 +42,12 @@ void GameState::onEscapePressed() noexcept
 
 }
 
-GameContextData& GameState::getContextData() noexcept
-{
-	return mContextData;
-}
-
 GameStateChanger& GameState::getStateChanger() noexcept
 {
 	return mStateChanger;
+}
+
+World& GameState::getWorld() noexcept
+{
+	return mWorld;
 }

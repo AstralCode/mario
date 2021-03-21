@@ -2,8 +2,8 @@
 
 #include <stdexcept>
 
-GameStateManager::GameStateManager(ResourceContainer& resources, SpritesetContainer& spritesets, World& world) noexcept :
-	mContextData{resources, spritesets, world}
+GameStateManager::GameStateManager(World& world) noexcept :
+	mWorld{world}
 {
 
 }

@@ -1,16 +1,10 @@
 #include "InitialGameState.hpp"
 
-#include "GameContextData.hpp"
 #include "GameStateChanger.hpp"
-#include "World.hpp"
-#include "Mario.hpp"
-#include "Creature.hpp"
+#include "Resources.hpp"
 
-InitialGameState::InitialGameState(GameContextData& contextData, GameStateChanger& stateChanger) noexcept :
-	GameState{contextData, stateChanger},
-	mResources{contextData.getResources()},
-	mSpritesets{contextData.getSpritesets()},
-	mWorld{contextData.getWorld()}
+InitialGameState::InitialGameState(GameStateChanger& stateChanger, World& world) noexcept :
+	GameState{stateChanger, world}
 {
 
 }
@@ -47,17 +41,10 @@ void InitialGameState::onEnter() noexcept
 
 	tilemap->setTileAttributes(tileAttributes);
 
-	auto& tilemapView = getContextData().getWorld().getTilemapView();
-	tilemapView.setTilemap(std::move(tilemap));
-	tilemapView.setTilemapTexture(mResources.getTexture(Textures::Scenery));
-	tilemapView.setInformationText(mResources.getFont(Fonts::Roboto));
-	tilemapView.setBackgroundColor({97, 133, 246});
-	tilemapView.build();
-
-	auto mario = mWorld.getEntities().create<Mario>(mResources.getTexture(Textures::Mario), mSpritesets.getMarioSpriteset());
-	mario->setPosition(tilemapView.getTilePosition({12, 1}));
-
-	mWorld.getEntities().create<Creature>(mResources.getTexture(Textures::Enemies), mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move))->setPosition(tilemapView.getTilePosition({12,  9}));
+	auto& world = getWorld();
+	world.setTilemap(std::move(tilemap), Textures::Scenery, Fonts::Roboto, {97, 133, 246});
+	world.spawnMario({12, 1});
+	world.spawnGoomba({12,  9});
 }
 
 void InitialGameState::onLeave() noexcept
@@ -74,7 +61,9 @@ void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcep
 {
 	if (keyEvent.code == sf::Keyboard::F2)
 	{
-		mWorld.getTilemapView().setGridVisible(!mWorld.getTilemapView().isGridVisible());
+		auto& world = getWorld();
+
+		world.getTilemapView().setGridVisible(!world.getTilemapView().isGridVisible());
 	}
 }
 

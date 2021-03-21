@@ -1,15 +1,20 @@
 #include "Mario.hpp"
 
+#include "ResourceContainer.hpp"
+#include "SpritesetContainer.hpp"
+#include "SpritesetRegion.hpp"
+#include "SpritesetRegions.hpp"
 #include "MarioStandState.hpp"
 #include "MarioMoveState.hpp"
 #include "MarioJumpState.hpp"
 #include "MarioFallState.hpp"
 
-Mario::Mario(const sf::Texture& texture, const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
-	mMoveAnimation{spriteset.getRegion(MarioSpritesetRegions::Move)},
-	mSpriteset{spriteset}
+Mario::Mario(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept :
+	mResources{resources},
+	mSpritesets{spritesets},
+	mMoveAnimation{spritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Move)}
 {
-	setTexture(texture);
+	setTexture(resources.getTexture(Textures::Mario));
 
 	mMoveAnimation.setDuration(sf::seconds(Constants::World::Mario::MoveAnimationDuration));
 	mMoveAnimation.setRepeating(true);
@@ -43,17 +48,17 @@ void Mario::updateMoveAnimation(const sf::Time& dt) noexcept
 
 void Mario::setStandSprite() noexcept
 {
-	setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Stand).getSpriteArea(0));
+	setSpriteArea(mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Stand).getSpriteArea(0));
 }
 
 void Mario::setJumpSprite() noexcept
 {
-	setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0));
+	setSpriteArea(mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0));
 }
 
 void Mario::setSlideSprite() noexcept
 {
-	setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0));
+	setSpriteArea(mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0));
 }
 
 void Mario::update(const sf::Time& dt) noexcept

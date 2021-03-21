@@ -2,17 +2,14 @@
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
-#include "ResourceContainer.hpp"
-#include "SpritesetContainer.hpp"
 #include "World.hpp"
 
-class GameContextData;
 class GameStateChanger;
 
 class GameState
 {
 public:
-	GameState(GameContextData& contextData, GameStateChanger& stateChanger) noexcept;
+	GameState(GameStateChanger& stateChanger, World& world) noexcept;
 	virtual ~GameState() = default;
 
 	virtual void onEnter() noexcept = 0;
@@ -31,10 +28,10 @@ public:
 
 	virtual void onEscapePressed() noexcept;
 
-	GameContextData& getContextData() noexcept;
 	GameStateChanger& getStateChanger() noexcept;
+	World& getWorld() noexcept;
 
-protected:
-	GameContextData& mContextData;
+private:
 	GameStateChanger& mStateChanger;
+	World& mWorld;
 };

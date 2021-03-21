@@ -9,12 +9,11 @@
 #include "GameState.hpp"
 #include "GameStateChanger.hpp"
 #include "GameStateStackRequest.hpp"
-#include "GameContextData.hpp"
 
 class GameStateManager final : public GameStateChanger
 {
 public:
-	GameStateManager(ResourceContainer& resources, SpritesetContainer& spritesets, World& world) noexcept;
+	GameStateManager(World& world) noexcept;
 
 	template <typename TGameState>
 	void registerState(const GameStateIdentifiers identifier) noexcept;
@@ -40,7 +39,8 @@ private:
 	GameState* findState(const GameStateIdentifiers identifier) const;
 	GameState* getActiveState() const noexcept;
 
-	GameContextData mContextData;
+	World& mWorld;
+
 	std::unordered_map<GameStateIdentifiers, std::unique_ptr<GameState>> mStates;
 	std::queue<std::unique_ptr<GameStateStackRequest>> mStateStackRequests;
 	std::deque<GameState*> mStateStack;
@@ -51,5 +51,5 @@ inline void GameStateManager::registerState(const GameStateIdentifiers identifie
 {
 	static_assert(std::is_base_of_v<GameState, TGameState>, "TGameState must derived from GameState class");
 
-	mStates.emplace(identifier, std::make_unique<TGameState>(mContextData, *this));
+	mStates.emplace(identifier, std::make_unique<TGameState>(*this, mWorld));
 }

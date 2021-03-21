@@ -1,9 +1,9 @@
 #pragma once
 
 #include "EntityStateMachine.hpp"
-#include "Spriteset.hpp"
-#include "SpritesetRegions.hpp"
 #include "Animation.hpp"
+#include "ResourceContainer.hpp"
+#include "SpritesetContainer.hpp"
 
 class Mario final : public Entity
 {
@@ -16,7 +16,7 @@ public:
 		Fall
 	};
 
-	Mario(const sf::Texture& texture, const Spriteset<MarioSpritesetRegions>& spriteset) noexcept;
+	Mario(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept;
 
 	void setState(const Mario::States identifier);
 
@@ -42,7 +42,8 @@ protected:
 	void onKeyReleased(const sf::Event::KeyEvent& keyEvent) noexcept override;
 
 private:
-	const Spriteset<MarioSpritesetRegions>& mSpriteset;
+	const ResourceContainer& mResources;
+	const SpritesetContainer& mSpritesets;
 
 	Animation mMoveAnimation;
 
