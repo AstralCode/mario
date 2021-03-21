@@ -7,9 +7,7 @@
 
 Mario::Mario(const sf::Texture& texture, const Spriteset<MarioSpritesetRegions>& spriteset) noexcept :
 	mMoveAnimation{spriteset.getRegion(MarioSpritesetRegions::Move)},
-	mStandSpriteArea{spriteset.getRegion(MarioSpritesetRegions::Stand).getSpriteArea(0)},
-	mJumpSpriteArea{spriteset.getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0)},
-	mSlideSpriteArea{spriteset.getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0)}
+	mSpriteset{spriteset}
 {
 	setTexture(texture);
 
@@ -45,17 +43,17 @@ void Mario::updateMoveAnimation(const sf::Time& dt) noexcept
 
 void Mario::setStandSprite() noexcept
 {
-	setSpriteArea(mStandSpriteArea);
+	setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Stand).getSpriteArea(0));
 }
 
 void Mario::setJumpSprite() noexcept
 {
-	setSpriteArea(mJumpSpriteArea);
+	setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0));
 }
 
 void Mario::setSlideSprite() noexcept
 {
-	setSpriteArea(mSlideSpriteArea);
+	setSpriteArea(mSpriteset.getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0));
 }
 
 void Mario::update(const sf::Time& dt) noexcept

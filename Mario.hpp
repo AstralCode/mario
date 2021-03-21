@@ -42,10 +42,9 @@ protected:
 	void onKeyReleased(const sf::Event::KeyEvent& keyEvent) noexcept override;
 
 private:
+	const Spriteset<MarioSpritesetRegions>& mSpriteset;
+
 	Animation mMoveAnimation;
-	IntArea mStandSpriteArea;
-	IntArea mJumpSpriteArea;
-	IntArea mSlideSpriteArea;
 
 	EntityStateMachine<Mario, Mario::States> mStates;
 };
