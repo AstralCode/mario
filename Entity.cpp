@@ -1,7 +1,7 @@
 #include "Entity.hpp"
 
-#include "SFML/Graphics/RectangleShape.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
+#include "SFML/Graphics/RectangleShape.hpp"
 
 #include "Sprite.hpp"
 
@@ -117,12 +117,12 @@ void Entity::drawAreaBounds(sf::RenderTarget& target) const noexcept
 {
     const auto area = getArea();
 
-    sf::RectangleShape areaBounds{};
-    areaBounds.setPosition(area.getLeft() + 1.0f, area.getTop() + 1.0f);
-    areaBounds.setSize({area.getWidth() - 2.0f, area.getHeight() - 2.0f});
-    areaBounds.setFillColor(sf::Color::Transparent);
-    areaBounds.setOutlineColor(mBoundsColor);
-    areaBounds.setOutlineThickness(1.0f);
+    sf::RectangleShape bounds{};
+    bounds.setPosition(area.getLeft() + 1.0f, area.getTop() + 1.0f);
+    bounds.setSize({area.getWidth() - 2.0f, area.getHeight() - 2.0f});
+    bounds.setFillColor(sf::Color::Transparent);
+    bounds.setOutlineColor(mBoundsColor);
+    bounds.setOutlineThickness(1.0f);
 
-    target.draw(areaBounds);
+    target.draw(bounds);
 }
