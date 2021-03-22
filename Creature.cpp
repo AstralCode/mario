@@ -3,8 +3,8 @@
 #include "CreatureMoveState.hpp"
 #include "CreatureFallState.hpp"
 
-Creature::Creature(const sf::Texture& texture, const SpritesetRegion& moveSpitesetRegion) noexcept :
-	mMoveAnimation{moveSpitesetRegion}
+Creature::Creature(const sf::Texture& texture, const SpritesetRegion& sprites) noexcept :
+	mMoveAnimation{sprites}
 {
 	setTexture(texture);
 
@@ -32,7 +32,7 @@ void Creature::setMoveAnimation() noexcept
 void Creature::updateMoveAnimation(const sf::Time& dt) noexcept
 {
 	mMoveAnimation.update(dt);
-	
+
 	setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
 }
 

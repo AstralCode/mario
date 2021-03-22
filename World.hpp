@@ -19,6 +19,8 @@ public:
 	void spawnMario(const Tile::Index& tileIndex) noexcept;
 	void spawnGoomba(const Tile::Index& tileIndex) noexcept;
 
+	void putCoin(const Tile::Index& tileIndex) noexcept;
+
 	void receiveEvents(const sf::Event& event) noexcept;
 
 	void update(const sf::Time& dt) noexcept;

@@ -26,12 +26,20 @@ void World::setTilemap(std::unique_ptr<Tilemap> tilemap, const Textures textureI
 
 void World::spawnMario(const Tile::Index& tileIndex) noexcept
 {
-	mEntities.create<Mario>(mResources, mSpritesets)->setPosition(mTilemapView.getTilePosition(tileIndex));
+	auto entity = mEntities.create<Mario>(mResources, mSpritesets);
+	entity->setPosition(mTilemapView.getTilePosition(tileIndex));
 }
 
 void World::spawnGoomba(const Tile::Index& tileIndex) noexcept
 {
-	mEntities.create<Creature>(mResources.getTexture(Textures::Enemies), mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move))->setPosition(mTilemapView.getTilePosition(tileIndex));
+	auto entity = mEntities.create<Creature>(mResources.getTexture(Textures::Enemies), mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move));
+	entity->setPosition(mTilemapView.getTilePosition(tileIndex));
+}
+
+void World::putCoin(const Tile::Index& tileIndex) noexcept
+{
+	//auto entity = mEntities.create<Item>(mResources.getTexture(Textures::Items), mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::Coin));
+	//entity->setPosition(mTilemapView.getTilePosition(tileIndex));
 }
 
 void World::receiveEvents(const sf::Event& event) noexcept

@@ -37,6 +37,7 @@ void InitialGameState::onEnter() noexcept
 	world.setTilemap(std::move(tilemap), Textures::Scenery, Fonts::Roboto, {97, 133, 246});
 	world.spawnMario({12, 1});
 	world.spawnGoomba({12,  9});
+	world.putCoin({11, 8});
 }
 
 void InitialGameState::onLeave() noexcept
