@@ -8,21 +8,24 @@
 class Tilemap final
 {
 public:
-	using Row = std::vector<Tile::Identifier>;
+	using TileIdentifiers = std::vector<Tile::Identifier>;
+	using TilemapIdentifiers = std::vector<TileIdentifiers>;
 	using TileAttributes = std::map<Tile::Identifier, Tile::AttributeFlags>;
 
 	Tilemap(const int rowCount, const int columnCount, const FloatSize& tileSize) noexcept;
 
 	void setTileIdentifier(const Tile::Index& index, const Tile::Identifier identifier) noexcept;
-	void setTileAttributes(const TileAttributes& attributes) noexcept;
+	void setTileIdentifiers(const TilemapIdentifiers& identifiers) noexcept;
+
+	void setTileColliders(const TileIdentifiers& tileIdentifiers) noexcept;
 
 	Tile::Identifier getTileIdentifier(const Tile::Index& index) const noexcept;
 
 	Tile::AttributeFlags getTileAttributes(const Tile::Identifier identifier) const noexcept;
 	Tile::AttributeFlags getTileAttributes(const Tile::Index& index) const noexcept;
 
-	Row& getRow(const int index) noexcept;
-	Row getRow(const int index) const noexcept;
+	TileIdentifiers& getRow(const int index) noexcept;
+	TileIdentifiers getRow(const int index) const noexcept;
 
 	const int getRowCount() const noexcept;
 	const int getColumnCount() const noexcept;
@@ -35,6 +38,6 @@ private:
 
 	FloatSize mTileSize;
 
-	std::vector<Row> mTileIdentifiers;
-	TileAttributes mTileAttributes;
+	TilemapIdentifiers mIdentifiers;
+	TileAttributes mAttributes;
 };
