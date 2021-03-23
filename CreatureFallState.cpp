@@ -31,18 +31,21 @@ void CreatureFallState::tileCollision(Creature& entity, const Tile&, const Sides
     }
 }
 
-void CreatureFallState::entityCollision(Creature& entity, const Entity&, const Sides) noexcept
+void CreatureFallState::entityCollision(Creature& entity, const Entity& collider, const Sides) noexcept
 {
-    if (entity.hasDirection(Entity::Directions::Right))
+    if (!collider.hasAttribute(Entity::Attributes::Controlablle))
     {
-        entity.setDirection(Entity::Directions::Left);
-    }
-    else
-    {
-        entity.setDirection(Entity::Directions::Right);
-    }
+        if (entity.hasDirection(Entity::Directions::Right))
+        {
+            entity.setDirection(Entity::Directions::Left);
+        }
+        else
+        {
+            entity.setDirection(Entity::Directions::Right);
+        }
 
-    entity.setVelocityX(-entity.getVelocity().getX());
+        entity.setVelocityX(-entity.getVelocity().getX());
+    }
 }
 
 void CreatureFallState::falling(Creature&) noexcept

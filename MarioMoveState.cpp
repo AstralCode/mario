@@ -44,9 +44,13 @@ void MarioMoveState::tileCollision(Mario&, const Tile&, const Sides) noexcept
 
 }
 
-void MarioMoveState::entityCollision(Mario&, const Entity& entity, const Sides) noexcept
+void MarioMoveState::entityCollision(Mario& entity, const Entity& collider, const Sides) noexcept
 {
-    if (entity.hasAttribute(Entity::Attributes::Collectable))
+    if (collider.hasAttribute(Entity::Attributes::Deadly))
+    {
+        entity.destroy();
+    }
+    else if (collider.hasAttribute(Entity::Attributes::Collectable))
     {
         // collect item...
     }

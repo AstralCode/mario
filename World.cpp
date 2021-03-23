@@ -40,9 +40,9 @@ void World::spawnGoomba(const Tile::Index& tileIndex) noexcept
 void World::putCoin(const Tile::Index& tileIndex) noexcept
 {
 	auto entity = mEntities.create<Item>(mResources.getTexture(Textures::Items), mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::Coin));
-	entity->setAttribute(Entity::Attributes::Collectable);
 	entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
 	entity->setOrigin(Entity::centerOrigin(*entity));
+	entity->setAttribute(Entity::Attributes::Collectable);
 }
 
 void World::receiveEvents(const sf::Event& event) noexcept

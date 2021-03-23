@@ -7,7 +7,7 @@ Item::Item(const sf::Texture& texture, const SpritesetRegion& sprites) noexcept 
 {
 	mActiveAnimation.setDuration(sf::seconds(Constants::World::Items::ShineAnimationDuration));
 	mActiveAnimation.setDirection(Animation::Directions::Alternate);
-	mActiveAnimation.setDelay(sf::seconds(0.25f));
+	mActiveAnimation.setDelay(sf::seconds(Constants::World::Items::ShineAnimationDelay));
 	mActiveAnimation.setRepeating(true);
 
 	mStates.registerState<ItemActiveState>(Item::States::Active);
