@@ -2,12 +2,14 @@
 
 void MarioMoveState::onSet(Mario& entity) noexcept
 {
-    entity.setAccelerationX(0.0f);
-
     if (sf::Keyboard::isKeyPressed(Constants::World::Mario::Left) ||
         sf::Keyboard::isKeyPressed(Constants::World::Mario::Right))
     {
         entity.setAccelerationX(Constants::World::Mario::AccelerationX);
+    }
+    else
+    {
+        entity.setAccelerationX(0.0f);
     }
 
     entity.setMoveAnimation();
@@ -37,14 +39,17 @@ void MarioMoveState::update(Mario& entity, const sf::Time& dt) noexcept
     }
 }
 
-void MarioMoveState::tileCollision(Mario&, const Tile&, const Tile::Sides) noexcept
+void MarioMoveState::tileCollision(Mario&, const Tile&, const Sides) noexcept
 {
 
 }
 
-void MarioMoveState::entityCollision(Mario&, Entity&) noexcept
+void MarioMoveState::entityCollision(Mario&, const Entity& entity, const Sides) noexcept
 {
-
+    if (entity.hasAttribute(Entity::Attributes::Collectable))
+    {
+        // collect item...
+    }
 }
 
 void MarioMoveState::falling(Mario& entity) noexcept

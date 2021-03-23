@@ -10,13 +10,13 @@ void CreatureFallState::update(Creature&, const sf::Time&) noexcept
 
 }
 
-void CreatureFallState::tileCollision(Creature& entity, const Tile&, const Tile::Sides side) noexcept
+void CreatureFallState::tileCollision(Creature& entity, const Tile&, const Sides side) noexcept
 {
-    if (side == Tile::Sides::Top)
+    if (side == Sides::Top)
     {
         entity.setState(Creature::States::Move);
     }
-    else if (side == Tile::Sides::Left || side == Tile::Sides::Right)
+    else if (side == Sides::Left || side == Sides::Right)
     {
         if (entity.hasDirection(Entity::Directions::Right))
         {
@@ -31,21 +31,18 @@ void CreatureFallState::tileCollision(Creature& entity, const Tile&, const Tile:
     }
 }
 
-void CreatureFallState::entityCollision(Creature& entity, Entity& collider) noexcept
+void CreatureFallState::entityCollision(Creature& entity, const Entity&, const Sides) noexcept
 {
     if (entity.hasDirection(Entity::Directions::Right))
     {
         entity.setDirection(Entity::Directions::Left);
-        collider.setDirection(Entity::Directions::Right);
     }
     else
     {
         entity.setDirection(Entity::Directions::Right);
-        collider.setDirection(Entity::Directions::Left);
     }
 
     entity.setVelocityX(-entity.getVelocity().getX());
-    collider.setVelocityX(-collider.getVelocity().getX());
 }
 
 void CreatureFallState::falling(Creature&) noexcept

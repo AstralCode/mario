@@ -10,21 +10,27 @@ void MarioFallState::update(Mario&, const sf::Time&) noexcept
 
 }
 
-void MarioFallState::tileCollision(Mario& entity, const Tile&, const Tile::Sides) noexcept
+void MarioFallState::tileCollision(Mario& entity, const Tile&, const Sides side) noexcept
 {
-    if (std::fabs(entity.getVelocity().getX()) > Constants::World::Mario::StopVelocityX)
+    if (side == Sides::Top)
     {
-        entity.setState(Mario::States::Move);
-    }
-    else
-    {
-        entity.setState(Mario::States::Stand);
+        if (std::fabs(entity.getVelocity().getX()) > Constants::World::Mario::StopVelocityX)
+        {
+            entity.setState(Mario::States::Move);
+        }
+        else
+        {
+            entity.setState(Mario::States::Stand);
+        }
     }
 }
 
-void MarioFallState::entityCollision(Mario&, Entity&) noexcept
+void MarioFallState::entityCollision(Mario&, const Entity& entity, const Sides) noexcept
 {
-
+    if (entity.hasAttribute(Entity::Attributes::Collectable))
+    {
+        // collect item...
+    }
 }
 
 void MarioFallState::falling(Mario&) noexcept
@@ -51,12 +57,12 @@ void MarioFallState::onKeyReleased(Mario&, const sf::Event::KeyEvent&) noexcept
 
 }
 
-bool MarioFallState::isFalling() const noexcept
-{
-    return true;
-}
-
 bool MarioFallState::isJumping() const noexcept
 {
     return false;
+}
+
+bool MarioFallState::isFalling() const noexcept
+{
+    return true;
 }

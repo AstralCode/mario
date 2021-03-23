@@ -14,8 +14,6 @@ Mario::Mario(const ResourceContainer& resources, const SpritesetContainer& sprit
 	mSpritesets{spritesets},
 	mMoveAnimation{spritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Move)}
 {
-	setTexture(resources.getTexture(Textures::Mario));
-
 	mMoveAnimation.setDuration(sf::seconds(Constants::World::Mario::MoveAnimationDuration));
 	mMoveAnimation.setRepeating(true);
 
@@ -24,6 +22,8 @@ Mario::Mario(const ResourceContainer& resources, const SpritesetContainer& sprit
 	mStates.registerState<MarioJumpState>(Mario::States::Jump);
 	mStates.registerState<MarioFallState>(Mario::States::Fall);
 
+	setAttribute(Entity::Attributes::Movable);
+	setTexture(resources.getTexture(Textures::Mario));
 	setState(Mario::States::Stand);
 }
 
@@ -66,14 +66,14 @@ void Mario::update(const sf::Time& dt) noexcept
 	mStates.getCurrentState().update(*this, dt);
 }
 
-void Mario::tileCollision(const Tile& tile, const Tile::Sides side) noexcept
+void Mario::tileCollision(const Tile& tile, const Sides side) noexcept
 {
 	mStates.getCurrentState().tileCollision(*this, tile, side);
 }
 
-void Mario::entityCollision(Entity& collider) noexcept
+void Mario::entityCollision(const Entity& collider, const Sides side) noexcept
 {
-	mStates.getCurrentState().entityCollision(*this, collider);
+	mStates.getCurrentState().entityCollision(*this, collider, side);
 }
 
 void Mario::falling() noexcept

@@ -39,6 +39,8 @@ public:
 	
 	void receiveEvents(const sf::Event& event) noexcept;
 
+	FloatPoint getOrigin() const noexcept;
+
 	virtual FloatArea getLocalArea() const noexcept;
 	FloatArea getArea() const noexcept;
 

@@ -10,8 +10,8 @@ public:
 
 	void update(Creature& entity, const sf::Time& dt) noexcept override;
 
-	void tileCollision(Creature& entity, const Tile& tile, const Tile::Sides side) noexcept override;
-	void entityCollision(Creature& entity, Entity& collider) noexcept override;
+	void tileCollision(Creature& entity, const Tile& tile, const Sides side) noexcept override;
+	void entityCollision(Creature& entity, const Entity& collider, const Sides side) noexcept override;
 
 	void falling(Creature& entity) noexcept override;
 

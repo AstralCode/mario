@@ -15,6 +15,24 @@ Entity::Entity() noexcept :
 
 }
 
+FloatPoint Entity::centerOrigin(const Entity& entity) noexcept
+{
+    const auto origin = entity.getOrigin();
+    auto size = entity.getLocalArea();
+
+    return {origin.getX() + size.getWidth() / 2.0f, origin.getY() + size.getHeight() / 2.0f};
+}
+
+void Entity::setAttributes(const AttributeFlags& attributes) noexcept
+{
+    mAttributes = attributes;
+}
+
+void Entity::setAttribute(const Attributes attribute) noexcept
+{
+    mAttributes.set(attribute);
+}
+
 void Entity::setTexture(const sf::Texture& texture) noexcept
 {
     mSprite->setTexture(texture);
@@ -65,6 +83,16 @@ void Entity::setVelocityY(const float value) noexcept
     mVelocity.setY(value);
 }
 
+bool Entity::hasAttribute(const Attributes attribute) const noexcept
+{
+    return mAttributes.isSet(attribute);
+}
+
+const Entity::AttributeFlags& Entity::getAttrubutes() const noexcept
+{
+    return mAttributes;
+}
+
 const Entity::Directions& Entity::getDirection() const noexcept
 {
     return mDirection;
@@ -98,6 +126,7 @@ bool Entity::isBoundsVisible() const noexcept
 void Entity::destroy() noexcept
 {
     mIsDestroyed = true;
+    GraphicsItem::remove();
 }
 
 bool Entity::isDestroyed() const noexcept

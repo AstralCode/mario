@@ -143,7 +143,7 @@ Tile TilemapView::getTile(const Tile::Index& index) const noexcept
 	return tile;
 }
 
-std::vector<Tile> TilemapView::getOverlapTiles(const FloatArea& area) const noexcept
+std::vector<Tile> TilemapView::getTiles(const FloatArea& area) const noexcept
 {
 	std::vector<Tile> tiles{};
 
@@ -166,6 +166,24 @@ FloatPoint TilemapView::getTilePosition(const Tile::Index& index) const noexcept
 	auto& tileSize = mTilemap->getTileSize();
 
 	return {tileSize.getWidth() * index.column, tileSize.getHeight() * index.row};
+}
+
+FloatPoint TilemapView::getTileCenterPosition(const Tile::Index& index) const noexcept
+{
+	auto& tileSize = mTilemap->getTileSize();
+	auto position = getTilePosition(index);
+
+	return {position.getX() + getTileWidth() / 2.0f, position.getY() + getTileHeight() / 2.0f};
+}
+
+float TilemapView::getTileWidth() const noexcept
+{
+	return mTilemap->getTileSize().getWidth();
+}
+
+float TilemapView::getTileHeight() const noexcept
+{
+	return mTilemap->getTileSize().getHeight();
 }
 
 const FloatSize& TilemapView::getTileSize() const noexcept

@@ -21,8 +21,8 @@ public:
 
 	void update(const sf::Time& dt) noexcept override;
 
-	void tileCollision(const Tile& tile, const Tile::Sides side) noexcept override;
-	void entityCollision(Entity& collider) noexcept override;
+	void tileCollision(const Tile& tile, const Sides side) noexcept override;
+	void entityCollision(const Entity& collider, const Sides side) noexcept override;
 
 	void falling() noexcept override;
 

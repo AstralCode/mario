@@ -1,85 +1,88 @@
 #include "CollisionModule.hpp"
 
-#include "TilemapView.hpp"
 #include "EntityContainer.hpp"
+#include "TilemapView.hpp"
 
 void CollisionModule::detectCollisions(const EntityContainer& entities, TilemapView& tilemapView) noexcept
 {
 	const auto tileColliders = checkTileCollisions(entities, tilemapView);
 	const auto entityColliders = checkEntityCollisions(entities);
 
-	executeTileCollisionHandlers(tileColliders);
-	executeEntityCollisionHandlers(entityColliders);
+	handleTileCollisions(tileColliders);
+	handleEntityCollisions(entityColliders);
 }
 
-void CollisionModule::executeTileCollisionHandlers(const TileColliders& colliders) const noexcept
+void CollisionModule::handleTileCollisions(const TileColliders& colliders) const noexcept
 {
-	for (auto& [entity, tile] : colliders)
+	for (auto& [entity, collisionTiles] : colliders)
 	{
+		const auto entityArea = entity->getArea();
 		auto entityPosition = entity->getPosition();
 
-		const auto entityArea = entity->getArea();
-
-		const auto collisionSide = checkCollisionSide(entityArea, tile.area);
-		switch (collisionSide)
+		for (auto& collisionTile : collisionTiles)
 		{
-			case CollisionSide::Top:
-				entityPosition.setY(tile.area.getTop() - entityArea.getHeight());
-				entity->tileCollision(tile, Tile::Sides::Top);
-				break;
-			case CollisionSide::Bottom:
-				entityPosition.setY(tile.area.getBottom() - 1.0f);
-				entity->tileCollision(tile, Tile::Sides::Bottom);
-				break;
-			case CollisionSide::Left:
-				entityPosition.setX(tile.area.getLeft() - entityArea.getWidth());
-				entity->tileCollision(tile, Tile::Sides::Left);
-				break;
-			case CollisionSide::Right:
-				entityPosition.setX(tile.area.getRight() + 1.0f);
-				entity->tileCollision(tile, Tile::Sides::Right);
-				break;
-			default:
-				break;
-		}
+			const auto collisionSide = checkCollisionSide(entityArea, collisionTile.area);
+			switch (collisionSide)
+			{
+				case CollisionSide::Top:
+					entityPosition.setY(collisionTile.area.getTop() - entityArea.getHeight());
+					entity->tileCollision(collisionTile, Sides::Top);
+					break;
+				case CollisionSide::Bottom:
+					entityPosition.setY(collisionTile.area.getBottom() - 1.0f);
+					entity->tileCollision(collisionTile, Sides::Bottom);
+					break;
+				case CollisionSide::Left:
+					entityPosition.setX(collisionTile.area.getLeft() - entityArea.getWidth());
+					entity->tileCollision(collisionTile, Sides::Left);
+					break;
+				case CollisionSide::Right:
+					entityPosition.setX(collisionTile.area.getRight() + 1.0f);
+					entity->tileCollision(collisionTile, Sides::Right);
+					break;
+				default:
+					break;
+			}
 
-		if (collisionSide != CollisionSide::None)
-		{
-			entity->setPosition(entityPosition);
+			if (collisionSide != CollisionSide::None)
+			{
+				entity->setPosition(entityPosition);
+			}
 		}
 	}
 }
 
-void CollisionModule::executeEntityCollisionHandlers(const EntityColliders& colliders) const noexcept
+void CollisionModule::handleEntityCollisions(const EntityColliders& colliders) const noexcept
 {
-	for (auto& [entityA, entityB] : colliders)
+	for (auto& [entity, collisionEntities] : colliders)
 	{
-		const auto areaA = entityA->getArea();
-		const auto areaB = entityB->getArea();
+		const auto entityArea = entity->getArea();
 
-		auto offsetPosition{0.0f};
-
-		const auto collisionSide = checkCollisionSide(areaA, areaB);
-		switch (collisionSide)
+		for (auto collisionEntity : collisionEntities)
 		{
-			case CollisionSide::Top:
-				break;
-			case CollisionSide::Bottom:
-				break;
-			case CollisionSide::Left:
-				offsetPosition = -areaA.getWidth();
-				break;
-			case CollisionSide::Right:
-				offsetPosition = areaB.getWidth();
-				break;
-			default:
-				break;
-		}
-
-		if (collisionSide != CollisionSide::None)
-		{
-			entityA->setPositionX(areaB.getLeft() + offsetPosition);
-			entityA->entityCollision(*entityB);
+			const auto collisionEntityArea = collisionEntity->getArea();
+			const auto collisionSide = checkCollisionSide(entityArea, collisionEntityArea);
+			switch (collisionSide)
+			{
+				case CollisionSide::Top:
+					entity->setPositionY(collisionEntityArea.getTop() - entityArea.getHeight());
+					entity->entityCollision(*collisionEntity, Sides::Top);
+					break;
+				case CollisionSide::Bottom:
+					entity->setPositionY(collisionEntityArea.getBottom() + 1.0f);
+					entity->entityCollision(*collisionEntity, Sides::Bottom);
+					break;
+				case CollisionSide::Left:
+					entity->setPositionX(collisionEntityArea.getLeft() - entityArea.getWidth());
+					entity->entityCollision(*collisionEntity, Sides::Left);
+					break;
+				case CollisionSide::Right:
+					entity->setPositionX(collisionEntityArea.getLeft() + collisionEntityArea.getWidth());
+					entity->entityCollision(*collisionEntity, Sides::Right);
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }
@@ -90,25 +93,14 @@ CollisionModule::TileColliders CollisionModule::checkTileCollisions(const Entity
 	
 	for (auto entity : entities)
 	{
-		bool isEntityFalling{true};
+		Tiles collisionTiles = tilemapView.getTiles(entity->getArea());
+		filterColliderTiles(collisionTiles);
 
-		const auto entityArea = entity->getArea();
-
-		const auto tiles = tilemapView.getOverlapTiles(entityArea);
-		for (const auto& tile : tiles)
+		if (!collisionTiles.empty())
 		{
-			if (tile.attributes.isSet(Tile::Attributes::Collider))
-			{
-				isEntityFalling = false;
-
-				if (entityArea.isIntersects(tile.area))
-				{
-					colliders.emplace_back(entity, tile);
-				}
-			}
+			colliders.emplace_back(entity, std::move(collisionTiles));
 		}
-
-		if (isEntityFalling)
+		else
 		{
 			entity->falling();
 		}
@@ -123,16 +115,26 @@ CollisionModule::EntityColliders CollisionModule::checkEntityCollisions(const En
 
 	for (auto entitiesIterator = entities.cbegin(); entitiesIterator != entities.cend(); entitiesIterator++)
 	{
-		auto& entityA = *entitiesIterator;
+		Entities collisionEntities{};
 
-		for (auto nextEntitiesIterator = std::next(entitiesIterator, 1u); nextEntitiesIterator != entities.cend() && !entityA->isDestroyed(); nextEntitiesIterator++)
+		Entity* const entity = *entitiesIterator;
+
+		for (auto collisionEntitiesIterator = entities.cbegin(); collisionEntitiesIterator != entities.cend(); collisionEntitiesIterator++)
 		{
-			auto& entityB = *nextEntitiesIterator;
-
-			if (entityA->isIntersectsItem(*entityB))
+			if (entitiesIterator != collisionEntitiesIterator)
 			{
-				colliders.emplace_back(entityA, entityB);
+				Entity* const collisionEntity = *collisionEntitiesIterator;
+
+				if (entity->isIntersectsItem(*collisionEntity))
+				{
+					collisionEntities.push_back(collisionEntity);
+				}
 			}
+		}
+
+		if (!collisionEntities.empty())
+		{
+			colliders.emplace_back(entity, std::move(collisionEntities));
 		}
 	}
 
@@ -173,4 +175,19 @@ CollisionModule::CollisionSide CollisionModule::checkCollisionSide(const FloatAr
 	}
 	
 	return CollisionSide::None;
+}
+
+void CollisionModule::filterColliderTiles(Tiles& tiles) const noexcept
+{
+	auto tilesIt = std::remove_if(tiles.begin(), tiles.end(), [](auto& tile)
+	{
+		return !tile.attributes.isSet(Tile::Attributes::Collider);
+	});
+
+	tiles.erase(tilesIt, tiles.cend());
+}
+
+bool CollisionModule::isEntityMove(Entity* entity) const noexcept
+{
+	return entity->getAcceleration().getX() || entity->getAcceleration().getY();
 }

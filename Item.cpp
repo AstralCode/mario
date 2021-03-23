@@ -1,18 +1,19 @@
 #include "Item.hpp"
 
+#include "ItemActiveState.hpp"
+
 Item::Item(const sf::Texture& texture, const SpritesetRegion& sprites) noexcept :
-	mShineAnimation{sprites}
+	mActiveAnimation{sprites}
 {
+	mActiveAnimation.setDuration(sf::seconds(Constants::World::Items::ShineAnimationDuration));
+	mActiveAnimation.setDirection(Animation::Directions::Alternate);
+	mActiveAnimation.setDelay(sf::seconds(0.25f));
+	mActiveAnimation.setRepeating(true);
+
+	mStates.registerState<ItemActiveState>(Item::States::Active);
+
 	setTexture(texture);
-
-	mShineAnimation.setDuration(sf::seconds(Constants::World::Items::ShineAnimationDuration));
-	mShineAnimation.setDirection(Animation::Directions::Alternate);
-	mShineAnimation.setDelay(sf::seconds(1.0f));
-	mShineAnimation.setRepeating(true);
-
-	//mStates.registerState<ItemMoveState>(Item::States::Move);
-
-	//setState(Item::States::Move);
+	setState(Item::States::Active);
 }
 
 void Item::setState(const Item::States identifier)
@@ -20,18 +21,18 @@ void Item::setState(const Item::States identifier)
 	mStates.setCurrentState(*this, identifier);
 }
 
-void Item::setMoveAnimation() noexcept
+void Item::setActiveAnimation() noexcept
 {
-	mShineAnimation.play();
+	mActiveAnimation.play();
 
-	setSpriteArea(mShineAnimation.getCurrentSpriteArea());
+	setSpriteArea(mActiveAnimation.getCurrentSpriteArea());
 }
 
-void Item::updateMoveAnimation(const sf::Time& dt) noexcept
+void Item::activeActiveAnimation(const sf::Time& dt) noexcept
 {
-	mShineAnimation.update(dt);
+	mActiveAnimation.update(dt);
 
-	setSpriteArea(mShineAnimation.getCurrentSpriteArea());
+	setSpriteArea(mActiveAnimation.getCurrentSpriteArea());
 }
 
 void Item::update(const sf::Time& dt) noexcept
@@ -39,14 +40,14 @@ void Item::update(const sf::Time& dt) noexcept
 	mStates.getCurrentState().update(*this, dt);
 }
 
-void Item::tileCollision(const Tile& tile, const Tile::Sides side) noexcept
+void Item::tileCollision(const Tile& tile, const Sides side) noexcept
 {
 	mStates.getCurrentState().tileCollision(*this, tile, side);
 }
 
-void Item::entityCollision(Entity& collider) noexcept
+void Item::entityCollision(const Entity& collider, const Sides side) noexcept
 {
-	mStates.getCurrentState().entityCollision(*this, collider);
+	mStates.getCurrentState().entityCollision(*this, collider, side);
 }
 
 void Item::falling() noexcept

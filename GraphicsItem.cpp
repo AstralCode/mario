@@ -140,6 +140,11 @@ void GraphicsItem::receiveEvents(const sf::Event& event) noexcept
 	}
 }
 
+FloatPoint GraphicsItem::getOrigin() const noexcept
+{
+	return mTransform.getOrigin();
+}
+
 FloatArea GraphicsItem::getLocalArea() const noexcept
 {
 	return {};

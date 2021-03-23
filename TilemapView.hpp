@@ -30,9 +30,13 @@ public:
 	Tile getTile(const FloatPoint& position) const noexcept;
 	Tile getTile(const Tile::Index& index) const noexcept;
 
-	std::vector<Tile> getOverlapTiles(const FloatArea& area) const noexcept;
+	std::vector<Tile> getTiles(const FloatArea& area) const noexcept;
 
 	FloatPoint getTilePosition(const Tile::Index& index) const noexcept;
+	FloatPoint getTileCenterPosition(const Tile::Index& index) const noexcept;
+
+	float getTileWidth() const noexcept;
+	float getTileHeight() const noexcept;
 	const FloatSize& getTileSize() const noexcept;
 
 	const sf::Text& getText() const noexcept;

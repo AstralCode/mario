@@ -1,7 +1,5 @@
 #pragma once
 
-#include <tuple>
-
 #include "Entity.hpp"
 
 class TilemapView;
@@ -22,14 +20,21 @@ private:
 		None
 	};
 
-	using TileColliders = std::vector<std::tuple<Entity*, Tile>>;
-	using EntityColliders = std::vector<std::tuple<Entity*, Entity*>>;
+	using Tiles = std::vector<Tile>;;
+	using Entities = std::vector<const Entity*>;
 
-	void executeTileCollisionHandlers(const TileColliders& colliders) const noexcept;
-	void executeEntityCollisionHandlers(const EntityColliders& colliders) const noexcept;
+	using TileColliders = std::vector< std::pair<Entity*, Tiles>>;
+	using EntityColliders = std::vector<std::pair<Entity*, Entities>>;
+
+	void handleTileCollisions(const TileColliders& colliders) const noexcept;
+	void handleEntityCollisions(const EntityColliders& colliders) const noexcept;
 
 	TileColliders checkTileCollisions(const EntityContainer& entities, TilemapView& tilemapView) const noexcept;
 	EntityColliders checkEntityCollisions(const EntityContainer& entities) const noexcept;
 
 	CollisionSide checkCollisionSide(const FloatArea& areaA, const FloatArea& areaB) const noexcept;
+
+	void filterColliderTiles(Tiles& tiles) const noexcept;
+
+	bool isEntityMove(Entity* entity) const noexcept;
 };

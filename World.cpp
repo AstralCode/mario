@@ -5,6 +5,7 @@
 #include "ResourceContainer.hpp"
 #include "Mario.hpp"
 #include "Creature.hpp"
+#include "Item.hpp"
 
 World::World(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept :
 	mResources{resources},
@@ -38,8 +39,10 @@ void World::spawnGoomba(const Tile::Index& tileIndex) noexcept
 
 void World::putCoin(const Tile::Index& tileIndex) noexcept
 {
-	//auto entity = mEntities.create<Item>(mResources.getTexture(Textures::Items), mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::Coin));
-	//entity->setPosition(mTilemapView.getTilePosition(tileIndex));
+	auto entity = mEntities.create<Item>(mResources.getTexture(Textures::Items), mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::Coin));
+	entity->setAttribute(Entity::Attributes::Collectable);
+	entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
+	entity->setOrigin(Entity::centerOrigin(*entity));
 }
 
 void World::receiveEvents(const sf::Event& event) noexcept
@@ -53,7 +56,7 @@ void World::update(const sf::Time& dt) noexcept
 	for (auto& entity : mEntities)
 	{
 		entity->update(dt);
-		mPhysicsModule.update(*entity, dt);
+		mPhysicsModule.updateMovement(*entity, dt);
 	}
 
 	mCollisionModule.detectCollisions(mEntities, mTilemapView);

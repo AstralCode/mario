@@ -15,13 +15,13 @@ public:
 
 	void setState(const Item::States identifier);
 
-	void setMoveAnimation() noexcept;
-	void updateMoveAnimation(const sf::Time& dt) noexcept;
+	void setActiveAnimation() noexcept;
+	void activeActiveAnimation(const sf::Time& dt) noexcept;
 
 	void update(const sf::Time& dt) noexcept override;
 
-	void tileCollision(const Tile& tile, const Tile::Sides side) noexcept override;
-	void entityCollision(Entity& collider) noexcept override;
+	void tileCollision(const Tile& tile, const Sides side) noexcept override;
+	void entityCollision(const Entity& collider, const Sides side) noexcept override;
 
 	void falling() noexcept override;
 
@@ -29,7 +29,7 @@ public:
 	bool isFalling() const noexcept override;
 
 private:
-	Animation mShineAnimation;
+	Animation mActiveAnimation;
 
 	EntityStateMachine<Item, Item::States> mStates;
 };

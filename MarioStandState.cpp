@@ -11,14 +11,17 @@ void MarioStandState::update(Mario&, const sf::Time&) noexcept
 
 }
 
-void MarioStandState::tileCollision(Mario&, const Tile&, const Tile::Sides) noexcept
+void MarioStandState::tileCollision(Mario&, const Tile&, const Sides) noexcept
 {
 
 }
 
-void MarioStandState::entityCollision(Mario&, Entity&) noexcept
+void MarioStandState::entityCollision(Mario&, const Entity& entity, const Sides) noexcept
 {
-
+    if (entity.hasAttribute(Entity::Attributes::Collectable))
+    {
+        // collect item...
+    }
 }
 
 void MarioStandState::falling(Mario&) noexcept
