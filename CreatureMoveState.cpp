@@ -29,7 +29,7 @@ void CreatureMoveState::tileCollision(Creature& entity, const Tile&, const Sides
     }
 }
 
-void CreatureMoveState::entityCollision(Creature& entity, const Entity& collider, const Sides) noexcept
+void CreatureMoveState::entityCollision(Creature& entity, const Entity&, const Sides) noexcept
 {
     if (entity.hasDirection(Entity::Directions::Right))
     {

@@ -15,7 +15,8 @@ public:
 	enum class Attributes
 	{
 		Movable,
-		Collectable
+		Collectable,
+		Deadly
 	};
 
 	enum class Directions
@@ -24,7 +25,7 @@ public:
 		Right
 	};
 
-	using AttributeFlags = Flags<Attributes, 2u>;
+	using AttributeFlags = Flags<Attributes, 3u>;
 
 	Entity() noexcept;
 	virtual ~Entity() = default;

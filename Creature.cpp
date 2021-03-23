@@ -13,6 +13,7 @@ Creature::Creature(const sf::Texture& texture, const SpritesetRegion& sprites) n
 	mStates.registerState<CreatureFallState>(Creature::States::Fall);
 
 	setAttribute(Entity::Attributes::Movable);
+	setAttribute(Entity::Attributes::Deadly);
 	setTexture(texture);
 	setState(Creature::States::Move);
 }
