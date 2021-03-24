@@ -28,7 +28,7 @@ void Item::setActiveAnimation() noexcept
 	setSpriteArea(mActiveAnimation.getCurrentSpriteArea());
 }
 
-void Item::activeActiveAnimation(const sf::Time& dt) noexcept
+void Item::updateActiveAnimation(const sf::Time& dt) noexcept
 {
 	mActiveAnimation.update(dt);
 

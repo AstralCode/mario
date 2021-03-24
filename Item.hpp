@@ -16,7 +16,7 @@ public:
 	void setState(const Item::States identifier);
 
 	void setActiveAnimation() noexcept;
-	void activeActiveAnimation(const sf::Time& dt) noexcept;
+	void updateActiveAnimation(const sf::Time& dt) noexcept;
 
 	void update(const sf::Time& dt) noexcept override;
 

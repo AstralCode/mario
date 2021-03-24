@@ -7,7 +7,7 @@ void ItemActiveState::onSet(Item& entity) noexcept
 
 void ItemActiveState::update(Item& entity, const sf::Time& dt) noexcept
 {
-    entity.activeActiveAnimation(dt);
+    entity.updateActiveAnimation(dt);
 }
 
 void ItemActiveState::tileCollision(Item&, const Tile&, const Sides) noexcept
@@ -15,7 +15,7 @@ void ItemActiveState::tileCollision(Item&, const Tile&, const Sides) noexcept
 
 }
 
-void ItemActiveState::entityCollision(Item& entity, const Entity& collider, const Sides) noexcept
+void ItemActiveState::entityCollision(Item& entity, const Entity&, const Sides) noexcept
 {
     entity.destroy();
 }
