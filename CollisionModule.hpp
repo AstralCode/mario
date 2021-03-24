@@ -11,15 +11,6 @@ public:
 	void detectCollisions(const EntityContainer& entities, TilemapView& tilemapView) noexcept;
 
 private:
-	enum class CollisionSide
-	{
-		Top,
-		Left,
-		Right,
-		Bottom,
-		None
-	};
-
 	using Tiles = std::vector<Tile>;;
 	using Entities = std::vector<const Entity*>;
 
@@ -32,7 +23,9 @@ private:
 	TileColliders checkTileCollisions(const EntityContainer& entities, TilemapView& tilemapView) const noexcept;
 	EntityColliders checkEntityCollisions(const EntityContainer& entities) const noexcept;
 
-	CollisionSide checkCollisionSide(const FloatArea& areaA, const FloatArea& areaB) const noexcept;
+	CollisionSideType checkCollisionSide(const FloatArea& areaA, const FloatArea& areaB) const noexcept;
+
+	void moveEntity(const CollisionSideType side, Entity& entity, const FloatArea& area) const noexcept;
 
 	void filterColliderTiles(Tiles& tiles) const noexcept;
 

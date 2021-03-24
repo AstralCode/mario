@@ -17,36 +17,14 @@ void CollisionModule::handleTileCollisions(const TileColliders& colliders) const
 	for (auto& [entity, collisionTiles] : colliders)
 	{
 		const auto entityArea = entity->getArea();
-		auto entityPosition = entity->getPosition();
 
 		for (auto& collisionTile : collisionTiles)
 		{
 			const auto collisionSide = checkCollisionSide(entityArea, collisionTile.area);
-			switch (collisionSide)
+			if (collisionSide != CollisionSideType::None)
 			{
-				case CollisionSide::Top:
-					entityPosition.setY(collisionTile.area.getTop() - entityArea.getHeight());
-					entity->tileCollision(collisionTile, CollisionSideType::Top);
-					break;
-				case CollisionSide::Bottom:
-					entityPosition.setY(collisionTile.area.getBottom() + 1.0f);
-					entity->tileCollision(collisionTile, CollisionSideType::Bottom);
-					break;
-				case CollisionSide::Left:
-					entityPosition.setX(collisionTile.area.getLeft() - entityArea.getWidth());
-					entity->tileCollision(collisionTile, CollisionSideType::Left);
-					break;
-				case CollisionSide::Right:
-					entityPosition.setX(collisionTile.area.getRight() + 1.0f);
-					entity->tileCollision(collisionTile, CollisionSideType::Right);
-					break;
-				default:
-					break;
-			}
-
-			if (collisionSide != CollisionSide::None)
-			{
-				entity->setPosition(entityPosition);
+				entity->tileCollision(collisionTile, collisionSide);
+				moveEntity(collisionSide, *entity, collisionTile.area);
 			}
 		}
 	}
@@ -60,28 +38,13 @@ void CollisionModule::handleEntityCollisions(const EntityColliders& colliders) c
 
 		for (auto collisionEntity : collisionEntities)
 		{
-			const auto collisionEntityArea = collisionEntity->getArea();
-			const auto collisionSide = checkCollisionSide(entityArea, collisionEntityArea);
-			switch (collisionSide)
+			const auto colliderArea = collisionEntity->getArea();
+
+			const auto collisionSide = checkCollisionSide(entityArea, colliderArea);
+			if (collisionSide != CollisionSideType::None)
 			{
-				case CollisionSide::Top:
-					entity->setPositionY(collisionEntityArea.getTop() - entityArea.getHeight());
-					entity->entityCollision(*collisionEntity, CollisionSideType::Top);
-					break;
-				case CollisionSide::Bottom:
-					entity->setPositionY(collisionEntityArea.getBottom() + 1.0f);
-					entity->entityCollision(*collisionEntity, CollisionSideType::Bottom);
-					break;
-				case CollisionSide::Left:
-					entity->setPositionX(collisionEntityArea.getLeft() - entityArea.getWidth());
-					entity->entityCollision(*collisionEntity, CollisionSideType::Left);
-					break;
-				case CollisionSide::Right:
-					entity->setPositionX(collisionEntityArea.getRight() + 1.0f);
-					entity->entityCollision(*collisionEntity, CollisionSideType::Right);
-					break;
-				default:
-					break;
+				entity->entityCollision(*collisionEntity, collisionSide);
+				moveEntity(collisionSide, *entity, colliderArea);
 			}
 		}
 	}
@@ -141,7 +104,7 @@ CollisionModule::EntityColliders CollisionModule::checkEntityCollisions(const En
 	return colliders;
 }
 
-CollisionModule::CollisionSide CollisionModule::checkCollisionSide(const FloatArea& areaA, const FloatArea& areaB) const noexcept
+CollisionSideType CollisionModule::checkCollisionSide(const FloatArea& areaA, const FloatArea& areaB) const noexcept
 {
 	const auto centerA = areaA.getCenter();
 	const auto centerB = areaB.getCenter();
@@ -152,11 +115,11 @@ CollisionModule::CollisionSide CollisionModule::checkCollisionSide(const FloatAr
 
 	if (isTopCollision)
 	{
-		return CollisionSide::Top;
+		return CollisionSideType::Top;
 	}
 	else if(isBottomCollision)
 	{
-		return CollisionSide::Bottom;
+		return CollisionSideType::Bottom;
 	}
 		
 	const auto isLeftCollision = centerA.getX() < centerB.getX() &&
@@ -166,15 +129,36 @@ CollisionModule::CollisionSide CollisionModule::checkCollisionSide(const FloatAr
 
 	if (isLeftCollision)
 	{
-		return CollisionSide::Left;
+		return CollisionSideType::Left;
 	}
 
 	if (isRightCollision)
 	{
-		return CollisionSide::Right;
+		return CollisionSideType::Right;
 	}
 	
-	return CollisionSide::None;
+	return CollisionSideType::None;
+}
+
+void CollisionModule::moveEntity(const CollisionSideType side, Entity& entity, const FloatArea& colliderArea) const noexcept
+{
+	switch (side)
+	{
+	case CollisionSideType::Top:
+		entity.setPositionY(colliderArea.getTop() - entity.getArea().getHeight());
+		break;
+	case CollisionSideType::Bottom:
+		entity.setPositionY(colliderArea.getBottom() + 1.0f);
+		break;
+	case CollisionSideType::Left:
+		entity.setPositionX(colliderArea.getLeft() - entity.getArea().getWidth());
+		break;
+	case CollisionSideType::Right:
+		entity.setPositionX(colliderArea.getRight() + 1.0f);
+		break;
+	default:
+		break;
+	}
 }
 
 void CollisionModule::filterColliderTiles(Tiles& tiles) const noexcept
