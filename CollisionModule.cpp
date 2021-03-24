@@ -29,7 +29,7 @@ void CollisionModule::handleTileCollisions(const TileColliders& colliders) const
 					entity->tileCollision(collisionTile, Sides::Top);
 					break;
 				case CollisionSide::Bottom:
-					entityPosition.setY(collisionTile.area.getBottom() - 1.0f);
+					entityPosition.setY(collisionTile.area.getBottom() + 1.0f);
 					entity->tileCollision(collisionTile, Sides::Bottom);
 					break;
 				case CollisionSide::Left:
@@ -69,7 +69,7 @@ void CollisionModule::handleEntityCollisions(const EntityColliders& colliders) c
 					entity->entityCollision(*collisionEntity, Sides::Top);
 					break;
 				case CollisionSide::Bottom:
-					entity->setPositionY(collisionEntityArea.getBottom() - 1.0f);
+					entity->setPositionY(collisionEntityArea.getBottom() + 1.0f);
 					entity->entityCollision(*collisionEntity, Sides::Bottom);
 					break;
 				case CollisionSide::Left:
