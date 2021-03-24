@@ -40,12 +40,12 @@ void Item::update(const sf::Time& dt) noexcept
 	mStates.getCurrentState().update(*this, dt);
 }
 
-void Item::tileCollision(const Tile& tile, const Sides side) noexcept
+void Item::tileCollision(const Tile& tile, const CollisionSideType side) noexcept
 {
 	mStates.getCurrentState().tileCollision(*this, tile, side);
 }
 
-void Item::entityCollision(const Entity& collider, const Sides side) noexcept
+void Item::entityCollision(const Entity& collider, const CollisionSideType side) noexcept
 {
 	mStates.getCurrentState().entityCollision(*this, collider, side);
 }

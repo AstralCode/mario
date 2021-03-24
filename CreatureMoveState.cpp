@@ -12,9 +12,9 @@ void CreatureMoveState::update(Creature& entity, const sf::Time& dt) noexcept
     entity.updateMoveAnimation(dt);
 }
 
-void CreatureMoveState::tileCollision(Creature& entity, const Tile&, const Sides side) noexcept
+void CreatureMoveState::tileCollision(Creature& entity, const Tile&, const CollisionSideType side) noexcept
 {
-    if (side == Sides::Left || side == Sides::Right)
+    if (side == CollisionSideType::Left || side == CollisionSideType::Right)
     {
         if (entity.hasDirection(Entity::Directions::Right))
         {
@@ -29,7 +29,7 @@ void CreatureMoveState::tileCollision(Creature& entity, const Tile&, const Sides
     }
 }
 
-void CreatureMoveState::entityCollision(Creature& entity, const Entity& collider, const Sides) noexcept
+void CreatureMoveState::entityCollision(Creature& entity, const Entity& collider, const CollisionSideType) noexcept
 {
     if (!collider.hasAttribute(Entity::Attributes::Controlablle))
     {

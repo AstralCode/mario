@@ -5,7 +5,7 @@
 #include "Constants.hpp"
 #include "GraphicsItem.hpp"
 #include "Tile.hpp"
-#include "Sides.hpp"
+#include "CollisionSideType.hpp"
 
 class Sprite;
 
@@ -54,8 +54,8 @@ public:
 
 	virtual void update(const sf::Time& dt) noexcept = 0;
 
-	virtual void tileCollision(const Tile& tile, const Sides side) noexcept = 0;
-	virtual void entityCollision(const Entity& entity, const Sides side) noexcept = 0;
+	virtual void tileCollision(const Tile& tile, const CollisionSideType side) noexcept = 0;
+	virtual void entityCollision(const Entity& entity, const CollisionSideType side) noexcept = 0;
 
 	virtual void falling() noexcept = 0;
 

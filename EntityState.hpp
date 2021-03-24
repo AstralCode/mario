@@ -4,7 +4,7 @@
 #include "SFML/Window/Event.hpp"
 
 #include "Tile.hpp"
-#include "Sides.hpp"
+#include "CollisionSideType.hpp"
 
 class Entity;
 
@@ -18,8 +18,8 @@ public:
 
 	virtual void update(TEntity& entity, const sf::Time& dt) noexcept = 0;
 
-	virtual void tileCollision(TEntity& entity, const Tile& tile, const Sides side) noexcept = 0;
-	virtual void entityCollision(TEntity& entity, const Entity& collider, const Sides side) noexcept = 0;
+	virtual void tileCollision(TEntity& entity, const Tile& tile, const CollisionSideType side) noexcept = 0;
+	virtual void entityCollision(TEntity& entity, const Entity& collider, const CollisionSideType side) noexcept = 0;
 
 	virtual void falling(TEntity& entity) noexcept = 0;
 

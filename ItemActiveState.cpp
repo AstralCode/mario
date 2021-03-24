@@ -10,12 +10,12 @@ void ItemActiveState::update(Item& entity, const sf::Time& dt) noexcept
     entity.updateActiveAnimation(dt);
 }
 
-void ItemActiveState::tileCollision(Item&, const Tile&, const Sides) noexcept
+void ItemActiveState::tileCollision(Item&, const Tile&, const CollisionSideType) noexcept
 {
 
 }
 
-void ItemActiveState::entityCollision(Item& entity, const Entity&, const Sides) noexcept
+void ItemActiveState::entityCollision(Item& entity, const Entity&, const CollisionSideType) noexcept
 {
     entity.destroy();
 }

@@ -10,13 +10,13 @@ void CreatureFallState::update(Creature&, const sf::Time&) noexcept
 
 }
 
-void CreatureFallState::tileCollision(Creature& entity, const Tile&, const Sides side) noexcept
+void CreatureFallState::tileCollision(Creature& entity, const Tile&, const CollisionSideType side) noexcept
 {
-    if (side == Sides::Top)
+    if (side == CollisionSideType::Top)
     {
         entity.setState(Creature::States::Move);
     }
-    else if (side == Sides::Left || side == Sides::Right)
+    else if (side == CollisionSideType::Left || side == CollisionSideType::Right)
     {
         if (entity.hasDirection(Entity::Directions::Right))
         {
@@ -31,7 +31,7 @@ void CreatureFallState::tileCollision(Creature& entity, const Tile&, const Sides
     }
 }
 
-void CreatureFallState::entityCollision(Creature& entity, const Entity& collider, const Sides) noexcept
+void CreatureFallState::entityCollision(Creature& entity, const Entity& collider, const CollisionSideType) noexcept
 {
     if (!collider.hasAttribute(Entity::Attributes::Controlablle))
     {

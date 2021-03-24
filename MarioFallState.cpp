@@ -10,9 +10,9 @@ void MarioFallState::update(Mario&, const sf::Time&) noexcept
 
 }
 
-void MarioFallState::tileCollision(Mario& entity, const Tile&, const Sides side) noexcept
+void MarioFallState::tileCollision(Mario& entity, const Tile&, const CollisionSideType side) noexcept
 {
-    if (side == Sides::Top)
+    if (side == CollisionSideType::Top)
     {
         if (std::fabs(entity.getVelocity().getX()) > Constants::World::Mario::StopVelocityX)
         {
@@ -25,7 +25,7 @@ void MarioFallState::tileCollision(Mario& entity, const Tile&, const Sides side)
     }
 }
 
-void MarioFallState::entityCollision(Mario& entity, const Entity& collider, const Sides) noexcept
+void MarioFallState::entityCollision(Mario& entity, const Entity& collider, const CollisionSideType) noexcept
 {
     if (collider.hasAttribute(Entity::Attributes::Deadly))
     {

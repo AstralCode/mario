@@ -11,12 +11,12 @@ void MarioStandState::update(Mario&, const sf::Time&) noexcept
 
 }
 
-void MarioStandState::tileCollision(Mario&, const Tile&, const Sides) noexcept
+void MarioStandState::tileCollision(Mario&, const Tile&, const CollisionSideType) noexcept
 {
 
 }
 
-void MarioStandState::entityCollision(Mario& entity, const Entity& collider, const Sides) noexcept
+void MarioStandState::entityCollision(Mario& entity, const Entity& collider, const CollisionSideType) noexcept
 {
     if (collider.hasAttribute(Entity::Attributes::Deadly))
     {

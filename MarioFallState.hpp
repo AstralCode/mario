@@ -12,8 +12,8 @@ public:
 
 	void update(Mario& entity, const sf::Time& dt) noexcept override;
 
-	void tileCollision(Mario& entity, const Tile& tile, const Sides side) noexcept override;
-	void entityCollision(Mario& entity, const Entity& collider, const Sides side) noexcept override;
+	void tileCollision(Mario& entity, const Tile& tile, const CollisionSideType side) noexcept override;
+	void entityCollision(Mario& entity, const Entity& collider, const CollisionSideType side) noexcept override;
 
 	void falling(Mario& entity) noexcept override;
 

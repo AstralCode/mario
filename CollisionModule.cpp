@@ -26,19 +26,19 @@ void CollisionModule::handleTileCollisions(const TileColliders& colliders) const
 			{
 				case CollisionSide::Top:
 					entityPosition.setY(collisionTile.area.getTop() - entityArea.getHeight());
-					entity->tileCollision(collisionTile, Sides::Top);
+					entity->tileCollision(collisionTile, CollisionSideType::Top);
 					break;
 				case CollisionSide::Bottom:
 					entityPosition.setY(collisionTile.area.getBottom() + 1.0f);
-					entity->tileCollision(collisionTile, Sides::Bottom);
+					entity->tileCollision(collisionTile, CollisionSideType::Bottom);
 					break;
 				case CollisionSide::Left:
 					entityPosition.setX(collisionTile.area.getLeft() - entityArea.getWidth());
-					entity->tileCollision(collisionTile, Sides::Left);
+					entity->tileCollision(collisionTile, CollisionSideType::Left);
 					break;
 				case CollisionSide::Right:
 					entityPosition.setX(collisionTile.area.getRight() + 1.0f);
-					entity->tileCollision(collisionTile, Sides::Right);
+					entity->tileCollision(collisionTile, CollisionSideType::Right);
 					break;
 				default:
 					break;
@@ -66,19 +66,19 @@ void CollisionModule::handleEntityCollisions(const EntityColliders& colliders) c
 			{
 				case CollisionSide::Top:
 					entity->setPositionY(collisionEntityArea.getTop() - entityArea.getHeight());
-					entity->entityCollision(*collisionEntity, Sides::Top);
+					entity->entityCollision(*collisionEntity, CollisionSideType::Top);
 					break;
 				case CollisionSide::Bottom:
 					entity->setPositionY(collisionEntityArea.getBottom() + 1.0f);
-					entity->entityCollision(*collisionEntity, Sides::Bottom);
+					entity->entityCollision(*collisionEntity, CollisionSideType::Bottom);
 					break;
 				case CollisionSide::Left:
 					entity->setPositionX(collisionEntityArea.getLeft() - entityArea.getWidth());
-					entity->entityCollision(*collisionEntity, Sides::Left);
+					entity->entityCollision(*collisionEntity, CollisionSideType::Left);
 					break;
 				case CollisionSide::Right:
 					entity->setPositionX(collisionEntityArea.getRight() + 1.0f);
-					entity->entityCollision(*collisionEntity, Sides::Right);
+					entity->entityCollision(*collisionEntity, CollisionSideType::Right);
 					break;
 				default:
 					break;

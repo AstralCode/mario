@@ -42,12 +42,12 @@ void Creature::update(const sf::Time& dt) noexcept
 	mStates.getCurrentState().update(*this, dt);
 }
 
-void Creature::tileCollision(const Tile& tile, const Sides side) noexcept
+void Creature::tileCollision(const Tile& tile, const CollisionSideType side) noexcept
 {
 	mStates.getCurrentState().tileCollision(*this, tile, side);
 }
 
-void Creature::entityCollision(const Entity& collider, const Sides side) noexcept
+void Creature::entityCollision(const Entity& collider, const CollisionSideType side) noexcept
 {
 	mStates.getCurrentState().entityCollision(*this, collider, side);
 }

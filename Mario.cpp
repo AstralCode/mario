@@ -66,12 +66,12 @@ void Mario::update(const sf::Time& dt) noexcept
 	mStates.getCurrentState().update(*this, dt);
 }
 
-void Mario::tileCollision(const Tile& tile, const Sides side) noexcept
+void Mario::tileCollision(const Tile& tile, const CollisionSideType side) noexcept
 {
 	mStates.getCurrentState().tileCollision(*this, tile, side);
 }
 
-void Mario::entityCollision(const Entity& collider, const Sides side) noexcept
+void Mario::entityCollision(const Entity& collider, const CollisionSideType side) noexcept
 {
 	mStates.getCurrentState().entityCollision(*this, collider, side);
 }

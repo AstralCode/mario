@@ -14,9 +14,9 @@ void MarioJumpState::update(Mario& entity, const sf::Time&) noexcept
     }
 }
 
-void MarioJumpState::tileCollision(Mario& entity, const Tile&, const Sides side) noexcept
+void MarioJumpState::tileCollision(Mario& entity, const Tile&, const CollisionSideType side) noexcept
 {
-    if (side == Sides::Top)
+    if (side == CollisionSideType::Top)
     {
         if (std::fabs(entity.getVelocity().getX()) > Constants::World::Mario::StopVelocityX)
         {
@@ -27,14 +27,14 @@ void MarioJumpState::tileCollision(Mario& entity, const Tile&, const Sides side)
             entity.setState(Mario::States::Stand);
         }
     }
-    else if (side == Sides::Bottom)
+    else if (side == CollisionSideType::Bottom)
     {
         entity.setVelocityY(entity.getVelocity().getY() + Constants::World::Mario::MaxVelocityY * 0.2f);
     }
 
 }
 
-void MarioJumpState::entityCollision(Mario& entity, const Entity& collider, const Sides) noexcept
+void MarioJumpState::entityCollision(Mario& entity, const Entity& collider, const CollisionSideType) noexcept
 {
     if (collider.hasAttribute(Entity::Attributes::Deadly))
     {
