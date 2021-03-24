@@ -69,7 +69,7 @@ void CollisionModule::handleEntityCollisions(const EntityColliders& colliders) c
 					entity->entityCollision(*collisionEntity, Sides::Top);
 					break;
 				case CollisionSide::Bottom:
-					entity->setPositionY(collisionEntityArea.getBottom() + 1.0f);
+					entity->setPositionY(collisionEntityArea.getBottom() - 1.0f);
 					entity->entityCollision(*collisionEntity, Sides::Bottom);
 					break;
 				case CollisionSide::Left:
@@ -77,7 +77,7 @@ void CollisionModule::handleEntityCollisions(const EntityColliders& colliders) c
 					entity->entityCollision(*collisionEntity, Sides::Left);
 					break;
 				case CollisionSide::Right:
-					entity->setPositionX(collisionEntityArea.getLeft() + collisionEntityArea.getWidth());
+					entity->setPositionX(collisionEntityArea.getRight() + 1.0f);
 					entity->entityCollision(*collisionEntity, Sides::Right);
 					break;
 				default:
