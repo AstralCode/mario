@@ -2,6 +2,8 @@
 
 #include "MarioStandState.hpp"
 #include "MarioMoveState.hpp"
+#include "MarioJumpState.hpp"
+#include "MarioLoseState.hpp"
 
 void MarioFallState::onSet(Mario& entity) noexcept
 {
@@ -28,15 +30,26 @@ void MarioFallState::tileCollision(Mario& entity, const Tile&, const CollisionSi
     }
 }
 
-void MarioFallState::entityCollision(Mario& entity, const Entity& collider, const CollisionSideType) noexcept
+void MarioFallState::entityCollision(Mario& entity, const Entity& collider, const CollisionSideType side) noexcept
 {
-    if (collider.hasAttribute(Entity::Attributes::Deadly))
+    if (!collider.hasAttribute(Entity::Attributes::Transparent))
     {
-        entity.destroy();
-    }
-    else if (collider.hasAttribute(Entity::Attributes::Collectable))
-    {
-        // collect item...
+        if (collider.hasAttribute(Entity::Attributes::Deadly))
+        {
+            if (side == CollisionSideType::Top)
+            {
+                entity.setJumpVelocity(Constants::World::Mario::MaxVelocityY / 2.0f);
+                entity.setState<MarioJumpState>();
+            }
+            else if (collider.hasAttribute(Entity::Attributes::Deadly))
+            {
+                entity.setState<MarioLoseState>();
+            }
+        }
+        else if (collider.hasAttribute(Entity::Attributes::Collectable))
+        {
+            // collect item...
+        }
     }
 }
 

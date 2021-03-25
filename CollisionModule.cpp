@@ -20,14 +20,11 @@ void CollisionModule::handleTileCollisions(const TileColliders& colliders) const
 
 		for (auto& collisionTile : collisionTiles)
 		{
-			if (!entity->hasAttribute(Entity::Attributes::Transparent))
+			const auto collisionSide = checkCollisionSide(entityArea, collisionTile.area);
+			if (collisionSide != CollisionSideType::None)
 			{
-				const auto collisionSide = checkCollisionSide(entityArea, collisionTile.area);
-				if (collisionSide != CollisionSideType::None)
-				{
-					entity->tileCollision(collisionTile, collisionSide);
-					moveEntity(collisionSide, *entity, collisionTile.area);
-				}
+				entity->tileCollision(collisionTile, collisionSide);
+				moveEntity(collisionSide, *entity, collisionTile.area);
 			}
 		}
 	}
@@ -37,19 +34,16 @@ void CollisionModule::handleEntityCollisions(const EntityColliders& colliders) c
 {
 	for (auto& [entity, collisionEntities] : colliders)
 	{
-		if (!entity->hasAttribute(Entity::Attributes::Transparent))
+		const auto entityArea = entity->getArea();
+
+		for (auto collisionEntity : collisionEntities)
 		{
-			const auto entityArea = entity->getArea();
+			const auto colliderArea = collisionEntity->getArea();
 
-			for (auto collisionEntity : collisionEntities)
+			const auto collisionSide = checkCollisionSide(entityArea, colliderArea);
+			if (collisionSide != CollisionSideType::None)
 			{
-				const auto colliderArea = collisionEntity->getArea();
-
-				const auto collisionSide = checkCollisionSide(entityArea, colliderArea);
-				if (collisionSide != CollisionSideType::None)
-				{
-					entity->entityCollision(*collisionEntity, collisionSide);
-				}
+				entity->entityCollision(*collisionEntity, collisionSide);
 			}
 		}
 	}
@@ -61,7 +55,8 @@ CollisionModule::TileColliders CollisionModule::checkTileCollisions(const Entity
 	
 	for (auto entity : entities)
 	{
-		if (!entity->isDestroyed())
+		if (!entity->isDestroyed() &&
+			!entity->hasAttribute(Entity::Attributes::Transparent))
 		{
 			Tiles collisionTiles = tilemapView.getTiles(entity->getArea());
 			filterColliderTiles(collisionTiles);
@@ -86,12 +81,13 @@ CollisionModule::EntityColliders CollisionModule::checkEntityCollisions(const En
 
 	for (auto entitiesIterator = entities.cbegin(); entitiesIterator != entities.cend(); entitiesIterator++)
 	{
-		Entities collisionEntities{};
-
 		Entity* const entity = *entitiesIterator;
 
-		if (!entity->isDestroyed())
+		if (!entity->isDestroyed() &&
+			!entity->hasAttribute(Entity::Attributes::Transparent))
 		{
+			Entities collisionEntities{};
+
 			for (auto collisionEntitiesIterator = entities.cbegin(); collisionEntitiesIterator != entities.cend(); collisionEntitiesIterator++)
 			{
 				if (entitiesIterator != collisionEntitiesIterator)

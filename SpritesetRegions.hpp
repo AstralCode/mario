@@ -5,13 +5,14 @@ enum class MarioSpritesetRegions
 	Stand,
 	Move,
 	Slide,
-	Jump
+	Jump,
+	Lose
 };
 
 enum class GoombaSpritesetRegions
 {
 	Move,
-	Dead
+	Lose
 };
 
 enum class ItemSpritesetRegions

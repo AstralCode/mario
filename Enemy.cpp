@@ -2,15 +2,18 @@
 
 #include "EnemyMoveState.hpp"
 #include "EnemyFallState.hpp"
+#include "EnemyLoseState.hpp"
 
-Enemy::Enemy(const sf::Texture& texture, const SpritesetRegion& sprites) noexcept :
-	mMoveAnimation{sprites}
+Enemy::Enemy(const sf::Texture& texture, const SpritesetRegion& moveSprites, const IntArea& loseSpriteArea) noexcept :
+	mMoveAnimation{moveSprites},
+	mLoseSpriteArea{loseSpriteArea}
 {
 	mMoveAnimation.setDuration(sf::seconds(Constants::World::Enemy::MoveAnimationDuration));
 	mMoveAnimation.setRepeating(true);
 
 	mStates.registerState<EnemyMoveState>();
 	mStates.registerState<EnemyFallState>();
+	mStates.registerState<EnemyLoseState>();
 
 	setAttribute(Entity::Attributes::Movable);
 	setAttribute(Entity::Attributes::Deadly);
@@ -33,6 +36,18 @@ void Enemy::updateMoveAnimation(const sf::Time& dt) noexcept
 	setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
 }
 
+void Enemy::setLoseSprite() noexcept
+{
+	setSpriteArea(mLoseSpriteArea);
+
+	move(0.0f, Constants::World::Tilemap::TileSize - mLoseSpriteArea.getHeight());
+}
+
+void Enemy::updateLoseTime(const sf::Time& dt) noexcept
+{
+	mLoseTime += dt;
+}
+
 void Enemy::update(const sf::Time& dt) noexcept
 {
 	mStates.getState().update(*this, dt);
@@ -51,6 +66,11 @@ void Enemy::entityCollision(const Entity& collider, const CollisionSideType side
 void Enemy::falling() noexcept
 {
 	mStates.getState().falling(*this);
+}
+
+const sf::Time& Enemy::getLoseTime() const noexcept
+{
+	return mLoseTime;
 }
 
 bool Enemy::isJumping() const noexcept

@@ -1,6 +1,7 @@
 #include "EnemyMoveState.hpp"
 
 #include "EnemyFallState.hpp"
+#include "EnemyLoseState.hpp"
 
 void EnemyMoveState::onSet(Enemy& entity) noexcept
 {
@@ -31,20 +32,31 @@ void EnemyMoveState::tileCollision(Enemy& entity, const Tile&, const CollisionSi
     }
 }
 
-void EnemyMoveState::entityCollision(Enemy& entity, const Entity& collider, const CollisionSideType) noexcept
+void EnemyMoveState::entityCollision(Enemy& entity, const Entity& collider, const CollisionSideType side) noexcept
 {
-    if (!collider.hasAttribute(Entity::Attributes::Controlablle))
+    if (!collider.hasAttribute(Entity::Attributes::Transparent))
     {
-        if (entity.hasDirection(Entity::Directions::Right))
+        if (collider.hasAttribute(Entity::Attributes::Destroyer))
         {
-            entity.setDirection(Entity::Directions::Left);
-        }
-        else
-        {
-            entity.setDirection(Entity::Directions::Right);
+            if (side == CollisionSideType::Bottom)
+            {
+                entity.setState<EnemyLoseState>();
+            }
         }
 
-        entity.setVelocityX(-entity.getVelocity().getX());
+        if (!entity.hasAttribute(Entity::Attributes::Transparent))
+        {
+            if (entity.hasDirection(Entity::Directions::Right))
+            {
+                entity.setDirection(Entity::Directions::Left);
+            }
+            else
+            {
+                entity.setDirection(Entity::Directions::Right);
+            }
+
+            entity.setVelocityX(-entity.getVelocity().getX());
+        }
     }
 }
 

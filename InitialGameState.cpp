@@ -85,10 +85,14 @@ void InitialGameState::processLogic(const sf::Time&) noexcept
 
 void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcept
 {
-	if (keyEvent.code == sf::Keyboard::F2)
-	{
-		auto& world = getWorld();
+	auto& world = getWorld();
 
+	if (keyEvent.code == sf::Keyboard::F1)
+	{
+		world.spawnMario(Tile::Index{12, 1});
+	}
+	else if (keyEvent.code == sf::Keyboard::F2)
+	{
 		world.getTilemapView().setGridVisible(!world.getTilemapView().isGridVisible());
 	}
 }

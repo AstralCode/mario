@@ -8,11 +8,17 @@
 #include "MarioMoveState.hpp"
 #include "MarioJumpState.hpp"
 #include "MarioFallState.hpp"
+#include "MarioLoseState.hpp"
 
 Mario::Mario(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept :
 	mResources{resources},
 	mSpritesets{spritesets},
-	mMoveAnimation{spritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Move)}
+	mJumpVelocity{0.0f},
+	mMoveAnimation{spritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Move)},
+	mStandSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Stand).getSpriteArea(0)},
+	mJumpSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0)},
+	mSlideSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0)},
+	mLoseSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Lose).getSpriteArea(0)}
 {
 	mMoveAnimation.setDuration(sf::seconds(Constants::World::Mario::MoveAnimationDuration));
 	mMoveAnimation.setRepeating(true);
@@ -21,11 +27,18 @@ Mario::Mario(const ResourceContainer& resources, const SpritesetContainer& sprit
 	mStates.registerState<MarioMoveState>();
 	mStates.registerState<MarioJumpState>();
 	mStates.registerState<MarioFallState>();
+	mStates.registerState<MarioLoseState>();
 
+	setAttribute(Entity::Attributes::Destroyer);
 	setAttribute(Entity::Attributes::Movable);
 	setTexture(resources.getTexture(TextureId::Mario));
 
 	setState<MarioStandState>();
+}
+
+void Mario::setJumpVelocity(const float velocity) noexcept
+{
+	mJumpVelocity = velocity;
 }
 
 void Mario::setMoveAnimation() noexcept
@@ -42,19 +55,29 @@ void Mario::updateMoveAnimation(const sf::Time& dt) noexcept
 	setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
 }
 
+void Mario::updateLoseAnimation(const sf::Time& dt) noexcept
+{
+	mLoseTime += dt;
+}
+
 void Mario::setStandSprite() noexcept
 {
-	setSpriteArea(mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Stand).getSpriteArea(0));
+	setSpriteArea(mStandSpriteArea);
 }
 
 void Mario::setJumpSprite() noexcept
 {
-	setSpriteArea(mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0));
+	setSpriteArea(mJumpSpriteArea);
 }
 
 void Mario::setSlideSprite() noexcept
 {
-	setSpriteArea(mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0));
+	setSpriteArea(mSlideSpriteArea);
+}
+
+void Mario::setLoseSprite() noexcept
+{
+	setSpriteArea(mLoseSpriteArea);
 }
 
 void Mario::update(const sf::Time& dt) noexcept
@@ -75,6 +98,16 @@ void Mario::entityCollision(const Entity& collider, const CollisionSideType side
 void Mario::falling() noexcept
 {
 	mStates.getState().falling(*this);
+}
+
+float Mario::getJumpVelocity() const noexcept
+{
+	return mJumpVelocity;
+}
+
+const sf::Time& Mario::getLoseTime() const noexcept
+{
+	return mLoseTime;
 }
 
 bool Mario::isJumping() const noexcept

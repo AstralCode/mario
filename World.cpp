@@ -52,7 +52,8 @@ void World::spawnGoomba(const Tile::Index& tileIndex) noexcept
 	if (isTileEmpty(tileIndex))
 	{
 		auto entity = mEntities.create<Enemy>(mResources.getTexture(TextureId::Enemies),
-											  mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move));
+											  mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move),
+											  mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Lose).getSpriteArea(0));
 
 		entity->setPosition(mTilemapView.getTilePosition(tileIndex));
 	}

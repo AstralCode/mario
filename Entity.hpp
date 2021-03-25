@@ -14,8 +14,8 @@ class Entity : public GraphicsItem
 public:
 	enum class Attributes
 	{
+		Destroyer,
 		Movable,
-		Controlablle,
 		Collectable,
 		Deadly,
 		Transparent
@@ -27,15 +27,15 @@ public:
 		Right
 	};
 
-	using AttributeFlags = Flags<Attributes, 5u>;
+	using AttributeFlags = Flags<Attributes, 6u>;
 
 	Entity() noexcept;
 	virtual ~Entity() = default;
 
 	static FloatPoint centerOrigin(const Entity& entity) noexcept;
 
-	void setAttributes(const AttributeFlags& attributes) noexcept;
 	void setAttribute(const Attributes attribute) noexcept;
+	void unsetAttribute(const Attributes attribute) noexcept;
 
 	void setTexture(const sf::Texture& texture) noexcept;
 	void setSpriteArea(const IntArea& area) noexcept;

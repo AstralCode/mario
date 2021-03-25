@@ -28,7 +28,7 @@ namespace Constants
 		namespace Physics
 		{
 			constexpr const auto Friction = 0.92f;
-			constexpr const auto Gravity = 1200.0f;
+			constexpr const auto Gravity = 1800.0f;
 		}
 		namespace Mario
 		{
@@ -37,6 +37,8 @@ namespace Constants
 			constexpr const auto MaxVelocityY = World::Tilemap::TileSize * 24.0f;
 			constexpr const auto StopVelocityX = 12.0f;
 			constexpr const auto MoveAnimationDuration = 0.25f;
+			constexpr const auto LoseAnimationStart = 0.5f;
+			constexpr const auto LoseAnimationEnd = 2.0f;
 			constexpr const auto Up = sf::Keyboard::W;
 			constexpr const auto Down = sf::Keyboard::S;
 			constexpr const auto Left = sf::Keyboard::A;
@@ -47,6 +49,7 @@ namespace Constants
 			constexpr const auto AccelerationX = World::Tilemap::TileSize * 5.0f;
 			constexpr const auto MaxVelocityX = World::Tilemap::TileSize * 5.0f;
 			constexpr const auto MoveAnimationDuration = 0.25f;
+			constexpr const auto LoseAnimationDuration = 1.0f;
 		}
 		namespace Items
 		{
@@ -54,7 +57,7 @@ namespace Constants
 			constexpr const auto ShineAnimationDelay = 0.25f;
 			constexpr const auto PickupAnimationDuration = 0.15f;
 			constexpr const auto PickupVelocityY = World::Tilemap::TileSize * 15.0f;
-			constexpr const auto PickupDuration = 0.5f;
+			constexpr const auto PickupAnimationEnd = 0.5f;
 		}
 	}
 }

@@ -23,14 +23,14 @@ FloatPoint Entity::centerOrigin(const Entity& entity) noexcept
     return {origin.getX() + size.getWidth() / 2.0f, origin.getY() + size.getHeight() / 2.0f};
 }
 
-void Entity::setAttributes(const AttributeFlags& attributes) noexcept
-{
-    mAttributes = attributes;
-}
-
 void Entity::setAttribute(const Attributes attribute) noexcept
 {
     mAttributes.set(attribute);
+}
+
+void Entity::unsetAttribute(const Attributes attribute) noexcept
+{
+    mAttributes.unset(attribute);
 }
 
 void Entity::setTexture(const sf::Texture& texture) noexcept

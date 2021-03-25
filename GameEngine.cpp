@@ -136,13 +136,17 @@ void GameEngine::initializeSpritesets() noexcept
 		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 24, 32}}
 	}}});
 
+	marioSpriteset.addRegion(MarioSpritesetRegions::Lose, SpritesetRegion{GridSize{32, 32}, GridTileIndex{7, 0}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 4, 28, 28}}
+	}}});
+
 	auto& enemySpriteset = mSpritesets.getGoombaSpriteset();
 	enemySpriteset.addRegion(GoombaSpritesetRegions::Move, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
 		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 32, 32}},
 		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{0, 0, 32, 32}}
 	}}});
 
-	enemySpriteset.addRegion(GoombaSpritesetRegions::Dead, {GridSize{32, 32}, {2, 0}, {{
+	enemySpriteset.addRegion(GoombaSpritesetRegions::Lose, {GridSize{32, 32}, {2, 0}, {{
 		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 16, 32, 16}}
 	}}});
 

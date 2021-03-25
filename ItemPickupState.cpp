@@ -12,7 +12,7 @@ void ItemPickupState::update(Item& entity, const sf::Time& dt) noexcept
 {
     entity.updatePickupAnimation(dt);
 
-    if (entity.getPickupTime() >= sf::seconds(Constants::World::Items::PickupDuration))
+    if (entity.getPickupTime() >= sf::seconds(Constants::World::Items::PickupAnimationEnd))
     {
         entity.destroy();
     }
