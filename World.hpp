@@ -14,12 +14,19 @@ class World final : public sf::Drawable
 public:
 	World(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept;
 
-	void setTilemap(std::unique_ptr<Tilemap> tilemap, const TextureId textureIdentifier, const FontId fontIdentifier, const sf::Color& background) noexcept;
+	void setTilemap(std::unique_ptr<Tilemap> tilemap) noexcept;
+	void setTilemapTexture(const TextureId identifier) noexcept;
+	void setTilemapBackground(const sf::Color& background) noexcept;
 
 	void spawnMario(const Tile::Index& tileIndex) noexcept;
+
+	void spawnGoomba(const IntPoint& point) noexcept;
 	void spawnGoomba(const Tile::Index& tileIndex) noexcept;
 
+	void putCoin(const IntPoint& point) noexcept;
 	void putCoin(const Tile::Index& tileIndex) noexcept;
+
+	void removeEntity(const IntPoint& point) noexcept;
 
 	void receiveEvents(const sf::Event& event) noexcept;
 
@@ -30,6 +37,11 @@ public:
 
 	TilemapView& getTilemapView() noexcept;
 	const TilemapView& getTilemapView() const noexcept;
+
+	Entity* findEntity(const IntPoint& point) const noexcept;
+
+	bool isTileEmpty(const IntPoint& point) const noexcept;
+	bool isTileEmpty(const Tile::Index& tileIndex) const noexcept;
 
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

@@ -1,5 +1,6 @@
 #include "InitialGameState.hpp"
 
+#include "ResourceContainer.hpp"
 #include "GameStateChanger.hpp"
 #include "ResourceIdentifiers.hpp"
 
@@ -11,6 +12,8 @@ InitialGameState::InitialGameState(GameStateChanger& stateChanger, World& world)
 
 void InitialGameState::onEnter() noexcept
 {
+	auto& world = getWorld();
+
 	auto tilemap = std::make_unique<Tilemap>(15, 20, FloatSize{Constants::World::Tilemap::TileSize, Constants::World::Tilemap::TileSize});
 	tilemap->setTileIdentifiers(
 		{
@@ -33,21 +36,40 @@ void InitialGameState::onEnter() noexcept
 
 	tilemap->setTileColliders({1, 2, 3, 5, 6, 7, 47});
 
-	auto& world = getWorld();
-	world.setTilemap(std::move(tilemap), TextureId::Scenery, FontId::Roboto, {97, 133, 246});
-	world.spawnMario({12, 1});
-	world.spawnGoomba({12,  8});
-	world.spawnGoomba({12,  10});
+	world.setTilemapTexture(TextureId::Scenery);
+	world.setTilemapBackground({97, 133, 246});
+	world.setTilemap(std::move(tilemap));
 
-	world.putCoin({9, 7});
-	world.putCoin({8, 8});
-	world.putCoin({7, 9});
-	world.putCoin({8, 10});
-	world.putCoin({9, 11});
+	world.spawnMario(Tile::Index{12, 1});
+	world.spawnGoomba(Tile::Index{12,  8});
 
-	world.getTilemapView().addOnMouseClick([&world](auto point, auto)
+	world.getTilemapView().addOnMouseClick([this](auto point, auto button)
 	{
-		world.putCoin(world.getTilemapView().getTile(point).index);
+		auto& world = getWorld();
+
+		if (button == sf::Mouse::Button::Left)
+		{
+			if (!world.isTileEmpty(point))
+			{
+				world.removeEntity(point);
+			}
+			else
+			{
+				world.putCoin(point);
+			}
+			
+		}
+		else if (button == sf::Mouse::Button::Right)
+		{
+			if (!world.isTileEmpty(point))
+			{
+				world.removeEntity(point);
+			}
+			else
+			{
+				world.spawnGoomba(point);
+			}
+		}
 	});
 }
 

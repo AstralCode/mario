@@ -94,7 +94,7 @@ void GraphicsItem::receiveEvents(const sf::Event& event) noexcept
 		break;
 
 	case sf::Event::MouseButtonPressed:
-		if (isContainsPoint({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)}))
+		if (isContainsPoint(IntPoint{event.mouseButton.x, event.mouseButton.y}))
 		{
 			onMouseClick(event.mouseButton);
 		}
@@ -102,8 +102,7 @@ void GraphicsItem::receiveEvents(const sf::Event& event) noexcept
 
 	case sf::Event::MouseMoved:
 	{
-		const bool isMouseOver = isContainsPoint({static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)});
-
+		const bool isMouseOver = isContainsPoint(IntPoint{event.mouseButton.x, event.mouseButton.y});
 		if (isMouseOver)
 		{
 			if (mIsMouseOver)
@@ -185,14 +184,24 @@ FloatPoint GraphicsItem::getPosition() const noexcept
 	return getGlobalTransform() * sf::Vector2f{};
 }
 
+bool GraphicsItem::isContainsPoint(const IntPoint& point) const noexcept
+{
+	return getArea().isContainsPoint({static_cast<float>(point.getX()), static_cast<float>(point.getY())});
+}
+
 bool GraphicsItem::isContainsPoint(const FloatPoint& point) const noexcept
 {
 	return getArea().isContainsPoint(point);
 }
 
-bool GraphicsItem::isIntersectsItem(const GraphicsItem& item) const noexcept
+bool GraphicsItem::isIntersects(const FloatArea& area) const noexcept
 {
-	return getArea().isIntersects(item.getArea());
+	return getArea().isIntersects(area);
+}
+
+bool GraphicsItem::isIntersects(const GraphicsItem& item) const noexcept
+{
+	return isIntersects(item.getArea());
 }
 
 bool GraphicsItem::isVisible() const noexcept

@@ -61,16 +61,19 @@ CollisionModule::TileColliders CollisionModule::checkTileCollisions(const Entity
 	
 	for (auto entity : entities)
 	{
-		Tiles collisionTiles = tilemapView.getTiles(entity->getArea());
-		filterColliderTiles(collisionTiles);
+		if (!entity->isDestroyed())
+		{
+			Tiles collisionTiles = tilemapView.getTiles(entity->getArea());
+			filterColliderTiles(collisionTiles);
 
-		if (!collisionTiles.empty())
-		{
-			colliders.emplace_back(entity, std::move(collisionTiles));
-		}
-		else
-		{
-			entity->falling();
+			if (!collisionTiles.empty())
+			{
+				colliders.emplace_back(entity, std::move(collisionTiles));
+			}
+			else
+			{
+				entity->falling();
+			}
 		}
 	}
 
@@ -87,22 +90,25 @@ CollisionModule::EntityColliders CollisionModule::checkEntityCollisions(const En
 
 		Entity* const entity = *entitiesIterator;
 
-		for (auto collisionEntitiesIterator = entities.cbegin(); collisionEntitiesIterator != entities.cend(); collisionEntitiesIterator++)
+		if (!entity->isDestroyed())
 		{
-			if (entitiesIterator != collisionEntitiesIterator)
+			for (auto collisionEntitiesIterator = entities.cbegin(); collisionEntitiesIterator != entities.cend(); collisionEntitiesIterator++)
 			{
-				Entity* const collisionEntity = *collisionEntitiesIterator;
-
-				if (entity->isIntersectsItem(*collisionEntity))
+				if (entitiesIterator != collisionEntitiesIterator)
 				{
-					collisionEntities.push_back(collisionEntity);
+					Entity* const collisionEntity = *collisionEntitiesIterator;
+
+					if (entity->isIntersects(*collisionEntity))
+					{
+						collisionEntities.push_back(collisionEntity);
+					}
 				}
 			}
-		}
 
-		if (!collisionEntities.empty())
-		{
-			colliders.emplace_back(entity, std::move(collisionEntities));
+			if (!collisionEntities.empty())
+			{
+				colliders.emplace_back(entity, std::move(collisionEntities));
+			}
 		}
 	}
 

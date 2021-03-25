@@ -16,38 +16,82 @@ World::World(const ResourceContainer& resources, const SpritesetContainer& sprit
 
 }
 
-void World::setTilemap(std::unique_ptr<Tilemap> tilemap, const TextureId textureIdentifier, const FontId fontIdentifier, const sf::Color& background) noexcept
+void World::setTilemapTexture(const TextureId identifier) noexcept
+{
+	mTilemapView.setTilemapTexture(mResources.getTexture(identifier));
+}
+
+void World::setTilemapBackground(const sf::Color& background) noexcept
+{
+	mTilemapView.setBackgroundColor(background);
+}
+
+void World::setTilemap(std::unique_ptr<Tilemap> tilemap) noexcept
 {
 	mTilemapView.setTilemap(std::move(tilemap));
-	mTilemapView.setTilemapTexture(mResources.getTexture(textureIdentifier));
-	mTilemapView.setInformationText(mResources.getFont(fontIdentifier));
-	mTilemapView.setBackgroundColor(background);
 	mTilemapView.build();
 }
 
 void World::spawnMario(const Tile::Index& tileIndex) noexcept
 {
-	auto entity = mEntities.create<Mario>(mResources, mSpritesets);
-	entity->setPosition(mTilemapView.getTilePosition(tileIndex));
+	if (isTileEmpty(tileIndex))
+	{
+		auto entity = mEntities.create<Mario>(mResources, mSpritesets);
+		entity->setPosition(mTilemapView.getTilePosition(tileIndex));
+	}
+}
+
+void World::spawnGoomba(const IntPoint& point) noexcept
+{
+	const auto tile = mTilemapView.getTile(point);
+	spawnGoomba(tile.index);
 }
 
 void World::spawnGoomba(const Tile::Index& tileIndex) noexcept
 {
-	auto entity = mEntities.create<Creature>(mResources.getTexture(TextureId::Enemies),
-											 mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move));
+	if (isTileEmpty(tileIndex))
+	{
+		auto entity = mEntities.create<Creature>(mResources.getTexture(TextureId::Enemies),
+												 mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move));
 
-	entity->setPosition(mTilemapView.getTilePosition(tileIndex));
+		entity->setPosition(mTilemapView.getTilePosition(tileIndex));
+	}
+
+}
+
+void World::putCoin(const IntPoint& point) noexcept
+{
+	const auto tile = mTilemapView.getTile(point);
+	putCoin(tile.index);
 }
 
 void World::putCoin(const Tile::Index& tileIndex) noexcept
 {
-	auto entity = mEntities.create<Item>(mResources.getTexture(TextureId::Items),
-										 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::Coin),
-										 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::CoinPickup));
+	if (isTileEmpty(tileIndex))
+	{
+		auto entity = mEntities.create<Item>(mResources.getTexture(TextureId::Items),
+											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::Coin),
+											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::CoinPickup));
 
-	entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
-	entity->setOrigin(Entity::centerOrigin(*entity));
-	entity->setAttribute(Entity::Attributes::Collectable);
+		entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
+		entity->setOrigin(Entity::centerOrigin(*entity));
+		entity->setAttribute(Entity::Attributes::Collectable);
+	}
+}
+
+void World::removeEntity(const IntPoint& point) noexcept
+{
+	const auto tile = mTilemapView.getTile(point);
+
+	for (auto entity : mEntities)
+	{
+		if (entity->isIntersects(tile.area))
+		{
+			entity->destroy();
+
+			return;
+		}
+	}
 }
 
 void World::receiveEvents(const sf::Event& event) noexcept
@@ -58,7 +102,7 @@ void World::receiveEvents(const sf::Event& event) noexcept
 
 void World::update(const sf::Time& dt) noexcept
 {
-	for (auto& entity : mEntities)
+	for (auto entity : mEntities)
 	{
 		entity->update(dt);
 		mPhysicsModule.updateMovement(*entity, dt);
@@ -90,7 +134,41 @@ const TilemapView& World::getTilemapView() const noexcept
 	return mTilemapView;
 }
 
-void World::draw(sf::RenderTarget& target, sf::RenderStates states) const
+Entity* World::findEntity(const IntPoint& point) const noexcept
+{
+	for (auto entity : mEntities)
+	{
+		if (entity->isContainsPoint(point))
+		{
+			return entity;
+		}
+	}
+
+	return nullptr;
+}
+
+bool World::isTileEmpty(const IntPoint& point) const noexcept
+{
+	const auto tile = mTilemapView.getTile(point);
+	return isTileEmpty(tile.index);
+}
+
+bool World::isTileEmpty(const Tile::Index& tileIndex) const noexcept
+{
+	const auto tile = mTilemapView.getTile(tileIndex);
+
+	for (auto entity : mEntities)
+	{
+		if (entity->isIntersects(tile.area))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void World::draw(sf::RenderTarget& target, sf::RenderStates states) const 
 {
 	target.draw(mTilemapView, states);
 	target.draw(mRoot, states);

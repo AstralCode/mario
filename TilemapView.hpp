@@ -1,7 +1,7 @@
 #pragma once
 
+#include "SFML/Graphics/Transformable.hpp"
 #include "SFML/Window/Event.hpp"
-#include "SFML/Graphics/Text.hpp"
 
 #include <functional>
 
@@ -25,7 +25,6 @@ public:
 	void setBackgroundColor(const sf::Color& color) noexcept;
 	
 	void setGridVisible(const bool visible) noexcept;
-	void setInformationText(const sf::Font& font, const unsigned int characterSize = 12u) noexcept;
 
 	void receiveEvents(const sf::Event& event) noexcept;
 
@@ -47,8 +46,6 @@ public:
 	float getTileHeight() const noexcept;
 	const FloatSize& getTileSize() const noexcept;
 
-	const sf::Text& getText() const noexcept;
-
 	FloatArea getArea() const noexcept;
 
 	const int getRowCount() const noexcept;
@@ -59,8 +56,6 @@ public:
 private:
 	void setTileSprite(const Tile::Identifier tileIdentifier, const Tile::Index& tileIndex) noexcept;
 	void clearTileSprite(const Tile::Index& tileIndex) noexcept;
-
-	void onMouseClick(const IntPoint& position, const sf::Mouse::Button button) noexcept;
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -78,7 +73,6 @@ private:
 	const sf::Texture* mTilemapTexture;
 
 	sf::Color mBackgroundColor;
-	sf::Text mInformationText;
 	sf::VertexArray mBackgroundVerticlesArray;
 	sf::VertexArray mTileVerticlesArray;
 

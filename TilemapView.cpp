@@ -9,8 +9,7 @@ TilemapView::TilemapView() noexcept :
 	mBackgroundVerticlesArray{sf::PrimitiveType::Quads},
 	mTileVerticlesArray{sf::PrimitiveType::Quads}
 {
-	mInformationText.setPosition(4.0f, 20.0f);
-	mInformationText.setCharacterSize(12u);
+
 }
 
 void TilemapView::setPosition(const float x, const float y) noexcept
@@ -43,12 +42,6 @@ void TilemapView::setGridVisible(const bool visible) noexcept
 	mGrid.setVisible(visible);
 }
 
-void TilemapView::setInformationText(const sf::Font& font, const unsigned int characterSize) noexcept
-{
-	mInformationText.setFont(font);
-	mInformationText.setCharacterSize(characterSize);
-}
-
 void TilemapView::receiveEvents(const sf::Event& event) noexcept
 {
 	switch (event.type)
@@ -61,8 +54,6 @@ void TilemapView::receiveEvents(const sf::Event& event) noexcept
 			{
 				onMouseClickDelegate({event.mouseButton.x, event.mouseButton.y}, event.mouseButton.button);
 			}
-
-			onMouseClick({event.mouseButton.x, event.mouseButton.y}, event.mouseButton.button);
 		}
 		break;
 	}
@@ -208,11 +199,6 @@ const FloatSize& TilemapView::getTileSize() const noexcept
 	return mTilemap->getTileSize();
 }
 
-const sf::Text& TilemapView::getText() const noexcept
-{
-	return mInformationText;
-}
-
 FloatArea TilemapView::getArea() const noexcept
 {
 	FloatArea area{};
@@ -280,33 +266,6 @@ void TilemapView::clearTileSprite(const Tile::Index& tileIndex) noexcept
 	mTilemap->setTileIdentifier(tileIndex, 0);
 }
 
-void TilemapView::onMouseClick(const IntPoint& position, const sf::Mouse::Button button) noexcept
-{
-	if (button == sf::Mouse::Button::Left)
-	{
-		const auto tile = getTile(position);
-
-		std::string information{};
-		information.append("TileIndex: [" + std::to_string(tile.index.row) + ", " + std::to_string(tile.index.column) + "]\n");
-		information.append("TileId: " + std::to_string(tile.identifier) + "\n");
-		information.append("TilePos: (" + std::to_string(tile.area.getLeft()) + ", " + std::to_string(tile.area.getTop()) + ")");
-
-		if (!tile.attributes.isEmpty())
-		{
-			information.append("\n");
-			information.append("Attributes:");
-		}
-
-		if (tile.attributes.isSet(Tile::Attributes::Collider))
-		{
-			information.append("\n\t\t");
-			information.append("Collider");
-		}
-
-		mInformationText.setString(information);
-	}
-}
-
 void TilemapView::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform.combine(mTransform.getTransform());
@@ -315,7 +274,6 @@ void TilemapView::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	states.texture = mTilemapTexture;
 	target.draw(mTileVerticlesArray, states);
-	target.draw(mInformationText);
 }
 
 sf::Vector2u TilemapView::calculateTextureTilePosition(const Tile::Identifier tileIdentifier) const noexcept

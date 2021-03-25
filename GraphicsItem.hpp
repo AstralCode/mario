@@ -50,8 +50,11 @@ public:
 	FloatPoint getLocalPosition() const noexcept;
 	FloatPoint getPosition() const noexcept;
 
+	bool isContainsPoint(const IntPoint& point) const noexcept;
 	bool isContainsPoint(const FloatPoint& point) const noexcept;
-	bool isIntersectsItem(const GraphicsItem& item) const noexcept;
+
+	bool isIntersects(const FloatArea& area) const noexcept;
+	bool isIntersects(const GraphicsItem& item) const noexcept;
 
 	bool isVisible() const noexcept;
 	bool isRemoved() const noexcept;
