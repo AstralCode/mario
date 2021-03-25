@@ -4,7 +4,7 @@
 
 #include "ResourceContainer.hpp"
 #include "Mario.hpp"
-#include "Creature.hpp"
+#include "Enemy.hpp"
 #include "Item.hpp"
 
 World::World(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept :
@@ -51,8 +51,8 @@ void World::spawnGoomba(const Tile::Index& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		auto entity = mEntities.create<Creature>(mResources.getTexture(TextureId::Enemies),
-												 mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move));
+		auto entity = mEntities.create<Enemy>(mResources.getTexture(TextureId::Enemies),
+											  mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move));
 
 		entity->setPosition(mTilemapView.getTilePosition(tileIndex));
 	}

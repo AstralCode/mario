@@ -42,7 +42,7 @@ namespace Constants
 			constexpr const auto Left = sf::Keyboard::A;
 			constexpr const auto Right = sf::Keyboard::D;
 		}
-		namespace Creature
+		namespace Enemy
 		{
 			constexpr const auto AccelerationX = World::Tilemap::TileSize * 5.0f;
 			constexpr const auto MaxVelocityX = World::Tilemap::TileSize * 5.0f;

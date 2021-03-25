@@ -3,10 +3,10 @@
 #include "EntityStateMachine.hpp"
 #include "Animation.hpp"
 
-class Creature final : public Entity
+class Enemy final : public Entity
 {
 public:
-	Creature(const sf::Texture& texture, const SpritesetRegion& sprites) noexcept;
+	Enemy(const sf::Texture& texture, const SpritesetRegion& sprites) noexcept;
 
 	template <typename TState>
 	void setState();
@@ -27,11 +27,11 @@ public:
 private:
 	Animation mMoveAnimation;
 
-	EntityStateMachine<Creature> mStates;
+	EntityStateMachine<Enemy> mStates;
 };
 
 template <typename TState>
-void Creature::setState()
+void Enemy::setState()
 {
 	mStates.setState<TState>(*this);
 }

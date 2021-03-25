@@ -1,22 +1,22 @@
-#include "CreatureFallState.hpp"
+#include "EnemyFallState.hpp"
 
-#include "CreatureMoveState.hpp"
+#include "EnemyMoveState.hpp"
 
-void CreatureFallState::onSet(Creature& entity) noexcept
+void EnemyFallState::onSet(Enemy& entity) noexcept
 {
     entity.setAccelerationX(0.0f);
 }
 
-void CreatureFallState::update(Creature&, const sf::Time&) noexcept
+void EnemyFallState::update(Enemy&, const sf::Time&) noexcept
 {
 
 }
 
-void CreatureFallState::tileCollision(Creature& entity, const Tile&, const CollisionSideType side) noexcept
+void EnemyFallState::tileCollision(Enemy& entity, const Tile&, const CollisionSideType side) noexcept
 {
     if (side == CollisionSideType::Top)
     {
-        entity.setState<CreatureMoveState>();
+        entity.setState<EnemyMoveState>();
     }
     else if (side == CollisionSideType::Left || side == CollisionSideType::Right)
     {
@@ -33,7 +33,7 @@ void CreatureFallState::tileCollision(Creature& entity, const Tile&, const Colli
     }
 }
 
-void CreatureFallState::entityCollision(Creature& entity, const Entity& collider, const CollisionSideType) noexcept
+void EnemyFallState::entityCollision(Enemy& entity, const Entity& collider, const CollisionSideType) noexcept
 {
     if (!collider.hasAttribute(Entity::Attributes::Controlablle))
     {
@@ -50,27 +50,27 @@ void CreatureFallState::entityCollision(Creature& entity, const Entity& collider
     }
 }
 
-void CreatureFallState::falling(Creature&) noexcept
+void EnemyFallState::falling(Enemy&) noexcept
 {
 
 }
 
-void CreatureFallState::onKeyPressed(Creature&, const sf::Event::KeyEvent&) noexcept
+void EnemyFallState::onKeyPressed(Enemy&, const sf::Event::KeyEvent&) noexcept
 {
 
 }
 
-void CreatureFallState::onKeyReleased(Creature&, const sf::Event::KeyEvent&) noexcept
+void EnemyFallState::onKeyReleased(Enemy&, const sf::Event::KeyEvent&) noexcept
 {
 
 }
 
-bool CreatureFallState::isJumping() const noexcept
+bool EnemyFallState::isJumping() const noexcept
 {
     return false;
 }
 
-bool CreatureFallState::isFalling() const noexcept
+bool EnemyFallState::isFalling() const noexcept
 {
     return true;
 }

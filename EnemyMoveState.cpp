@@ -1,20 +1,20 @@
-#include "CreatureMoveState.hpp"
+#include "EnemyMoveState.hpp"
 
-#include "CreatureFallState.hpp"
+#include "EnemyFallState.hpp"
 
-void CreatureMoveState::onSet(Creature& entity) noexcept
+void EnemyMoveState::onSet(Enemy& entity) noexcept
 {
-    entity.setAccelerationX(Constants::World::Creature::AccelerationX);
+    entity.setAccelerationX(Constants::World::Enemy::AccelerationX);
     entity.setAccelerationY(0.0f);
     entity.setMoveAnimation();
 }
 
-void CreatureMoveState::update(Creature& entity, const sf::Time& dt) noexcept
+void EnemyMoveState::update(Enemy& entity, const sf::Time& dt) noexcept
 {
     entity.updateMoveAnimation(dt);
 }
 
-void CreatureMoveState::tileCollision(Creature& entity, const Tile&, const CollisionSideType side) noexcept
+void EnemyMoveState::tileCollision(Enemy& entity, const Tile&, const CollisionSideType side) noexcept
 {
     if (side == CollisionSideType::Left || side == CollisionSideType::Right)
     {
@@ -31,7 +31,7 @@ void CreatureMoveState::tileCollision(Creature& entity, const Tile&, const Colli
     }
 }
 
-void CreatureMoveState::entityCollision(Creature& entity, const Entity& collider, const CollisionSideType) noexcept
+void EnemyMoveState::entityCollision(Enemy& entity, const Entity& collider, const CollisionSideType) noexcept
 {
     if (!collider.hasAttribute(Entity::Attributes::Controlablle))
     {
@@ -48,27 +48,27 @@ void CreatureMoveState::entityCollision(Creature& entity, const Entity& collider
     }
 }
 
-void CreatureMoveState::falling(Creature& entity) noexcept
+void EnemyMoveState::falling(Enemy& entity) noexcept
 {
-    entity.setState<CreatureFallState>();
+    entity.setState<EnemyFallState>();
 }
 
-void CreatureMoveState::onKeyPressed(Creature&, const sf::Event::KeyEvent&) noexcept
-{
-
-}
-
-void CreatureMoveState::onKeyReleased(Creature&, const sf::Event::KeyEvent&) noexcept
+void EnemyMoveState::onKeyPressed(Enemy&, const sf::Event::KeyEvent&) noexcept
 {
 
 }
 
-bool CreatureMoveState::isJumping() const noexcept
+void EnemyMoveState::onKeyReleased(Enemy&, const sf::Event::KeyEvent&) noexcept
+{
+
+}
+
+bool EnemyMoveState::isJumping() const noexcept
 {
     return false;
 }
 
-bool CreatureMoveState::isFalling() const noexcept
+bool EnemyMoveState::isFalling() const noexcept
 {
     return false;
 }
