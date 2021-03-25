@@ -44,7 +44,6 @@ void CollisionModule::handleEntityCollisions(const EntityColliders& colliders) c
 			if (collisionSide != CollisionSideType::None)
 			{
 				entity->entityCollision(*collisionEntity, collisionSide);
-				moveEntity(collisionSide, *entity, colliderArea);
 			}
 		}
 	}

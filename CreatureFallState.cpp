@@ -1,5 +1,7 @@
 #include "CreatureFallState.hpp"
 
+#include "CreatureMoveState.hpp"
+
 void CreatureFallState::onSet(Creature& entity) noexcept
 {
     entity.setAccelerationX(0.0f);
@@ -14,7 +16,7 @@ void CreatureFallState::tileCollision(Creature& entity, const Tile&, const Colli
 {
     if (side == CollisionSideType::Top)
     {
-        entity.setState(Creature::States::Move);
+        entity.setState<CreatureMoveState>();
     }
     else if (side == CollisionSideType::Left || side == CollisionSideType::Right)
     {

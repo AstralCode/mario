@@ -17,19 +17,15 @@ Mario::Mario(const ResourceContainer& resources, const SpritesetContainer& sprit
 	mMoveAnimation.setDuration(sf::seconds(Constants::World::Mario::MoveAnimationDuration));
 	mMoveAnimation.setRepeating(true);
 
-	mStates.registerState<MarioStandState>(Mario::States::Stand);
-	mStates.registerState<MarioMoveState>(Mario::States::Move);
-	mStates.registerState<MarioJumpState>(Mario::States::Jump);
-	mStates.registerState<MarioFallState>(Mario::States::Fall);
+	mStates.registerState<MarioStandState>();
+	mStates.registerState<MarioMoveState>();
+	mStates.registerState<MarioJumpState>();
+	mStates.registerState<MarioFallState>();
 
 	setAttribute(Entity::Attributes::Movable);
 	setTexture(resources.getTexture(Textures::Mario));
-	setState(Mario::States::Stand);
-}
 
-void Mario::setState(const Mario::States identifier)
-{
-	mStates.setCurrentState(*this, identifier);
+	setState<MarioStandState>();
 }
 
 void Mario::setMoveAnimation() noexcept
@@ -63,40 +59,40 @@ void Mario::setSlideSprite() noexcept
 
 void Mario::update(const sf::Time& dt) noexcept
 {
-	mStates.getCurrentState().update(*this, dt);
+	mStates.getState().update(*this, dt);
 }
 
 void Mario::tileCollision(const Tile& tile, const CollisionSideType side) noexcept
 {
-	mStates.getCurrentState().tileCollision(*this, tile, side);
+	mStates.getState().tileCollision(*this, tile, side);
 }
 
 void Mario::entityCollision(const Entity& collider, const CollisionSideType side) noexcept
 {
-	mStates.getCurrentState().entityCollision(*this, collider, side);
+	mStates.getState().entityCollision(*this, collider, side);
 }
 
 void Mario::falling() noexcept
 {
-	mStates.getCurrentState().falling(*this);
+	mStates.getState().falling(*this);
 }
 
 bool Mario::isJumping() const noexcept
 {
-	return mStates.getCurrentState().isJumping();
+	return mStates.getState().isJumping();
 }
 
 bool Mario::isFalling() const noexcept
 {
-	return mStates.getCurrentState().isFalling();
+	return mStates.getState().isFalling();
 }
 
 void Mario::onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcept
 {
-	mStates.getCurrentState().onKeyPressed(*this, keyEvent);
+	mStates.getState().onKeyPressed(*this, keyEvent);
 }
 
 void Mario::onKeyReleased(const sf::Event::KeyEvent& keyEvent) noexcept
 {
-	mStates.getCurrentState().onKeyReleased(*this, keyEvent);
+	mStates.getState().onKeyReleased(*this, keyEvent);
 }

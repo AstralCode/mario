@@ -6,17 +6,16 @@
 class Item final : public Entity
 {
 public:
-	enum class States
-	{
-		Active
-	};
-
 	Item(const sf::Texture& texture, const SpritesetRegion& sprites) noexcept;
 
-	void setState(const Item::States identifier);
+	template <typename TState>
+	void setState();
 
 	void setActiveAnimation() noexcept;
 	void updateActiveAnimation(const sf::Time& dt) noexcept;
+
+	void setPickupAnimation() noexcept;
+	void updatePickupAnimation(const sf::Time& dt) noexcept;
 
 	void update(const sf::Time& dt) noexcept override;
 
@@ -30,6 +29,13 @@ public:
 
 private:
 	Animation mActiveAnimation;
+	Animation mPickupAnimation;
 
-	EntityStateMachine<Item, Item::States> mStates;
+	EntityStateMachine<Item> mStates;
 };
+
+template <typename TState>
+void Item::setState()
+{
+	mStates.setState<TState>(*this);
+}

@@ -170,7 +170,6 @@ FloatPoint TilemapView::getTilePosition(const Tile::Index& index) const noexcept
 
 FloatPoint TilemapView::getTileCenterPosition(const Tile::Index& index) const noexcept
 {
-	auto& tileSize = mTilemap->getTileSize();
 	auto position = getTilePosition(index);
 
 	return {position.getX() + getTileWidth() / 2.0f, position.getY() + getTileHeight() / 2.0f};

@@ -1,5 +1,9 @@
 #include "MarioStandState.hpp"
 
+#include "MarioMoveState.hpp"
+#include "MarioFallState.hpp"
+#include "MarioJumpState.hpp"
+
 void MarioStandState::onSet(Mario& entity) noexcept
 {
     entity.setAccelerationX(0.0f);
@@ -28,9 +32,9 @@ void MarioStandState::entityCollision(Mario& entity, const Entity& collider, con
     }
 }
 
-void MarioStandState::falling(Mario&) noexcept
+void MarioStandState::falling(Mario& entity) noexcept
 {
-
+    entity.setState<MarioFallState>();
 }
 
 void MarioStandState::onKeyPressed(Mario& entity, const sf::Event::KeyEvent& keyEvent) noexcept
@@ -38,16 +42,16 @@ void MarioStandState::onKeyPressed(Mario& entity, const sf::Event::KeyEvent& key
     if (keyEvent.code == Constants::World::Mario::Left)
     {
         entity.setDirection(Entity::Directions::Left);
-        entity.setState(Mario::States::Move);
+        entity.setState<MarioMoveState>();
     }
     else if (keyEvent.code == Constants::World::Mario::Right)
     {
         entity.setDirection(Entity::Directions::Right);
-        entity.setState(Mario::States::Move);
+        entity.setState<MarioMoveState>();
     }
     else if (keyEvent.code == Constants::World::Mario::Up)
     {
-        entity.setState(Mario::States::Jump);
+        entity.setState<MarioJumpState>();
     }
 }
 

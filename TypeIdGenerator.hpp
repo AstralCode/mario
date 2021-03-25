@@ -18,12 +18,15 @@ class TypeIdGenerator
 {
 public:
     template <typename TType>
-    static TypeId next() noexcept
-    {
-        static TypeId generatedId{mCurrentId++};
-        return generatedId;
-    }
+    static TypeId id() noexcept;
 
 private:
     static TypeId::Type mCurrentId;
 };
+
+template <typename TType>
+inline TypeId TypeIdGenerator::id() noexcept
+{
+    static TypeId generatedId{mCurrentId++};
+    return generatedId;
+}

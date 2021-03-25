@@ -9,18 +9,14 @@ Creature::Creature(const sf::Texture& texture, const SpritesetRegion& sprites) n
 	mMoveAnimation.setDuration(sf::seconds(Constants::World::Creature::MoveAnimationDuration));
 	mMoveAnimation.setRepeating(true);
 
-	mStates.registerState<CreatureMoveState>(Creature::States::Move);
-	mStates.registerState<CreatureFallState>(Creature::States::Fall);
+	mStates.registerState<CreatureMoveState>();
+	mStates.registerState<CreatureFallState>();
 
 	setAttribute(Entity::Attributes::Movable);
 	setAttribute(Entity::Attributes::Deadly);
 	setTexture(texture);
-	setState(Creature::States::Move);
-}
 
-void Creature::setState(const Creature::States identifier)
-{
-	mStates.setCurrentState(*this, identifier);
+	setState<CreatureMoveState>();
 }
 
 void Creature::setMoveAnimation() noexcept
@@ -39,30 +35,30 @@ void Creature::updateMoveAnimation(const sf::Time& dt) noexcept
 
 void Creature::update(const sf::Time& dt) noexcept
 {
-	mStates.getCurrentState().update(*this, dt);
+	mStates.getState().update(*this, dt);
 }
 
 void Creature::tileCollision(const Tile& tile, const CollisionSideType side) noexcept
 {
-	mStates.getCurrentState().tileCollision(*this, tile, side);
+	mStates.getState().tileCollision(*this, tile, side);
 }
 
 void Creature::entityCollision(const Entity& collider, const CollisionSideType side) noexcept
 {
-	mStates.getCurrentState().entityCollision(*this, collider, side);
+	mStates.getState().entityCollision(*this, collider, side);
 }
 
 void Creature::falling() noexcept
 {
-	mStates.getCurrentState().falling(*this);
+	mStates.getState().falling(*this);
 }
 
 bool Creature::isJumping() const noexcept
 {
-	return mStates.getCurrentState().isJumping();
+	return mStates.getState().isJumping();
 }
 
 bool Creature::isFalling() const noexcept
 {
-	return mStates.getCurrentState().isFalling();
+	return mStates.getState().isFalling();
 }

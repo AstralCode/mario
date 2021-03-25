@@ -52,6 +52,7 @@ namespace Constants
 		{
 			constexpr const auto ShineAnimationDuration = 0.25f;
 			constexpr const auto ShineAnimationDelay = 0.25f;
+			constexpr const auto PickupAnimationDuration = 0.25f;
 		}
 	}
 }

@@ -166,6 +166,13 @@ void GameEngine::initializeSpritesets() noexcept
 		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{6, 2, 20, 28}}
 	}}});
 
+	itemSpriteset.addRegion(ItemSpritesetRegions::CoinPickup, SpritesetRegion{GridSize{32, 32}, GridTileIndex{4, 4}, {{
+		SpritesetArea{GridSize{16, 32}, GridTileIndex{0, 0}, SpriteArea{0, 2, 16, 28}},
+		SpritesetArea{GridSize{16, 32}, GridTileIndex{1, 0}, SpriteArea{6, 2, 8, 28}},
+		SpritesetArea{GridSize{16, 32}, GridTileIndex{2, 0}, SpriteArea{9, 2, 2, 28}},
+		SpritesetArea{GridSize{16, 32}, GridTileIndex{3, 0}, SpriteArea{6, 2, 8, 28}}
+	}}});
+
 	itemSpriteset.addRegion(ItemSpritesetRegions::ScoreCoin, SpritesetRegion{GridSize{32, 32}, GridTileIndex{9, 3}, {{
 		SpritesetArea{GridSize{11, 16}, GridTileIndex{0, 0}, SpriteArea{0, 0, 10, 16}},
 		SpritesetArea{GridSize{11, 16}, GridTileIndex{1, 0}, SpriteArea{0, 0, 10, 16}},

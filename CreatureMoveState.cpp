@@ -1,5 +1,7 @@
 #include "CreatureMoveState.hpp"
 
+#include "CreatureFallState.hpp"
+
 void CreatureMoveState::onSet(Creature& entity) noexcept
 {
     entity.setAccelerationX(Constants::World::Creature::AccelerationX);
@@ -48,7 +50,7 @@ void CreatureMoveState::entityCollision(Creature& entity, const Entity& collider
 
 void CreatureMoveState::falling(Creature& entity) noexcept
 {
-    entity.setState(Creature::States::Fall);
+    entity.setState<CreatureFallState>();
 }
 
 void CreatureMoveState::onKeyPressed(Creature&, const sf::Event::KeyEvent&) noexcept

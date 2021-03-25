@@ -8,17 +8,10 @@
 class Mario final : public Entity
 {
 public:
-	enum class States
-	{
-		Stand,
-		Move,
-		Jump,
-		Fall
-	};
-
 	Mario(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept;
 
-	void setState(const Mario::States identifier);
+	template <typename TState>
+	void setState();
 
 	void setMoveAnimation() noexcept;
 	void updateMoveAnimation(const sf::Time& dt) noexcept;
@@ -47,5 +40,11 @@ private:
 
 	Animation mMoveAnimation;
 
-	EntityStateMachine<Mario, Mario::States> mStates;
+	EntityStateMachine<Mario> mStates;
 };
+
+template <typename TState>
+void Mario::setState()
+{
+	mStates.setState<TState>(*this);
+}

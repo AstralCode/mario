@@ -17,6 +17,7 @@ enum class GoombaSpritesetRegions
 enum class ItemSpritesetRegions
 {
 	Coin,
+	CoinPickup,
 	ScoreCoin
 };
 

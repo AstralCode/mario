@@ -1,5 +1,7 @@
 #include "ItemActiveState.hpp"
 
+#include "ItemPickupState.hpp"
+
 void ItemActiveState::onSet(Item& entity) noexcept
 {
     entity.setActiveAnimation();
@@ -17,7 +19,7 @@ void ItemActiveState::tileCollision(Item&, const Tile&, const CollisionSideType)
 
 void ItemActiveState::entityCollision(Item& entity, const Entity&, const CollisionSideType) noexcept
 {
-    entity.destroy();
+    entity.setState<ItemPickupState>();
 }
 
 void ItemActiveState::falling(Item&) noexcept

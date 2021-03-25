@@ -1,24 +1,27 @@
 #include "Item.hpp"
 
 #include "ItemActiveState.hpp"
+#include "ItemPickupState.hpp"
 
 Item::Item(const sf::Texture& texture, const SpritesetRegion& sprites) noexcept :
-	mActiveAnimation{sprites}
+	mActiveAnimation{sprites},
+	mPickupAnimation{sprites}
 {
 	mActiveAnimation.setDuration(sf::seconds(Constants::World::Items::ShineAnimationDuration));
 	mActiveAnimation.setDirection(Animation::Directions::Alternate);
 	mActiveAnimation.setDelay(sf::seconds(Constants::World::Items::ShineAnimationDelay));
 	mActiveAnimation.setRepeating(true);
 
-	mStates.registerState<ItemActiveState>(Item::States::Active);
+	mPickupAnimation.setDuration(sf::seconds(Constants::World::Items::PickupAnimationDuration));
+	mPickupAnimation.setDirection(Animation::Directions::Normal);
+	mPickupAnimation.setRepeating(true);
+
+	mStates.registerState<ItemActiveState>();
+	mStates.registerState<ItemPickupState>();
 
 	setTexture(texture);
-	setState(Item::States::Active);
-}
 
-void Item::setState(const Item::States identifier)
-{
-	mStates.setCurrentState(*this, identifier);
+	setState<ItemActiveState>();
 }
 
 void Item::setActiveAnimation() noexcept
@@ -35,32 +38,46 @@ void Item::updateActiveAnimation(const sf::Time& dt) noexcept
 	setSpriteArea(mActiveAnimation.getCurrentSpriteArea());
 }
 
+void Item::setPickupAnimation() noexcept
+{
+	mPickupAnimation.play();
+
+	setSpriteArea(mPickupAnimation.getCurrentSpriteArea());
+}
+
+void Item::updatePickupAnimation(const sf::Time& dt) noexcept
+{
+	mPickupAnimation.update(dt);
+
+	setSpriteArea(mPickupAnimation.getCurrentSpriteArea());
+}
+
 void Item::update(const sf::Time& dt) noexcept
 {
-	mStates.getCurrentState().update(*this, dt);
+	mStates.getState().update(*this, dt);
 }
 
 void Item::tileCollision(const Tile& tile, const CollisionSideType side) noexcept
 {
-	mStates.getCurrentState().tileCollision(*this, tile, side);
+	mStates.getState().tileCollision(*this, tile, side);
 }
 
 void Item::entityCollision(const Entity& collider, const CollisionSideType side) noexcept
 {
-	mStates.getCurrentState().entityCollision(*this, collider, side);
+	mStates.getState().entityCollision(*this, collider, side);
 }
 
 void Item::falling() noexcept
 {
-	mStates.getCurrentState().falling(*this);
+	mStates.getState().falling(*this);
 }
 
 bool Item::isJumping() const noexcept
 {
-	return mStates.getCurrentState().isJumping();
+	return mStates.getState().isJumping();
 }
 
 bool Item::isFalling() const noexcept
 {
-	return mStates.getCurrentState().isFalling();
+	return mStates.getState().isFalling();
 }

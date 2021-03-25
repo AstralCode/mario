@@ -1,5 +1,9 @@
 #include "MarioMoveState.hpp"
 
+#include "MarioStandState.hpp"
+#include "MarioFallState.hpp"
+#include "MarioJumpState.hpp"
+
 void MarioMoveState::onSet(Mario& entity) noexcept
 {
     if (sf::Keyboard::isKeyPressed(Constants::World::Mario::Left) ||
@@ -35,7 +39,7 @@ void MarioMoveState::update(Mario& entity, const sf::Time& dt) noexcept
     }
     else if (std::fabs(entity.getVelocity().getX()) < Constants::World::Mario::StopVelocityX)
     {
-        entity.setState(Mario::States::Stand);
+        entity.setState<MarioStandState>();
     }
 }
 
@@ -58,7 +62,7 @@ void MarioMoveState::entityCollision(Mario& entity, const Entity& collider, cons
 
 void MarioMoveState::falling(Mario& entity) noexcept
 {
-    entity.setState(Mario::States::Fall);
+    entity.setState<MarioFallState>();
 }
 
 void MarioMoveState::onKeyPressed(Mario& entity, const sf::Event::KeyEvent& keyEvent) noexcept
@@ -75,7 +79,7 @@ void MarioMoveState::onKeyPressed(Mario& entity, const sf::Event::KeyEvent& keyE
     }
     else if (keyEvent.code == Constants::World::Mario::Up)
     {
-        entity.setState(Mario::States::Jump);
+        entity.setState<MarioJumpState>();
     }
 }
 

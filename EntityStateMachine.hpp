@@ -5,49 +5,52 @@
 
 #include "Entity.hpp"
 #include "EntityState.hpp"
+#include "TypeIdGenerator.hpp"
 
-template <typename TEntity, typename TStates>
+template <typename TEntity>
 class EntityStateMachine final
 {
 public:
-	template <typename TDerivedState>
-	void registerState(const TStates identifier) noexcept;
+	template <typename TState>
+	void registerState() noexcept;
 
-	void setCurrentState(TEntity& entity, const TStates identifier);
+	template <typename TState>
+	void setState(TEntity& entity);
 
-	EntityState<TEntity>& getCurrentState() noexcept;
-	const EntityState<TEntity>& getCurrentState() const noexcept;
+	EntityState<TEntity>& getState() noexcept;
+	const EntityState<TEntity>& getState() const noexcept;
 
 private:
-	std::map<TStates, std::unique_ptr<EntityState<TEntity>>> mStates;
+	std::map<TypeId, std::unique_ptr<EntityState<TEntity>>> mStates;
 
 	EntityState<TEntity>* mCurrentState;
 };
 
-template <typename TEntity, typename TStates>
-template <typename TDerivedState>
-inline void EntityStateMachine<TEntity, TStates>::registerState(const TStates identifier) noexcept
+template <typename TEntity>
+template <typename TState>
+inline void EntityStateMachine<TEntity>::registerState() noexcept
 {
-	static_assert(std::is_base_of_v<EntityState<TEntity>, TDerivedState>, "TDerivedState must derived from EntityState class");
+	static_assert(std::is_base_of_v<EntityState<TEntity>, TState>, "TState must derived from EntityState class");
 
-	mStates.emplace(identifier, std::make_unique<TDerivedState>());
+	mStates.emplace(TypeIdGenerator::id<TState>(), std::make_unique<TState>());
 }
 
-template <typename TEntity, typename TStates>
-inline void EntityStateMachine<TEntity, TStates>::setCurrentState(TEntity& entity, const TStates identifier)
+template <typename TEntity>
+template <typename TState>
+inline void EntityStateMachine<TEntity>::setState(TEntity& entity)
 {
-	mCurrentState = mStates.at(identifier).get();
+	mCurrentState = mStates.at(TypeIdGenerator::id<TState>()).get();
 	mCurrentState->onSet(entity);
 }
 
-template <typename TEntity, typename TStates>
-inline EntityState<TEntity>& EntityStateMachine<TEntity, TStates>::getCurrentState() noexcept
+template<typename TEntity>
+inline EntityState<TEntity>& EntityStateMachine<TEntity>::getState() noexcept
 {
 	return *mCurrentState;
 }
 
-template <typename TEntity, typename TStates>
-inline const EntityState<TEntity>& EntityStateMachine<TEntity, TStates>::getCurrentState() const noexcept
+template <typename TEntity>
+inline const EntityState<TEntity>& EntityStateMachine<TEntity>::getState() const noexcept
 {
 	return *mCurrentState;
 }

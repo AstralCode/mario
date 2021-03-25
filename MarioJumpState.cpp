@@ -1,5 +1,9 @@
 #include "MarioJumpState.hpp"
 
+#include "MarioStandState.hpp"
+#include "MarioMoveState.hpp"
+#include "MarioFallState.hpp"
+
 void MarioJumpState::onSet(Mario& entity) noexcept
 {
     entity.setVelocityY(-Constants::World::Mario::MaxVelocityY);
@@ -10,7 +14,7 @@ void MarioJumpState::update(Mario& entity, const sf::Time&) noexcept
 {
     if (entity.getVelocity().getX() > 0.0f)
     {
-        entity.setState(Mario::States::Fall);
+        entity.setState<MarioFallState>();
     }
 }
 
@@ -20,11 +24,11 @@ void MarioJumpState::tileCollision(Mario& entity, const Tile&, const CollisionSi
     {
         if (std::fabs(entity.getVelocity().getX()) > Constants::World::Mario::StopVelocityX)
         {
-            entity.setState(Mario::States::Move);
+            entity.setState<MarioMoveState>();
         }
         else
         {
-            entity.setState(Mario::States::Stand);
+            entity.setState<MarioStandState>();
         }
     }
     else if (side == CollisionSideType::Bottom)
