@@ -96,22 +96,22 @@ void GameEngine::loadResources()
 
 void GameEngine::loadFonts()
 {
-	mResources.addFont(Fonts::Roboto, ResourceLoader::loadFont(Constants::Resources::Fonts::Roboto));
+	mResources.addFont(FontId::Roboto, ResourceLoader::loadFont(Constants::Resources::Fonts::Roboto));
 }
 
 void GameEngine::loadTextures()
 {
-	mResources.addTexture(Textures::Enemies, ResourceLoader::loadTexture(Constants::Resources::Textures::Enemies));
-	mResources.addTexture(Textures::Items, ResourceLoader::loadTexture(Constants::Resources::Textures::Items));
-	mResources.addTexture(Textures::Mario, ResourceLoader::loadTexture(Constants::Resources::Textures::Mario));
-	mResources.addTexture(Textures::Scenery, ResourceLoader::loadTexture(Constants::Resources::Textures::Scenery));
-	mResources.addTexture(Textures::Logo, ResourceLoader::loadTexture(Constants::Resources::Textures::Logo));
+	mResources.addTexture(TextureId::Enemies, ResourceLoader::loadTexture(Constants::Resources::Textures::Enemies));
+	mResources.addTexture(TextureId::Items, ResourceLoader::loadTexture(Constants::Resources::Textures::Items));
+	mResources.addTexture(TextureId::Mario, ResourceLoader::loadTexture(Constants::Resources::Textures::Mario));
+	mResources.addTexture(TextureId::Scenery, ResourceLoader::loadTexture(Constants::Resources::Textures::Scenery));
+	mResources.addTexture(TextureId::Logo, ResourceLoader::loadTexture(Constants::Resources::Textures::Logo));
 }
 
 void GameEngine::initializeFramerateText() noexcept
 {
 	mFramerateText.setPosition(4.0f, 4.0f);
-	mFramerateText.setFont(mResources.getFont(Fonts::Roboto));
+	mFramerateText.setFont(mResources.getFont(FontId::Roboto));
 	mFramerateText.setCharacterSize(12u);
 }
 
@@ -167,10 +167,10 @@ void GameEngine::initializeSpritesets() noexcept
 	}}});
 
 	itemSpriteset.addRegion(ItemSpritesetRegions::CoinPickup, SpritesetRegion{GridSize{32, 32}, GridTileIndex{4, 4}, {{
-		SpritesetArea{GridSize{16, 32}, GridTileIndex{0, 0}, SpriteArea{0, 2, 16, 28}},
-		SpritesetArea{GridSize{16, 32}, GridTileIndex{1, 0}, SpriteArea{6, 2, 8, 28}},
-		SpritesetArea{GridSize{16, 32}, GridTileIndex{2, 0}, SpriteArea{9, 2, 2, 28}},
-		SpritesetArea{GridSize{16, 32}, GridTileIndex{3, 0}, SpriteArea{6, 2, 8, 28}}
+		SpritesetArea{GridSize{16, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 16, 32}},
+		SpritesetArea{GridSize{16, 32}, GridTileIndex{1, 0}, SpriteArea{0, 0, 16, 32}},
+		SpritesetArea{GridSize{16, 32}, GridTileIndex{2, 0}, SpriteArea{0, 0, 16, 32}},
+		SpritesetArea{GridSize{16, 32}, GridTileIndex{3, 0}, SpriteArea{0, 0, 16, 32}}
 	}}});
 
 	itemSpriteset.addRegion(ItemSpritesetRegions::ScoreCoin, SpritesetRegion{GridSize{32, 32}, GridTileIndex{9, 3}, {{

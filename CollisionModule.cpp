@@ -20,11 +20,14 @@ void CollisionModule::handleTileCollisions(const TileColliders& colliders) const
 
 		for (auto& collisionTile : collisionTiles)
 		{
-			const auto collisionSide = checkCollisionSide(entityArea, collisionTile.area);
-			if (collisionSide != CollisionSideType::None)
+			if (!entity->hasAttribute(Entity::Attributes::Transparent))
 			{
-				entity->tileCollision(collisionTile, collisionSide);
-				moveEntity(collisionSide, *entity, collisionTile.area);
+				const auto collisionSide = checkCollisionSide(entityArea, collisionTile.area);
+				if (collisionSide != CollisionSideType::None)
+				{
+					entity->tileCollision(collisionTile, collisionSide);
+					moveEntity(collisionSide, *entity, collisionTile.area);
+				}
 			}
 		}
 	}
@@ -34,16 +37,19 @@ void CollisionModule::handleEntityCollisions(const EntityColliders& colliders) c
 {
 	for (auto& [entity, collisionEntities] : colliders)
 	{
-		const auto entityArea = entity->getArea();
-
-		for (auto collisionEntity : collisionEntities)
+		if (!entity->hasAttribute(Entity::Attributes::Transparent))
 		{
-			const auto colliderArea = collisionEntity->getArea();
+			const auto entityArea = entity->getArea();
 
-			const auto collisionSide = checkCollisionSide(entityArea, colliderArea);
-			if (collisionSide != CollisionSideType::None)
+			for (auto collisionEntity : collisionEntities)
 			{
-				entity->entityCollision(*collisionEntity, collisionSide);
+				const auto colliderArea = collisionEntity->getArea();
+
+				const auto collisionSide = checkCollisionSide(entityArea, colliderArea);
+				if (collisionSide != CollisionSideType::None)
+				{
+					entity->entityCollision(*collisionEntity, collisionSide);
+				}
 			}
 		}
 	}

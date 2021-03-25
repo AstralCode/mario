@@ -6,7 +6,7 @@
 class Item final : public Entity
 {
 public:
-	Item(const sf::Texture& texture, const SpritesetRegion& sprites) noexcept;
+	Item(const sf::Texture& texture, const SpritesetRegion& activeSprites, const SpritesetRegion& pickupSprites) noexcept;
 
 	template <typename TState>
 	void setState();
@@ -24,12 +24,16 @@ public:
 
 	void falling() noexcept override;
 
+	const sf::Time& getPickupTime() const noexcept;
+
 	bool isJumping() const noexcept override;
 	bool isFalling() const noexcept override;
 
 private:
 	Animation mActiveAnimation;
 	Animation mPickupAnimation;
+
+	sf::Time mPickupAnimationTime;
 
 	EntityStateMachine<Item> mStates;
 };

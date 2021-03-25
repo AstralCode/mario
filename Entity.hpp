@@ -17,7 +17,8 @@ public:
 		Movable,
 		Controlablle,
 		Collectable,
-		Deadly
+		Deadly,
+		Transparent
 	};
 
 	enum class Directions
@@ -26,7 +27,7 @@ public:
 		Right
 	};
 
-	using AttributeFlags = Flags<Attributes, 4u>;
+	using AttributeFlags = Flags<Attributes, 5u>;
 
 	Entity() noexcept;
 	virtual ~Entity() = default;

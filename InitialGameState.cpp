@@ -1,7 +1,7 @@
 #include "InitialGameState.hpp"
 
 #include "GameStateChanger.hpp"
-#include "Resources.hpp"
+#include "ResourceIdentifiers.hpp"
 
 InitialGameState::InitialGameState(GameStateChanger& stateChanger, World& world) noexcept :
 	GameState{stateChanger, world}
@@ -23,10 +23,10 @@ void InitialGameState::onEnter() noexcept
 			{ 51,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  64 },
 			{ 65,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
 			{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
-			{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
-			{  0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
-			{  0,  23,  24,  25,   0,   0,   5,   6,   7,   0,   5,   6,   7,   0,   0,   0,   0,   0,   0,   0 },
-			{ 23,  24,  39,  39,  25,   0,   0,  47,  36,  37,  38,  47,   0,   0,  36,  37,  37,  38,   0,  23 },
+			{  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   5,   6,   7,   0,   0 },
+			{  0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  47,   0,   0,   0 },
+			{  0,  23,  24,  25,   0,   0,   5,   6,   7,   0,   5,   6,   7,   0,   0,   0,  47,   0,   0,   0 },
+			{ 23,  24,  39,  39,  25,   0,   0,  47,  36,  37,  38,  47,   0,   0,  36,  38,  47,   0,   0,  23 },
 			{  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 },
 			{  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 }
 		});
@@ -34,7 +34,7 @@ void InitialGameState::onEnter() noexcept
 	tilemap->setTileColliders({1, 2, 3, 5, 6, 7, 47});
 
 	auto& world = getWorld();
-	world.setTilemap(std::move(tilemap), Textures::Scenery, Fonts::Roboto, {97, 133, 246});
+	world.setTilemap(std::move(tilemap), TextureId::Scenery, FontId::Roboto, {97, 133, 246});
 	world.spawnMario({12, 1});
 	world.spawnGoomba({12,  8});
 	world.spawnGoomba({12,  10});
@@ -44,6 +44,11 @@ void InitialGameState::onEnter() noexcept
 	world.putCoin({7, 9});
 	world.putCoin({8, 10});
 	world.putCoin({9, 11});
+
+	world.getTilemapView().addOnMouseClick([&world](auto point, auto)
+	{
+		world.putCoin(world.getTilemapView().getTile(point).index);
+	});
 }
 
 void InitialGameState::onLeave() noexcept

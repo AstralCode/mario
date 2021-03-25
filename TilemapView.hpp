@@ -3,12 +3,17 @@
 #include "SFML/Window/Event.hpp"
 #include "SFML/Graphics/Text.hpp"
 
+#include <functional>
+
 #include "Tilemap.hpp"
 #include "TilemapGrid.hpp"
 
 class TilemapView final : public sf::Drawable
 {
 public:
+	using OnMouseClickDelegate = std::function<void(const IntPoint&, const sf::Mouse::Button)>;
+	using OnMouseMoveDelegate = std::function<void(const IntPoint&)>;
+
 	TilemapView() noexcept;
 
 	void setPosition(const float x, const float y) noexcept;
@@ -23,6 +28,9 @@ public:
 	void setInformationText(const sf::Font& font, const unsigned int characterSize = 12u) noexcept;
 
 	void receiveEvents(const sf::Event& event) noexcept;
+
+	void addOnMouseClick(OnMouseClickDelegate delegate) noexcept;
+	void addOnMouseMove(OnMouseMoveDelegate delegate) noexcept;
 
 	void build() noexcept;
 
@@ -53,7 +61,6 @@ private:
 	void clearTileSprite(const Tile::Index& tileIndex) noexcept;
 
 	void onMouseClick(const IntPoint& position, const sf::Mouse::Button button) noexcept;
-	void onMouseMoved(const IntPoint& position) noexcept;
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -76,4 +83,7 @@ private:
 	sf::VertexArray mTileVerticlesArray;
 
 	TilemapGrid mGrid;
+
+	std::vector<OnMouseClickDelegate> mOnMouseClickDelegates;
+	std::vector<OnMouseMoveDelegate> mOnMouseMoveDelegates;
 };

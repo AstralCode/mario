@@ -34,7 +34,7 @@ namespace Constants
 		{
 			constexpr const auto AccelerationX = World::Tilemap::TileSize * 20.0f;
 			constexpr const auto MaxVelocityX = World::Tilemap::TileSize * 10.0f;
-			constexpr const auto MaxVelocityY = World::Tilemap::TileSize * 22.0f;
+			constexpr const auto MaxVelocityY = World::Tilemap::TileSize * 24.0f;
 			constexpr const auto StopVelocityX = 12.0f;
 			constexpr const auto MoveAnimationDuration = 0.25f;
 			constexpr const auto Up = sf::Keyboard::W;
@@ -52,7 +52,9 @@ namespace Constants
 		{
 			constexpr const auto ShineAnimationDuration = 0.25f;
 			constexpr const auto ShineAnimationDelay = 0.25f;
-			constexpr const auto PickupAnimationDuration = 0.25f;
+			constexpr const auto PickupAnimationDuration = 0.15f;
+			constexpr const auto PickupVelocityY = World::Tilemap::TileSize * 15.0f;
+			constexpr const auto PickupDuration = 0.5f;
 		}
 	}
 }

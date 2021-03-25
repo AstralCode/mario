@@ -4,7 +4,7 @@
 #include "EntityContainer.hpp"
 #include "PhysicsModule.hpp"
 #include "CollisionModule.hpp"
-#include "Resources.hpp"
+#include "ResourceIdentifiers.hpp"
 
 class ResourceContainer;
 class SpritesetContainer;
@@ -14,7 +14,7 @@ class World final : public sf::Drawable
 public:
 	World(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept;
 
-	void setTilemap(std::unique_ptr<Tilemap> tilemap, const Textures textureIdentifier, const Fonts fontIdentifier, const sf::Color& background) noexcept;
+	void setTilemap(std::unique_ptr<Tilemap> tilemap, const TextureId textureIdentifier, const FontId fontIdentifier, const sf::Color& background) noexcept;
 
 	void spawnMario(const Tile::Index& tileIndex) noexcept;
 	void spawnGoomba(const Tile::Index& tileIndex) noexcept;

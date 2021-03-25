@@ -16,7 +16,7 @@ World::World(const ResourceContainer& resources, const SpritesetContainer& sprit
 
 }
 
-void World::setTilemap(std::unique_ptr<Tilemap> tilemap, const Textures textureIdentifier, const Fonts fontIdentifier, const sf::Color& background) noexcept
+void World::setTilemap(std::unique_ptr<Tilemap> tilemap, const TextureId textureIdentifier, const FontId fontIdentifier, const sf::Color& background) noexcept
 {
 	mTilemapView.setTilemap(std::move(tilemap));
 	mTilemapView.setTilemapTexture(mResources.getTexture(textureIdentifier));
@@ -33,13 +33,18 @@ void World::spawnMario(const Tile::Index& tileIndex) noexcept
 
 void World::spawnGoomba(const Tile::Index& tileIndex) noexcept
 {
-	auto entity = mEntities.create<Creature>(mResources.getTexture(Textures::Enemies), mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move));
+	auto entity = mEntities.create<Creature>(mResources.getTexture(TextureId::Enemies),
+											 mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move));
+
 	entity->setPosition(mTilemapView.getTilePosition(tileIndex));
 }
 
 void World::putCoin(const Tile::Index& tileIndex) noexcept
 {
-	auto entity = mEntities.create<Item>(mResources.getTexture(Textures::Items), mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::Coin));
+	auto entity = mEntities.create<Item>(mResources.getTexture(TextureId::Items),
+										 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::Coin),
+										 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::CoinPickup));
+
 	entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
 	entity->setOrigin(Entity::centerOrigin(*entity));
 	entity->setAttribute(Entity::Attributes::Collectable);

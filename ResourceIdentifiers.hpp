@@ -1,11 +1,11 @@
 #pragma once
 
-enum class Fonts
+enum class FontId
 {
 	Roboto
 };
 
-enum class Textures
+enum class TextureId
 {
 	Enemies,
 	Items,
@@ -14,7 +14,7 @@ enum class Textures
 	Logo
 };
 
-enum class Musics
+enum class MusicId
 {
 
 };

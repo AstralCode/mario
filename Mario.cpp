@@ -23,7 +23,7 @@ Mario::Mario(const ResourceContainer& resources, const SpritesetContainer& sprit
 	mStates.registerState<MarioFallState>();
 
 	setAttribute(Entity::Attributes::Movable);
-	setTexture(resources.getTexture(Textures::Mario));
+	setTexture(resources.getTexture(TextureId::Mario));
 
 	setState<MarioStandState>();
 }

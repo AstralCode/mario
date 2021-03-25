@@ -57,6 +57,11 @@ void TilemapView::receiveEvents(const sf::Event& event) noexcept
 	{
 		if (isContainsPoint({event.mouseButton.x, event.mouseButton.y}))
 		{
+			for (auto& onMouseClickDelegate : mOnMouseClickDelegates)
+			{
+				onMouseClickDelegate({event.mouseButton.x, event.mouseButton.y}, event.mouseButton.button);
+			}
+
 			onMouseClick({event.mouseButton.x, event.mouseButton.y}, event.mouseButton.button);
 		}
 		break;
@@ -66,7 +71,10 @@ void TilemapView::receiveEvents(const sf::Event& event) noexcept
 	{
 		if (isContainsPoint({event.mouseButton.x, event.mouseButton.y}))
 		{
-			onMouseMoved({event.mouseButton.x, event.mouseButton.y});
+			for (auto& onMouseMoveDelegate : mOnMouseMoveDelegates)
+			{
+				onMouseMoveDelegate({event.mouseButton.x, event.mouseButton.y});
+			}
 		}
 		break;
 	}
@@ -74,6 +82,16 @@ void TilemapView::receiveEvents(const sf::Event& event) noexcept
 	default:
 		break;
 	}
+}
+
+void TilemapView::addOnMouseClick(OnMouseClickDelegate delegate) noexcept
+{
+	mOnMouseClickDelegates.push_back(std::move(delegate));
+}
+
+void TilemapView::addOnMouseMove(OnMouseMoveDelegate delegate) noexcept
+{
+	mOnMouseMoveDelegates.push_back(std::move(delegate));
 }
 
 void TilemapView::build() noexcept
@@ -287,11 +305,6 @@ void TilemapView::onMouseClick(const IntPoint& position, const sf::Mouse::Button
 
 		mInformationText.setString(information);
 	}
-}
-
-void TilemapView::onMouseMoved(const IntPoint&) noexcept
-{
-
 }
 
 void TilemapView::draw(sf::RenderTarget& target, sf::RenderStates states) const

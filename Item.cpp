@@ -3,9 +3,9 @@
 #include "ItemActiveState.hpp"
 #include "ItemPickupState.hpp"
 
-Item::Item(const sf::Texture& texture, const SpritesetRegion& sprites) noexcept :
-	mActiveAnimation{sprites},
-	mPickupAnimation{sprites}
+Item::Item(const sf::Texture& texture, const SpritesetRegion& activeSprites, const SpritesetRegion& pickupSprites) noexcept :
+	mActiveAnimation{activeSprites},
+	mPickupAnimation{pickupSprites}
 {
 	mActiveAnimation.setDuration(sf::seconds(Constants::World::Items::ShineAnimationDuration));
 	mActiveAnimation.setDirection(Animation::Directions::Alternate);
@@ -48,6 +48,7 @@ void Item::setPickupAnimation() noexcept
 void Item::updatePickupAnimation(const sf::Time& dt) noexcept
 {
 	mPickupAnimation.update(dt);
+	mPickupAnimationTime += dt;
 
 	setSpriteArea(mPickupAnimation.getCurrentSpriteArea());
 }
@@ -70,6 +71,11 @@ void Item::entityCollision(const Entity& collider, const CollisionSideType side)
 void Item::falling() noexcept
 {
 	mStates.getState().falling(*this);
+}
+
+const sf::Time& Item::getPickupTime() const noexcept
+{
+	return mPickupAnimationTime;
 }
 
 bool Item::isJumping() const noexcept
