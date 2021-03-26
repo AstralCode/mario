@@ -19,8 +19,8 @@ Item::Item(const sf::Texture& texture, const SpritesetRegion& activeSprites, con
 	mStates.registerState<ItemActiveState>();
 	mStates.registerState<ItemPickupState>();
 
+	setTrait(Entity::TraitType::Item);
 	setTexture(texture);
-
 	setState<ItemActiveState>();
 }
 
@@ -65,7 +65,10 @@ void Item::tileCollision(const Tile& tile, const CollisionSideType side) noexcep
 
 void Item::entityCollision(const Entity& collider, const CollisionSideType side) noexcept
 {
-	mStates.getState().entityCollision(*this, collider, side);
+	if (!collider.hasTrait(Entity::TraitType::Transparent))
+	{
+		mStates.getState().entityCollision(*this, collider, side);
+	}
 }
 
 void Item::falling() noexcept

@@ -35,12 +35,12 @@ public:
 
 	Tile getTile(const IntPoint& position) const noexcept;
 	Tile getTile(const FloatPoint& position) const noexcept;
-	Tile getTile(const Tile::Index& index) const noexcept;
+	Tile getTile(const TileIndex& index) const noexcept;
 
 	std::vector<Tile> getTiles(const FloatArea& area) const noexcept;
 
-	FloatPoint getTilePosition(const Tile::Index& index) const noexcept;
-	FloatPoint getTileCenterPosition(const Tile::Index& index) const noexcept;
+	FloatPoint getTilePosition(const TileIndex& index) const noexcept;
+	FloatPoint getTileCenterPosition(const TileIndex& index) const noexcept;
 
 	float getTileWidth() const noexcept;
 	float getTileHeight() const noexcept;
@@ -54,15 +54,15 @@ public:
 	bool isGridVisible() const noexcept;
 
 private:
-	void setTileSprite(const Tile::Identifier tileIdentifier, const Tile::Index& tileIndex) noexcept;
-	void clearTileSprite(const Tile::Index& tileIndex) noexcept;
+	void setTileSprite(const Tile::Identifier tileIdentifier, const TileIndex& tileIndex) noexcept;
+	void clearTileSprite(const TileIndex& tileIndex) noexcept;
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	sf::Vector2u calculateTextureTilePosition(const Tile::Identifier tileIdentifier) const noexcept;
 	unsigned int calculateTextureTileIdentifierCount() const noexcept;
 	
-	sf::Vertex* getTileSpriteVerticles(const Tile::Index& tileIndex) noexcept;
+	sf::Vertex* getTileSpriteVerticles(const TileIndex& tileIndex) noexcept;
 
 	bool isContainsPoint(const IntPoint& point) const noexcept;
 

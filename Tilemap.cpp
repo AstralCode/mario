@@ -9,9 +9,9 @@ Tilemap::Tilemap(const int rowCount, const int columnCount, const FloatSize& til
 
 }
 
-void Tilemap::setTileIdentifier(const Tile::Index& index, const Tile::Identifier identifier) noexcept
+void Tilemap::setTileIdentifier(const TileIndex& index, const Tile::Identifier identifier) noexcept
 {
-	mIdentifiers[index.row][index.column] = identifier;
+	mIdentifiers[index.getRow()][index.getColumn()] = identifier;
 }
 
 void Tilemap::setTileIdentifiers(const TilemapIdentifiers& identifiers) noexcept
@@ -23,31 +23,31 @@ void Tilemap::setTileColliders(const TileIdentifiers& tileIdentifiers) noexcept
 {
 	for (const auto identifier : tileIdentifiers)
 	{
-		mAttributes[identifier].set(Tile::Attributes::Collider);
+		mTraits[identifier].set(Tile::TraitType::Collider);
 	}
 }
 
-Tile::Identifier Tilemap::getTileIdentifier(const Tile::Index& index) const noexcept
+Tile::Identifier Tilemap::getTileIdentifier(const TileIndex& index) const noexcept
 {
-	return mIdentifiers[index.row][index.column];
+	return mIdentifiers[index.getRow()][index.getColumn()];
 }
 
-Tile::AttributeFlags Tilemap::getTileAttributes(const Tile::Identifier identifier) const noexcept
+Tile::Traits Tilemap::getTileTraits(const Tile::Identifier identifier) const noexcept
 {
-	Tile::AttributeFlags attributes{};
+	Tile::Traits traits{};
 
-	const auto tileAttributesIterator = mAttributes.find(identifier);
-	if (tileAttributesIterator != mAttributes.end())
+	const auto tileTraitsIterator = mTraits.find(identifier);
+	if (tileTraitsIterator != mTraits.end())
 	{
-		attributes = tileAttributesIterator->second;
+		traits = tileTraitsIterator->second;
 	}
 
-	return attributes;
+	return traits;
 }
 
-Tile::AttributeFlags Tilemap::getTileAttributes(const Tile::Index& index) const noexcept
+Tile::Traits Tilemap::getTileTraits(const TileIndex& index) const noexcept
 {
-	return getTileAttributes(getTileIdentifier(index));
+	return getTileTraits(getTileIdentifier(index));
 }
 
 Tilemap::TileIdentifiers& Tilemap::getRow(const int index) noexcept

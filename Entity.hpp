@@ -4,20 +4,21 @@
 
 #include "Constants.hpp"
 #include "GraphicsItem.hpp"
-#include "Tile.hpp"
 #include "CollisionSideType.hpp"
+#include "Tile.hpp"
 
 class Sprite;
 
 class Entity : public GraphicsItem
 {
 public:
-	enum class Attributes
+	enum class TraitType
 	{
-		Destroyer,
+		Hero,
+		Enemy,
+		Item,
 		Movable,
-		Collectable,
-		Deadly,
+		Mass,
 		Transparent
 	};
 
@@ -27,15 +28,15 @@ public:
 		Right
 	};
 
-	using AttributeFlags = Flags<Attributes, 6u>;
+	using Traits = Flagset<TraitType, 6u>;
 
 	Entity() noexcept;
 	virtual ~Entity() = default;
 
 	static FloatPoint centerOrigin(const Entity& entity) noexcept;
 
-	void setAttribute(const Attributes attribute) noexcept;
-	void unsetAttribute(const Attributes attribute) noexcept;
+	void setTrait(const TraitType trait) noexcept;
+	void unsetTrait(const TraitType trait) noexcept;
 
 	void setTexture(const sf::Texture& texture) noexcept;
 	void setSpriteArea(const IntArea& area) noexcept;
@@ -60,9 +61,9 @@ public:
 
 	virtual void falling() noexcept = 0;
 
-	bool hasAttribute(const Attributes attribute) const noexcept;
+	bool hasTrait(const TraitType trait) const noexcept;
 
-	const AttributeFlags& getAttrubutes() const noexcept;
+	const Traits& getAttrubutes() const noexcept;
 
 	const Directions& getDirection() const noexcept;
 
@@ -84,7 +85,7 @@ private:
 	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;
 	void drawAreaBounds(sf::RenderTarget& target) const noexcept;
 
-	AttributeFlags mAttributes;
+	Traits mTraits;
 
 	Sprite* mSprite;
 

@@ -2,8 +2,8 @@
 
 void EnemyLoseState::onSet(Enemy& entity) noexcept
 {
-    entity.setAttribute(Entity::Attributes::Transparent);
-    entity.unsetAttribute(Entity::Attributes::Movable);
+    entity.setTrait(Entity::TraitType::Transparent);
+    entity.unsetTrait(Entity::TraitType::Movable);
     entity.setAccelerationX(0.0f);
     entity.setAccelerationY(0.0f);
     entity.setLoseSprite();

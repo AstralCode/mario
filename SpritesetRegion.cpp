@@ -18,8 +18,8 @@ int SpritesetRegion::getSpriteCount() const noexcept
 void SpritesetRegion::calculateSpriteAreas(const IntSize& gridSize, const GridTileIndex& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept
 {
     IntPoint regionOffset{};
-    regionOffset.setX(gridSize.getWidth() * gridTileIndex.row);
-    regionOffset.setY(gridSize.getHeight() * gridTileIndex.column);
+    regionOffset.setX(gridSize.getWidth() * gridTileIndex.getRow());
+    regionOffset.setY(gridSize.getHeight() * gridTileIndex.getColumn());
 
     for (std::size_t j{0u}; j < spritesetAreas.size(); j++)
     {
@@ -28,8 +28,8 @@ void SpritesetRegion::calculateSpriteAreas(const IntSize& gridSize, const GridTi
             auto& spritesetArea = spritesetAreas[j][i];
 
             IntArea spriteAreaOffset{};
-            spriteAreaOffset.setX(spritesetArea.getGridSize().getWidth() * spritesetArea.getGridTileIndex().row);
-            spriteAreaOffset.setY(spritesetArea.getGridSize().getHeight() * spritesetArea.getGridTileIndex().column);
+            spriteAreaOffset.setX(spritesetArea.getGridSize().getWidth() * spritesetArea.getGridTileIndex().getRow());
+            spriteAreaOffset.setY(spritesetArea.getGridSize().getHeight() * spritesetArea.getGridTileIndex().getColumn());
 
             SpriteArea spriteArea{};
             spriteArea.setX(regionOffset.getX() + spriteAreaOffset.getX() + spritesetArea.getSpriteArea().getX());

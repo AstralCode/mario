@@ -15,8 +15,9 @@ Enemy::Enemy(const sf::Texture& texture, const SpritesetRegion& moveSprites, con
 	mStates.registerState<EnemyFallState>();
 	mStates.registerState<EnemyLoseState>();
 
-	setAttribute(Entity::Attributes::Movable);
-	setAttribute(Entity::Attributes::Deadly);
+	setTrait(Entity::TraitType::Hero);
+	setTrait(Entity::TraitType::Mass);
+	setTrait(Entity::TraitType::Movable);
 	setTexture(texture);
 
 	setState<EnemyMoveState>();

@@ -20,11 +20,11 @@ void CollisionModule::handleTileCollisions(const TileColliders& colliders) const
 
 		for (auto& collisionTile : collisionTiles)
 		{
-			const auto collisionSide = checkCollisionSide(entityArea, collisionTile.area);
+			const auto collisionSide = checkCollisionSide(entityArea, collisionTile.getArea());
 			if (collisionSide != CollisionSideType::None)
 			{
 				entity->tileCollision(collisionTile, collisionSide);
-				moveEntity(collisionSide, *entity, collisionTile.area);
+				moveEntity(collisionSide, *entity, collisionTile.getArea());
 			}
 		}
 	}
@@ -56,7 +56,7 @@ CollisionModule::TileColliders CollisionModule::checkTileCollisions(const Entity
 	for (auto entity : entities)
 	{
 		if (!entity->isDestroyed() &&
-			!entity->hasAttribute(Entity::Attributes::Transparent))
+			!entity->hasTrait(Entity::TraitType::Transparent))
 		{
 			Tiles collisionTiles = tilemapView.getTiles(entity->getArea());
 			filterColliderTiles(collisionTiles);
@@ -83,7 +83,7 @@ CollisionModule::EntityColliders CollisionModule::checkEntityCollisions(const En
 	{
 		Entity* const entity = *entitiesIterator;
 
-		if (!entity->isDestroyed() && !entity->hasAttribute(Entity::Attributes::Transparent))
+		if (!entity->isDestroyed() && !entity->hasTrait(Entity::TraitType::Transparent))
 		{
 			Entities collisionEntities{};
 
@@ -171,7 +171,7 @@ void CollisionModule::filterColliderTiles(Tiles& tiles) const noexcept
 {
 	auto tilesIt = std::remove_if(tiles.begin(), tiles.end(), [](auto& tile)
 	{
-		return !tile.attributes.isSet(Tile::Attributes::Collider);
+		return !tile.hasTrait(Tile::TraitType::Collider);
 	});
 
 	tiles.erase(tilesIt, tiles.cend());

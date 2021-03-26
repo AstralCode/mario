@@ -4,7 +4,7 @@
 
 void PhysicsModule::updateMovement(Entity& entity, const sf::Time& dt) const noexcept
 {
-	if (entity.hasAttribute(Entity::Attributes::Movable))
+	if (entity.hasTrait(Entity::TraitType::Movable))
 	{
 		auto accelerateX = calculateAccelerate(entity.getAcceleration().getX(), dt);
 		accelerateX *= entity.hasDirection(Entity::Directions::Left) ? -1.0f : +1.0f;

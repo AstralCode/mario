@@ -10,19 +10,19 @@ class Tilemap final
 public:
 	using TileIdentifiers = std::vector<Tile::Identifier>;
 	using TilemapIdentifiers = std::vector<TileIdentifiers>;
-	using TileAttributes = std::map<Tile::Identifier, Tile::AttributeFlags>;
+	using TileTraits = std::map<Tile::Identifier, Tile::Traits>;
 
 	Tilemap(const int rowCount, const int columnCount, const FloatSize& tileSize) noexcept;
 
-	void setTileIdentifier(const Tile::Index& index, const Tile::Identifier identifier) noexcept;
+	void setTileIdentifier(const TileIndex& index, const Tile::Identifier identifier) noexcept;
 	void setTileIdentifiers(const TilemapIdentifiers& identifiers) noexcept;
 
 	void setTileColliders(const TileIdentifiers& tileIdentifiers) noexcept;
 
-	Tile::Identifier getTileIdentifier(const Tile::Index& index) const noexcept;
+	Tile::Identifier getTileIdentifier(const TileIndex& index) const noexcept;
 
-	Tile::AttributeFlags getTileAttributes(const Tile::Identifier identifier) const noexcept;
-	Tile::AttributeFlags getTileAttributes(const Tile::Index& index) const noexcept;
+	Tile::Traits getTileTraits(const Tile::Identifier identifier) const noexcept;
+	Tile::Traits getTileTraits(const TileIndex& index) const noexcept;
 
 	TileIdentifiers& getRow(const int index) noexcept;
 	TileIdentifiers getRow(const int index) const noexcept;
@@ -39,5 +39,5 @@ private:
 	FloatSize mTileSize;
 
 	TilemapIdentifiers mIdentifiers;
-	TileAttributes mAttributes;
+	TileTraits mTraits;
 };

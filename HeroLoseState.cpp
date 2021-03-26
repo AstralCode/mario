@@ -2,8 +2,8 @@
 
 void HeroLoseState::onSet(Hero& entity) noexcept
 {
-    entity.setAttribute(Entity::Attributes::Transparent);
-    entity.unsetAttribute(Entity::Attributes::Movable);
+    entity.setTrait(Entity::TraitType::Transparent);
+    entity.unsetTrait(Entity::TraitType::Movable);
     entity.setAccelerationX(0.0f);
     entity.setVelocityX(0.0f);
     entity.setAccelerationY(0.0f);
@@ -19,11 +19,11 @@ void HeroLoseState::update(Hero& entity, const sf::Time& dt) noexcept
     {
         entity.destroy();
     }
-    else if (!entity.hasAttribute(Entity::Attributes::Movable))
+    else if (!entity.hasTrait(Entity::TraitType::Movable))
     {
         if (entity.getLoseTime() >= sf::seconds(Constants::World::Hero::LoseAnimationStart))
         {
-            entity.setAttribute(Entity::Attributes::Movable);
+            entity.setTrait(Entity::TraitType::Movable);
             entity.setVelocityY(-Constants::World::Hero::MaxVelocityY);
         }
     }

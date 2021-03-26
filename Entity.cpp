@@ -23,14 +23,14 @@ FloatPoint Entity::centerOrigin(const Entity& entity) noexcept
     return {origin.getX() + size.getWidth() / 2.0f, origin.getY() + size.getHeight() / 2.0f};
 }
 
-void Entity::setAttribute(const Attributes attribute) noexcept
+void Entity::setTrait(const TraitType trait) noexcept
 {
-    mAttributes.set(attribute);
+    mTraits.set(trait);
 }
 
-void Entity::unsetAttribute(const Attributes attribute) noexcept
+void Entity::unsetTrait(const TraitType trait) noexcept
 {
-    mAttributes.unset(attribute);
+    mTraits.unset(trait);
 }
 
 void Entity::setTexture(const sf::Texture& texture) noexcept
@@ -83,14 +83,14 @@ void Entity::setVelocityY(const float value) noexcept
     mVelocity.setY(value);
 }
 
-bool Entity::hasAttribute(const Attributes attribute) const noexcept
+bool Entity::hasTrait(const TraitType trait) const noexcept
 {
-    return mAttributes.isSet(attribute);
+    return mTraits.isSet(trait);
 }
 
-const Entity::AttributeFlags& Entity::getAttrubutes() const noexcept
+const Entity::Traits& Entity::getAttrubutes() const noexcept
 {
-    return mAttributes;
+    return mTraits;
 }
 
 const Entity::Directions& Entity::getDirection() const noexcept

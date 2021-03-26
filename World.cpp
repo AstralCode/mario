@@ -32,7 +32,7 @@ void World::setTilemap(std::unique_ptr<Tilemap> tilemap) noexcept
 	mTilemapView.build();
 }
 
-void World::spawnMario(const Tile::Index& tileIndex) noexcept
+void World::spawnMario(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
@@ -44,16 +44,16 @@ void World::spawnMario(const Tile::Index& tileIndex) noexcept
 void World::spawnGoomba(const IntPoint& point) noexcept
 {
 	const auto tile = mTilemapView.getTile(point);
-	spawnGoomba(tile.index);
+	spawnGoomba(tile.getIndex());
 }
 
-void World::spawnGoomba(const Tile::Index& tileIndex) noexcept
+void World::spawnGoomba(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
 		auto entity = mEntities.create<Enemy>(mResources.getTexture(TextureId::Enemies),
-											  mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Move),
-											  mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegions::Lose).getSpriteArea(0));
+											  mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegionType::Move),
+											  mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegionType::Lose).getSpriteArea(0));
 
 		entity->setPosition(mTilemapView.getTilePosition(tileIndex));
 	}
@@ -63,40 +63,38 @@ void World::spawnGoomba(const Tile::Index& tileIndex) noexcept
 void World::putCoin(const IntPoint& point) noexcept
 {
 	const auto tile = mTilemapView.getTile(point);
-	putCoin(tile.index);
+	putCoin(tile.getIndex());
 }
 
-void World::putCoin(const Tile::Index& tileIndex) noexcept
+void World::putCoin(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
 		auto entity = mEntities.create<Item>(mResources.getTexture(TextureId::Items),
-											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::Coin),
-											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::CoinPickup));
+											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::Coin),
+											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::CoinPickup));
 
 		entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
 		entity->setOrigin(Entity::centerOrigin(*entity));
-		entity->setAttribute(Entity::Attributes::Collectable);
 	}
 }
 
 void World::putCoinBox(const IntPoint& point) noexcept
 {
 	const auto tile = mTilemapView.getTile(point);
-	putCoinBox(tile.index);
+	putCoinBox(tile.getIndex());
 }
 
-void World::putCoinBox(const Tile::Index& tileIndex) noexcept
+void World::putCoinBox(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
 		auto entity = mEntities.create<Item>(mResources.getTexture(TextureId::Items),
-											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::QBox),
-											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::QBoxEmpty));
+											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBox),
+											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBoxEmpty));
 
 		entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
 		entity->setOrigin(Entity::centerOrigin(*entity));
-		entity->setAttribute(Entity::Attributes::Collectable);
 	}
 }
 
@@ -106,7 +104,7 @@ void World::removeEntity(const IntPoint& point) noexcept
 
 	for (auto entity : mEntities)
 	{
-		if (entity->isIntersects(tile.area))
+		if (entity->isIntersects(tile.getArea()))
 		{
 			entity->destroy();
 
@@ -171,16 +169,16 @@ Entity* World::findEntity(const IntPoint& point) const noexcept
 bool World::isTileEmpty(const IntPoint& point) const noexcept
 {
 	const auto tile = mTilemapView.getTile(point);
-	return isTileEmpty(tile.index);
+	return isTileEmpty(tile.getIndex());
 }
 
-bool World::isTileEmpty(const Tile::Index& tileIndex) const noexcept
+bool World::isTileEmpty(const TileIndex& tileIndex) const noexcept
 {
 	const auto tile = mTilemapView.getTile(tileIndex);
 
 	for (auto entity : mEntities)
 	{
-		if (entity->isIntersects(tile.area))
+		if (entity->isIntersects(tile.getArea()))
 		{
 			return false;
 		}

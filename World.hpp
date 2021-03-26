@@ -18,16 +18,16 @@ public:
 	void setTilemapTexture(const TextureId identifier) noexcept;
 	void setTilemapBackground(const sf::Color& background) noexcept;
 
-	void spawnMario(const Tile::Index& tileIndex) noexcept;
+	void spawnMario(const TileIndex& tileIndex) noexcept;
 
 	void spawnGoomba(const IntPoint& point) noexcept;
-	void spawnGoomba(const Tile::Index& tileIndex) noexcept;
+	void spawnGoomba(const TileIndex& tileIndex) noexcept;
 
 	void putCoin(const IntPoint& point) noexcept;
-	void putCoin(const Tile::Index& tileIndex) noexcept;
+	void putCoin(const TileIndex& tileIndex) noexcept;
 
 	void putCoinBox(const IntPoint& point) noexcept;
-	void putCoinBox(const Tile::Index& tileIndex) noexcept;
+	void putCoinBox(const TileIndex& tileIndex) noexcept;
 
 	void removeEntity(const IntPoint& point) noexcept;
 
@@ -44,7 +44,7 @@ public:
 	Entity* findEntity(const IntPoint& point) const noexcept;
 
 	bool isTileEmpty(const IntPoint& point) const noexcept;
-	bool isTileEmpty(const Tile::Index& tileIndex) const noexcept;
+	bool isTileEmpty(const TileIndex& tileIndex) const noexcept;
 
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

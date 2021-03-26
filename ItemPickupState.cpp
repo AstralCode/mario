@@ -3,8 +3,8 @@
 void ItemPickupState::onSet(Item& entity) noexcept
 {
     entity.setVelocityY(-Constants::World::Items::PickupVelocityY);
-    entity.setAttribute(Entity::Attributes::Transparent);
-    entity.setAttribute(Entity::Attributes::Movable);
+    entity.setTrait(Entity::TraitType::Transparent);
+    entity.setTrait(Entity::TraitType::Movable);
     entity.setPickupAnimation();
 }
 

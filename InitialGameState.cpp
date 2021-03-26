@@ -40,8 +40,8 @@ void InitialGameState::onEnter() noexcept
 	world.setTilemapBackground({97, 133, 246});
 	world.setTilemap(std::move(tilemap));
 
-	world.spawnMario(Tile::Index{12, 1});
-	world.spawnGoomba(Tile::Index{12,  8});
+	world.spawnMario(TileIndex{12, 1});
+	world.spawnGoomba(TileIndex{12,  8});
 
 	world.getTilemapView().addOnMouseClick([this](auto point, auto button)
 	{
@@ -89,7 +89,7 @@ void InitialGameState::onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcep
 
 	if (keyEvent.code == sf::Keyboard::F1)
 	{
-		world.spawnMario(Tile::Index{12, 1});
+		world.spawnMario(TileIndex{12, 1});
 	}
 	else if (keyEvent.code == sf::Keyboard::F2)
 	{

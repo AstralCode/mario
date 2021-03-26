@@ -1,10 +1,9 @@
 #pragma once
 
-#include "Area.hpp"
 #include "Tile.hpp"
 
 using GridSize = IntSize;
-using GridTileIndex = Tile::Index;
+using GridTileIndex = TileIndex;
 using SpriteArea = IntArea;
 
 class SpritesetArea final

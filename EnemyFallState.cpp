@@ -36,9 +36,9 @@ void EnemyFallState::tileCollision(Enemy& entity, const Tile&, const CollisionSi
 
 void EnemyFallState::entityCollision(Enemy& entity, const Entity& collider, const CollisionSideType side) noexcept
 {
-    if (!collider.hasAttribute(Entity::Attributes::Transparent))
+    if (!collider.hasTrait(Entity::TraitType::Transparent))
     {
-        if (collider.hasAttribute(Entity::Attributes::Destroyer))
+        if (collider.hasTrait(Entity::TraitType::Hero))
         {
             if (side == CollisionSideType::Bottom)
             {
@@ -46,7 +46,7 @@ void EnemyFallState::entityCollision(Enemy& entity, const Entity& collider, cons
             }
         }
 
-        if (!entity.hasAttribute(Entity::Attributes::Transparent))
+        if (!entity.hasTrait(Entity::TraitType::Transparent))
         {
             if (entity.hasDirection(Entity::Directions::Right))
             {

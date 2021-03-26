@@ -14,11 +14,11 @@ Hero::Hero(const ResourceContainer& resources, const SpritesetContainer& sprites
 	mResources{resources},
 	mSpritesets{spritesets},
 	mJumpVelocity{0.0f},
-	mMoveAnimation{spritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Move)},
-	mStandSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Stand).getSpriteArea(0)},
-	mJumpSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Jump).getSpriteArea(0)},
-	mSlideSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Slide).getSpriteArea(0)},
-	mLoseSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegions::Lose).getSpriteArea(0)}
+	mMoveAnimation{spritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Move)},
+	mStandSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Stand).getSpriteArea(0)},
+	mJumpSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Jump).getSpriteArea(0)},
+	mSlideSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Slide).getSpriteArea(0)},
+	mLoseSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Lose).getSpriteArea(0)}
 {
 	mMoveAnimation.setDuration(sf::seconds(Constants::World::Hero::MoveAnimationDuration));
 	mMoveAnimation.setRepeating(true);
@@ -29,10 +29,10 @@ Hero::Hero(const ResourceContainer& resources, const SpritesetContainer& sprites
 	mStates.registerState<HeroFallState>();
 	mStates.registerState<HeroLoseState>();
 
-	setAttribute(Entity::Attributes::Destroyer);
-	setAttribute(Entity::Attributes::Movable);
+	setTrait(Entity::TraitType::Hero);
+	setTrait(Entity::TraitType::Mass);
+	setTrait(Entity::TraitType::Movable);
 	setTexture(resources.getTexture(TextureId::Hero));
-
 	setState<HeroStandState>();
 }
 

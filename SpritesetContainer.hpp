@@ -8,17 +8,17 @@
 class SpritesetContainer final
 {
 public:
-	Spriteset<MarioSpritesetRegions>& getMarioSpriteset() noexcept;
-	const Spriteset<MarioSpritesetRegions>& getMarioSpriteset() const noexcept;
+	Spriteset<MarioSpritesetRegionType>& getMarioSpriteset() noexcept;
+	const Spriteset<MarioSpritesetRegionType>& getMarioSpriteset() const noexcept;
 
-	Spriteset<GoombaSpritesetRegions>& getGoombaSpriteset() noexcept;
-	const Spriteset<GoombaSpritesetRegions>& getGoombaSpriteset() const noexcept;
+	Spriteset<GoombaSpritesetRegionType>& getGoombaSpriteset() noexcept;
+	const Spriteset<GoombaSpritesetRegionType>& getGoombaSpriteset() const noexcept;
 
-	Spriteset<ItemSpritesetRegions>& getItemSpriteset() noexcept;
-	const Spriteset<ItemSpritesetRegions>& getItemSpriteset() const noexcept;
+	Spriteset<ItemSpritesetRegionType>& getItemSpriteset() noexcept;
+	const Spriteset<ItemSpritesetRegionType>& getItemSpriteset() const noexcept;
 
 private:
-	Spriteset<MarioSpritesetRegions> mMarioSpriteset;
-	Spriteset<GoombaSpritesetRegions> mGoombaSpriteset;
-	Spriteset<ItemSpritesetRegions> mItemSpriteset;
+	Spriteset<MarioSpritesetRegionType> mMarioSpriteset;
+	Spriteset<GoombaSpritesetRegionType> mGoombaSpriteset;
+	Spriteset<ItemSpritesetRegionType> mItemSpriteset;
 };

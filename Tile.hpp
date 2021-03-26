@@ -1,35 +1,41 @@
 #pragma once
 
-#include "Flags.hpp"
+#include "TileIndex.hpp"
+#include "Flagset.hpp"
 #include "Area.hpp"
 
-struct Tile
+class Tile final
 {
-	enum class Attributes
+public:
+	enum class TraitType
 	{
 		Collider
 	};
 
-	struct Index
-	{
-		using Type = int;
-
-		Type row{0};
-		Type column{0};
-
-		constexpr bool operator==(const Index& index) const noexcept;
-	};
-
 	using Identifier = unsigned char;
-	using AttributeFlags = Flags<Attributes, 1u>;
+	using Traits = Flagset<TraitType, 1u>;
 
-	Index index{};
-	Identifier identifier{0u};
-	AttributeFlags attributes{};
-	FloatArea area{};
+	Tile() noexcept;
+
+	void setIdentifier(const Identifier identifier) noexcept;
+
+	void setTrait(const TraitType trait) noexcept;
+	void setTraits(const Traits& traits) noexcept;
+
+	void setIndex(const TileIndex& index) noexcept;
+	void setArea(const FloatArea& area) noexcept;
+
+	Identifier getIdentifier() const noexcept;
+
+	const TileIndex& getIndex() const noexcept;
+	const Traits& getTraits() const noexcept;
+	const FloatArea& getArea() const noexcept;
+
+	bool hasTrait(const TraitType trait) const noexcept;
+
+private:
+	Identifier mIdentifier;
+	TileIndex mIndex;
+	Traits mTraits;
+	FloatArea mArea;
 };
-
-inline constexpr bool Tile::Index::operator==(const Index& index) const noexcept
-{
-	return (row == index.row && column == index.column);
-}

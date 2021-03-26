@@ -1,6 +1,6 @@
 #pragma once
 
-enum class MarioSpritesetRegions
+enum class MarioSpritesetRegionType
 {
 	Stand,
 	Move,
@@ -9,13 +9,13 @@ enum class MarioSpritesetRegions
 	Lose
 };
 
-enum class GoombaSpritesetRegions
+enum class GoombaSpritesetRegionType
 {
 	Move,
 	Lose
 };
 
-enum class ItemSpritesetRegions
+enum class ItemSpritesetRegionType
 {
 	Coin,
 	CoinPickup,
