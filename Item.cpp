@@ -65,10 +65,7 @@ void Item::tileCollision(const Tile& tile, const CollisionSideType side) noexcep
 
 void Item::entityCollision(const Entity& collider, const CollisionSideType side) noexcept
 {
-	if (!collider.hasTrait(Entity::TraitType::Transparent))
-	{
-		mStates.getState().entityCollision(*this, collider, side);
-	}
+	mStates.getState().entityCollision(*this, collider, side);
 }
 
 void Item::falling() noexcept
