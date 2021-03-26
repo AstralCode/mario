@@ -3,7 +3,7 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 #include "ResourceContainer.hpp"
-#include "Mario.hpp"
+#include "Hero.hpp"
 #include "Enemy.hpp"
 #include "Item.hpp"
 
@@ -36,7 +36,7 @@ void World::spawnMario(const Tile::Index& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		auto entity = mEntities.create<Mario>(mResources, mSpritesets);
+		auto entity = mEntities.create<Hero>(mResources, mSpritesets);
 		entity->setPosition(mTilemapView.getTilePosition(tileIndex));
 	}
 }

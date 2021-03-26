@@ -5,10 +5,10 @@
 #include "ResourceContainer.hpp"
 #include "SpritesetContainer.hpp"
 
-class Mario final : public Entity
+class Hero final : public Entity
 {
 public:
-	Mario(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept;
+	Hero(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept;
 
 	template <typename TState>
 	void setState();
@@ -58,11 +58,11 @@ private:
 
 	sf::Time mLoseTime;
 
-	EntityStateMachine<Mario> mStates;
+	EntityStateMachine<Hero> mStates;
 };
 
 template <typename TState>
-void Mario::setState()
+void Hero::setState()
 {
 	mStates.setState<TState>(*this);
 }

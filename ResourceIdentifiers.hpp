@@ -9,7 +9,7 @@ enum class TextureId
 {
 	Enemies,
 	Items,
-	Mario,
+	Hero,
 	Scenery,
 	Logo
 };

@@ -103,7 +103,7 @@ void GameEngine::loadTextures()
 {
 	mResources.addTexture(TextureId::Enemies, ResourceLoader::loadTexture(Constants::Resources::Textures::Enemies));
 	mResources.addTexture(TextureId::Items, ResourceLoader::loadTexture(Constants::Resources::Textures::Items));
-	mResources.addTexture(TextureId::Mario, ResourceLoader::loadTexture(Constants::Resources::Textures::Mario));
+	mResources.addTexture(TextureId::Hero, ResourceLoader::loadTexture(Constants::Resources::Textures::Hero));
 	mResources.addTexture(TextureId::Scenery, ResourceLoader::loadTexture(Constants::Resources::Textures::Scenery));
 	mResources.addTexture(TextureId::Logo, ResourceLoader::loadTexture(Constants::Resources::Textures::Logo));
 }

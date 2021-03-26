@@ -14,7 +14,7 @@ namespace Constants
 		{
 			constexpr const auto Enemies = "Resources/Textures/Enemies.png";
 			constexpr const auto Items = "Resources/Textures/Items.png";
-			constexpr const auto Mario = "Resources/Textures/Mario.png";
+			constexpr const auto Hero = "Resources/Textures/Mario.png";
 			constexpr const auto Scenery = "Resources/Textures/Scenery.png";
 			constexpr const auto Logo = "Resources/Textures/Logo.png";
 		}
@@ -30,7 +30,7 @@ namespace Constants
 			constexpr const auto Friction = 0.92f;
 			constexpr const auto Gravity = 1800.0f;
 		}
-		namespace Mario
+		namespace Hero
 		{
 			constexpr const auto AccelerationX = World::Tilemap::TileSize * 20.0f;
 			constexpr const auto MaxVelocityX = World::Tilemap::TileSize * 10.0f;
