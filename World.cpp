@@ -77,9 +77,6 @@ void World::putCoin(const Tile::Index& tileIndex) noexcept
 		entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
 		entity->setOrigin(Entity::centerOrigin(*entity));
 		entity->setAttribute(Entity::Attributes::Collectable);
-		entity->setDestroyLater(true);
-		entity->setPickupAnimationEndTime(sf::seconds(Constants::World::Items::PickupAnimationEnd));
-		entity->setPickupHitCount(1);
 	}
 }
 
@@ -100,9 +97,6 @@ void World::putCoinBox(const Tile::Index& tileIndex) noexcept
 		entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
 		entity->setOrigin(Entity::centerOrigin(*entity));
 		entity->setAttribute(Entity::Attributes::Collectable);
-		entity->setDestroyLater(false);
-		entity->setPickupBackPosition(mTilemapView.getTileCenterPosition(tileIndex));
-		entity->setPickupHitCount(3);
 	}
 }
 
