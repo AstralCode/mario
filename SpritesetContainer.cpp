@@ -29,13 +29,3 @@ const Spriteset<ItemSpritesetRegions>& SpritesetContainer::getItemSpriteset() co
 {
 	return mItemSpriteset;
 }
-
-Spriteset<BlockSpritesetRegions>& SpritesetContainer::getBlockSpriteset() noexcept
-{
-	return mBlockSpriteset;
-}
-
-const Spriteset<BlockSpritesetRegions>& SpritesetContainer::getBlockSpriteset() const noexcept
-{
-	return mBlockSpriteset;
-}

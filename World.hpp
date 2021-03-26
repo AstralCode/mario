@@ -26,6 +26,9 @@ public:
 	void putCoin(const IntPoint& point) noexcept;
 	void putCoin(const Tile::Index& tileIndex) noexcept;
 
+	void putCoinBox(const IntPoint& point) noexcept;
+	void putCoinBox(const Tile::Index& tileIndex) noexcept;
+
 	void removeEntity(const IntPoint& point) noexcept;
 
 	void receiveEvents(const sf::Event& event) noexcept;

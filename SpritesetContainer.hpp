@@ -17,12 +17,8 @@ public:
 	Spriteset<ItemSpritesetRegions>& getItemSpriteset() noexcept;
 	const Spriteset<ItemSpritesetRegions>& getItemSpriteset() const noexcept;
 
-	Spriteset<BlockSpritesetRegions>& getBlockSpriteset() noexcept;
-	const Spriteset<BlockSpritesetRegions>& getBlockSpriteset() const noexcept;
-
 private:
 	Spriteset<MarioSpritesetRegions> mMarioSpriteset;
 	Spriteset<GoombaSpritesetRegions> mGoombaSpriteset;
 	Spriteset<ItemSpritesetRegions> mItemSpriteset;
-	Spriteset<BlockSpritesetRegions> mBlockSpriteset;
 };

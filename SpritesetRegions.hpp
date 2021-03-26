@@ -19,12 +19,7 @@ enum class ItemSpritesetRegions
 {
 	Coin,
 	CoinPickup,
+	QBox,
+	QBoxEmpty,
 	ScoreCoin
 };
-
-enum class BlockSpritesetRegions
-{
-	QuestionMarkBox,
-	WaterQuestionMarkBox
-};
-

@@ -83,8 +83,7 @@ CollisionModule::EntityColliders CollisionModule::checkEntityCollisions(const En
 	{
 		Entity* const entity = *entitiesIterator;
 
-		if (!entity->isDestroyed() &&
-			!entity->hasAttribute(Entity::Attributes::Transparent))
+		if (!entity->isDestroyed() && !entity->hasAttribute(Entity::Attributes::Transparent))
 		{
 			Entities collisionEntities{};
 

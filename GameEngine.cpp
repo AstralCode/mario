@@ -150,19 +150,6 @@ void GameEngine::initializeSpritesets() noexcept
 		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 16, 32, 16}}
 	}}});
 
-	auto& blocksSpriteset = mSpritesets.getBlockSpriteset();
-	blocksSpriteset.addRegion(BlockSpritesetRegions::QuestionMarkBox, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 32, 32}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{0, 0, 32, 32}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{0, 0, 32, 32}}
-	}}});
-
-	blocksSpriteset.addRegion(BlockSpritesetRegions::WaterQuestionMarkBox, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 1}, {{
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 32, 32}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{0, 0, 32, 32}},
-		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{0, 0, 32, 32}}
-	}}});
-
 	auto& itemSpriteset = mSpritesets.getItemSpriteset();
 	itemSpriteset.addRegion(ItemSpritesetRegions::Coin, SpritesetRegion{GridSize{32, 32}, GridTileIndex{4, 0}, {{
 		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{6, 2, 20, 28}},
@@ -175,6 +162,16 @@ void GameEngine::initializeSpritesets() noexcept
 		SpritesetArea{GridSize{16, 32}, GridTileIndex{1, 0}, SpriteArea{0, 0, 16, 32}},
 		SpritesetArea{GridSize{16, 32}, GridTileIndex{2, 0}, SpriteArea{0, 0, 16, 32}},
 		SpritesetArea{GridSize{16, 32}, GridTileIndex{3, 0}, SpriteArea{0, 0, 16, 32}}
+	}}});
+
+	itemSpriteset.addRegion(ItemSpritesetRegions::QBox, SpritesetRegion{GridSize{32, 32}, GridTileIndex{0, 0}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 32, 32}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{1, 0}, SpriteArea{0, 0, 32, 32}},
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{2, 0}, SpriteArea{0, 0, 32, 32}}
+	}}});
+
+	itemSpriteset.addRegion(ItemSpritesetRegions::QBoxEmpty, SpritesetRegion{GridSize{32, 32}, GridTileIndex{3, 0}, {{
+		SpritesetArea{GridSize{32, 32}, GridTileIndex{0, 0}, SpriteArea{0, 0, 32, 32}}
 	}}});
 
 	itemSpriteset.addRegion(ItemSpritesetRegions::ScoreCoin, SpritesetRegion{GridSize{32, 32}, GridTileIndex{9, 3}, {{

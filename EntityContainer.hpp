@@ -15,7 +15,7 @@ public:
 	EntityContainer(GraphicsItem& sceneRoot) noexcept;
 
 	template <typename TEntity, typename... TArguments>
-	Entity* create(TArguments&&... args) noexcept;
+	TEntity* create(TArguments&&... args) noexcept;
 
 	void clean() noexcept;
 
@@ -34,7 +34,7 @@ private:
 };
 
 template<typename TEntity, typename... TArguments>
-inline Entity* EntityContainer::create(TArguments&&... arguments) noexcept
+inline TEntity* EntityContainer::create(TArguments&&... arguments) noexcept
 {
 	static_assert(std::is_base_of_v<Entity, TEntity>, "TEntity must derived from Entity class");
 

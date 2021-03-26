@@ -77,6 +77,32 @@ void World::putCoin(const Tile::Index& tileIndex) noexcept
 		entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
 		entity->setOrigin(Entity::centerOrigin(*entity));
 		entity->setAttribute(Entity::Attributes::Collectable);
+		entity->setDestroyLater(true);
+		entity->setPickupAnimationEndTime(sf::seconds(Constants::World::Items::PickupAnimationEnd));
+		entity->setPickupHitCount(1);
+	}
+}
+
+void World::putCoinBox(const IntPoint& point) noexcept
+{
+	const auto tile = mTilemapView.getTile(point);
+	putCoinBox(tile.index);
+}
+
+void World::putCoinBox(const Tile::Index& tileIndex) noexcept
+{
+	if (isTileEmpty(tileIndex))
+	{
+		auto entity = mEntities.create<Item>(mResources.getTexture(TextureId::Items),
+											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::QBox),
+											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegions::QBoxEmpty));
+
+		entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
+		entity->setOrigin(Entity::centerOrigin(*entity));
+		entity->setAttribute(Entity::Attributes::Collectable);
+		entity->setDestroyLater(false);
+		entity->setPickupBackPosition(mTilemapView.getTileCenterPosition(tileIndex));
+		entity->setPickupHitCount(3);
 	}
 }
 
