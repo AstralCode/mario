@@ -27,7 +27,7 @@ void HeroStandState::collision(Hero&, const Hero&, const CollisionSideType) noex
 
 }
 
-void HeroStandState::collision(Hero& entity, const Enemy& enemy, const CollisionSideType side) noexcept
+void HeroStandState::collision(Hero& entity, const Enemy& enemy, const CollisionSideType) noexcept
 {
     if (!enemy.hasComponent(Entity::ComponentType::Transparent))
     {
