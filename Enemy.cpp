@@ -15,9 +15,8 @@ Enemy::Enemy(const sf::Texture& texture, const SpritesetRegion& moveSprites, con
 	mStates.registerState<EnemyFallState>();
 	mStates.registerState<EnemyLoseState>();
 
-	setTrait(Entity::TraitType::Hero);
-	setTrait(Entity::TraitType::Mass);
-	setTrait(Entity::TraitType::Movable);
+	setComponent(Entity::ComponentType::Mass);
+	setComponent(Entity::ComponentType::Movement);
 	setTexture(texture);
 
 	setState<EnemyMoveState>();
@@ -54,14 +53,29 @@ void Enemy::update(const sf::Time& dt) noexcept
 	mStates.getState().update(*this, dt);
 }
 
-void Enemy::tileCollision(const Tile& tile, const CollisionSideType side) noexcept
+void Enemy::collision(const Tile& tile, const CollisionSideType side) noexcept
 {
-	mStates.getState().tileCollision(*this, tile, side);
+	mStates.getState().collision(*this, tile, side);
 }
 
-void Enemy::entityCollision(const Entity& collider, const CollisionSideType side) noexcept
+void Enemy::collision(Entity& entity, const CollisionSideType side) const noexcept
 {
-	mStates.getState().entityCollision(*this, collider, side);
+	entity.collision(*this, side);
+}
+
+void Enemy::collision(const Hero& hero, const CollisionSideType side) noexcept
+{
+	mStates.getState().collision(*this, hero, side);
+}
+
+void Enemy::collision(const Enemy& enemy, const CollisionSideType side) noexcept
+{
+	mStates.getState().collision(*this, enemy, side);
+}
+
+void Enemy::collision(const Item& item, const CollisionSideType side) noexcept
+{
+	mStates.getState().collision(*this, item, side);
 }
 
 void Enemy::falling() noexcept

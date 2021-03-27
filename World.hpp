@@ -49,14 +49,22 @@ public:
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+	void updateEntities(EntityContainer& entities, const sf::Time& dt) noexcept;
+	void cleanEntities() noexcept;
+
 	const ResourceContainer& mResources;
 	const SpritesetContainer& mSpritesets;
 
-	GraphicsItem mRoot;
-	GraphicsItem& mEntityLayer;
+	GraphicsItem mSceneRoot;
+	GraphicsItem& mHeroLayer;
+	GraphicsItem& mEnemyLayer;
+	GraphicsItem& mItemLayer;
 
 	TilemapView mTilemapView;
-	EntityContainer mEntities;
+
+	EntityContainer mHeroes;
+	EntityContainer mEnemies;
+	EntityContainer mItems;
 
 	PhysicsModule mPhysicsModule;
 	CollisionModule mCollisionModule;

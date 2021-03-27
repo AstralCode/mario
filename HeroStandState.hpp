@@ -12,8 +12,11 @@ public:
 
 	void update(Hero& entity, const sf::Time& dt) noexcept override;
 
-	void tileCollision(Hero& entity, const Tile& tile, const CollisionSideType side) noexcept override;
-	void entityCollision(Hero& entity, const Entity& collider, const CollisionSideType side) noexcept override;
+	void collision(Hero& entity, const Tile& tile, const CollisionSideType side) noexcept override;
+
+	void collision(Hero& entity, const Hero& hero, const CollisionSideType side) noexcept override;
+	void collision(Hero& entity, const Enemy& enemy, const CollisionSideType side) noexcept override;
+	void collision(Hero& entity, const Item& item, const CollisionSideType side) noexcept override;
 
 	void falling(Hero& entity) noexcept override;
 

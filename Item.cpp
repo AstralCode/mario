@@ -19,7 +19,6 @@ Item::Item(const sf::Texture& texture, const SpritesetRegion& activeSprites, con
 	mStates.registerState<ItemActiveState>();
 	mStates.registerState<ItemPickupState>();
 
-	setTrait(Entity::TraitType::Item);
 	setTexture(texture);
 	setState<ItemActiveState>();
 }
@@ -58,14 +57,29 @@ void Item::update(const sf::Time& dt) noexcept
 	mStates.getState().update(*this, dt);
 }
 
-void Item::tileCollision(const Tile& tile, const CollisionSideType side) noexcept
+void Item::collision(const Tile& tile, const CollisionSideType side) noexcept
 {
-	mStates.getState().tileCollision(*this, tile, side);
+	mStates.getState().collision(*this, tile, side);
 }
 
-void Item::entityCollision(const Entity& collider, const CollisionSideType side) noexcept
+void Item::collision(Entity& entity, const CollisionSideType side) const noexcept
 {
-	mStates.getState().entityCollision(*this, collider, side);
+	entity.collision(*this, side);
+}
+
+void Item::collision(const Hero& hero, const CollisionSideType side) noexcept
+{
+	mStates.getState().collision(*this, hero, side);
+}
+
+void Item::collision(const Enemy& enemy, const CollisionSideType side) noexcept
+{
+	mStates.getState().collision(*this, enemy, side);
+}
+
+void Item::collision(const Item& item, const CollisionSideType side) noexcept
+{
+	mStates.getState().collision(*this, item, side);
 }
 
 void Item::falling() noexcept

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "EntityStateMachine.hpp"
-#include "Animation.hpp"
 #include "ResourceContainer.hpp"
 #include "SpritesetContainer.hpp"
+#include "Animation.hpp"
 
 class Hero final : public Entity
 {
@@ -27,8 +27,12 @@ public:
 
 	void update(const sf::Time& dt) noexcept override;
 
-	void tileCollision(const Tile& tile, const CollisionSideType side) noexcept override;
-	void entityCollision(const Entity& collider, const CollisionSideType side) noexcept override;
+	void collision(const Tile& tile, const CollisionSideType side) noexcept override;
+	void collision(Entity& entity, const CollisionSideType side) const noexcept override;
+
+	void collision(const Hero& hero, const CollisionSideType side) noexcept override;
+	void collision(const Enemy& enemy, const CollisionSideType side) noexcept override;
+	void collision(const Item& item, const CollisionSideType side) noexcept override;
 
 	void falling() noexcept override;
 

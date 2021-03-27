@@ -29,9 +29,8 @@ Hero::Hero(const ResourceContainer& resources, const SpritesetContainer& sprites
 	mStates.registerState<HeroFallState>();
 	mStates.registerState<HeroLoseState>();
 
-	setTrait(Entity::TraitType::Hero);
-	setTrait(Entity::TraitType::Mass);
-	setTrait(Entity::TraitType::Movable);
+	setComponent(Entity::ComponentType::Mass);
+	setComponent(Entity::ComponentType::Movement);
 	setTexture(resources.getTexture(TextureId::Hero));
 	setState<HeroStandState>();
 }
@@ -85,14 +84,29 @@ void Hero::update(const sf::Time& dt) noexcept
 	mStates.getState().update(*this, dt);
 }
 
-void Hero::tileCollision(const Tile& tile, const CollisionSideType side) noexcept
+void Hero::collision(const Tile& tile, const CollisionSideType side) noexcept
 {
-	mStates.getState().tileCollision(*this, tile, side);
+	mStates.getState().collision(*this, tile, side);
 }
 
-void Hero::entityCollision(const Entity& collider, const CollisionSideType side) noexcept
+void Hero::collision(Entity& entity, const CollisionSideType side) const noexcept
 {
-	mStates.getState().entityCollision(*this, collider, side);
+	entity.collision(*this, side);
+}
+
+void Hero::collision(const Hero& hero, const CollisionSideType side) noexcept
+{
+	mStates.getState().collision(*this, hero, side);
+}
+
+void Hero::collision(const Enemy& enemy, const CollisionSideType side) noexcept
+{
+	mStates.getState().collision(*this, enemy, side);
+}
+
+void Hero::collision(const Item& item, const CollisionSideType side) noexcept
+{
+	mStates.getState().collision(*this, item, side);
 }
 
 void Hero::falling() noexcept

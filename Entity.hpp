@@ -7,17 +7,17 @@
 #include "CollisionSideType.hpp"
 #include "Tile.hpp"
 
+class Hero;
+class Enemy;
+class Item;
 class Sprite;
 
 class Entity : public GraphicsItem
 {
 public:
-	enum class TraitType
+	enum class ComponentType
 	{
-		Hero,
-		Enemy,
-		Item,
-		Movable,
+		Movement,
 		Mass,
 		Transparent
 	};
@@ -28,15 +28,15 @@ public:
 		Right
 	};
 
-	using Traits = Flagset<TraitType, 6u>;
+	using Components = Flagset<ComponentType, 6u>;
 
 	Entity() noexcept;
 	virtual ~Entity() = default;
 
 	static FloatPoint centerOrigin(const Entity& entity) noexcept;
 
-	void setTrait(const TraitType trait) noexcept;
-	void unsetTrait(const TraitType trait) noexcept;
+	void setComponent(const ComponentType component) noexcept;
+	void unsetComponent(const ComponentType component) noexcept;
 
 	void setTexture(const sf::Texture& texture) noexcept;
 	void setSpriteArea(const IntArea& area) noexcept;
@@ -54,16 +54,20 @@ public:
 
 	void destroy() noexcept;
 
-	virtual void update(const sf::Time& dt) noexcept = 0;
+	virtual void collision(const Tile& tile, const CollisionSideType side) noexcept = 0;
+	virtual void collision(Entity& entity, const CollisionSideType side) const noexcept = 0;
 
-	virtual void tileCollision(const Tile& tile, const CollisionSideType side) noexcept = 0;
-	virtual void entityCollision(const Entity& entity, const CollisionSideType side) noexcept = 0;
+	virtual void collision(const Hero& hero, const CollisionSideType side) noexcept = 0;
+	virtual void collision(const Enemy& enemy, const CollisionSideType side) noexcept = 0;
+	virtual void collision(const Item& item, const CollisionSideType side) noexcept = 0;
+
+	virtual void update(const sf::Time& dt) noexcept = 0;
 
 	virtual void falling() noexcept = 0;
 
-	bool hasTrait(const TraitType trait) const noexcept;
+	bool hasComponent(const ComponentType trait) const noexcept;
 
-	const Traits& getAttrubutes() const noexcept;
+	const Components& getComponents() const noexcept;
 
 	const Directions& getDirection() const noexcept;
 
@@ -85,7 +89,7 @@ private:
 	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;
 	void drawAreaBounds(sf::RenderTarget& target) const noexcept;
 
-	Traits mTraits;
+	Components mComponents;
 
 	Sprite* mSprite;
 

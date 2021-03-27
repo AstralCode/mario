@@ -3,8 +3,8 @@
 void ItemPickupState::onSet(Item& entity) noexcept
 {
     entity.setVelocityY(-Constants::World::Items::PickupVelocityY);
-    entity.setTrait(Entity::TraitType::Transparent);
-    entity.setTrait(Entity::TraitType::Movable);
+    entity.setComponent(Entity::ComponentType::Transparent);
+    entity.setComponent(Entity::ComponentType::Movement);
     entity.setPickupAnimation();
 }
 
@@ -18,14 +18,21 @@ void ItemPickupState::update(Item& entity, const sf::Time& dt) noexcept
     }
 }
 
-void ItemPickupState::tileCollision(Item&, const Tile&, const CollisionSideType) noexcept
+void ItemPickupState::collision(Item&, const Tile&, const CollisionSideType) noexcept
 {
 
 }
 
-void ItemPickupState::entityCollision(Item&, const Entity&, const CollisionSideType) noexcept
+void ItemPickupState::collision(Item&, const Hero&, const CollisionSideType) noexcept
 {
+}
 
+void ItemPickupState::collision(Item&, const Enemy&, const CollisionSideType) noexcept
+{
+}
+
+void ItemPickupState::collision(Item&, const Item&, const CollisionSideType) noexcept
+{
 }
 
 void ItemPickupState::falling(Item&) noexcept

@@ -2,8 +2,8 @@
 
 void HeroLoseState::onSet(Hero& entity) noexcept
 {
-    entity.setTrait(Entity::TraitType::Transparent);
-    entity.unsetTrait(Entity::TraitType::Movable);
+    entity.setComponent(Entity::ComponentType::Transparent);
+    entity.unsetComponent(Entity::ComponentType::Movement);
     entity.setAccelerationX(0.0f);
     entity.setVelocityX(0.0f);
     entity.setAccelerationY(0.0f);
@@ -19,22 +19,32 @@ void HeroLoseState::update(Hero& entity, const sf::Time& dt) noexcept
     {
         entity.destroy();
     }
-    else if (!entity.hasTrait(Entity::TraitType::Movable))
+    else if (!entity.hasComponent(Entity::ComponentType::Movement))
     {
         if (entity.getLoseTime() >= sf::seconds(Constants::World::Hero::LoseAnimationStart))
         {
-            entity.setTrait(Entity::TraitType::Movable);
+            entity.setComponent(Entity::ComponentType::Movement);
             entity.setVelocityY(-Constants::World::Hero::MaxVelocityY);
         }
     }
 }
 
-void HeroLoseState::tileCollision(Hero&, const Tile&, const CollisionSideType) noexcept
+void HeroLoseState::collision(Hero&, const Tile&, const CollisionSideType) noexcept
 {
 
 }
 
-void HeroLoseState::entityCollision(Hero&, const Entity&, const CollisionSideType) noexcept
+void HeroLoseState::collision(Hero&, const Hero&, const CollisionSideType) noexcept
+{
+
+}
+
+void HeroLoseState::collision(Hero&, const Enemy&, const CollisionSideType) noexcept
+{
+
+}
+
+void HeroLoseState::collision(Hero&, const Item&, const CollisionSideType) noexcept
 {
 
 }

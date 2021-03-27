@@ -1,33 +1,28 @@
 #pragma once
 
-#include "Entity.hpp"
+#include <tuple>
+
+#include "EntityContainer.hpp"
 
 class TilemapView;
-class EntityContainer;
 
 class CollisionModule final
 {
 public:
-	void detectCollisions(const EntityContainer& entities, TilemapView& tilemapView) noexcept;
+	void detectTileCollisions(EntityContainer& entities, const TilemapView& tilemapView) noexcept;
+	void detectEntityCollisions(EntityContainer& entities, const EntityContainer& colliders) noexcept;
 
 private:
-	using Tiles = std::vector<Tile>;;
-	using Entities = std::vector<const Entity*>;
+	using TileList = std::vector<Tile>;
+	using EntityList = std::vector<const Entity*>;
 
-	using TileColliders = std::vector< std::pair<Entity*, Tiles>>;
-	using EntityColliders = std::vector<std::pair<Entity*, Entities>>;
+	TileList checkTileCollision(const Entity* entity, const TilemapView& tilemapView) const noexcept;
+	EntityList checkEntityCollision(Entity* entity, const Entity* collider) const noexcept;
 
-	void handleTileCollisions(const TileColliders& colliders) const noexcept;
-	void handleEntityCollisions(const EntityColliders& colliders) const noexcept;
-
-	TileColliders checkTileCollisions(const EntityContainer& entities, TilemapView& tilemapView) const noexcept;
-	EntityColliders checkEntityCollisions(const EntityContainer& entities) const noexcept;
+	void handleTileCollision(Entity* entity, const TileList& collisionTiles) const noexcept;
+	void handleEntityCollision(Entity* entity, const EntityList& collisionEntities) const noexcept;
 
 	CollisionSideType checkCollisionSide(const FloatArea& areaA, const FloatArea& areaB) const noexcept;
 
 	void moveEntity(const CollisionSideType side, Entity& entity, const FloatArea& area) const noexcept;
-
-	void filterColliderTiles(Tiles& tiles) const noexcept;
-
-	bool isEntityMove(Entity* entity) const noexcept;
 };

@@ -4,6 +4,7 @@
 #include "HeroMoveState.hpp"
 #include "HeroJumpState.hpp"
 #include "HeroLoseState.hpp"
+#include "Enemy.hpp"
 
 void HeroFallState::onSet(Hero& entity) noexcept
 {
@@ -15,7 +16,7 @@ void HeroFallState::update(Hero&, const sf::Time&) noexcept
 
 }
 
-void HeroFallState::tileCollision(Hero& entity, const Tile&, const CollisionSideType side) noexcept
+void HeroFallState::collision(Hero& entity, const Tile&, const CollisionSideType side) noexcept
 {
     if (side == CollisionSideType::Top)
     {
@@ -30,27 +31,30 @@ void HeroFallState::tileCollision(Hero& entity, const Tile&, const CollisionSide
     }
 }
 
-void HeroFallState::entityCollision(Hero& entity, const Entity& collider, const CollisionSideType side) noexcept
+void HeroFallState::collision(Hero&, const Hero&, const CollisionSideType) noexcept
 {
-    if (!collider.hasTrait(Entity::TraitType::Transparent))
+
+}
+
+void HeroFallState::collision(Hero& entity, const Enemy& enemy, const CollisionSideType side) noexcept
+{
+    if (!enemy.hasComponent(Entity::ComponentType::Transparent))
     {
-        if (collider.hasTrait(Entity::TraitType::Enemy))
+        if (side == CollisionSideType::Top)
         {
-            if (side == CollisionSideType::Top)
-            {
-                entity.setJumpVelocity(Constants::World::Hero::MaxVelocityY / 2.0f);
-                entity.setState<HeroJumpState>();
-            }
-            else if (collider.hasTrait(Entity::TraitType::Enemy))
-            {
-                entity.setState<HeroLoseState>();
-            }
+            entity.setJumpVelocity(Constants::World::Hero::MaxVelocityY / 2.0f);
+            entity.setState<HeroJumpState>();
         }
-        else if (collider.hasTrait(Entity::TraitType::Item))
+        else
         {
-            // collect item...
+            entity.setState<HeroLoseState>();
         }
     }
+}
+
+void HeroFallState::collision(Hero&, const Item&, const CollisionSideType) noexcept
+{
+
 }
 
 void HeroFallState::falling(Hero&) noexcept

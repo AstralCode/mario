@@ -39,5 +39,5 @@ private:
 	FloatSize mTileSize;
 
 	TilemapIdentifiers mIdentifiers;
-	TileTraits mTraits;
+	TileTraits mComponents;
 };

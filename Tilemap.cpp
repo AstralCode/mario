@@ -23,7 +23,7 @@ void Tilemap::setTileColliders(const TileIdentifiers& tileIdentifiers) noexcept
 {
 	for (const auto identifier : tileIdentifiers)
 	{
-		mTraits[identifier].set(Tile::TraitType::Collider);
+		mComponents[identifier].set(Tile::TraitType::Collider);
 	}
 }
 
@@ -36,8 +36,8 @@ Tile::Traits Tilemap::getTileTraits(const Tile::Identifier identifier) const noe
 {
 	Tile::Traits traits{};
 
-	const auto tileTraitsIterator = mTraits.find(identifier);
-	if (tileTraitsIterator != mTraits.end())
+	const auto tileTraitsIterator = mComponents.find(identifier);
+	if (tileTraitsIterator != mComponents.end())
 	{
 		traits = tileTraitsIterator->second;
 	}

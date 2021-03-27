@@ -2,8 +2,8 @@
 
 void EnemyLoseState::onSet(Enemy& entity) noexcept
 {
-    entity.setTrait(Entity::TraitType::Transparent);
-    entity.unsetTrait(Entity::TraitType::Movable);
+    entity.setComponent(Entity::ComponentType::Transparent);
+    entity.unsetComponent(Entity::ComponentType::Movement);
     entity.setAccelerationX(0.0f);
     entity.setAccelerationY(0.0f);
     entity.setLoseSprite();
@@ -19,12 +19,22 @@ void EnemyLoseState::update(Enemy& entity, const sf::Time& dt) noexcept
     }
 }
 
-void EnemyLoseState::tileCollision(Enemy&, const Tile&, const CollisionSideType) noexcept
+void EnemyLoseState::collision(Enemy&, const Tile&, const CollisionSideType) noexcept
 {
 
 }
 
-void EnemyLoseState::entityCollision(Enemy&, const Entity&, const CollisionSideType) noexcept
+void EnemyLoseState::collision(Enemy&, const Hero&, const CollisionSideType) noexcept
+{
+
+}
+
+void EnemyLoseState::collision(Enemy&, const Enemy&, const CollisionSideType) noexcept
+{
+
+}
+
+void EnemyLoseState::collision(Enemy&, const Item&, const CollisionSideType) noexcept
 {
 
 }

@@ -1,113 +1,96 @@
 #include "CollisionModule.hpp"
 
-#include "EntityContainer.hpp"
 #include "TilemapView.hpp"
 
-void CollisionModule::detectCollisions(const EntityContainer& entities, TilemapView& tilemapView) noexcept
+void CollisionModule::detectTileCollisions(EntityContainer& entities, const TilemapView& tilemapView) noexcept
 {
-	const auto tileColliders = checkTileCollisions(entities, tilemapView);
-	const auto entityColliders = checkEntityCollisions(entities);
-
-	handleTileCollisions(tileColliders);
-	handleEntityCollisions(entityColliders);
-}
-
-void CollisionModule::handleTileCollisions(const TileColliders& colliders) const noexcept
-{
-	for (auto& [entity, collisionTiles] : colliders)
-	{
-		const auto entityArea = entity->getArea();
-
-		for (auto& collisionTile : collisionTiles)
-		{
-			const auto collisionSide = checkCollisionSide(entityArea, collisionTile.getArea());
-			if (collisionSide != CollisionSideType::None)
-			{
-				entity->tileCollision(collisionTile, collisionSide);
-				moveEntity(collisionSide, *entity, collisionTile.getArea());
-			}
-		}
-	}
-}
-
-void CollisionModule::handleEntityCollisions(const EntityColliders& colliders) const noexcept
-{
-	for (auto& [entity, collisionEntities] : colliders)
-	{
-		const auto entityArea = entity->getArea();
-
-		for (auto collisionEntity : collisionEntities)
-		{
-			const auto colliderArea = collisionEntity->getArea();
-
-			const auto collisionSide = checkCollisionSide(entityArea, colliderArea);
-			if (collisionSide != CollisionSideType::None)
-			{
-				entity->entityCollision(*collisionEntity, collisionSide);
-			}
-		}
-	}
-}
-
-CollisionModule::TileColliders CollisionModule::checkTileCollisions(const EntityContainer& entities, TilemapView& tilemapView) const noexcept
-{
-	TileColliders colliders{};
-	
 	for (auto entity : entities)
 	{
-		if (!entity->isDestroyed() &&
-			!entity->hasTrait(Entity::TraitType::Transparent))
-		{
-			Tiles collisionTiles = tilemapView.getTiles(entity->getArea());
-			filterColliderTiles(collisionTiles);
-
-			if (!collisionTiles.empty())
-			{
-				colliders.emplace_back(entity, std::move(collisionTiles));
-			}
-			else
-			{
-				entity->falling();
-			}
-		}
+		const auto collisionTiles = checkTileCollision(entity, tilemapView);
+		handleTileCollision(entity, collisionTiles);
 	}
-
-	return colliders;
 }
 
-CollisionModule::EntityColliders CollisionModule::checkEntityCollisions(const EntityContainer& entities) const noexcept
+void CollisionModule::detectEntityCollisions(EntityContainer& entities, const EntityContainer& colliders) noexcept
 {
-	EntityColliders colliders{};
-
-	for (auto entitiesIterator = entities.cbegin(); entitiesIterator != entities.cend(); entitiesIterator++)
+	for (auto entity : entities)
 	{
-		Entity* const entity = *entitiesIterator;
-
-		if (!entity->isDestroyed() && !entity->hasTrait(Entity::TraitType::Transparent))
+		for (auto collider : colliders)
 		{
-			Entities collisionEntities{};
+			const auto collisionEntities = checkEntityCollision(entity, collider);
+			handleEntityCollision(entity, collisionEntities);
+		}
+	}
+}
 
-			for (auto collisionEntitiesIterator = entities.cbegin(); collisionEntitiesIterator != entities.cend(); collisionEntitiesIterator++)
+CollisionModule::TileList CollisionModule::checkTileCollision(const Entity* entity, const TilemapView& tilemapView) const noexcept
+{
+	TileList collisionTiles{};
+
+	if (!entity->isDestroyed() && !entity->hasComponent(Entity::ComponentType::Transparent))
+	{
+		const auto tiles = tilemapView.getTiles(entity->getArea());
+		for (auto& tile : tiles)
+		{
+			if (tile.hasTrait(Tile::TraitType::Collider))
 			{
-				if (entitiesIterator != collisionEntitiesIterator)
-				{
-					Entity* const collisionEntity = *collisionEntitiesIterator;
-
-					if (entity->isIntersects(*collisionEntity))
-					{
-						collisionEntities.push_back(collisionEntity);
-					}
-				}
-			}
-
-			if (!collisionEntities.empty())
-			{
-				colliders.emplace_back(entity, std::move(collisionEntities));
+				collisionTiles.push_back(tile);
 			}
 		}
 	}
 
-	return colliders;
+	return collisionTiles;
+}
+
+CollisionModule::EntityList CollisionModule::checkEntityCollision(Entity* entity, const Entity* collider) const noexcept
+{
+	EntityList collisionEntities{};
+
+	if (!entity->isDestroyed() && !entity->hasComponent(Entity::ComponentType::Transparent))
+	{
+		if (entity->isIntersects(*collider))
+		{
+			collisionEntities.push_back(collider);
+		}
+	}
+
+	return collisionEntities;
+}
+
+void CollisionModule::handleTileCollision(Entity* entity, const TileList& collisionTiles) const noexcept
+{
+	const auto entityArea = entity->getArea();
+
+	for (auto& collisionTile : collisionTiles)
+	{
+		const auto collisionSide = checkCollisionSide(entityArea, collisionTile.getArea());
+		if (collisionSide != CollisionSideType::None)
+		{
+			entity->collision(collisionTile, collisionSide);
+			moveEntity(collisionSide, *entity, collisionTile.getArea());
+		}
+	}
+
+	if (collisionTiles.empty())
+	{
+		entity->falling();
+	}
+}
+
+void CollisionModule::handleEntityCollision(Entity* entity, const EntityList& collisionEntities) const noexcept
+{
+	const auto entityArea = entity->getArea();
+
+	for (auto collisionEntity : collisionEntities)
+	{
+		const auto colliderArea = collisionEntity->getArea();
+
+		const auto collisionSide = checkCollisionSide(entityArea, colliderArea);
+		if (collisionSide != CollisionSideType::None)
+		{
+			collisionEntity->collision(*entity, collisionSide);
+		}
+	}
 }
 
 CollisionSideType CollisionModule::checkCollisionSide(const FloatArea& areaA, const FloatArea& areaB) const noexcept
@@ -123,11 +106,11 @@ CollisionSideType CollisionModule::checkCollisionSide(const FloatArea& areaA, co
 	{
 		return CollisionSideType::Top;
 	}
-	else if(isBottomCollision)
+	else if (isBottomCollision)
 	{
 		return CollisionSideType::Bottom;
 	}
-		
+
 	const auto isLeftCollision = centerA.getX() < centerB.getX() &&
 								 centerA.getY() > areaB.getTop();
 	const auto isRightCollision = centerA.getY() > areaB.getTop() &&
@@ -142,7 +125,7 @@ CollisionSideType CollisionModule::checkCollisionSide(const FloatArea& areaA, co
 	{
 		return CollisionSideType::Right;
 	}
-	
+
 	return CollisionSideType::None;
 }
 
@@ -165,19 +148,4 @@ void CollisionModule::moveEntity(const CollisionSideType side, Entity& entity, c
 	default:
 		break;
 	}
-}
-
-void CollisionModule::filterColliderTiles(Tiles& tiles) const noexcept
-{
-	auto tilesIt = std::remove_if(tiles.begin(), tiles.end(), [](auto& tile)
-	{
-		return !tile.hasTrait(Tile::TraitType::Collider);
-	});
-
-	tiles.erase(tilesIt, tiles.cend());
-}
-
-bool CollisionModule::isEntityMove(Entity* entity) const noexcept
-{
-	return entity->getAcceleration().getX() || entity->getAcceleration().getY();
 }

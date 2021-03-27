@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <algorithm>
+#include <functional>
 
 #include "Entity.hpp"
 
@@ -12,7 +14,7 @@ public:
 	using Iterator = Container::iterator;
 	using ConstIterator = Container::const_iterator;
 
-	EntityContainer(GraphicsItem& sceneRoot) noexcept;
+	EntityContainer(GraphicsItem& layer) noexcept;
 
 	template <typename TEntity, typename... TArguments>
 	TEntity* create(TArguments&&... args) noexcept;
@@ -29,16 +31,16 @@ public:
 	ConstIterator cend() const noexcept;
 
 private:
-	GraphicsItem& mSceneRoot;
+	GraphicsItem& mSceneLayer;
 	Container mEntities;
 };
 
-template<typename TEntity, typename... TArguments>
-inline TEntity* EntityContainer::create(TArguments&&... arguments) noexcept
+template <typename TEntity, typename... TArguments>
+TEntity* EntityContainer::create(TArguments&&... arguments) noexcept
 {
 	static_assert(std::is_base_of_v<Entity, TEntity>, "TEntity must derived from Entity class");
 
-	auto entity = mSceneRoot.addItem<TEntity>(std::forward<TArguments&&>(arguments)...);
+	auto entity = mSceneLayer.addItem<TEntity>(std::forward<TArguments&&>(arguments)...);
 	mEntities.push_back(entity);
 
 	return entity;

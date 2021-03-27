@@ -3,6 +3,7 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 #include "ResourceContainer.hpp"
+#include "SpritesetContainer.hpp"
 #include "Hero.hpp"
 #include "Enemy.hpp"
 #include "Item.hpp"
@@ -10,8 +11,12 @@
 World::World(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept :
 	mResources{resources},
 	mSpritesets{spritesets},
-	mEntityLayer{*mRoot.addItem<GraphicsItem>()},
-	mEntities{mEntityLayer}
+	mHeroLayer{*mSceneRoot.addItem<GraphicsItem>()},
+	mEnemyLayer{*mSceneRoot.addItem<GraphicsItem>()},
+	mItemLayer{*mSceneRoot.addItem<GraphicsItem>()},
+	mHeroes{mHeroLayer},
+	mEnemies{mEnemyLayer},
+	mItems{mItemLayer}
 {
 
 }
@@ -36,8 +41,8 @@ void World::spawnMario(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		auto entity = mEntities.create<Hero>(mResources, mSpritesets);
-		entity->setPosition(mTilemapView.getTilePosition(tileIndex));
+		auto hero = mHeroes.create<Hero>(mResources, mSpritesets);
+		hero->setPosition(mTilemapView.getTilePosition(tileIndex));
 	}
 }
 
@@ -51,11 +56,11 @@ void World::spawnGoomba(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		auto entity = mEntities.create<Enemy>(mResources.getTexture(TextureId::Enemies),
-											  mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegionType::Move),
-											  mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegionType::Lose).getSpriteArea(0));
+		auto enemy = mEnemies.create<Enemy>(mResources.getTexture(TextureId::Enemies),
+											mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegionType::Move),
+											mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegionType::Lose).getSpriteArea(0));
 
-		entity->setPosition(mTilemapView.getTilePosition(tileIndex));
+		enemy->setPosition(mTilemapView.getTilePosition(tileIndex));
 	}
 
 }
@@ -70,12 +75,12 @@ void World::putCoin(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		auto entity = mEntities.create<Item>(mResources.getTexture(TextureId::Items),
-											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::Coin),
-											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::CoinPickup));
+		auto item = mItems.create<Item>(mResources.getTexture(TextureId::Items),
+										mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::Coin),
+										mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::CoinPickup));
 
-		entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
-		entity->setOrigin(Entity::centerOrigin(*entity));
+		item->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
+		item->setOrigin(Entity::centerOrigin(*item));
 	}
 }
 
@@ -89,12 +94,12 @@ void World::putCoinBox(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		auto entity = mEntities.create<Item>(mResources.getTexture(TextureId::Items),
-											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBox),
-											 mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBoxEmpty));
+		auto item = mItems.create<Item>(mResources.getTexture(TextureId::Items),
+										mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBox),
+										mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBoxEmpty));
 
-		entity->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
-		entity->setOrigin(Entity::centerOrigin(*entity));
+		item->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
+		item->setOrigin(Entity::centerOrigin(*item));
 	}
 }
 
@@ -102,12 +107,11 @@ void World::removeEntity(const IntPoint& point) noexcept
 {
 	const auto tile = mTilemapView.getTile(point);
 
-	for (auto entity : mEntities)
+	for (auto entity : mHeroes)
 	{
 		if (entity->isIntersects(tile.getArea()))
 		{
 			entity->destroy();
-
 			return;
 		}
 	}
@@ -116,21 +120,28 @@ void World::removeEntity(const IntPoint& point) noexcept
 void World::receiveEvents(const sf::Event& event) noexcept
 {
 	mTilemapView.receiveEvents(event);
-	mRoot.receiveEvents(event);
+	mSceneRoot.receiveEvents(event);
 }
 
 void World::update(const sf::Time& dt) noexcept
 {
-	for (auto entity : mEntities)
-	{
-		entity->update(dt);
-		mPhysicsModule.updateMovement(*entity, dt);
-	}
+	updateEntities(mHeroes, dt);
+	updateEntities(mEnemies, dt);
+	updateEntities(mItems, dt);
 
-	mCollisionModule.detectCollisions(mEntities, mTilemapView);
+	mCollisionModule.detectTileCollisions(mHeroes, mTilemapView);
+	mCollisionModule.detectTileCollisions(mEnemies, mTilemapView);
 
-	mEntities.clean();
-	mRoot.clean();
+	mCollisionModule.detectEntityCollisions(mHeroes, mEnemies);
+	mCollisionModule.detectEntityCollisions(mEnemies, mHeroes);
+
+	mCollisionModule.detectEntityCollisions(mHeroes, mItems);
+	mCollisionModule.detectEntityCollisions(mEnemies, mItems);
+
+	mCollisionModule.detectEntityCollisions(mItems, mHeroes);
+	mCollisionModule.detectEntityCollisions(mItems, mEnemies);
+
+	cleanEntities();
 }
 
 const ResourceContainer& World::getResources() noexcept
@@ -155,7 +166,7 @@ const TilemapView& World::getTilemapView() const noexcept
 
 Entity* World::findEntity(const IntPoint& point) const noexcept
 {
-	for (auto entity : mEntities)
+	for (auto entity : mHeroes)
 	{
 		if (entity->isContainsPoint(point))
 		{
@@ -176,7 +187,7 @@ bool World::isTileEmpty(const TileIndex& tileIndex) const noexcept
 {
 	const auto tile = mTilemapView.getTile(tileIndex);
 
-	for (auto entity : mEntities)
+	for (auto entity : mHeroes)
 	{
 		if (entity->isIntersects(tile.getArea()))
 		{
@@ -190,5 +201,23 @@ bool World::isTileEmpty(const TileIndex& tileIndex) const noexcept
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const 
 {
 	target.draw(mTilemapView, states);
-	target.draw(mRoot, states);
+	target.draw(mSceneRoot, states);
+}
+
+void World::updateEntities(EntityContainer& entities, const sf::Time& dt) noexcept
+{
+	for (auto entity : entities)
+	{
+		entity->update(dt);
+		mPhysicsModule.updateMovement(*entity, dt);
+	}
+}
+
+void World::cleanEntities() noexcept
+{
+	mHeroes.clean();
+	mEnemies.clean();
+	mItems.clean();
+
+	mSceneRoot.clean();
 }
