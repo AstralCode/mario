@@ -17,7 +17,8 @@ World::World(const ResourceContainer& resources, const SpritesetContainer& sprit
 	mHeroes{mHeroLayer},
 	mEnemies{mEnemyLayer},
 	mItems{mItemLayer},
-	mMarioBuilder{mResources, mSpritesets}
+	mMarioBuilder{mResources, mSpritesets},
+	mGoombaBuilder{mResources, mSpritesets}
 {
 
 }
@@ -60,13 +61,12 @@ void World::spawnGoomba(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		auto enemy = mEnemies.create<Enemy>(mResources.getTexture(TextureId::Enemies),
-											mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegionType::Move),
-											mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegionType::Lose).getSpriteArea(0));
+		mGoombaBuilder.create(mEnemies);
+		mEnemyBuilderDirectior.buildEnemy(mGoombaBuilder);
 
-		enemy->setPosition(mTilemapView.getTilePosition(tileIndex));
+		auto goomba = mGoombaBuilder.getEnemy();
+		goomba->setPosition(mTilemapView.getTilePosition(tileIndex));
 	}
-
 }
 
 void World::putCoin(const IntPoint& point) noexcept

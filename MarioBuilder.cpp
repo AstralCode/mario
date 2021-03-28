@@ -17,7 +17,7 @@ MarioBuilder::MarioBuilder(const ResourceContainer& resources, const SpritesetCo
 
 void MarioBuilder::create(EntityContainer& heroes) noexcept
 {
-	mMario = heroes.create<Hero>(mResources, mSpritesets);
+	mMario = heroes.create<Hero>();
 }
 
 void MarioBuilder::buildTexture() noexcept
@@ -81,7 +81,7 @@ void MarioBuilder::buildLoseAnimation() noexcept
 	mMario->setLoseAnimation(animation);
 }
 
-void MarioBuilder::buildStates() noexcept
+void MarioBuilder::buildState() noexcept
 {
 	mMario->setState<HeroStandState>();
 }

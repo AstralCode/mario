@@ -6,7 +6,9 @@
 #include "CollisionModule.hpp"
 #include "ResourceIdentifiers.hpp"
 #include "HeroBuilderDirector.hpp"
+#include "EnemyBuilderDirector.hpp"
 #include "MarioBuilder.hpp"
+#include "GoombaBuilder.hpp"
 
 class ResourceContainer;
 class SpritesetContainer;
@@ -72,5 +74,8 @@ private:
 	CollisionModule mCollisionModule;
 
 	HeroBuilderDirector mHeroBuilderDirector;
+	EnemyBuilderDirector mEnemyBuilderDirectior;
+
 	MarioBuilder mMarioBuilder;
+	GoombaBuilder mGoombaBuilder;
 };

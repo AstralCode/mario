@@ -11,5 +11,5 @@ void HeroBuilderDirector::buildHero(HeroBuilder& builder) noexcept
 	builder.buildSlideAnimation();
 	builder.buildLoseAnimation();
 
-	builder.buildStates();
+	builder.buildState();
 }

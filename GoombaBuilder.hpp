@@ -1,34 +1,32 @@
 #pragma once
 
-#include "HeroBuilder.hpp"
+#include "EnemyBuilder.hpp"
 
 class ResourceContainer;
 class SpritesetContainer;
 class EntityContainer;
 
-class MarioBuilder final : public HeroBuilder
+class GoombaBuilder final : public EnemyBuilder
 {
 public:
-	MarioBuilder(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept;
+	GoombaBuilder(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept;
 
-	void create(EntityContainer& heroes) noexcept;
+	void create(EntityContainer& enemies) noexcept;
 
 	void buildTexture() noexcept override;
 	void buildComponents() noexcept override;
 
-	void buildStandAnimation() noexcept override;
 	void buildMoveAnimation() noexcept override;
-	void buildJumpAnimation() noexcept override;
-	void buildSlideAnimation() noexcept override;
 	void buildLoseAnimation() noexcept override;
 
 	void buildState() noexcept override;
 
-	Hero* getHero() const noexcept;
+	Enemy* getEnemy() const noexcept;
 
 private:
 	const ResourceContainer& mResources;
 	const SpritesetContainer& mSpritesets;
 
-	Hero* mMario;
+	Enemy* mEnemy;
 };
+

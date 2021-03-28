@@ -6,16 +6,19 @@
 class Enemy final : public Entity
 {
 public:
-	Enemy(const sf::Texture& texture, const SpritesetRegion& moveSprites, const IntArea& loseSpriteArea) noexcept;
+	Enemy() noexcept;
 
 	template <typename TState>
 	void setState();
 
+	void setMoveAnimation(const Animation& animation) noexcept;
+	void setLoseAnimation(const Animation& animation) noexcept;
+
 	void setMoveAnimation() noexcept;
 	void updateMoveAnimation(const sf::Time& dt) noexcept;
 
-	void setLoseSprite() noexcept;
-	void updateLoseTime(const sf::Time& dt) noexcept;
+	void setLoseAnimation() noexcept;
+	void updateLoseAnimation(const sf::Time& dt) noexcept;
 
 	void update(const sf::Time& dt) noexcept override;
 
@@ -32,8 +35,7 @@ public:
 
 private:
 	Animation mMoveAnimation;
-
-	IntArea mLoseSpriteArea;
+	Animation mLoseAnimation;
 
 	sf::Time mLoseTime;
 

@@ -17,8 +17,6 @@ public:
 	void setSlideAnimation(const Animation& animation) noexcept;
 	void setLoseAnimation(const Animation& animation) noexcept;
 
-	void setJumpVelocity(const float velocity) noexcept;
-
 	void setStandAnimation() noexcept;
 	void updateStandAnimation(const sf::Time& dt) noexcept;
 
@@ -33,6 +31,8 @@ public:
 
 	void setLoseAnimation() noexcept;
 	void updateLoseAnimation(const sf::Time& dt) noexcept;
+
+	void setJumpVelocity(const float velocity) noexcept;
 
 	void update(const sf::Time& dt) noexcept override;
 

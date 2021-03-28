@@ -9,16 +9,11 @@
 Hero::Hero() noexcept :
 	mJumpVelocity{0.0f}
 {
-	mMoveAnimation.setDuration(sf::seconds(Constants::World::Hero::MoveAnimationDuration));
-	mMoveAnimation.setRepeating(true);
-
 	mStates.registerState<HeroStandState>();
 	mStates.registerState<HeroMoveState>();
 	mStates.registerState<HeroJumpState>();
 	mStates.registerState<HeroFallState>();
 	mStates.registerState<HeroLoseState>();
-
-	setState<HeroStandState>();
 }
 
 void Hero::setStandAnimation(const Animation& animation) noexcept
@@ -44,11 +39,6 @@ void Hero::setSlideAnimation(const Animation& animation) noexcept
 void Hero::setLoseAnimation(const Animation& animation) noexcept
 {
 	mLoseAnimation = animation;
-}
-
-void Hero::setJumpVelocity(const float velocity) noexcept
-{
-	mJumpVelocity = velocity;
 }
 
 void Hero::setStandAnimation() noexcept
@@ -120,6 +110,11 @@ void Hero::updateLoseAnimation(const sf::Time& dt) noexcept
 	mLoseTime += dt;
 
 	setSpriteArea(mLoseAnimation.getCurrentSpriteArea());
+}
+
+void Hero::setJumpVelocity(const float velocity) noexcept
+{
+	mJumpVelocity = velocity;
 }
 
 void Hero::update(const sf::Time& dt) noexcept

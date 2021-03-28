@@ -4,22 +4,21 @@
 #include "EnemyFallState.hpp"
 #include "EnemyLoseState.hpp"
 
-Enemy::Enemy(const sf::Texture& texture, const SpritesetRegion& moveSprites, const IntArea& loseSpriteArea) noexcept :
-	mMoveAnimation{moveSprites},
-	mLoseSpriteArea{loseSpriteArea}
+Enemy::Enemy() noexcept
 {
-	mMoveAnimation.setDuration(sf::seconds(Constants::World::Enemy::MoveAnimationDuration));
-	mMoveAnimation.setRepeating(true);
-
 	mStates.registerState<EnemyMoveState>();
 	mStates.registerState<EnemyFallState>();
 	mStates.registerState<EnemyLoseState>();
+}
 
-	setComponent(Entity::ComponentType::Mass);
-	setComponent(Entity::ComponentType::Movement);
-	setTexture(texture);
+void Enemy::setMoveAnimation(const Animation& animation) noexcept
+{
+	mMoveAnimation = animation;
+}
 
-	setState<EnemyMoveState>();
+void Enemy::setLoseAnimation(const Animation& animation) noexcept
+{
+	mLoseAnimation = animation;
 }
 
 void Enemy::setMoveAnimation() noexcept
@@ -36,16 +35,22 @@ void Enemy::updateMoveAnimation(const sf::Time& dt) noexcept
 	setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
 }
 
-void Enemy::setLoseSprite() noexcept
+void Enemy::setLoseAnimation() noexcept
 {
-	setSpriteArea(mLoseSpriteArea);
+	mLoseAnimation.play();
 
-	move(0.0f, Constants::World::Tilemap::TileSize - mLoseSpriteArea.getHeight());
+	setSpriteArea(mLoseAnimation.getCurrentSpriteArea());
 }
 
-void Enemy::updateLoseTime(const sf::Time& dt) noexcept
+void Enemy::updateLoseAnimation(const sf::Time& dt) noexcept
 {
+	mLoseAnimation.update(dt);
 	mLoseTime += dt;
+
+	auto& spriteArea = mLoseAnimation.getCurrentSpriteArea();
+
+	setSpriteArea(spriteArea);
+	move(0.0f, Constants::World::Tilemap::TileSize - spriteArea.getHeight());
 }
 
 void Enemy::update(const sf::Time& dt) noexcept
