@@ -18,7 +18,8 @@ World::World(const ResourceContainer& resources, const SpritesetContainer& sprit
 	mEnemies{mEnemyLayer},
 	mItems{mItemLayer},
 	mMarioBuilder{mResources, mSpritesets},
-	mGoombaBuilder{mResources, mSpritesets}
+	mGoombaBuilder{mResources, mSpritesets},
+	mCoinBuilder{mResources, mSpritesets}
 {
 
 }
@@ -79,12 +80,11 @@ void World::putCoin(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		auto item = mItems.create<Item>(mResources.getTexture(TextureId::Items),
-										mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::Coin),
-										mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::CoinPickup));
+		mCoinBuilder.create(mItems);
+		mItemBuilderDirector.buildItem(mCoinBuilder);
 
-		item->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
-		item->setOrigin(Entity::centerOrigin(*item));
+		auto coin = mCoinBuilder.getItem();
+		coin->setPosition(mTilemapView.getTilePosition(tileIndex));
 	}
 }
 
@@ -98,12 +98,12 @@ void World::putCoinBox(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		auto item = mItems.create<Item>(mResources.getTexture(TextureId::Items),
-										mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBox),
-										mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBoxEmpty));
+		//auto item = mItems.create<Item>(mResources.getTexture(TextureId::Items),
+		//								mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBox),
+		//								mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBoxEmpty));
 
-		item->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
-		item->setOrigin(Entity::centerOrigin(*item));
+		//item->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
+		//item->setOrigin(Entity::centerOrigin(*item));
 	}
 }
 

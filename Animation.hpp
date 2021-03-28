@@ -1,12 +1,8 @@
 #pragma once
 
-#include <vector>
-
 #include "SFML/System/Time.hpp"
 
-#include "Area.hpp"
-
-class SpritesetRegion;
+#include "SpritesetRegion.hpp"
 
 class Animation final
 {

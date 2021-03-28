@@ -3,24 +3,20 @@
 #include "ItemActiveState.hpp"
 #include "ItemPickupState.hpp"
 
-Item::Item(const sf::Texture& texture, const SpritesetRegion& activeSprites, const SpritesetRegion& pickupSprites) noexcept :
-	mActiveAnimation{activeSprites},
-	mPickupAnimation{pickupSprites}
+Item::Item() noexcept
 {
-	mActiveAnimation.setDuration(sf::seconds(Constants::World::Items::ShineAnimationDuration));
-	mActiveAnimation.setDirection(Animation::Directions::Alternate);
-	mActiveAnimation.setDelay(sf::seconds(Constants::World::Items::ShineAnimationDelay));
-	mActiveAnimation.setRepeating(true);
-
-	mPickupAnimation.setDuration(sf::seconds(Constants::World::Items::PickupAnimationDuration));
-	mPickupAnimation.setDirection(Animation::Directions::Normal);
-	mPickupAnimation.setRepeating(true);
-
 	mStates.registerState<ItemActiveState>();
 	mStates.registerState<ItemPickupState>();
+}
 
-	setTexture(texture);
-	setState<ItemActiveState>();
+void Item::setActiveAnimation(const Animation& animation) noexcept
+{
+	mActiveAnimation = animation;
+}
+
+void Item::setPickupAnimation(const Animation& animation) noexcept
+{
+	mPickupAnimation = animation;
 }
 
 void Item::setActiveAnimation() noexcept

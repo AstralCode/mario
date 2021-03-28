@@ -51,9 +51,6 @@ namespace Constants
 		}
 		namespace Items
 		{
-			constexpr const auto ShineAnimationDuration = 0.25f;
-			constexpr const auto ShineAnimationDelay = 0.25f;
-			constexpr const auto PickupAnimationDuration = 0.15f;
 			constexpr const auto PickupVelocityY = World::Tilemap::TileSize * 15.0f;
 			constexpr const auto PickupAnimationEnd = 0.5f;
 		}

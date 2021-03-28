@@ -7,8 +7,10 @@
 #include "ResourceIdentifiers.hpp"
 #include "HeroBuilderDirector.hpp"
 #include "EnemyBuilderDirector.hpp"
+#include "ItemBuilderDirector.hpp"
 #include "MarioBuilder.hpp"
 #include "GoombaBuilder.hpp"
+#include "CoinBuilder.hpp"
 
 class ResourceContainer;
 class SpritesetContainer;
@@ -75,7 +77,9 @@ private:
 
 	HeroBuilderDirector mHeroBuilderDirector;
 	EnemyBuilderDirector mEnemyBuilderDirectior;
+	ItemBuilderDirector mItemBuilderDirector;
 
 	MarioBuilder mMarioBuilder;
 	GoombaBuilder mGoombaBuilder;
+	CoinBuilder mCoinBuilder;
 };

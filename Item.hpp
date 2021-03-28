@@ -6,10 +6,13 @@
 class Item final : public Entity
 {
 public:
-	Item(const sf::Texture& texture, const SpritesetRegion& activeSprites, const SpritesetRegion& pickupSprites) noexcept;
+	Item() noexcept;
 
 	template <typename TState>
 	void setState();
+
+	void setActiveAnimation(const Animation& animation) noexcept;
+	void setPickupAnimation(const Animation& animation) noexcept;
 
 	void setActiveAnimation() noexcept;
 	void updateActiveAnimation(const sf::Time& dt) noexcept;

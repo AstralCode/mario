@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "Spriteset.hpp"
-#include "SpritesetRegions.hpp"
+#include "SpritesetRegionIdentifiers.hpp"
 
 class SpritesetContainer final
 {

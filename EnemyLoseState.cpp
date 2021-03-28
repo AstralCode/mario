@@ -6,12 +6,12 @@ void EnemyLoseState::onSet(Enemy& entity) noexcept
     entity.unsetComponent(Entity::ComponentType::Movement);
     entity.setAccelerationX(0.0f);
     entity.setAccelerationY(0.0f);
-    entity.setLoseSprite();
+    entity.setLoseAnimation();
 }
 
 void EnemyLoseState::update(Enemy& entity, const sf::Time& dt) noexcept
 {
-    entity.updateLoseTime(dt);
+    entity.updateLoseAnimation(dt);
 
     if (entity.getLoseTime() >= sf::seconds(Constants::World::Enemy::LoseAnimationDuration))
     {
