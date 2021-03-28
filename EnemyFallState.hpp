@@ -20,7 +20,4 @@ public:
 
 	void onKeyPressed(Enemy& entity, const sf::Event::KeyEvent& keyEvent) noexcept override;
 	void onKeyReleased(Enemy& entity, const sf::Event::KeyEvent& keyEvent) noexcept override;
-
-	bool isJumping() const noexcept override;
-	bool isFalling() const noexcept override;
 };

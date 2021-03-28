@@ -27,7 +27,7 @@ CollisionModule::TileList CollisionModule::checkTileCollision(const Entity* enti
 {
 	TileList collisionTiles{};
 
-	if (!entity->isDestroyed() && !entity->hasComponent(Entity::ComponentType::Transparent))
+	if (!entity->isDestroyed() && !entity->hasComponent(Entity::ComponentType::Transparency))
 	{
 		const auto tiles = tilemapView.getTiles(entity->getArea());
 		for (auto& tile : tiles)
@@ -46,7 +46,7 @@ CollisionModule::EntityList CollisionModule::checkEntityCollision(Entity* entity
 {
 	EntityList collisionEntities{};
 
-	if (!entity->isDestroyed() && !entity->hasComponent(Entity::ComponentType::Transparent))
+	if (!entity->isDestroyed() && !entity->hasComponent(Entity::ComponentType::Transparency))
 	{
 		if (entity->isIntersects(*collider))
 		{

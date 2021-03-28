@@ -30,9 +30,6 @@ public:
 
 	const sf::Time& getPickupTime() const noexcept;
 
-	bool isJumping() const noexcept override;
-	bool isFalling() const noexcept override;
-
 private:
 	Animation mActiveAnimation;
 	Animation mPickupAnimation;

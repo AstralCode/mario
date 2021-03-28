@@ -37,7 +37,7 @@ void EnemyFallState::collision(Enemy& entity, const Tile&, const CollisionSideTy
 
 void EnemyFallState::collision(Enemy& entity, const Hero& hero, const CollisionSideType side) noexcept
 {
-    if (!hero.hasComponent(Entity::ComponentType::Transparent))
+    if (!hero.hasComponent(Entity::ComponentType::Transparency))
     {
         if (side == CollisionSideType::Bottom)
         {
@@ -48,7 +48,7 @@ void EnemyFallState::collision(Enemy& entity, const Hero& hero, const CollisionS
 
 void EnemyFallState::collision(Enemy& entity, const Enemy& enemy, const CollisionSideType) noexcept
 {
-    if (!enemy.hasComponent(Entity::ComponentType::Transparent))
+    if (!enemy.hasComponent(Entity::ComponentType::Transparency))
     {
         if (entity.hasDirection(Entity::Directions::Right))
         {
@@ -81,14 +81,4 @@ void EnemyFallState::onKeyPressed(Enemy&, const sf::Event::KeyEvent&) noexcept
 void EnemyFallState::onKeyReleased(Enemy&, const sf::Event::KeyEvent&) noexcept
 {
 
-}
-
-bool EnemyFallState::isJumping() const noexcept
-{
-    return false;
-}
-
-bool EnemyFallState::isFalling() const noexcept
-{
-    return true;
 }

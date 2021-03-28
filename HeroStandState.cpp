@@ -29,7 +29,7 @@ void HeroStandState::collision(Hero&, const Hero&, const CollisionSideType) noex
 
 void HeroStandState::collision(Hero& entity, const Enemy& enemy, const CollisionSideType) noexcept
 {
-    if (!enemy.hasComponent(Entity::ComponentType::Transparent))
+    if (!enemy.hasComponent(Entity::ComponentType::Transparency))
     {
         entity.setState<HeroLoseState>();
     }
@@ -67,14 +67,4 @@ void HeroStandState::onKeyPressed(Hero& entity, const sf::Event::KeyEvent& keyEv
 void HeroStandState::onKeyReleased(Hero&, const sf::Event::KeyEvent&) noexcept
 {
 
-}
-
-bool HeroStandState::isJumping() const noexcept
-{
-    return false;
-}
-
-bool HeroStandState::isFalling() const noexcept
-{
-    return false;
 }

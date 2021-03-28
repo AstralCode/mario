@@ -5,6 +5,8 @@
 #include "PhysicsModule.hpp"
 #include "CollisionModule.hpp"
 #include "ResourceIdentifiers.hpp"
+#include "HeroBuilderDirector.hpp"
+#include "MarioBuilder.hpp"
 
 class ResourceContainer;
 class SpritesetContainer;
@@ -68,4 +70,7 @@ private:
 
 	PhysicsModule mPhysicsModule;
 	CollisionModule mCollisionModule;
+
+	HeroBuilderDirector mHeroBuilderDirector;
+	MarioBuilder mMarioBuilder;
 };

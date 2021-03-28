@@ -2,7 +2,7 @@
 
 void EnemyLoseState::onSet(Enemy& entity) noexcept
 {
-    entity.setComponent(Entity::ComponentType::Transparent);
+    entity.setComponent(Entity::ComponentType::Transparency);
     entity.unsetComponent(Entity::ComponentType::Movement);
     entity.setAccelerationX(0.0f);
     entity.setAccelerationY(0.0f);
@@ -52,14 +52,4 @@ void EnemyLoseState::onKeyPressed(Enemy&, const sf::Event::KeyEvent&) noexcept
 void EnemyLoseState::onKeyReleased(Enemy&, const sf::Event::KeyEvent&) noexcept
 {
 
-}
-
-bool EnemyLoseState::isJumping() const noexcept
-{
-    return false;
-}
-
-bool EnemyLoseState::isFalling() const noexcept
-{
-    return false;
 }

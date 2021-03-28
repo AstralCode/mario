@@ -26,7 +26,9 @@ public:
 		AlternateReverse
 	};
 
-	Animation(const SpritesetRegion& region) noexcept;
+	Animation() noexcept;
+
+	void setSpriteset(const SpritesetRegion& spriteset) noexcept;
 
 	void setDelay(const sf::Time& delay);
 	void setDirection(const Directions direction) noexcept;
@@ -38,8 +40,6 @@ public:
 	void stop() noexcept;
 
 	void update(const sf::Time& dt) noexcept;
-
-	const SpritesetRegion& getSpritesetRegion() const noexcept;
 
 	const IntArea& getCurrentSpriteArea() const noexcept;
 
@@ -60,7 +60,7 @@ private:
 	constexpr int getFirstSpriteIndex() const noexcept;
 	int getLastSpriteIndex() const noexcept;
 
-	const SpritesetRegion& mSpritesetRegion;
+	SpritesetRegion mSpriteset;
 
 	Status mStatus;
 	Directions mDirection;

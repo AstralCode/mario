@@ -91,13 +91,3 @@ const sf::Time& Item::getPickupTime() const noexcept
 {
 	return mPickupAnimationTime;
 }
-
-bool Item::isJumping() const noexcept
-{
-	return mStates.getState().isJumping();
-}
-
-bool Item::isFalling() const noexcept
-{
-	return mStates.getState().isFalling();
-}

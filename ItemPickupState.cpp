@@ -3,7 +3,7 @@
 void ItemPickupState::onSet(Item& entity) noexcept
 {
     entity.setVelocityY(-Constants::World::Items::PickupVelocityY);
-    entity.setComponent(Entity::ComponentType::Transparent);
+    entity.setComponent(Entity::ComponentType::Transparency);
     entity.setComponent(Entity::ComponentType::Movement);
     entity.setPickupAnimation();
 }
@@ -48,14 +48,4 @@ void ItemPickupState::onKeyPressed(Item&, const sf::Event::KeyEvent&) noexcept
 void ItemPickupState::onKeyReleased(Item&, const sf::Event::KeyEvent&) noexcept
 {
 
-}
-
-bool ItemPickupState::isJumping() const noexcept
-{
-    return false;
-}
-
-bool ItemPickupState::isFalling() const noexcept
-{
-    return false;
 }

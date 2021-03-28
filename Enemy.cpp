@@ -87,13 +87,3 @@ const sf::Time& Enemy::getLoseTime() const noexcept
 {
 	return mLoseTime;
 }
-
-bool Enemy::isJumping() const noexcept
-{
-	return mStates.getState().isJumping();
-}
-
-bool Enemy::isFalling() const noexcept
-{
-	return mStates.getState().isFalling();
-}

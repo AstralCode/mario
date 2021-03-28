@@ -47,7 +47,7 @@ void HeroJumpState::collision(Hero&, const Hero&, const CollisionSideType) noexc
 
 void HeroJumpState::collision(Hero& entity, const Enemy& enemy, const CollisionSideType side) noexcept
 {
-    if (!enemy.hasComponent(Entity::ComponentType::Transparent))
+    if (!enemy.hasComponent(Entity::ComponentType::Transparency))
     {
         if (side == CollisionSideType::Top)
         {
@@ -88,14 +88,4 @@ void HeroJumpState::onKeyPressed(Hero& object, const sf::Event::KeyEvent& keyEve
 void HeroJumpState::onKeyReleased(Hero&, const sf::Event::KeyEvent&) noexcept
 {
 
-}
-
-bool HeroJumpState::isJumping() const noexcept
-{
-    return true;
-}
-
-bool HeroJumpState::isFalling() const noexcept
-{
-    return false;
 }

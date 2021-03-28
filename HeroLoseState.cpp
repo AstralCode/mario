@@ -2,7 +2,7 @@
 
 void HeroLoseState::onSet(Hero& entity) noexcept
 {
-    entity.setComponent(Entity::ComponentType::Transparent);
+    entity.setComponent(Entity::ComponentType::Transparency);
     entity.unsetComponent(Entity::ComponentType::Movement);
     entity.setAccelerationX(0.0f);
     entity.setVelocityX(0.0f);
@@ -62,14 +62,4 @@ void HeroLoseState::onKeyPressed(Hero&, const sf::Event::KeyEvent&) noexcept
 void HeroLoseState::onKeyReleased(Hero&, const sf::Event::KeyEvent&) noexcept
 {
 
-}
-
-bool HeroLoseState::isJumping() const noexcept
-{
-    return false;
-}
-
-bool HeroLoseState::isFalling() const noexcept
-{
-    return false;
 }

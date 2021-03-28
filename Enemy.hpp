@@ -30,9 +30,6 @@ public:
 
 	const sf::Time& getLoseTime() const noexcept;
 
-	bool isJumping() const noexcept override;
-	bool isFalling() const noexcept override;
-
 private:
 	Animation mMoveAnimation;
 

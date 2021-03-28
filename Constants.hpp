@@ -36,7 +36,6 @@ namespace Constants
 			constexpr const auto MaxVelocityX = World::Tilemap::TileSize * 10.0f;
 			constexpr const auto MaxVelocityY = World::Tilemap::TileSize * 24.0f;
 			constexpr const auto StopVelocityX = 12.0f;
-			constexpr const auto MoveAnimationDuration = 0.25f;
 			constexpr const auto LoseAnimationStart = 0.5f;
 			constexpr const auto LoseAnimationEnd = 2.0f;
 			constexpr const auto Up = sf::Keyboard::W;

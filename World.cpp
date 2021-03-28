@@ -16,7 +16,8 @@ World::World(const ResourceContainer& resources, const SpritesetContainer& sprit
 	mItemLayer{*mSceneRoot.addItem<GraphicsItem>()},
 	mHeroes{mHeroLayer},
 	mEnemies{mEnemyLayer},
-	mItems{mItemLayer}
+	mItems{mItemLayer},
+	mMarioBuilder{mResources, mSpritesets}
 {
 
 }
@@ -41,8 +42,11 @@ void World::spawnMario(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		auto hero = mHeroes.create<Hero>(mResources, mSpritesets);
-		hero->setPosition(mTilemapView.getTilePosition(tileIndex));
+		mMarioBuilder.create(mHeroes);
+		mHeroBuilderDirector.buildHero(mMarioBuilder);
+
+		auto mario = mMarioBuilder.getHero();
+		mario->setPosition(mTilemapView.getTilePosition(tileIndex));
 	}
 }
 

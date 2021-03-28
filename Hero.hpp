@@ -1,29 +1,38 @@
 #pragma once
 
 #include "EntityStateMachine.hpp"
-#include "ResourceContainer.hpp"
-#include "SpritesetContainer.hpp"
 #include "Animation.hpp"
 
 class Hero final : public Entity
 {
 public:
-	Hero(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept;
+	Hero() noexcept;
 
 	template <typename TState>
 	void setState();
 
+	void setStandAnimation(const Animation& animation) noexcept;
+	void setMoveAnimation(const Animation& animation) noexcept;
+	void setJumpAnimation(const Animation& animation) noexcept;
+	void setSlideAnimation(const Animation& animation) noexcept;
+	void setLoseAnimation(const Animation& animation) noexcept;
+
 	void setJumpVelocity(const float velocity) noexcept;
+
+	void setStandAnimation() noexcept;
+	void updateStandAnimation(const sf::Time& dt) noexcept;
 
 	void setMoveAnimation() noexcept;
 	void updateMoveAnimation(const sf::Time& dt) noexcept;
 
-	void updateLoseAnimation(const sf::Time& dt) noexcept;
+	void setJumpAnimation() noexcept;
+	void updateJumpAnimation(const sf::Time& dt) noexcept;
 
-	void setStandSprite() noexcept;
-	void setJumpSprite() noexcept;
-	void setSlideSprite() noexcept;
-	void setLoseSprite() noexcept;
+	void setSlideAnimation() noexcept;
+	void updateSlideAnimation(const sf::Time& dt) noexcept;
+
+	void setLoseAnimation() noexcept;
+	void updateLoseAnimation(const sf::Time& dt) noexcept;
 
 	void update(const sf::Time& dt) noexcept override;
 
@@ -40,23 +49,16 @@ public:
 
 	const sf::Time& getLoseTime() const noexcept;
 
-	bool isJumping() const noexcept override;
-	bool isFalling() const noexcept override;
-
 protected:
 	void onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcept override;
 	void onKeyReleased(const sf::Event::KeyEvent& keyEvent) noexcept override;
 
 private:
-	const ResourceContainer& mResources;
-	const SpritesetContainer& mSpritesets;
-
+	Animation mStandAnimation;
 	Animation mMoveAnimation;
-
-	IntArea mStandSpriteArea;
-	IntArea mJumpSpriteArea;
-	IntArea mSlideSpriteArea;
-	IntArea mLoseSpriteArea;
+	Animation mJumpAnimation;
+	Animation mSlideAnimation;
+	Animation mLoseAnimation;
 
 	float mJumpVelocity;
 

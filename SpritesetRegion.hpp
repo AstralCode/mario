@@ -7,6 +7,7 @@
 class SpritesetRegion final
 {
 public:
+	SpritesetRegion() noexcept = default;
 	SpritesetRegion(const IntSize& gridSize, const GridTileIndex& gridTileIndex, const std::vector<std::vector<SpritesetArea>>& spritesetAreas) noexcept;
 
 	const IntArea& getSpriteArea(const int number) const noexcept;

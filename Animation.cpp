@@ -2,8 +2,7 @@
 
 #include "SpritesetRegion.hpp"
 
-Animation::Animation(const SpritesetRegion& region) noexcept :
-	mSpritesetRegion{region},
+Animation::Animation() noexcept :
 	mDirection{Directions::Normal},
 	mCurrentSpriteIndex{getFirstSpriteIndex()},
 	mIsPlaying{false},
@@ -12,6 +11,11 @@ Animation::Animation(const SpritesetRegion& region) noexcept :
 	mIsRepeating{false}
 {
 
+}
+
+void Animation::setSpriteset(const SpritesetRegion& spriteset) noexcept
+{
+	mSpriteset = spriteset;
 }
 
 void Animation::setDelay(const sf::Time& delay)
@@ -91,19 +95,14 @@ void Animation::update(const sf::Time& dt) noexcept
 	}
 }
 
-const SpritesetRegion& Animation::getSpritesetRegion() const noexcept
-{
-	return mSpritesetRegion;
-}
-
 const IntArea& Animation::getCurrentSpriteArea() const noexcept
 {
-	return mSpritesetRegion.getSpriteArea(mCurrentSpriteIndex);
+	return mSpriteset.getSpriteArea(mCurrentSpriteIndex);
 }
 
 int Animation::getSpriteCount() const noexcept
 {
-	return mSpritesetRegion.getSpriteCount();
+	return mSpriteset.getSpriteCount();
 }
 
 const sf::Time& Animation::getDurationTime() const noexcept

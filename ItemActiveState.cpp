@@ -21,7 +21,7 @@ void ItemActiveState::collision(Item&, const Tile&, const CollisionSideType) noe
 
 void ItemActiveState::collision(Item& entity, const Hero& hero, const CollisionSideType) noexcept
 {
-    if (!hero.hasComponent(Entity::ComponentType::Transparent))
+    if (!hero.hasComponent(Entity::ComponentType::Transparency))
     {
         entity.setState<ItemPickupState>();
     }
@@ -29,7 +29,7 @@ void ItemActiveState::collision(Item& entity, const Hero& hero, const CollisionS
 
 void ItemActiveState::collision(Item& entity, const Enemy& enemy, const CollisionSideType) noexcept
 {
-    if (!enemy.hasComponent(Entity::ComponentType::Transparent))
+    if (!enemy.hasComponent(Entity::ComponentType::Transparency))
     {
         entity.setState<ItemPickupState>();
     }
@@ -53,14 +53,4 @@ void ItemActiveState::onKeyPressed(Item&, const sf::Event::KeyEvent&) noexcept
 void ItemActiveState::onKeyReleased(Item&, const sf::Event::KeyEvent&) noexcept
 {
 
-}
-
-bool ItemActiveState::isJumping() const noexcept
-{
-    return false;
-}
-
-bool ItemActiveState::isFalling() const noexcept
-{
-    return false;
 }

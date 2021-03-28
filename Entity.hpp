@@ -17,9 +17,9 @@ class Entity : public GraphicsItem
 public:
 	enum class ComponentType
 	{
-		Movement,
 		Mass,
-		Transparent
+		Movement,
+		Transparency
 	};
 
 	enum class Directions
@@ -79,9 +79,6 @@ public:
 	bool hasDirection(const Directions direction) const noexcept;
 
 	bool isBoundsVisible() const noexcept;
-
-	virtual bool isJumping() const noexcept = 0;
-	virtual bool isFalling() const noexcept = 0;
 
 	bool isDestroyed() const noexcept;
 

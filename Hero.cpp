@@ -1,24 +1,13 @@
 #include "Hero.hpp"
 
-#include "ResourceContainer.hpp"
-#include "SpritesetContainer.hpp"
-#include "SpritesetRegion.hpp"
-#include "SpritesetRegions.hpp"
 #include "HeroStandState.hpp"
 #include "HeroMoveState.hpp"
 #include "HeroJumpState.hpp"
 #include "HeroFallState.hpp"
 #include "HeroLoseState.hpp"
 
-Hero::Hero(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept :
-	mResources{resources},
-	mSpritesets{spritesets},
-	mJumpVelocity{0.0f},
-	mMoveAnimation{spritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Move)},
-	mStandSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Stand).getSpriteArea(0)},
-	mJumpSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Jump).getSpriteArea(0)},
-	mSlideSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Slide).getSpriteArea(0)},
-	mLoseSpriteArea{mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Lose).getSpriteArea(0)}
+Hero::Hero() noexcept :
+	mJumpVelocity{0.0f}
 {
 	mMoveAnimation.setDuration(sf::seconds(Constants::World::Hero::MoveAnimationDuration));
 	mMoveAnimation.setRepeating(true);
@@ -29,15 +18,51 @@ Hero::Hero(const ResourceContainer& resources, const SpritesetContainer& sprites
 	mStates.registerState<HeroFallState>();
 	mStates.registerState<HeroLoseState>();
 
-	setComponent(Entity::ComponentType::Mass);
-	setComponent(Entity::ComponentType::Movement);
-	setTexture(resources.getTexture(TextureId::Hero));
 	setState<HeroStandState>();
+}
+
+void Hero::setStandAnimation(const Animation& animation) noexcept
+{
+	mStandAnimation = animation;
+}
+
+void Hero::setMoveAnimation(const Animation& animation) noexcept
+{
+	mMoveAnimation = animation;
+}
+
+void Hero::setJumpAnimation(const Animation& animation) noexcept
+{
+	mJumpAnimation = animation;
+}
+
+void Hero::setSlideAnimation(const Animation& animation) noexcept
+{
+	mSlideAnimation = animation;
+}
+
+void Hero::setLoseAnimation(const Animation& animation) noexcept
+{
+	mLoseAnimation = animation;
 }
 
 void Hero::setJumpVelocity(const float velocity) noexcept
 {
 	mJumpVelocity = velocity;
+}
+
+void Hero::setStandAnimation() noexcept
+{
+	mStandAnimation.play();
+
+	setSpriteArea(mStandAnimation.getCurrentSpriteArea());
+}
+
+void Hero::updateStandAnimation(const sf::Time& dt) noexcept
+{
+	mStandAnimation.update(dt);
+
+	setSpriteArea(mStandAnimation.getCurrentSpriteArea());
 }
 
 void Hero::setMoveAnimation() noexcept
@@ -54,29 +79,47 @@ void Hero::updateMoveAnimation(const sf::Time& dt) noexcept
 	setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
 }
 
+void Hero::setJumpAnimation() noexcept
+{
+	mJumpAnimation.play();
+
+	setSpriteArea(mJumpAnimation.getCurrentSpriteArea());
+}
+
+void Hero::updateJumpAnimation(const sf::Time& dt) noexcept
+{
+	mJumpAnimation.update(dt);
+
+	setSpriteArea(mJumpAnimation.getCurrentSpriteArea());
+}
+
+void Hero::setSlideAnimation() noexcept
+{
+	mSlideAnimation.play();
+
+	setSpriteArea(mSlideAnimation.getCurrentSpriteArea());
+}
+
+void Hero::updateSlideAnimation(const sf::Time& dt) noexcept
+{
+	mSlideAnimation.update(dt);
+
+	setSpriteArea(mSlideAnimation.getCurrentSpriteArea());
+}
+
+void Hero::setLoseAnimation() noexcept
+{
+	mLoseAnimation.play();
+
+	setSpriteArea(mLoseAnimation.getCurrentSpriteArea());
+}
+
 void Hero::updateLoseAnimation(const sf::Time& dt) noexcept
 {
+	mLoseAnimation.update(dt);
 	mLoseTime += dt;
-}
 
-void Hero::setStandSprite() noexcept
-{
-	setSpriteArea(mStandSpriteArea);
-}
-
-void Hero::setJumpSprite() noexcept
-{
-	setSpriteArea(mJumpSpriteArea);
-}
-
-void Hero::setSlideSprite() noexcept
-{
-	setSpriteArea(mSlideSpriteArea);
-}
-
-void Hero::setLoseSprite() noexcept
-{
-	setSpriteArea(mLoseSpriteArea);
+	setSpriteArea(mLoseAnimation.getCurrentSpriteArea());
 }
 
 void Hero::update(const sf::Time& dt) noexcept
@@ -122,16 +165,6 @@ float Hero::getJumpVelocity() const noexcept
 const sf::Time& Hero::getLoseTime() const noexcept
 {
 	return mLoseTime;
-}
-
-bool Hero::isJumping() const noexcept
-{
-	return mStates.getState().isJumping();
-}
-
-bool Hero::isFalling() const noexcept
-{
-	return mStates.getState().isFalling();
 }
 
 void Hero::onKeyPressed(const sf::Event::KeyEvent& keyEvent) noexcept
