@@ -24,33 +24,30 @@ void Enemy::setLoseAnimation(const Animation& animation) noexcept
 void Enemy::setMoveAnimation() noexcept
 {
 	mMoveAnimation.play();
-
 	setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
 }
 
 void Enemy::updateMoveAnimation(const sf::Time& dt) noexcept
 {
 	mMoveAnimation.update(dt);
-
 	setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
 }
 
 void Enemy::setLoseAnimation() noexcept
 {
 	mLoseAnimation.play();
-
 	setSpriteArea(mLoseAnimation.getCurrentSpriteArea());
+
+	auto& spriteArea = mLoseAnimation.getCurrentSpriteArea();
+	move(0.0f, Constants::World::Tilemap::TileSize - spriteArea.getHeight());
 }
 
 void Enemy::updateLoseAnimation(const sf::Time& dt) noexcept
 {
 	mLoseAnimation.update(dt);
+	setSpriteArea(mLoseAnimation.getCurrentSpriteArea());
+
 	mLoseTime += dt;
-
-	auto& spriteArea = mLoseAnimation.getCurrentSpriteArea();
-
-	setSpriteArea(spriteArea);
-	move(0.0f, Constants::World::Tilemap::TileSize - spriteArea.getHeight());
 }
 
 void Enemy::update(const sf::Time& dt) noexcept

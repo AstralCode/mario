@@ -4,6 +4,7 @@ void EnemyLoseState::onSet(Enemy& entity) noexcept
 {
     entity.setComponent(Entity::ComponentType::Transparency);
     entity.unsetComponent(Entity::ComponentType::Movement);
+    entity.unsetComponent(Entity::ComponentType::Mass);
     entity.setAccelerationX(0.0f);
     entity.setAccelerationY(0.0f);
     entity.setLoseAnimation();

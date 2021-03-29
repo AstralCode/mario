@@ -15,8 +15,11 @@ void PhysicsModule::updateMovement(Entity& entity, const sf::Time& dt) const noe
 		auto velocityY = calculateVelocity(entity.getVelocity().getY(), accelerateY);
 		velocityY *= getFriction();
 
-		velocityY += calculateGravity(dt);
-
+		if (entity.hasComponent(Entity::ComponentType::Mass))
+		{
+			velocityY += calculateGravity(dt);
+		}
+		
 		const auto positionX = calculatePosition(velocityX, dt);
 		entity.setVelocityX(velocityX);
 		entity.move(positionX, 0.0f);

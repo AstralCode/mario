@@ -44,72 +44,63 @@ void Hero::setLoseAnimation(const Animation& animation) noexcept
 void Hero::setStandAnimation() noexcept
 {
 	mStandAnimation.play();
-
 	setSpriteArea(mStandAnimation.getCurrentSpriteArea());
 }
 
 void Hero::updateStandAnimation(const sf::Time& dt) noexcept
 {
 	mStandAnimation.update(dt);
-
 	setSpriteArea(mStandAnimation.getCurrentSpriteArea());
 }
 
 void Hero::setMoveAnimation() noexcept
 {
 	mMoveAnimation.play();
-
 	setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
 }
 
 void Hero::updateMoveAnimation(const sf::Time& dt) noexcept
 {
 	mMoveAnimation.update(dt);
-
 	setSpriteArea(mMoveAnimation.getCurrentSpriteArea());
 }
 
 void Hero::setJumpAnimation() noexcept
 {
 	mJumpAnimation.play();
-
 	setSpriteArea(mJumpAnimation.getCurrentSpriteArea());
 }
 
 void Hero::updateJumpAnimation(const sf::Time& dt) noexcept
 {
 	mJumpAnimation.update(dt);
-
 	setSpriteArea(mJumpAnimation.getCurrentSpriteArea());
 }
 
 void Hero::setSlideAnimation() noexcept
 {
 	mSlideAnimation.play();
-
 	setSpriteArea(mSlideAnimation.getCurrentSpriteArea());
 }
 
 void Hero::updateSlideAnimation(const sf::Time& dt) noexcept
 {
 	mSlideAnimation.update(dt);
-
 	setSpriteArea(mSlideAnimation.getCurrentSpriteArea());
 }
 
 void Hero::setLoseAnimation() noexcept
 {
 	mLoseAnimation.play();
-
 	setSpriteArea(mLoseAnimation.getCurrentSpriteArea());
 }
 
 void Hero::updateLoseAnimation(const sf::Time& dt) noexcept
 {
 	mLoseAnimation.update(dt);
-	mLoseTime += dt;
-
 	setSpriteArea(mLoseAnimation.getCurrentSpriteArea());
+
+	mLoseTime += dt;
 }
 
 void Hero::setJumpVelocity(const float velocity) noexcept

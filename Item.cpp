@@ -22,30 +22,27 @@ void Item::setPickupAnimation(const Animation& animation) noexcept
 void Item::setActiveAnimation() noexcept
 {
 	mActiveAnimation.play();
-
 	setSpriteArea(mActiveAnimation.getCurrentSpriteArea());
 }
 
 void Item::updateActiveAnimation(const sf::Time& dt) noexcept
 {
 	mActiveAnimation.update(dt);
-
 	setSpriteArea(mActiveAnimation.getCurrentSpriteArea());
 }
 
 void Item::setPickupAnimation() noexcept
 {
 	mPickupAnimation.play();
-
 	setSpriteArea(mPickupAnimation.getCurrentSpriteArea());
 }
 
 void Item::updatePickupAnimation(const sf::Time& dt) noexcept
 {
 	mPickupAnimation.update(dt);
-	mPickupAnimationTime += dt;
-
 	setSpriteArea(mPickupAnimation.getCurrentSpriteArea());
+
+	mPickupAnimationTime += dt;
 }
 
 void Item::update(const sf::Time& dt) noexcept

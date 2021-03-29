@@ -67,7 +67,7 @@ void InitialGameState::onEnter() noexcept
 			}
 			else
 			{
-				world.putCoinBox(point);
+				world.spawnGoomba(point);
 			}
 		}
 	});
