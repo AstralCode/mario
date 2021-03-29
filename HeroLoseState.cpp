@@ -8,7 +8,7 @@ void HeroLoseState::onSet(Hero& entity) noexcept
     entity.setVelocityX(0.0f);
     entity.setAccelerationY(0.0f);
     entity.setVelocityY(0.0f);
-    entity.setLoseSprite();
+    entity.setLoseAnimation();
 }
 
 void HeroLoseState::update(Hero& entity, const sf::Time& dt) noexcept

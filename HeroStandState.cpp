@@ -9,12 +9,12 @@
 void HeroStandState::onSet(Hero& entity) noexcept
 {
     entity.setAccelerationX(0.0f);
-    entity.setStandSprite();
+    entity.setStandAnimation();
 }
 
-void HeroStandState::update(Hero&, const sf::Time&) noexcept
+void HeroStandState::update(Hero& entity, const sf::Time& dt) noexcept
 {
-
+    entity.updateStandAnimation(dt);
 }
 
 void HeroStandState::collision(Hero&, const Tile&, const CollisionSideType) noexcept

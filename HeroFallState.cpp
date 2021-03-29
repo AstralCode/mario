@@ -8,12 +8,12 @@
 
 void HeroFallState::onSet(Hero& entity) noexcept
 {
-    entity.setJumpSprite();
+    entity.setJumpAnimation();
 }
 
-void HeroFallState::update(Hero&, const sf::Time&) noexcept
+void HeroFallState::update(Hero& entity, const sf::Time& dt) noexcept
 {
-
+    entity.updateJumpAnimation(dt);
 }
 
 void HeroFallState::collision(Hero& entity, const Tile&, const CollisionSideType side) noexcept

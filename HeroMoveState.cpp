@@ -31,12 +31,14 @@ void HeroMoveState::update(Hero& entity, const sf::Time& dt) noexcept
         {
             if (entity.hasDirection(Entity::Directions::Left))
             {
-                entity.setSlideSprite();
+                entity.setSlideAnimation();
+                entity.updateSlideAnimation(dt);
             }
         }
         else if (entity.hasDirection(Entity::Directions::Right))
         {
-            entity.setSlideSprite();
+            entity.setSlideAnimation();
+            entity.updateSlideAnimation(dt);
         }
     }
     else if (std::fabs(entity.getVelocity().getX()) < Constants::World::Hero::StopVelocityX)

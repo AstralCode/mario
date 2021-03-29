@@ -30,7 +30,4 @@ public:
 
 	virtual void onKeyPressed(TEntity& entity, const sf::Event::KeyEvent& keyEvent) noexcept = 0;
 	virtual void onKeyReleased(TEntity& entity, const sf::Event::KeyEvent& keyEvent) noexcept = 0;
-
-	virtual bool isJumping() const noexcept = 0;
-	virtual bool isFalling() const noexcept = 0;
 };

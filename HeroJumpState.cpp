@@ -9,11 +9,13 @@
 void HeroJumpState::onSet(Hero& entity) noexcept
 {
     entity.setVelocityY(-entity.getJumpVelocity());
-    entity.setJumpSprite();
+    entity.setJumpAnimation();
 }
 
-void HeroJumpState::update(Hero& entity, const sf::Time&) noexcept
+void HeroJumpState::update(Hero& entity, const sf::Time& dt) noexcept
 {
+    entity.updateJumpAnimation(dt);
+
     if (entity.getVelocity().getX() > 0.0f)
     {
         entity.setState<HeroFallState>();
