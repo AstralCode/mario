@@ -84,7 +84,8 @@ void World::putCoin(const TileIndex& tileIndex) noexcept
 		mItemBuilderDirector.buildItem(mCoinBuilder);
 
 		auto coin = mCoinBuilder.getItem();
-		coin->setPosition(mTilemapView.getTilePosition(tileIndex));
+		coin->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
+		Entity::centerOrigin(*coin);
 	}
 }
 

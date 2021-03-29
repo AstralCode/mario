@@ -35,8 +35,6 @@ void MarioBuilder::buildStandAnimation() noexcept
 {
 	Animation animation;
 	animation.setSpriteset(mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Stand));
-	animation.setDuration(sf::seconds(0.0f));
-	animation.setRepeating(false);
 
 	mMario->setStandAnimation(animation);
 }
@@ -54,9 +52,7 @@ void MarioBuilder::buildMoveAnimation() noexcept
 void MarioBuilder::buildJumpAnimation() noexcept
 {
 	Animation animation;
-	animation.setSpriteset(mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Move));
-	animation.setDuration(sf::seconds(0.0f));
-	animation.setRepeating(true);
+	animation.setSpriteset(mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Jump));
 
 	mMario->setJumpAnimation(animation);
 }
@@ -65,8 +61,6 @@ void MarioBuilder::buildSlideAnimation() noexcept
 {
 	Animation animation;
 	animation.setSpriteset(mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Slide));
-	animation.setDuration(sf::seconds(0.0f));
-	animation.setRepeating(false);
 
 	mMario->setSlideAnimation(animation);
 }
@@ -75,8 +69,6 @@ void MarioBuilder::buildLoseAnimation() noexcept
 {
 	Animation animation;
 	animation.setSpriteset(mSpritesets.getMarioSpriteset().getRegion(MarioSpritesetRegionType::Lose));
-	animation.setDuration(sf::seconds(0.0f));
-	animation.setRepeating(false);
 
 	mMario->setLoseAnimation(animation);
 }

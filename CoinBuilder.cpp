@@ -22,13 +22,12 @@ void CoinBuilder::create(EntityContainer& enemies) noexcept
 
 void CoinBuilder::buildTexture() noexcept
 {
-	mItem->setTexture(mResources.getTexture(TextureId::Enemies));
+	mItem->setTexture(mResources.getTexture(TextureId::Items));
 }
 
 void CoinBuilder::buildComponents() noexcept
 {
-	mItem->setComponent(Entity::ComponentType::Mass);
-	mItem->setComponent(Entity::ComponentType::Movement);
+
 }
 
 void CoinBuilder::buildActiveAnimation() noexcept
@@ -46,7 +45,7 @@ void CoinBuilder::buildActiveAnimation() noexcept
 void CoinBuilder::buildPickupAnimation() noexcept
 {
 	Animation animation;
-	animation.setSpriteset(mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::Coin));
+	animation.setSpriteset(mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::CoinPickup));
 	animation.setDuration(sf::seconds(0.15f));
 	animation.setRepeating(true);
 

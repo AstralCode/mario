@@ -61,13 +61,13 @@ void Animation::update(const sf::Time& dt) noexcept
 {
 	if (mIsPlaying)
 	{
-		if (mElapsedDelayTime >= mDelayTime)
+		if (mElapsedDelayTime > mDelayTime)
 		{
 			const auto animationFrameTime = calculateAnimationFrameTime();
 
 			mElapsedUpdateTime += dt;
 
-			while (mElapsedUpdateTime >= animationFrameTime)
+			while (mElapsedUpdateTime > animationFrameTime)
 			{
 				switch (mDirection)
 				{

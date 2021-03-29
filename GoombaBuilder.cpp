@@ -45,8 +45,6 @@ void GoombaBuilder::buildLoseAnimation() noexcept
 {
 	Animation animation;
 	animation.setSpriteset(mSpritesets.getGoombaSpriteset().getRegion(GoombaSpritesetRegionType::Lose));
-	animation.setDuration(sf::seconds(0.0f));
-	animation.setRepeating(false);
 
 	mEnemy->setLoseAnimation(animation);
 }

@@ -33,7 +33,7 @@ public:
 	Entity() noexcept;
 	virtual ~Entity() = default;
 
-	static FloatPoint centerOrigin(const Entity& entity) noexcept;
+	static void centerOrigin(Entity& entity) noexcept;
 
 	void setComponent(const ComponentType component) noexcept;
 	void unsetComponent(const ComponentType component) noexcept;

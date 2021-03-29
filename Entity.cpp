@@ -15,12 +15,12 @@ Entity::Entity() noexcept :
 
 }
 
-FloatPoint Entity::centerOrigin(const Entity& entity) noexcept
+void Entity::centerOrigin(Entity& entity) noexcept
 {
     const auto origin = entity.getOrigin();
     auto size = entity.getLocalArea();
 
-    return {origin.getX() + size.getWidth() / 2.0f, origin.getY() + size.getHeight() / 2.0f};
+    entity.setOrigin({origin.getX() + size.getWidth() / 2.0f, origin.getY() + size.getHeight() / 2.0f});
 }
 
 void Entity::setComponent(const ComponentType component) noexcept
