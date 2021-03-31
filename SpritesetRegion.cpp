@@ -5,7 +5,7 @@ SpritesetRegion::SpritesetRegion(const IntSize& gridSize, const GridTileIndex& g
     calculateSpriteAreas(gridSize, gridTileIndex, spritesetAreas);
 }
 
-const IntArea& SpritesetRegion::getSpriteArea(const int number) const noexcept
+const SpriteArea& SpritesetRegion::getSpriteArea(const int number) const noexcept
 {
     return mSpriteAreas[number];
 }

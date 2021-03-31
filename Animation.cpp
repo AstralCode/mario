@@ -95,7 +95,7 @@ void Animation::update(const sf::Time& dt) noexcept
 	}
 }
 
-const IntArea& Animation::getCurrentSpriteArea() const noexcept
+const SpriteArea& Animation::getCurrentSpriteArea() const noexcept
 {
 	return mSpriteset.getSpriteArea(mCurrentSpriteIndex);
 }

@@ -37,7 +37,7 @@ public:
 
 	void update(const sf::Time& dt) noexcept;
 
-	const IntArea& getCurrentSpriteArea() const noexcept;
+	const SpriteArea& getCurrentSpriteArea() const noexcept;
 
 	int getSpriteCount() const noexcept;
 
