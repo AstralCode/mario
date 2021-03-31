@@ -4,12 +4,11 @@
 
 #include "Constants.hpp"
 #include "GraphicsItem.hpp"
+#include "EntityType.hpp"
 #include "CollisionSideType.hpp"
 #include "Tile.hpp"
 
-class Hero;
-class Enemy;
-class Item;
+class World;
 class Sprite;
 
 class Entity : public GraphicsItem
@@ -28,9 +27,9 @@ public:
 		Right
 	};
 
-	using Components = Flagset<ComponentType, 6u>;
+	using Components = Flags<ComponentType>;
 
-	Entity() noexcept;
+	Entity(const EntityType type, World& world) noexcept;
 	virtual ~Entity() = default;
 
 	static void centerOrigin(Entity& entity) noexcept;
@@ -55,17 +54,11 @@ public:
 	void destroy() noexcept;
 
 	virtual void collision(const Tile& tile, const CollisionSideType side) noexcept = 0;
-	virtual void collision(Entity& entity, const CollisionSideType side) const noexcept = 0;
-
-	virtual void collision(const Hero& hero, const CollisionSideType side) noexcept = 0;
-	virtual void collision(const Enemy& enemy, const CollisionSideType side) noexcept = 0;
-	virtual void collision(const Item& item, const CollisionSideType side) noexcept = 0;
+	virtual void collision(const Entity& collider, const CollisionSideType side) noexcept = 0;
 
 	virtual void update(const sf::Time& dt) noexcept = 0;
 
 	virtual void falling() noexcept = 0;
-
-	bool hasComponent(const ComponentType trait) const noexcept;
 
 	const Components& getComponents() const noexcept;
 
@@ -76,15 +69,22 @@ public:
 
 	FloatArea getLocalArea() const noexcept override;
 
+	bool hasType( const EntityType type ) const noexcept;
+	bool hasComponent( const ComponentType component ) const noexcept;
 	bool hasDirection(const Directions direction) const noexcept;
 
 	bool isBoundsVisible() const noexcept;
-
 	bool isDestroyed() const noexcept;
+
+protected:
+	World& getWorld() noexcept;
 
 private:
 	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;
 	void drawAreaBounds(sf::RenderTarget& target) const noexcept;
+
+	EntityType mType;
+	World& mWorld;
 
 	Components mComponents;
 

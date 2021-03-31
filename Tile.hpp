@@ -13,7 +13,7 @@ public:
 	};
 
 	using Identifier = unsigned char;
-	using Traits = Flagset<TraitType, 1u>;
+	using Traits = Flags<TraitType>;
 
 	Tile() noexcept;
 

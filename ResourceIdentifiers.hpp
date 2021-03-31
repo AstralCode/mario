@@ -7,9 +7,9 @@ enum class FontId
 
 enum class TextureId
 {
+	Mario,
 	Enemies,
 	Items,
-	Hero,
 	Scenery,
 	Logo
 };

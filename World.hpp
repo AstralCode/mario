@@ -5,12 +5,6 @@
 #include "PhysicsModule.hpp"
 #include "CollisionModule.hpp"
 #include "ResourceIdentifiers.hpp"
-#include "HeroBuilderDirector.hpp"
-#include "EnemyBuilderDirector.hpp"
-#include "ItemBuilderDirector.hpp"
-#include "MarioBuilder.hpp"
-#include "GoombaBuilder.hpp"
-#include "CoinBuilder.hpp"
 
 class ResourceContainer;
 class SpritesetContainer;
@@ -58,6 +52,8 @@ private:
 	void updateEntities(EntityContainer& entities, const sf::Time& dt) noexcept;
 	void cleanEntities() noexcept;
 
+	bool isTileEmpty(const EntityContainer& entities, const TileIndex& tileIndex) const noexcept;
+
 	const ResourceContainer& mResources;
 	const SpritesetContainer& mSpritesets;
 
@@ -74,12 +70,4 @@ private:
 
 	PhysicsModule mPhysicsModule;
 	CollisionModule mCollisionModule;
-
-	HeroBuilderDirector mHeroBuilderDirector;
-	EnemyBuilderDirector mEnemyBuilderDirectior;
-	ItemBuilderDirector mItemBuilderDirector;
-
-	MarioBuilder mMarioBuilder;
-	GoombaBuilder mGoombaBuilder;
-	CoinBuilder mCoinBuilder;
 };

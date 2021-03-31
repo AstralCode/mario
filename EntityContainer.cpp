@@ -3,8 +3,9 @@
 #include <algorithm>
 #include <functional>
 
-EntityContainer::EntityContainer(GraphicsItem& layer) noexcept :
-	mSceneLayer{layer}
+EntityContainer::EntityContainer(GraphicsItem& layer, World& world) noexcept :
+	mSceneLayer{layer},
+	mWorld{world}
 {
 
 }

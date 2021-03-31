@@ -4,9 +4,9 @@
 
 #include "ResourceContainer.hpp"
 #include "SpritesetContainer.hpp"
-#include "Hero.hpp"
-#include "Enemy.hpp"
-#include "Item.hpp"
+#include "Mario.hpp"
+#include "Goomba.hpp"
+#include "Coin.hpp"
 
 World::World(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept :
 	mResources{resources},
@@ -14,12 +14,9 @@ World::World(const ResourceContainer& resources, const SpritesetContainer& sprit
 	mHeroLayer{*mSceneRoot.addItem<GraphicsItem>()},
 	mEnemyLayer{*mSceneRoot.addItem<GraphicsItem>()},
 	mItemLayer{*mSceneRoot.addItem<GraphicsItem>()},
-	mHeroes{mHeroLayer},
-	mEnemies{mEnemyLayer},
-	mItems{mItemLayer},
-	mMarioBuilder{mResources, mSpritesets},
-	mGoombaBuilder{mResources, mSpritesets},
-	mCoinBuilder{mResources, mSpritesets}
+	mHeroes{mHeroLayer, *this},
+	mEnemies{mEnemyLayer, *this},
+	mItems{mItemLayer, *this}
 {
 
 }
@@ -44,10 +41,7 @@ void World::spawnMario(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		mMarioBuilder.create(mHeroes);
-		mHeroBuilderDirector.buildHero(mMarioBuilder);
-
-		auto mario = mMarioBuilder.getHero();
+		auto mario = mHeroes.create<Mario>();
 		mario->setPosition(mTilemapView.getTilePosition(tileIndex));
 	}
 }
@@ -62,10 +56,7 @@ void World::spawnGoomba(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		mGoombaBuilder.create(mEnemies);
-		mEnemyBuilderDirectior.buildEnemy(mGoombaBuilder);
-
-		auto goomba = mGoombaBuilder.getEnemy();
+		auto goomba = mEnemies.create<Goomba>();
 		goomba->setPosition(mTilemapView.getTilePosition(tileIndex));
 	}
 }
@@ -80,12 +71,8 @@ void World::putCoin(const TileIndex& tileIndex) noexcept
 {
 	if (isTileEmpty(tileIndex))
 	{
-		mCoinBuilder.create(mItems);
-		mItemBuilderDirector.buildItem(mCoinBuilder);
-
-		auto coin = mCoinBuilder.getItem();
+		auto coin = mItems.create<Coin>();
 		coin->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
-		Entity::centerOrigin(*coin);
 	}
 }
 
@@ -97,15 +84,7 @@ void World::putCoinBox(const IntPoint& point) noexcept
 
 void World::putCoinBox(const TileIndex& tileIndex) noexcept
 {
-	if (isTileEmpty(tileIndex))
-	{
-		//auto item = mItems.create<Item>(mResources.getTexture(TextureId::Items),
-		//								mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBox),
-		//								mSpritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::QBoxEmpty));
 
-		//item->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
-		//item->setOrigin(Entity::centerOrigin(*item));
-	}
 }
 
 void World::removeEntity(const IntPoint& point) noexcept
@@ -190,17 +169,9 @@ bool World::isTileEmpty(const IntPoint& point) const noexcept
 
 bool World::isTileEmpty(const TileIndex& tileIndex) const noexcept
 {
-	const auto tile = mTilemapView.getTile(tileIndex);
-
-	for (auto entity : mHeroes)
-	{
-		if (entity->isIntersects(tile.getArea()))
-		{
-			return false;
-		}
-	}
-
-	return true;
+	return isTileEmpty(mHeroes, tileIndex) &&
+		   isTileEmpty(mEnemies, tileIndex) &&
+		   isTileEmpty(mItems, tileIndex);
 }
 
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const 
@@ -225,4 +196,19 @@ void World::cleanEntities() noexcept
 	mItems.clean();
 
 	mSceneRoot.clean();
+}
+
+bool World::isTileEmpty(const EntityContainer& entities, const TileIndex& tileIndex) const noexcept
+{
+	const auto tile = mTilemapView.getTile(tileIndex);
+
+	for (auto entity : entities)
+	{
+		if (entity->isIntersects(tile.getArea()))
+		{
+			return false;
+		}
+	}
+
+	return true;
 }

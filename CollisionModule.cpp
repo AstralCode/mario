@@ -84,11 +84,10 @@ void CollisionModule::handleEntityCollision(Entity* entity, const EntityList& co
 	for (auto collisionEntity : collisionEntities)
 	{
 		const auto colliderArea = collisionEntity->getArea();
-
 		const auto collisionSide = checkCollisionSide(entityArea, colliderArea);
 		if (collisionSide != CollisionSideType::None)
 		{
-			collisionEntity->collision(*entity, collisionSide);
+			entity->collision(*collisionEntity, collisionSide);
 		}
 	}
 }

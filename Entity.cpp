@@ -5,7 +5,9 @@
 
 #include "Sprite.hpp"
 
-Entity::Entity() noexcept :
+Entity::Entity(const EntityType type, World& world) noexcept :
+    mType{type},
+    mWorld{world},
     mSprite{addItem<Sprite>()},
     mDirection{Directions::Right},
     mBoundsColor{sf::Color::Transparent},
@@ -53,16 +55,6 @@ void Entity::setBoundsVisible(const bool visible) noexcept
     mIsBoundsVisible = visible;
 }
 
-void Entity::setDirection(const Directions direction) noexcept
-{
-    if (mDirection != direction)
-    {
-        mSprite->flip(Sprite::Orientations::Horizontal);
-
-        mDirection = direction;
-    }
-}
-
 void Entity::setAccelerationX(const float value) noexcept
 {
     mAcceleration.setX(value);
@@ -83,9 +75,30 @@ void Entity::setVelocityY(const float value) noexcept
     mVelocity.setY(value);
 }
 
+void Entity::destroy() noexcept
+{
+    mIsDestroyed = true;
+    GraphicsItem::remove();
+}
+
+bool Entity::hasType(const EntityType type) const noexcept
+{
+    return mType == type;
+}
+
 bool Entity::hasComponent(const ComponentType component) const noexcept
 {
     return mComponents.isSet(component);
+}
+
+void Entity::setDirection(const Directions direction) noexcept
+{
+    if (mDirection != direction)
+    {
+        mSprite->flip(Sprite::Orientations::Horizontal);
+
+        mDirection = direction;
+    }
 }
 
 const Entity::Components& Entity::getComponents() const noexcept
@@ -123,15 +136,14 @@ bool Entity::isBoundsVisible() const noexcept
     return mIsBoundsVisible;
 }
 
-void Entity::destroy() noexcept
-{
-    mIsDestroyed = true;
-    GraphicsItem::remove();
-}
-
 bool Entity::isDestroyed() const noexcept
 {
     return mIsDestroyed;
+}
+
+World& Entity::getWorld() noexcept
+{
+    return mWorld;
 }
 
 void Entity::drawSelf(sf::RenderTarget& target, sf::RenderStates) const noexcept
