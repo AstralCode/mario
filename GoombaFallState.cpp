@@ -45,8 +45,7 @@ void GoombaFallState::collision(Goomba& entity, const Entity& collider, const Co
                 entity.setState<GoombaLoseState>();
             }
         }
-
-        if (collider.hasType(EntityType::Enemy))
+        else
         {
             if (entity.hasDirection(Entity::Directions::Right))
             {

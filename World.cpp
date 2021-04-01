@@ -219,10 +219,8 @@ void World::detectEntityCollisions() noexcept
 	mCollisionModule.detectEntityCollisions(mEnemies, mHeroes);
 
 	mCollisionModule.detectEntityCollisions(mHeroes, mItems);
-	mCollisionModule.detectEntityCollisions(mEnemies, mItems);
 
 	mCollisionModule.detectEntityCollisions(mItems, mHeroes);
-	mCollisionModule.detectEntityCollisions(mItems, mEnemies);
 }
 
 void World::cleanEntities() noexcept
