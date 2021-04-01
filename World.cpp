@@ -203,7 +203,6 @@ void World::detectTileCollisions() noexcept
 
 void World::detectEntityCollisions() noexcept
 {
-	mCollisionModule.detectEntityCollisions(mHeroes, mHeroes);
 	mCollisionModule.detectEntityCollisions(mHeroes, mEnemies);
 
 	mCollisionModule.detectEntityCollisions(mEnemies, mEnemies);
