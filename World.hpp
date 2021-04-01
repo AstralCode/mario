@@ -57,6 +57,8 @@ private:
 
 	void cleanEntities() noexcept;
 
+	Entity* findEntity(const EntityContainer& entities, const IntPoint& point) const noexcept;
+
 	bool isTileEmpty(const EntityContainer& entities, const TileIndex& tileIndex) const noexcept;
 
 	const ResourceContainer& mResources;

@@ -103,15 +103,25 @@ void World::removeEntity(const IntPoint& point) noexcept
 
 Entity* World::findEntity(const IntPoint& point) const noexcept
 {
-	for (auto entity : mHeroes)
+	Entity* entity = findEntity(mHeroes, point);
+	if (entity != nullptr)
 	{
-		if (entity->isContainsPoint(point))
-		{
-			return entity;
-		}
+		return entity;
 	}
 
-	return nullptr;
+	entity = findEntity(mEnemies, point);
+	if (entity != nullptr)
+	{
+		return entity;
+	}
+
+	entity = findEntity(mItems, point);
+	if (entity != nullptr)
+	{
+		return entity;
+	}
+
+	return entity;
 }
 
 void World::receiveEvents(const sf::Event& event) noexcept
@@ -213,6 +223,19 @@ void World::cleanEntities() noexcept
 	mItems.clean();
 
 	mSceneRoot.clean();
+}
+
+Entity* World::findEntity(const EntityContainer& entities, const IntPoint& point) const noexcept
+{
+	for (auto entity : entities)
+	{
+		if (entity->isContainsPoint(point))
+		{
+			return entity;
+		}
+	}
+
+	return nullptr;
 }
 
 bool World::isTileEmpty(const EntityContainer& entities, const TileIndex& tileIndex) const noexcept
