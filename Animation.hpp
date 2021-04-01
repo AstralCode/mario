@@ -51,7 +51,7 @@ private:
 	void updateSpriteAlternateDirection() noexcept;
 	void updateSpriteAlternateReverseDirection() noexcept;
 
-	sf::Time calculateAnimationFrameTime() const noexcept;
+	sf::Time calculateFrameTime() const noexcept;
 
 	constexpr int getFirstSpriteIndex() const noexcept;
 	int getLastSpriteIndex() const noexcept;

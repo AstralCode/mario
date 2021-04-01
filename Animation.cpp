@@ -63,7 +63,7 @@ void Animation::update(const sf::Time& dt) noexcept
 	{
 		if (mElapsedDelayTime > mDelayTime)
 		{
-			const auto animationFrameTime = calculateAnimationFrameTime();
+			const auto animationFrameTime = calculateFrameTime();
 
 			mElapsedUpdateTime += dt;
 
@@ -220,7 +220,7 @@ void Animation::updateSpriteAlternateReverseDirection() noexcept
 	}
 }
 
-sf::Time Animation::calculateAnimationFrameTime() const noexcept
+sf::Time Animation::calculateFrameTime() const noexcept
 {
 	return getDurationTime() / static_cast<float>(getSpriteCount());
 }
