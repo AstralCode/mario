@@ -82,7 +82,7 @@ void World::putCoinBox(const IntPoint& point) noexcept
 	putCoinBox(tile.getIndex());
 }
 
-void World::putCoinBox(const TileIndex& tileIndex) noexcept
+void World::putCoinBox(const TileIndex&) noexcept
 {
 
 }

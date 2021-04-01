@@ -2,7 +2,6 @@
 
 #include "GoombaMoveState.hpp"
 #include "GoombaLoseState.hpp"
-#include "Mario.hpp"
 
 void GoombaFallState::onSet(Goomba& entity) noexcept
 {
