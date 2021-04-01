@@ -3,19 +3,16 @@
 #include "EntityStateMachine.hpp"
 #include "Animation.hpp"
 
-class Coin final : public Entity
+class QBox final : public Entity
 {
 public:
-	Coin(World& world) noexcept;
+	QBox(World& world) noexcept;
 
 	template <typename TState>
 	void setState();
 
 	void playShineAnimation() noexcept;
 	void updateShineAnimation(const sf::Time& dt) noexcept;
-
-	void playPickupAnimation() noexcept;
-	void updatePickupAnimation(const sf::Time& dt) noexcept;
 
 	void update(const sf::Time& dt) noexcept override;
 
@@ -24,19 +21,14 @@ public:
 
 	void falling() noexcept override;
 
-	const sf::Time& getPickupTime() const noexcept;
-
 private:
 	Animation mShineAnimation;
-	Animation mPickupAnimation;
 
-	sf::Time mPickupAnimationTime;
-
-	EntityStateMachine<Coin> mStates;
+	EntityStateMachine<QBox> mStates;
 };
 
 template <typename TState>
-void Coin::setState()
+void QBox::setState()
 {
 	mStates.setState<TState>(*this);
 }

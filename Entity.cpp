@@ -141,7 +141,17 @@ bool Entity::isDestroyed() const noexcept
     return mIsDestroyed;
 }
 
+EntityType Entity::getType() const noexcept
+{
+    return mType;
+}
+
 World& Entity::getWorld() noexcept
+{
+    return mWorld;
+}
+
+const World& Entity::getWorld() const noexcept
 {
     return mWorld;
 }

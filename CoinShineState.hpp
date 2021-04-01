@@ -5,7 +5,7 @@
 
 class SpritesetRegion;
 
-class CoinActiveState final : public EntityState<Coin>
+class CoinShineState final : public EntityState<Coin>
 {
 public:
 	void onSet(Coin& entity) noexcept override;

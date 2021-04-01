@@ -26,8 +26,8 @@ public:
 	void putCoin(const IntPoint& point) noexcept;
 	void putCoin(const TileIndex& tileIndex) noexcept;
 
-	void putCoinBox(const IntPoint& point) noexcept;
-	void putCoinBox(const TileIndex& tileIndex) noexcept;
+	void putQBox(const IntPoint& point) noexcept;
+	void putQBox(const TileIndex& tileIndex) noexcept;
 
 	void removeEntity(const IntPoint& point) noexcept;
 
@@ -42,6 +42,8 @@ public:
 
 	TilemapView& getTilemapView() noexcept;
 	const TilemapView& getTilemapView() const noexcept;
+
+	CollisionModule& getCollisionModule() noexcept;
 
 	bool isTileEmpty(const IntPoint& point) const noexcept;
 	bool isTileEmpty(const TileIndex& tileIndex) const noexcept;

@@ -21,7 +21,7 @@ void MarioStandState::collision(Mario&, const Tile&, const CollisionSideType) no
 
 }
 
-void MarioStandState::collision(Mario& entity, const Entity& collider, const CollisionSideType) noexcept
+void MarioStandState::collision(Mario& entity, const Entity& collider, const CollisionSideType side) noexcept
 {
     if (!collider.hasComponent(Entity::ComponentType::Transparency))
     {

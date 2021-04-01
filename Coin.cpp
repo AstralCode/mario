@@ -1,6 +1,6 @@
 #include "Coin.hpp"
 
-#include "CoinActiveState.hpp"
+#include "CoinShineState.hpp"
 #include "CoinPickupState.hpp"
 
 #include "World.hpp"
@@ -10,7 +10,7 @@
 Coin::Coin(World& world) noexcept :
 	Entity{EntityType::Item, world}
 {
-	mStates.registerState<CoinActiveState>();
+	mStates.registerState<CoinShineState>();
 	mStates.registerState<CoinPickupState>();
 
 	auto& resources = world.getResources();
@@ -18,30 +18,30 @@ Coin::Coin(World& world) noexcept :
 
 	setTexture(resources.getTexture(TextureId::Items));
 
-	mActiveAnimation.setSpriteset(spritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::Coin));
-	mActiveAnimation.setDuration(sf::seconds(0.25f));
-	mActiveAnimation.setDelay(sf::seconds(0.25f));
-	mActiveAnimation.setDirection(Animation::Directions::Alternate);
-	mActiveAnimation.setRepeating(true);
+	mShineAnimation.setSpriteset(spritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::Coin));
+	mShineAnimation.setDuration(sf::seconds(0.25f));
+	mShineAnimation.setDelay(sf::seconds(0.25f));
+	mShineAnimation.setDirection(Animation::Directions::Alternate);
+	mShineAnimation.setRepeating(true);
 
 	mPickupAnimation.setSpriteset(spritesets.getItemSpriteset().getRegion(ItemSpritesetRegionType::CoinPickup));
 	mPickupAnimation.setDuration(sf::seconds(0.15f));
 	mPickupAnimation.setRepeating(true);
 
-	setState<CoinActiveState>();
+	setState<CoinShineState>();
 	Entity::centerOrigin(*this);
 }
 
-void Coin::playActiveAnimation() noexcept
+void Coin::playShineAnimation() noexcept
 {
-	mActiveAnimation.play();
-	setSpriteArea(mActiveAnimation.getCurrentSpriteArea());
+	mShineAnimation.play();
+	setSpriteArea(mShineAnimation.getCurrentSpriteArea());
 }
 
-void Coin::updateActiveAnimation(const sf::Time& dt) noexcept
+void Coin::updateShineAnimation(const sf::Time& dt) noexcept
 {
-	mActiveAnimation.update(dt);
-	setSpriteArea(mActiveAnimation.getCurrentSpriteArea());
+	mShineAnimation.update(dt);
+	setSpriteArea(mShineAnimation.getCurrentSpriteArea());
 }
 
 void Coin::playPickupAnimation() noexcept

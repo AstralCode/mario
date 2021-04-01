@@ -18,7 +18,8 @@ public:
 	{
 		Mass,
 		Movement,
-		Transparency
+		Transparency,
+		Solid
 	};
 
 	enum class Directions
@@ -60,6 +61,11 @@ public:
 
 	virtual void falling() noexcept = 0;
 
+	EntityType getType() const noexcept;
+
+	World& getWorld() noexcept;
+	const World& getWorld() const noexcept;
+
 	const Components& getComponents() const noexcept;
 
 	const Directions& getDirection() const noexcept;
@@ -76,14 +82,12 @@ public:
 	bool isBoundsVisible() const noexcept;
 	bool isDestroyed() const noexcept;
 
-protected:
-	World& getWorld() noexcept;
-
 private:
 	void drawSelf(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;
 	void drawAreaBounds(sf::RenderTarget& target) const noexcept;
 
 	EntityType mType;
+
 	World& mWorld;
 
 	Components mComponents;

@@ -66,11 +66,12 @@ void CollisionModule::handleTileCollision(Entity* entity, const TileList& collis
 
 	for (auto& collisionTile : collisionTiles)
 	{
-		const auto collisionSide = checkCollisionSide(entityArea, collisionTile.getArea());
+		const auto colliderArea = collisionTile.getArea();
+		const auto collisionSide = checkCollisionSide(entityArea, colliderArea);
 		if (collisionSide != CollisionSideType::None)
 		{
 			entity->collision(collisionTile, collisionSide);
-			moveEntity(collisionSide, *entity, collisionTile.getArea());
+			moveEntity(collisionSide, *entity, colliderArea);
 		}
 	}
 
@@ -90,6 +91,11 @@ void CollisionModule::handleEntityCollision(Entity* entity, const EntityList& co
 		const auto collisionSide = checkCollisionSide(entityArea, colliderArea);
 		if (collisionSide != CollisionSideType::None)
 		{
+			if (collisionEntity->hasComponent(Entity::ComponentType::Solid))
+			{
+				moveEntity(collisionSide, *entity, colliderArea);
+			}
+			
 			entity->collision(*collisionEntity, collisionSide);
 		}
 	}

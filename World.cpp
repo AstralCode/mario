@@ -7,6 +7,7 @@
 #include "Mario.hpp"
 #include "Goomba.hpp"
 #include "Coin.hpp"
+#include "QBox.hpp"
 
 World::World(const ResourceContainer& resources, const SpritesetContainer& spritesets) noexcept :
 	mResources{resources},
@@ -76,15 +77,19 @@ void World::putCoin(const TileIndex& tileIndex) noexcept
 	}
 }
 
-void World::putCoinBox(const IntPoint& point) noexcept
+void World::putQBox(const IntPoint& point) noexcept
 {
 	const auto tile = mTilemapView.getTile(point);
-	putCoinBox(tile.getIndex());
+	putQBox(tile.getIndex());
 }
 
-void World::putCoinBox(const TileIndex&) noexcept
+void World::putQBox(const TileIndex& tileIndex) noexcept
 {
-
+	if (isTileEmpty(tileIndex))
+	{
+		auto qbox = mItems.create<QBox>();
+		qbox->setPosition(mTilemapView.getTileCenterPosition(tileIndex));
+	}
 }
 
 void World::removeEntity(const IntPoint& point) noexcept
@@ -158,6 +163,11 @@ TilemapView& World::getTilemapView() noexcept
 const TilemapView& World::getTilemapView() const noexcept
 {
 	return mTilemapView;
+}
+
+CollisionModule& World::getCollisionModule() noexcept
+{
+	return mCollisionModule;
 }
 
 bool World::isTileEmpty(const IntPoint& point) const noexcept

@@ -56,6 +56,16 @@ void MarioJumpState::collision(Mario& entity, const Entity& collider, const Coll
                 entity.setState<MarioLoseState>();
             }
         }
+        else if (collider.hasType(EntityType::Item))
+        {
+            if (collider.hasComponent(Entity::ComponentType::Solid))
+            {
+                if (side == CollisionSideType::Top)
+                {
+                    entity.setVelocityY(entity.getVelocity().getY() + Constants::World::Mario::MaxVelocityY * 0.2f);
+                }
+            }
+        }
     }
 }
 
