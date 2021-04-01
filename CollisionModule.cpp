@@ -2,7 +2,7 @@
 
 #include "TilemapView.hpp"
 
-void CollisionModule::detectTileCollisions(EntityContainer& entities, const TilemapView& tilemapView) noexcept
+void CollisionModule::detectTileCollisions(EntityContainer& entities, const TilemapView& tilemapView) const noexcept
 {
 	for (auto entity : entities)
 	{
@@ -11,14 +11,17 @@ void CollisionModule::detectTileCollisions(EntityContainer& entities, const Tile
 	}
 }
 
-void CollisionModule::detectEntityCollisions(EntityContainer& entities, const EntityContainer& colliders) noexcept
+void CollisionModule::detectEntityCollisions(EntityContainer& entities, const EntityContainer& colliders) const noexcept
 {
 	for (auto entity : entities)
 	{
 		for (auto collider : colliders)
 		{
-			const auto collisionEntities = checkEntityCollision(entity, collider);
-			handleEntityCollision(entity, collisionEntities);
+			if (entity != collider)
+			{
+				const auto collisionEntities = checkEntityCollision(entity, collider);
+				handleEntityCollision(entity, collisionEntities);
+			}
 		}
 	}
 }

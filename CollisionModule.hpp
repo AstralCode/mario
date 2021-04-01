@@ -9,8 +9,8 @@ class TilemapView;
 class CollisionModule final
 {
 public:
-	void detectTileCollisions(EntityContainer& entities, const TilemapView& tilemapView) noexcept;
-	void detectEntityCollisions(EntityContainer& entities, const EntityContainer& colliders) noexcept;
+	void detectTileCollisions(EntityContainer& entities, const TilemapView& tilemapView) const noexcept;
+	void detectEntityCollisions(EntityContainer& entities, const EntityContainer& colliders) const noexcept;
 
 private:
 	using TileList = std::vector<Tile>;

@@ -101,6 +101,19 @@ void World::removeEntity(const IntPoint& point) noexcept
 	}
 }
 
+Entity* World::findEntity(const IntPoint& point) const noexcept
+{
+	for (auto entity : mHeroes)
+	{
+		if (entity->isContainsPoint(point))
+		{
+			return entity;
+		}
+	}
+
+	return nullptr;
+}
+
 void World::receiveEvents(const sf::Event& event) noexcept
 {
 	mTilemapView.receiveEvents(event);
@@ -109,21 +122,10 @@ void World::receiveEvents(const sf::Event& event) noexcept
 
 void World::update(const sf::Time& dt) noexcept
 {
-	updateEntities(mHeroes, dt);
-	updateEntities(mEnemies, dt);
-	updateEntities(mItems, dt);
+	updateEntities(dt);
 
-	mCollisionModule.detectTileCollisions(mHeroes, mTilemapView);
-	mCollisionModule.detectTileCollisions(mEnemies, mTilemapView);
-
-	mCollisionModule.detectEntityCollisions(mHeroes, mEnemies);
-	mCollisionModule.detectEntityCollisions(mEnemies, mHeroes);
-
-	mCollisionModule.detectEntityCollisions(mHeroes, mItems);
-	mCollisionModule.detectEntityCollisions(mEnemies, mItems);
-
-	mCollisionModule.detectEntityCollisions(mItems, mHeroes);
-	mCollisionModule.detectEntityCollisions(mItems, mEnemies);
+	detectTileCollisions();
+	detectEntityCollisions();
 
 	cleanEntities();
 }
@@ -148,19 +150,6 @@ const TilemapView& World::getTilemapView() const noexcept
 	return mTilemapView;
 }
 
-Entity* World::findEntity(const IntPoint& point) const noexcept
-{
-	for (auto entity : mHeroes)
-	{
-		if (entity->isContainsPoint(point))
-		{
-			return entity;
-		}
-	}
-
-	return nullptr;
-}
-
 bool World::isTileEmpty(const IntPoint& point) const noexcept
 {
 	const auto tile = mTilemapView.getTile(point);
@@ -180,6 +169,13 @@ void World::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(mSceneRoot, states);
 }
 
+void World::updateEntities(const sf::Time& dt) noexcept
+{
+	updateEntities(mHeroes, dt);
+	updateEntities(mEnemies, dt);
+	updateEntities(mItems, dt);
+}
+
 void World::updateEntities(EntityContainer& entities, const sf::Time& dt) noexcept
 {
 	for (auto entity : entities)
@@ -187,6 +183,27 @@ void World::updateEntities(EntityContainer& entities, const sf::Time& dt) noexce
 		entity->update(dt);
 		mPhysicsModule.updateMovement(*entity, dt);
 	}
+}
+
+void World::detectTileCollisions() noexcept
+{
+	mCollisionModule.detectTileCollisions(mHeroes, mTilemapView);
+	mCollisionModule.detectTileCollisions(mEnemies, mTilemapView);
+}
+
+void World::detectEntityCollisions() noexcept
+{
+	mCollisionModule.detectEntityCollisions(mHeroes, mHeroes);
+	mCollisionModule.detectEntityCollisions(mHeroes, mEnemies);
+
+	mCollisionModule.detectEntityCollisions(mEnemies, mEnemies);
+	mCollisionModule.detectEntityCollisions(mEnemies, mHeroes);
+
+	mCollisionModule.detectEntityCollisions(mHeroes, mItems);
+	mCollisionModule.detectEntityCollisions(mEnemies, mItems);
+
+	mCollisionModule.detectEntityCollisions(mItems, mHeroes);
+	mCollisionModule.detectEntityCollisions(mItems, mEnemies);
 }
 
 void World::cleanEntities() noexcept

@@ -31,6 +31,8 @@ public:
 
 	void removeEntity(const IntPoint& point) noexcept;
 
+	Entity* findEntity(const IntPoint& point) const noexcept;
+
 	void receiveEvents(const sf::Event& event) noexcept;
 
 	void update(const sf::Time& dt) noexcept;
@@ -41,15 +43,18 @@ public:
 	TilemapView& getTilemapView() noexcept;
 	const TilemapView& getTilemapView() const noexcept;
 
-	Entity* findEntity(const IntPoint& point) const noexcept;
-
 	bool isTileEmpty(const IntPoint& point) const noexcept;
 	bool isTileEmpty(const TileIndex& tileIndex) const noexcept;
 
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+	void updateEntities(const sf::Time& dt) noexcept;
 	void updateEntities(EntityContainer& entities, const sf::Time& dt) noexcept;
+
+	void detectTileCollisions() noexcept;
+	void detectEntityCollisions() noexcept;
+
 	void cleanEntities() noexcept;
 
 	bool isTileEmpty(const EntityContainer& entities, const TileIndex& tileIndex) const noexcept;
